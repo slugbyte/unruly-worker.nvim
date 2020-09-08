@@ -1,8 +1,8 @@
 "noremap a a
 "noremap A A
 
-"noremap b b
-noremap B e
+noremap b e
+noremap B \
 
 "noremap c c
 "noremap C C
@@ -37,7 +37,7 @@ noremap H F
 "noremap I I
 
 noremap j "
-nunmap J 
+noremap J \
 
 noremap k y
 noremap K Y
