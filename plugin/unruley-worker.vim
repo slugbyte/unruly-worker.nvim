@@ -113,7 +113,7 @@ noremap @ Q
 noremap # -
 noremap $ L
 noremap % M
-noremap ^ ]
+noremap ^ H
 noremap & K
 noremap * =
 "noremap ( (
