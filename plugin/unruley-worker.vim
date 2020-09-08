@@ -1,7 +1,7 @@
 "noremap a a
 "noremap A A
 
-noremap b e
+noremap b %
 noremap B \
 
 "noremap c c
@@ -11,13 +11,13 @@ noremap B \
 "noremap D D
 
 noremap e k
-noremap E %
+noremap E e
 
 noremap f n
 noremap F N
 
-noremap g G
-noremap G H
+"noremap g g
+"noremap G g
 noremap gn gj
 noremap ge gk
 noremap gy gh
@@ -98,24 +98,24 @@ noremap ' ;
 noremap " ,
 noremap ; &
 "noremap : :
-noremap [ {
-noremap ] }
-noremap { #
-noremap } *
+noremap [ [
+noremap ] ]
+"noremap { #
+"noremap } *
 "noremap \ \
 "noremap | |
 "noremap ` `
 "noremap ! !
 noremap @ Q
-noremap # {
+noremap # -
 noremap $ L
-noremap % K
-noremap ^ H
-noremap & M
-noremap * {
+noremap % M
+noremap ^ ]
+noremap & K
+noremap * =
 "noremap ( (
 "noremap ) )
-"noremap - -
+noremap - #
 "noremap _ _
 "noremap + +
-"noremap = =
+noremap = *
