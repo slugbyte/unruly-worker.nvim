@@ -9,6 +9,9 @@ noremap B \
 
 "noremap d d
 "noremap D D
+noremap ds dw
+noremap dS db
+noremap dE de
 
 noremap e k
 noremap E e
@@ -63,8 +66,8 @@ noremap Q @
 "noremap r r
 "noremap R R
 
-map s w
-map S b
+noremap s w
+noremap S b
 
 "noremap t t
 "noremap T T
