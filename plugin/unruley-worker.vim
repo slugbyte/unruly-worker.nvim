@@ -63,8 +63,8 @@ noremap Q @
 "noremap r r
 "noremap R R
 
-nnoremap s w
-nnoremap S b
+map s w
+map S b
 
 "noremap t t
 "noremap T T
