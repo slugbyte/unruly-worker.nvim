@@ -9,9 +9,9 @@ noremap B \
 
 "noremap d d
 "noremap D D
-noremap ds dw
-noremap dS db
-noremap dE de
+"noremap ds dw
+"noremap dS db
+"noremap dE de
 
 noremap e k
 noremap E e
