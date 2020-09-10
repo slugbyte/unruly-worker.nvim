@@ -91,8 +91,6 @@ noremap y h
 "noremap z z
 "noremap Z Z
 
-oahtno ehnst oeahn toen aohtn eona heon eonto
-
 noremap , .
 noremap . &
 "noremap < <
