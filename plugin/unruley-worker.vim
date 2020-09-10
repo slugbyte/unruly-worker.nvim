@@ -92,15 +92,15 @@ noremap y h
 "noremap Z Z
 
 noremap , .
-noremap . :
+noremap . &
 "noremap < <
 "noremap > >
 "noremap / /
 "noremap ? ?
-noremap ' ;
-noremap " ,
-noremap ; &
-"noremap : :
+noremap ' :
+noremap " \
+"noremap ; &
+noremap : ,
 noremap [ [
 noremap ] ]
 "noremap { #
