@@ -33,8 +33,8 @@ noremap gK gN
 noremap gH gE
 noremap gL gO
 
-noremap h f
-noremap H F
+noremap h ;
+noremap H ,
 
 "noremap i i
 "noremap I I
@@ -69,8 +69,8 @@ noremap Q @
 noremap s w
 noremap S b
 
-"noremap t t
-"noremap T T
+noremap t f
+noremap T F
 
 "noremap u u
 noremap U <c-r>
@@ -91,6 +91,8 @@ noremap y h
 "noremap z z
 "noremap Z Z
 
+oahtno ehnst oeahn toen aohtn eona heon eonto
+
 noremap , .
 noremap . &
 "noremap < <
@@ -99,8 +101,8 @@ noremap . &
 "noremap ? ?
 noremap ' :
 noremap " \
-"noremap ; &
-noremap : ,
+noremap ; \
+noremap : \
 noremap [ [
 noremap ] ]
 "noremap { #
