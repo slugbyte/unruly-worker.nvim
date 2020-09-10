@@ -74,7 +74,7 @@ noremap S b
 
 "noremap u u
 noremap U <c-r>
-noremap <c-r> U
+"noremap <c-r> U
 
 "noremap v v
 "noremap V V
