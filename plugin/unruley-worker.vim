@@ -66,8 +66,8 @@ noremap Q @
 "noremap r r
 "noremap R R
 
-noremap s w
-noremap S b
+"noremap s s
+"noremap S S
 
 noremap t f
 noremap T F
@@ -79,8 +79,8 @@ noremap <c-r> \
 "noremap v v
 "noremap V V
 
-noremap w s
-noremap W S
+"noremap w w
+noremap W b
 
 "noremap x x
 "noremap X X
