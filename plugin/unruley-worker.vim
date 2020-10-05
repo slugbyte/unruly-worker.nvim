@@ -122,3 +122,10 @@ noremap - #
 "noremap _ _
 "noremap + +
 noremap = *
+
+noremap C-y C-y
+noremap C-n C-j
+noremap C-e C-k
+noremap C-o C-l
+noremap C-h C-w C-S
+noremap C-x C-w c
