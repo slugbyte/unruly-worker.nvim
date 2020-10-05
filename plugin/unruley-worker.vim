@@ -123,7 +123,7 @@ noremap - #
 "noremap + +
 noremap = *
 
-noremap <C-y> <C-y>
-noremap <C-n> <C-j>
-noremap <C-e> <C-k>
-noremap <C-o> <C-l>
+map <C-y> <C-y>
+map <C-n> <C-j>
+map <C-e> <C-k>
+map <C-o> <C-l>
