@@ -123,7 +123,7 @@ noremap - #
 "noremap + +
 noremap = *
 
-map <C-y> <C-y>
+map <C-y> <C-h>
 map <C-n> <C-j>
 map <C-e> <C-k>
 map <C-o> <C-l>
