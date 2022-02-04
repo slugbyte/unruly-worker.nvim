@@ -16,12 +16,12 @@ remembering commands. I was proficient enough for my needs, but my skills platue
 far short of where I wanted them to be. No matter how many times I played vim golf 
 or studied the cheat sheet, I continued to be annoyingly inefficient.
 
-To make matters more complicated, I decided to learn the workman layout. This
-decision forced me to consider how to remap a few keys, but one thing lead to
-another and soon I had created an entirely new layout. One that I can remember
-well enough to experiencing the sensation of my mind manipulating text without
-noticing that my hands, or keyboard keys, or even that vim itself has anything 
-to do with it.
+To make matters more complicated, I decided to learn the [workman
+layout](https://workmanlayout.org/). This decision forced me to consider how 
+to remap a few keys, but one thing lead to another and soon I had created an 
+entirely new layout. One that I can remember well enough to experiencing the 
+sensation of my mind manipulating text without noticing that my hands, or 
+keyboard keys, or even that vim itself has anything to do with it.
 
 Dyslexia may or may not have been what made it so hard for me to learn vim, but
 by forcing me to reinvent many wheels throughout my life It has normalized this
@@ -35,14 +35,14 @@ accessible to me.
   heat map
 * I tried to arrange the commands on keys in a semantic way so layout is easy to
   learn and remember
-  * Exceptions:
-      0. `yneo` are used as navigation key
-      0. `j` is for registers
-      0. `,` and `.` are swaped because of frequency of use
-      0. `@,$,#` are used for screen (top,middle,botton), due to my 40% keyboard
-         layout
-      0. `'` is an alternet way to start command mode
-
+    * Exceptions:
+        0. `yneo` are used as navigation key
+        0. `j` is for registers
+        0. `,` and `.` are swaped because of frequency of use
+        0. `@,$,#` are used for screen (top,middle,botton), due to my 40% keyboard
+           layout
+        0. `'` is an alternet way to start command mode
+  
 * Up (n) and down (e) are visual, instead of line based
 * Some behaviors are disable
   * `Q`'s ex mode 
