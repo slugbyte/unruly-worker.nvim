@@ -12,7 +12,7 @@ probably boarder line vim blasphemy, but it has completely revolutionized my
 workflow and relationship with vim.
 
 After using vim as my only editor for more than 5 years I still had trouble 
-remembering commands. I was proficient enough for my needs, but my skills platued 
+remembering commands. I was proficient enough for my needs, but my skills plateaued
 far short of where I wanted them to be. No matter how many times I played vim golf 
 or studied the cheat sheet, I continued to be annoyingly inefficient.
 
@@ -34,14 +34,13 @@ accessible to me.
 * I tried to arrange the most frequently used commands according to the workman
   heat map
 * I tried to arrange the commands on keys in a semantic way so layout is easy to
-  learn and remember
-    * Exceptions:
-        0. `yneo` are used as navigation key
-        0. `j` is for registers
-        0. `,` and `.` are swaped because of frequency of use
-        0. `@,$,#` are used for screen (top,middle,botton), due to my 40% keyboard
-           layout
-        0. `'` is an alternet way to start command mode
+  learn and remember. There Are some exceptions:
+    0. `yneo` are used as navigation key
+    0. `j` is for registers
+    0. `,` and `.` are swapped because of frequency of use
+    0. `@,$,#` are used for screen (top,middle,bottom), due to my 40% keyboard
+       layout
+    0. `'` is an alternative way to start command mode
   
 * Up (n) and down (e) are visual, instead of line based
 * Some behaviors are disable
@@ -53,5 +52,5 @@ accessible to me.
   * `_`'s soft BOL
   * `#`'s prev indent
   * `|`'s BOL
-  * 't and T' are gone, 'f and F' functionality remain
+  * `t and T` are gone, `f and F` functionality remain
 
