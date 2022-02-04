@@ -49,7 +49,6 @@ noremap F N
 " G is go to top of file
 "noremap G g
 
-
 " h is for hop to next t/T
 noremap h ;
 " H is for hop to next t/T reverse
@@ -284,3 +283,7 @@ inoremap <C-Down> <Esc>:m .+1<CR>==gi
 inoremap <C-Up> <Esc>:m .-2<CR>==gi
 vnoremap <C-Down> :m '>+1<CR>gv=gv
 vnoremap <C-Up> :m '<-2<CR>gv=gv
+
+" command map
+cmap <c-a> <home>
+cmap <c-e> <end>
