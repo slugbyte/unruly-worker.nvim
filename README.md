@@ -41,16 +41,16 @@ accessible to me.
     4. `@,$,#` are used for screen (top,middle,bottom), due to my 40% keyboard
        layout
     5. `'` is an alternative way to start command mode
-  
+* `C-ArrowUp` and `C-ArrowDown` will swap lines in normal, visual, and insert
 * Up (n) and down (e) are visual, instead of line based
 * Some behaviors are disable
-  * `Q`'s ex mode 
-  * `!`'s external filter
-  * `*`'s next indent
-  * `-`'s prev line
-  * `+`'s next line
-  * `_`'s soft BOL
-  * `#`'s prev indent
-  * `|`'s BOL
-  * `t and T` are gone, `f and F` functionality remain
+  * removed `Q` behavior - ex mode
+  * removed `!` behavior - external filter
+  * removed `*` behavior - next indent
+  * removed `-` behavior - prev line
+  * removed `+` behavior - next line
+  * removed `_` behavior - soft BOL
+  * removed `#` behavior - prev indent
+  * removed `|` behavior - BOL
+  * removed `t and T`  behavior - till (`t and T` now have `f and F`'s behavior)
 
