@@ -1,7 +1,18 @@
-if exists("unruley_worker")
+"                      __                         __          
+"  __ _____  ______ __/ /_ _______    _____  ____/ /_____ ____
+" / // / _ \/ __/ // / / // /___/ |/|/ / _ \/ __/  '_/ -_) __/
+" \_,_/_//_/_/  \_,_/_/\_, /    |__,__/\___/_/ /_/\_\\__/_/   
+"                     /___/                                   
+" 
+" Name: unruly-worker
+" License: Unlicense
+" Maintainer: Duncan Marsh (slugbyte@slugbyte.com)
+" Repository: https://github.com/slugbyte/unruly-worker
+
+if exists("unruly_worker")
   finish
 endif
-let g:unruley_worker=1
+let g:unruly_worker=1
 
 " b for brace match
 noremap b % 
