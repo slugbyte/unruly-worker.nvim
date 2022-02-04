@@ -35,12 +35,12 @@ accessible to me.
   heat map
 * I tried to arrange the commands on keys in a semantic way so layout is easy to
   learn and remember. There Are some exceptions:
-    0. `yneo` are used as navigation key
-    0. `j` is for registers
-    0. `,` and `.` are swapped because of frequency of use
-    0. `@,$,#` are used for screen (top,middle,bottom), due to my 40% keyboard
+    1. `yneo` are used as navigation key
+    2. `j` is for registers
+    3. `,` and `.` are swapped because of frequency of use
+    4. `@,$,#` are used for screen (top,middle,bottom), due to my 40% keyboard
        layout
-    0. `'` is an alternative way to start command mode
+    5. `'` is an alternative way to start command mode
   
 * Up (n) and down (e) are visual, instead of line based
 * Some behaviors are disable
