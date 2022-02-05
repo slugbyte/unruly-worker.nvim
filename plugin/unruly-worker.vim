@@ -15,7 +15,7 @@ endif
 let g:unruly_worker=1
 
 " b for brace match
-noremap b % 
+noremap b %
 
 " disable B
 noremap B \
@@ -178,7 +178,6 @@ noremap . &
 " > is for shift right
 "noremap > >
 
-" 
 " / is for search down
 "noremap / /
 
@@ -199,7 +198,7 @@ noremap ; \
 
 " [ is jump paragraph up
 noremap [ [
-  
+
 " [ is jump paragraph down
 noremap ] ]
 
@@ -220,13 +219,13 @@ noremap ] ]
 "noremap ! !
 
 " @ is go to top of screen
-noremap @ H 
+noremap @ H
 
 " $ is goto middle of screen
 noremap $ M
 
 " # is goto top of screen
-noremap # L 
+noremap # L
 
 " % is disabled
 noremap % \ disabled
