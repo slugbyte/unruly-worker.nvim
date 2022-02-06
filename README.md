@@ -1,7 +1,7 @@
 # unruly worker
 > a semantic key map for vim designed for the workman keyboard layout
 
-![unruley worker vim layout](/asset/layout.png)
+![unruly worker vim layout](/asset/layout.png)
 
 ## About
 Being dyslexic has taught me its often easier for me to build a system for
@@ -43,6 +43,11 @@ accessible to me.
     5. `'` is an alternative way to start command mode
 * `C-ArrowUp` and `C-ArrowDown` will swap lines in normal, visual, and insert
 * Easy comment toggling
+* LSP key maps
+  * code action
+  * split window and goto definition
+  * prev/next diagnostic
+  * rename
 * Up (n) and down (e) are visual, instead of line based
 * Some behaviors are disable
   * removed `Q` behavior - ex mode
@@ -55,8 +60,8 @@ accessible to me.
   * removed `|` behavior - BOL
   * removed `t and T`  behavior - till (`t and T` now have `f and F`'s behavior)
 
-
 # Dependencies
-a comment plugin that supports `gcc` and `gcip` 
-* [Comment.nvim](https://github.com/numToStr/Comment.nvim)
-* [commentary.vim](https://github.com/tpope/vim-commentary)
+* nvim > 0.5 (for lsp key maps)
+* a comment plugin that supports `gcc` and `gcip` 
+  * [Comment.nvim](https://github.com/numToStr/Comment.nvim)
+  * [commentary.vim](https://github.com/tpope/vim-commentary)

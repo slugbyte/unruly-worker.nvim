@@ -187,19 +187,19 @@ noremap . &
 "noremap / /
 
 " ? is for search up
-"noremap ? ?
+" noremap ? ?
 
 " ' is for command mode
 noremap ' :
 
-" : is for command mode
-" noremap : :
+" ! is for command mode
+noremap ! <cmd>lua vim.lsp.buf.rename()<cr>
 
 " disable "
 noremap " \
 
-" disable ;
-noremap ; \
+" disable *
+noremap * \
 
 " [ is jump paragraph up
 noremap [ [
@@ -220,8 +220,8 @@ noremap ] ]
 " disable `
 "noremap ` \
 
-" ! is stall external filter (runs a command in $PATH)
-"noremap ! !
+" ; is command mode
+"noremap : :
 
 " @ is go to top of screen
 noremap @ zt
@@ -241,8 +241,8 @@ noremap ^ @
 " & is disabled
 noremap & \
 
-" is disabled
-noremap * \
+" ; is split window and goto definition
+noremap ; <cmd>split<cr><cmd>lua vim.lsp.buf.definition()<cr>
 
 " ( is goto begening of sentance
 "noremap ( (
@@ -250,17 +250,17 @@ noremap * \
 " ) is goto end of sentance
 "noremap ) )
 
-" - is disabled
-noremap - \
+" is goto next diagnostic
+noremap _ <cmd>lua vim.diagnostic.goto_next()<CR>
 
-" is disabled
-noremap _ \
+" - is goto previous diagnostic
+noremap - <cmd>lua vim.diagnostic.goto_prev()<CR>
 
 " + is disabled
 "noremap + \
 
-" = is disabled
-noremap = \
+" = is run lsp code_action
+noremap = <cmd>lua vim.lsp.buf.code_action()<CR>
 
 " C-motion remap
 map <C-y> <C-h>
