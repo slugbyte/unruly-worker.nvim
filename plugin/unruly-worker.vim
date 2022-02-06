@@ -114,11 +114,11 @@ noremap Q @
 " R is for replace mode
 "noremap R R
 
-" s is for substitue char
-" noremap s s
+" s is for select word
+noremap s viw
 
-" S is for substitue line
-"noremap S S
+" S is for select line
+noremap S ^v$
 
 " t is go to next pressed char
 noremap t f
