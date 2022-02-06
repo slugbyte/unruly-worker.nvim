@@ -1,9 +1,9 @@
-"                      __                         __          
+"                      __                         __
 "  __ _____  ______ __/ /_ _______    _____  ____/ /_____ ____
 " / // / _ \/ __/ // / / // /___/ |/|/ / _ \/ __/  '_/ -_) __/
-" \_,_/_//_/_/  \_,_/_/\_, /    |__,__/\___/_/ /_/\_\\__/_/   
-"                     /___/                                   
-" 
+" \_,_/_//_/_/  \_,_/_/\_, /    |__,__/\___/_/ /_/\_\\__/_/
+"                     /___/
+"
 " Name: unruly-worker
 " License: Unlicense
 " Maintainer: Duncan Marsh (slugbyte@slugbyte.com)
@@ -20,10 +20,15 @@ noremap b %
 " disable B
 noremap B \
 
-" c is for change to EOL
-"noremap c c
-" C is for change
-"noremap C C
+" c is comment line
+nmap c gcc
+
+" C is for comment paragraph
+nmap C gcip
+
+" c and C are comment visual
+vmap c gc
+vmap C gc<esc>
 
 " d is for delete
 "noremap d d

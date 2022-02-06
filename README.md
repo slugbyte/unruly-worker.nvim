@@ -42,6 +42,7 @@ accessible to me.
        layout
     5. `'` is an alternative way to start command mode
 * `C-ArrowUp` and `C-ArrowDown` will swap lines in normal, visual, and insert
+* Easy comment toggling
 * Up (n) and down (e) are visual, instead of line based
 * Some behaviors are disable
   * removed `Q` behavior - ex mode
@@ -54,3 +55,8 @@ accessible to me.
   * removed `|` behavior - BOL
   * removed `t and T`  behavior - till (`t and T` now have `f and F`'s behavior)
 
+
+# Dependencies
+a comment plugin that supports `gcc` and `gcip` 
+* [Comment.nvim](https://github.com/numToStr/Comment.nvim)
+* [commentary.vim](https://github.com/tpope/vim-commentary)
