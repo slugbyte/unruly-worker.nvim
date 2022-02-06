@@ -224,13 +224,13 @@ noremap ] ]
 "noremap ! !
 
 " @ is go to top of screen
-noremap @ H
+noremap @ zt
 
 " $ is goto middle of screen
-noremap $ M
+noremap $ zz
 
 " # is goto top of screen
-noremap # L
+noremap # zb
 
 " % is disabled
 noremap % \ disabled
