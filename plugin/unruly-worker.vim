@@ -12,6 +12,7 @@
 if exists("unruly_worker")
   finish
 endif
+
 let g:unruly_worker=1
 
 " b for brace match
@@ -239,7 +240,7 @@ noremap % \ disabled
 noremap ^ @
 
 " & is disabled
-noremap & \
+noremap & <cmd>lua vim.lsp.buf.formatting()<cr>
 
 " ; is split window and goto definition
 noremap ; <cmd>split<cr><cmd>lua vim.lsp.buf.definition()<cr>
