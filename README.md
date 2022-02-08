@@ -1,10 +1,60 @@
 # unruly worker
-> a semantic key map for vim designed for the workman keyboard layout
+> a semantic key map for nvim designed for the workman keyboard layout
 
 ![unruly worker vim layout](/asset/keymap.png)
 ![unruly worker vim ctrl key action legend](/asset/action.png)
 
-## About
+## DEPENDENCIES
+* [nvim](https://neovim.io/) version > 0.5
+* (optional) a comment plugin that supports `gcc` and `gcip` 
+  * [comment.nvim](https://github.com/numToStr/Comment.nvim)
+  * [commentary.vim](https://github.com/tpope/vim-commentary)
+
+## INSTALL AND SETUP
+1. Install with your favorite [package manager](https://github.com/savq/paq-nvim)
+2. Add the following **lua** code to your vim config
+
+``` lua
+-- Use this setup config if you want to follow the keymap above
+local unruly_worker = require('unruly-worker')
+unruly_worker.setup({
+  -- default true
+  enable_lsp_map = true,
+  enable_select_map = true,
+  enable_quote_command = true,
+  enable_easy_window_navigate = true,
+  -- default false
+  enable_comment_map = true, -- requires a comment plugin (see DEPENDENCIES above)
+  enable_wrap_navigate = true,
+  enable_visual_navigate = true,
+})
+```
+
+## HELP
+Type `:help unruly-worker` for documentation that includes mnemonics for each
+remap, as well as descriptions about the optional configurations. 
+
+## PRO TIPS
+* Map `j` to Find by filename with [fzf](https://github.com/junegunn/fzf.vim) or [telescope](https://github.com/nvim-telescope/telescope.nvim)
+* Map `J` to Find text in file with [fzf](https://github.com/junegunn/fzf.vim) or [telescope](https://github.com/nvim-telescope/telescope.nvim)
+* Visual Map `s` to `<Plug>SurroundAddVisual` with [surround.nvim](https://github.com/blackCauldron7/surround.nvim)
+  * a game changer when coupled with `enable_select_map = true`, hit `s` to select then `s` again to surround
+
+## FEATURES
+* Workman Layout philosophy
+  1. I tried to arrange the most frequently used commands according to the workman
+  heat map
+  2. I also tried to arrange the commands on keys in a semantic way so layout is easy to remember
+* Easy to remember using mnemonics, and because many key features remain unchanged so that
+  you could probably use just it with out needing to really try.
+* Support for nvim's built in lsp features
+* The option for visual Up and Down, and wrapping Left and Right
+* 1 Key comment line and comment paragraph
+* 1 Key select word and select paragraph
+* Easy shifting line(s) up and down
+* Easy split window navigation
+
+## ABOUT
 Being dyslexic has taught me its often easier for me to build a system for
 myself than it is to learn a system that works well for everyone else. This often
 means I end up spending a lot of time reinventing the wheel, but the process of
@@ -31,38 +81,8 @@ outcomes that my somewhat accidental process produces. Something that may not
 be useful for anyone else, but makes something that s useful to many others 
 accessible to me.
 
-## Features
-* I tried to arrange the most frequently used commands according to the workman
-  heat map
-* I tried to arrange the commands on keys in a semantic way so layout is easy to
-  learn and remember. There Are some exceptions:
-    1. `yneo` are used as navigation key
-    2. `j` is for registers
-    3. `,` and `.` are swapped because of frequency of use
-    4. `@,$,#` are used for screen (top,middle,bottom), due to my 40% keyboard
-       layout
-    5. `'` is an alternative way to start command mode
-* `C-ArrowUp` and `C-ArrowDown` will swap lines in normal, visual, and insert
-* Easy comment toggling
-* LSP key maps
-  * code action
-  * split window and goto definition
-  * prev/next diagnostic
-  * rename
-* Up (n) and down (e) are visual, instead of line based
-* Some behaviors are disable
-  * removed `Q` behavior - ex mode
-  * removed `!` behavior - external filter
-  * removed `*` behavior - next indent
-  * removed `-` behavior - prev line
-  * removed `+` behavior - next line
-  * removed `_` behavior - soft BOL
-  * removed `#` behavior - prev indent
-  * removed `|` behavior - BOL
-  * removed `t and T`  behavior - till (`t and T` now have `f and F`'s behavior)
+## SELF-PROMO
+Star the GitHub repository :)
 
-# Dependencies
-* nvim > 0.5 (for lsp key maps)
-* a comment plugin that supports `gcc` and `gcip` 
-  * [Comment.nvim](https://github.com/numToStr/Comment.nvim)
-  * [commentary.vim](https://github.com/tpope/vim-commentary)
+## LICENSE
+[Unlicense](https://unlicense.org/)

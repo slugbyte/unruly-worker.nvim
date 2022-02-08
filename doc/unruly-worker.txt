@@ -1,19 +1,18 @@
-*unruly-worker.txt*      For Nvim version 0.5.0+           Last change: 202U Nov 7
+`unruly-worker.txt`        an fun workman keymap         Last change: 2022 02 09
 ==============================================================================
-TABLE OF CONTENTS                                              *unruly-worker-toc*
+TABLE OF CONTENTS                                              `unruly-worker-toc`
 
-1.  Introduction                      (|unruly-worker|)
-2.  Setup                             (|unruly-worker-setup|)
-2.  Default Keymap                    (|unruly-worker-keymap|)
-2.  Disabled Keys                     (|unruly-worker-disabled|)
-3.  Optional LSP Keymap               (|unruly-worker-lsp|)
-4.  Optional Select Keymap            (|unruly-worker-select|)
-5.  Optional Comment Keymap           (|unruly-worker-comment|)
-7.  Optional Quote Command Keymap     (|unruly-worker-quote-command|)
-7.  Optional Wrap Navigate Keymap     (|unruly-worker-wrap-navigate|)
-6.  Optional Visual Navigate Keymap   (|unruly-worker-visual-navigate|)
-7.  Optional Alternate Jump Scroll    (|unruly-worker-alt-jump-scroll|)
-7.  Optional Easy Window Navigate     (|unruly-worker-easy-window-navigate|)
+ 1.  Introduction                      (|unruly-worker|)
+ 2.  Setup                             (|unruly-worker-setup|)
+ 3.  Default Keymap                    (|unruly-worker-keymap|)
+ 4.  Disabled Keys                     (|unruly-worker-disabled|)
+ 5.  Optional LSP Keymap               (|unruly-worker-lsp|)
+ 6.  Optional Select Keymap            (|unruly-worker-select|)
+ 7.  Optional Comment Keymap           (|unruly-worker-comment|)
+ 8.  Optional Quote Command Keymap     (|unruly-worker-quote-command|)
+ 9.  Optional Easy Window Navigate     (|unruly-worker-easy-window-navigate|)
+10.  Optional Wrap Navigate Keymap     (|unruly-worker-wrap-navigate|)
+10.  Optional Visual Navigate Keymap   (|unruly-worker-visual-navigate|)
 
 ==============================================================================
 INTRODUCTION                                                       *unruly-worker*
@@ -23,105 +22,108 @@ layout users. It attempts to create a limited but powerful semantic keymap. Not
 including some of the behavior from the normal keymap is considered a feature, 
 not a bug. This is because new features take their place. If you find you really 
 need a feature that is missing you can all ways remap it to one of the symbol 
-key's or j/J which have been left unused.
+key's or {j}/{J} which have been left unused.
 
 ==============================================================================
 SETUP                                                        *unruly-worker-setup*
 
+Dependencies:
+  - nvim version > 0.5
+  - (optional) a comment pluggin that supports gcc and gcip
+
 1. Install `unruly-worker` using any nvim-package manager
-2. Add the following lua code to your configuration 
+2. Add the following lua code to your configuration
   - If feel free to enable or disable as many optional features as you please
 3. shread on
-
-> 
+>
   local unruly_worker = require('unruly-worker')
   unruly_worker.setup({
+    -- default true
     enable_lsp_map = true,
     enable_select_map = true,
-    enable_comment_map = true,
+    enable_quote_command = true,
+    enable_easy_window_navigate = true,
+    -- default false
+    enable_comment_map = true, -- requires comment pluggin
     enable_wrap_navigate = true,
     enable_visual_navigate = true,
-    enable_easy_window_navigate = true,
-    enable_quote_command = true,
     enable_alt_jump_scroll = true,
   })
 <
-
 ==============================================================================
 DEFAULT KEYMAP                                            *unruly-worker-keymap*
 
-
 key		     original-key      behavior                mnemonic~
 ------------------------------------------------------------------------------
-*a*         *a*          Append                      a for *append*
-*A*         *A*          Append to end of line       A for *append*
-*b*         *%*          brace match                 b for *brace*
-*B*         *"*          select register             B for select *bucket*
-*c*         *c*          change                      c for *change*
-*C*         *C*          change to end of line       C for *change*
-*d*         *d*          delete                      d for *delete*
-*D*         *D*          delete to end of line       D for *delete*
-*e*         *k*          up                          e for *elevate*
-*E*         *e*          end of word                 e for *end*
-*f*         *n*          find next search            f for *find*
-*F*         *N*          find prev search            F for *find*
-*g*         *g*          extra g commands            G for *g command*
-*G*         *G*          go to top                   G for *go*
-*h*         *h*          hop to next char            h for *hop*
-*H*         *H*          hop to prev char            H for *hop*
-*i*         *i*          insert                      i for *insert*
-*I*         *i*          insert 1st non-blank line   i for *insert*
-*j*         *j*          empty (just use how u want)
-*J*         *J*          empty (just use how you want)
-*k*         *y*          copy text                   k for *kopy*
-*K*         *Y*          copy line                   K for *kopy*
-*l*         *o*          line down insert            l for *line*
-*L*         *O*          line up insert              L for *line*
-*m*         *'*          goto mark                   m for *mark*
-*M*         *m*          set mark                    M for *mark*
-*n*         *j*          down                        n for *nose dive*
-*N*         *J*          nudge line up (join)        n for *nudge*    
-*o*         *l*          left                        o for *over there*
-*O*         *$*          left to end of line         O for *over there*
-*p*         *p*          paste below                 p for *paste*     
-*P*         *P*          paste above                 P for *paste*     
-*q*         *q*          record macro                q for *record macro*     
-*Q*         *@*          play macro                  Q for *play macro*     
-*r*         *r*          replace                     r for *replace*        
-*R*         *R*          replace mode                R for *replace*        
-*s*         *s*          substitute                  s for *substitute*        
-*S*         *S*          substitute to end of line   s for *substitute*        
-*t*         *f*          go to next char on line     t for *to*         
-*T*         *F*          go to prev char on line     t for *to*         
-*u*         *u*          undo                        u for *undo*      
-*U*         *U*          redo                        U for *undo undo*      
-*v*         *v*          visual mode                 v for *visual*      
-*V*         *V*          visual line mode            V for *visual*      
-*w*         *w*          next word                   w for *word*        
-*W*         *W*          prev word                   W for *word*        
-*x*         *x*          delete forward              x for *x-terminate*        
-*X*         *X*          delete backward             x for *x-terminate*        
-*y*         *y*          left                        y for over *yonder*        
-*Y*         *^*          left to end of line         Y for over *yonder*        
-*z*         *z*          extra z command             z for *z command*
-*Z*         *Z*          quit                        z for *zap*
-*:*         *:*          command mode                
-*?*         *?*          search up                   
-*/*         */*          search down                 
-*,*         *.*          repeat last key command     
-*.*         *&*          repeat last substitute (:s)  
-*~*         *~*          toggle case
-*<*         *<*          un-indent 
-*>*         *>*          indent 
-*(*         *(*          goto beginning of sentence
-*)*         *)*          goto end of sentence
-*]*         *]*          goto next paragraph
-*[*         *[*          goto prev paragraph
-*}*         *}*          goto next indent
-*{*         *{*          goto prev indent
-*@*         *zt*         view line at top of screen  
-*#*         *zz*         view line at middle of screen
-*$*         *zb*         view line at bottom of screen
+{a}         {a}          Append                      a for `append`
+{A}         {A}          Append to end of line       A for `append`
+{b}         {%}          brace match                 b for `brace`
+{B}         {"}         select register             B for select `bucket`
+{c}         {c}          change                      c for `change`
+{C}         {C}          change to end of line       C for `change`
+{d}         {d}          delete                      d for `delete`
+{D}         {D}          delete to end of line       D for `delete`
+{e}         {k}          up                          e for `elevate`
+{E}         {e}          end of word                 e for `end`
+{f}         {n}          find next search            f for `find`
+{F}         {N}          find prev search            F for `find`
+{g}         {g}          extra g commands            G for `g command`
+{G}         {G}          go to top                   G for `go`
+{h}         {h}          hop to next char            h for `hop`
+{H}         {H}          hop to prev char            H for `hop`
+{i}         {i}          insert                      i for `insert`
+{I}         {i}          insert 1st non-blank line   i for `insert`
+{j}         {j}          empty (just use how u want)
+{J}         {J}          empty (just use how you want)
+{k}         {y}          copy text                   k for `kopy`
+{K}         {Y}          copy line                   K for `kopy`
+{l}         {o}          line down insert            l for `line`
+{L}         {O}          line up insert              L for `line`
+{m}         {'}          goto mark                   m for `mark`
+{M}         {m}          set mark                    M for `mark`
+{n}         {j}          down                        n for `nose dive`
+{N}         {J}          nudge line up (join)        n for `nudge`
+{o}         {l}          left                        o for `over there`
+{O}         {$}          left to end of line         O for `over there`
+{p}         {p}          paste below                 p for `paste`
+{P}         {P}          paste above                 P for `paste`
+{q}         {q}          record macro                q for `record macro`
+{Q}         {@}          play macro                  Q for `play macro`
+{r}         {r}          replace                     r for `replace`
+{R}         {R}          replace mode                R for `replace`
+{s}         {s}          substitute                  s for `substitute`
+{S}         {S}          substitute to end of line   s for `substitute`
+{t}         {f}          go to next char on line     t for `to`
+{T}         {F}          go to prev char on line     t for `to`
+{u}         {u}          undo                        u for `undo`
+{U}         {U}          redo                        U for `undo undo`
+{v}         {v}          visual mode                 v for `visual`
+{V}         {V}          visual line mode            V for `visual`
+{w}         {w}          next word                   w for `word`
+{W}         {W}          prev word                   W for `word`
+{x}         {x}          delete forward              x for `x-terminate`
+{X}         {X}          delete backward             x for `x-terminate`
+{y}         {y}          left                        y for over `yonder`
+{Y}         {^}          left to end of line         Y for over `yonder`
+{z}         {z}          extra z command             z for `z command`
+{Z}         {Z}          quit                        z for `zap`
+{:}         {:}          command mode
+{?}         {?}          search up
+{/}         {/}          search down
+{,}         {.}          repeat last key command
+{.}         {&}          repeat last substitute (:s)
+{~}         {~}          toggle case
+{<}         {<}          un-indent
+{>}         {>}          indent
+{(}         {(}          goto beginning of sentence
+{)}         {)}          goto end of sentence
+{]}         {]}          goto next paragraph
+{[}         {[}          goto prev paragraph
+{}}         {}}          goto next indent
+{{}         {{}          goto prev indent
+{@}         {zt}         view line at top of screen
+{#}         {zz}         view line at middle of screen
+{$}         {zb}         view line at bottom of screen
 
 ==============================================================================
 DISABLED KEYS                                                *unruly-worker-disabled*
@@ -130,13 +132,50 @@ Garbage stuff anyway am i right? If not just map it to j/J or an unused symbol
 
 key		     original-behavior          alternate or need to remap
 ------------------------------------------------------------------------------
-Q           ex mode                               remap
-t           till next char                        t  (with f behavior)
-T           till prev char                        T  (with F behavior)
-!           external format                       remap 
-*           forward search                        /     
-#           backward                              ?     
-^           goto first non black char             Y     
--           go down to first non black line       n     
-_           go down to first non black line       n     
-|           to screen column                      remap 
+{Q}           ex mode                               remap
+{t}           till next char                        t (with f behavior)
+{T}           till prev char                        T (with F behavior)
+{!}           external format                       remap
+{`}           forward search                        /
+{#}           backward                              ?
+{^}           goto first non black char             Y
+{-}           go down to first non black line       n
+{_}           go down to first non black line       n
+{|}           to screen column                      remap
+
+==============================================================================
+LSP KEYMAP                                                    *unruly-worker-lsp*
+
+TODO
+
+==============================================================================
+SELECT KEYMAP                                             *unruly-worker-select*
+
+TODO
+
+==============================================================================
+COMMENT KEYMAP                                            *unruly-worker-comment*
+
+TODO
+
+==============================================================================
+QUOTE COMMAND KEYMAP                               *unruly-worker-quote-command*
+
+TODO
+
+==============================================================================
+VISUAL NAVIGATE KEYMAP         	           *unruly-worker-easy-window-navigate*
+
+TODO
+
+==============================================================================
+WRAP NAVIGATE KEYMAP       			 *unruly-worker-wrap-navigate*
+
+TODO
+
+==============================================================================
+VISUAL NAVIGATE KEYMAP       			*unruly-worker-visual-navigate*
+
+TODO
+
+vim:tw=78:ts=2:noet:ft=help:norl:

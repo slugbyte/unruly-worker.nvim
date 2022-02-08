@@ -226,14 +226,14 @@ local function setup(config)
   vim.g.unruly_worker = true
 
   local context = {
-    enable_lsp_map = false,
-    enable_select_map = false,
+    enable_lsp_map = true,
+    enable_select_map = true,
+    enable_quote_command = true,
+    enable_easy_window_navigate = true,
     enable_comment_map = false,
     enable_wrap_navigate = false,
-    enable_quote_command = false,
-    enable_alt_jump_scroll = false,
     enable_visual_navigate = false,
-    enable_easy_window_navigate = false,
+    enable_alt_jump_scroll = false,
   }
 
   if config then
