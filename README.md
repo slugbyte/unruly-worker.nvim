@@ -4,7 +4,7 @@
 ![unruly worker vim layout](/asset/keymap.png)
 ![unruly worker vim ctrl key action legend](/asset/action.png)
 
-# Dependencies
+## Dependencies
 * nvim > 0.5 (for LSP key maps)
 * (optional) a comment plugin that supports `gcc` and `gcip` 
   * [Comment.nvim](https://github.com/numToStr/Comment.nvim)
