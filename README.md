@@ -25,7 +25,6 @@ unruly_worker.setup({
   enable_visual_navigate = true,
   enable_easy_window_navigate = true,
   enable_quote_command = true,
-  enable_alt_jump_scroll = false, -- this most likely only makes since for my 40% layou
 })
 ```
 
