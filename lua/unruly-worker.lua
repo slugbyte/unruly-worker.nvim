@@ -9,7 +9,14 @@
 --  Maintainer: Duncan Marsh (slugbyte@slugbyte.com)
 --  Repository: https://github.com/slugbyte/unruly-worker
 
+--- create a key mapper that does nothing when trying
+--- to map something to itself
+--- @param mode string
+--- @param noremap boolean 
 local create_map = function(mode, noremap)
+  --- a mapper that (mode, noremap)
+  -- @param lhs string
+  -- @param rhs string
   return function(lhs, rhs)
     if lhs == rhs then
      return
@@ -24,6 +31,7 @@ local nmap = create_map('n', true)
 local imap = create_map('i', true)
 local cmap = create_map('c', true)
 local vmap = create_map('v', true)
+
 -- remap
 local remap_vmap = create_map('v', false)
 local remap_map = create_map('', false)
@@ -87,6 +95,8 @@ local map_undisputed = function()
   map('Z', 'Z')
   map(':', ':')
   map("'", ':')
+  map('"', '\\')
+  map('`', '\\')
   map(',', '.')
   map('.', '&')
   map('/', '/')
@@ -119,19 +129,28 @@ local map_undisputed = function()
   vmap('<C-Up>', ":m '<-2<CR>gv=gv")
   cmap('<C-a>', '<home>')
   cmap('<C-e>', '<end>')
+  map('ge', 'gk')
+  map('gn', 'gj')
 end
 
+--- add lsp specific mappings if enable is true
+--- @param enable boolean
 local map_lsp = function(enable)
   if enable then
+
     map('-', ':lua vim.diagnostic.goto_prev()<CR>')
     map('_', ':lua vim.diagnostic.goto_next()<CR>')
-    map('&', ':lua vim.lsp.buf.formatting()<CR>')
-    map(';', ':split<CR>:lua vim.lsp.buf.definition()<CR>')
-    map('=', ':lua vim.lsp.buf.code_action()<CR>')
-    map('!', ':lua vim.lsp.buf.rename()<CR>')
+
+    map('<c-f>', ':lua vim.lsp.buf.formatting()<CR>')
+    map('<c-a>', ':lua vim.lsp.buf.code_action()<CR>')
+    map('<c-r>', ':lua vim.lsp.buf.rename()<CR>')
+    map('<c-d>', ':split<CR>:lua vim.lsp.buf.definition()<CR>')
+    map(';', ':lua vim.lsp.buf.hover()<CR>')
   end
 end
 
+--- c will toggle comment if enable is true
+--- @param enable boolean
 local map_comment = function(enable)
   if enable then
     remap_map('c', 'gcc')
@@ -141,6 +160,8 @@ local map_comment = function(enable)
   end
 end
 
+--- s will visual select if enable is true
+--- @param enable boolean
 local map_select = function(enable)
   if enable then
     map('s', 'viw')
@@ -148,16 +169,17 @@ local map_select = function(enable)
   end
 end
 
+--- e and n will navigate visualy if enable is true
+--- @param enable boolean
 local map_visual_navigate = function(enable)
   if enable then
     map('e', 'gk')
     map('n', 'gj')
-  else
-    map('ge', 'gk')
-    map('gn', 'gj')
   end
 end
 
+--- y and o will wrap lines if enable is true
+--- @param enable boolean
 local map_wrap_navigate = function(enable)
   if enable then
     vim.cmd('set ww+=<,>')
@@ -166,12 +188,16 @@ local map_wrap_navigate = function(enable)
   end
 end
 
+--- ' is equivalent to : if enable is true
+--- @param enable boolean
 local map_quote_command = function(enable)
   if enable then
     map("'", ':')
   end
 end
 
+--- (@,$,#) -> (top, middle, bottom) if enable is true
+--- @param enable boolean
 local map_alt_jump_scroll = function(enable)
   if enable then
     map("@", 'zt')
@@ -180,6 +206,8 @@ local map_alt_jump_scroll = function(enable)
   end
 end
 
+--- <C-(y,n,e,o)> nave windows if enable is true
+--- @param enable boolean
 local map_easy_window_navigate = function(enable)
   if enable then
     map('<c-n>', '<c-w>j')
@@ -189,6 +217,8 @@ local map_easy_window_navigate = function(enable)
   end
 end
 
+--- configure and map unruly worker keymap
+--- @param config table
 local function setup(config)
   if vim.g.unruly_worker then
     return
