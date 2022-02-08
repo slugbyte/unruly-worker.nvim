@@ -1,7 +1,8 @@
 # unruly worker
 > a semantic key map for vim designed for the workman keyboard layout
 
-![unruly worker vim layout](/asset/layout.png)
+![unruly worker vim layout](/asset/keymap.png)
+![unruly worker vim ctrl key action legend](/asset/action.png)
 
 ## About
 Being dyslexic has taught me its often easier for me to build a system for
