@@ -94,7 +94,7 @@ local map_undisputed = function()
   map('z', 'z')
   map('Z', 'Z')
   map(':', ':')
-  map("'", ':')
+  map("'", '\\')
   map('"', '\\')
   map('`', '\\')
   map(',', '.')
@@ -137,15 +137,14 @@ end
 --- @param enable boolean
 local map_lsp = function(enable)
   if enable then
-
     map('-', ':lua vim.diagnostic.goto_prev()<CR>')
     map('_', ':lua vim.diagnostic.goto_next()<CR>')
+    map(';', ':lua vim.lsp.buf.hover()<CR>')
 
     map('<c-f>', ':lua vim.lsp.buf.formatting()<CR>')
     map('<c-a>', ':lua vim.lsp.buf.code_action()<CR>')
     map('<c-r>', ':lua vim.lsp.buf.rename()<CR>')
     map('<c-d>', ':split<CR>:lua vim.lsp.buf.definition()<CR>')
-    map(';', ':lua vim.lsp.buf.hover()<CR>')
   end
 end
 

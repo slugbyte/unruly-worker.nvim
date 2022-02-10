@@ -90,10 +90,10 @@ DEFAULT KEYMAP                                            *unruly-worker-keymap*
 *uw_Q* {Q}    {@}             play macro                  Q for `play macro`
 *uw_r* {r}    {r}             replace                     r for `replace`
 *uw_R* {R}    {R}             replace mode                R for `replace`
-*uw_s* {s}    {s}             substitute                  s for `substitute`
-*uw_S* {S}    {S}             substitute to end of line   s for `substitute`
+*uw_s* {s}    {viw}           select word                 s for `select`
+*uw_S* {S}    {vip}           select paragraph            S for `select`
 *uw_t* {t}    {f}             go to next char on line     t for `to`
-*uw_T* {T}    {F}             go to prev char on line     t for `to`
+*uw_T* {T}    {F}             go to prev char on line     T for `to`
 *uw_u* {u}    {u}             undo                        u for `undo`
 *uw_U* {U}    {U}             redo                        U for `undo undo`
 *uw_v* {v}    {v}             visual mode                 v for `visual`
@@ -101,12 +101,28 @@ DEFAULT KEYMAP                                            *unruly-worker-keymap*
 *uw_w* {w}    {w}             next word                   w for `word`
 *uw_W* {W}    {W}             prev word                   W for `word`
 *uw_x* {x}    {x}             delete forward              x for `x-terminate`
-*uw_X* {X}    {X}             delete backward             x for `x-terminate`
-*uw_y* {y}    {y}             left                        y for over `yonder`
+*uw_X* {X}    {X}             delete backward             X for `x-terminate`
+*uw_y* {y}    {y}             left                        Y for over `yonder`
 *uw_Y* {Y}    {^}             left to end of line         Y for over `yonder`
 *uw_z* {z}    {z}             extra z command             z for `z command`
-*uw_Z* {Z}    {Z}             quit                        z for `zap`
+*uw_Z* {Z}    {Z}             quit                        Z for `zap`
+*uw_c-n* {<C-n>}              navigate to split below     n for `nosedive`
+*uw_c-e* {<C-e>}              navigate to split above     e for `elevate`
+*uw_c-y* {<C-y>}              navigate to split left      y for `yonder`
+*uw_c-o* {<C-o>}              navigate to split right     o for `over`
+*uw_c-n* {<C-w>n}             navigate to split below     n for `nosedive`
+*uw_c-n* {<C-w>e}             navigate to split above     n for `nosedive`
+*uw_c-n* {<C-w>y}             navigate to split left      n for `nosedive`
+*uw_c-n* {<C-w>o}             navigate to split right     n for `nosedive`
+*uw_c-a* {<C-a>}              lsp code action             a for `action`
+*uw_c-d* {<C-d>}              lsp split & goto definiton  d for `definition`
+*uw_c-f* {<C-f>}              lsp format                  f for `format`
+*uw_c-r* {<C-r>}              lsp rename                  r for `rename`
+*uw_-* {-}	                lsp goto prev diagnostic       
+*uw__* {_}	                lsp goto next diagnostic
+*uw_;* {;}	                lsp hover
 *uw_:* {:}    {:}             command mode
+*uw_'* {'}    {:}             command mode
 *uw_?* {?}    {?}             search up
 *uw_/* {/}    {/}             search down
 *uw_,* {,}    {.}             repeat last key command
@@ -123,7 +139,7 @@ DEFAULT KEYMAP                                            *unruly-worker-keymap*
 *uw_@* {@}    {zt}            view line at top of screen
 *uw_#* {#}    {zz}            view line at middle of screen
 *uw_$* {$}    {zb}            view line at bottom of screen
-
+  
 ==============================================================================
 DISABLED KEYS                                           *unruly-worker-disabled*
 
@@ -155,25 +171,92 @@ key		     action    original-behavior                 idea for workaround
 ==============================================================================
 LSP KEYMAP                                                   *unruly-worker-lsp*
 
-TODO
+The LSP keymap is enabled by default
+
+lsp keymap		                behavior                    mnemonic ~
+------------------------------------------------------------------------------
+{<C-a>}                       lsp code action             a for `action`
+{<C-d>}                       lsp split & goto definiton  d for `definition`
+{<C-f>}                       lsp format                  f for `format`
+{<C-r>}                       lsp rename                  r for `rename`
+{-}	                          lsp goto prev diagnostic       
+{_}	                          lsp goto next diagnostic
+{;}	                          lsp hover
+
+To disable the lsp keymap set `enable_lsp_map = false` when you call `setup()`
+
+NOTE: If you disable the LSP kemap the following keys will be effcated
+lsp disable key               behavior after disable ~
+------------------------------------------------------------------------------
+{-}                           none
+{_}                           none
+{;}                           none
+{<C-a>}                       none
+{<C-d>}                       none
+{<C-f>}                       none
+{<C-r>}                       redo
 
 ==============================================================================
 SELECT KEYMAP                                             *unruly-worker-select*
 
-TODO
+The Select keymap is enabled by default
 
-==============================================================================
-COMMENT KEYMAP                                           *unruly-worker-comment*
+select key  original-key    behavior                    mnemonic~
+------------------------------------------------------------------------------
+{s}         {viw}           select word                 s for `select`
+{S}         {vip}           select paragraph            S for `select`
 
-TODO
+To disable the select keymap:
+	set `enable_select_map = false` when you call `setup()`
+
+NOTE: If you disable the Select kemap the following keys will be effcated
+select disable key    original-key       behavior ~
+------------------------------------------------------------------------------
+{s}                   {s}                 substitute char           
+{S}                   {S}                 substitute to end of line 
 
 ==============================================================================
 QUOTE COMMAND KEYMAP                               *unruly-worker-quote-command*
 
-TODO
+The quote command keymap is enabled by default
+
+quote kommand key  original-key    behavior ~
+------------------------------------------------------------------------------
+{'}                {:}             command mode
+
+To disable the quote command keymap:
+	set `enable_quote_command_map = false` when you call `setup()`
+
+NOTE: If you disable the quote command kemap the following keys will be effcated
+quote command disable key               behavior after disable ~
+------------------------------------------------------------------------------
+{'}                                     none
 
 ==============================================================================
-VISUAL NAVIGATE KEYMAP         	            *unruly-worker-easy-window-navigate*
+EASY WINDOW NAVIGATE KEYMAP    	            *unruly-worker-easy-window-navigate*
+
+The easy window navigate keymap is enabled by default
+
+easy window navigate key    behavior                      mnemonic~
+------------------------------------------------------------------------------
+{<C-n>}                     navigate to split below       n for `nosedive`
+{<C-e>}                     navigate to split above       e for `elevate`
+{<C-y>}                     navigate to split left        y for `yonder`
+{<C-o>}                     navigate to split right       o for `over`
+
+To disable the easy window navigate keymap:
+	set `enable_quote_command_map = false` when you call `setup()`
+
+NOTE: If you disable the quote command kemap the following keys will be effcated
+disabled easy window navigate key    behavior ~
+------------------------------------------------------------------------------
+{<C-n>}                             none
+{<C-e>}                             none
+{<C-y>}                             none
+{<C-o>}                             none
+
+==============================================================================
+COMMENT KEYMAP                                           *unruly-worker-comment*
 
 TODO
 
