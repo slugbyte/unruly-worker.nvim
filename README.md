@@ -44,25 +44,28 @@ For example `uw_c-a` will go to documentation for the `<C-a>` keymap.
 * Visual Map `s` to `<Plug>SurroundAddVisual` with [surround.nvim](https://github.com/blackCauldron7/surround.nvim)
   * a game changer when coupled with `enable_select_map = true`, hit `s` to select then `s` again to surround
 
-## Layout philosophy
+## LAYOUT PHILOSOPHY
 1. When possible, commands are positioned according to the workman layout heatmap. So frequent use will not strain your hands.
 2. When possible, commands are arranged onto a semantic key. This makes it possible for the keymap to be remembered with mnemonic phrases.
 3. When possible, keys behavior, or behavior substitute, should stay in the same position as the original-keymap, so that there is no need for experienced vim users to unlearn there years of muscle memory.
 
 ## FEATURES
-* nvim LSP support
-	* go to definition 
-	* format
-	* code-action
-	* rename
-* 1 key word and paragraph select
-* 1 key toggle comment line and toggle comment paragraph
 * visual up and down
 * wrap left and right
 * easy split window navigation
 * easy shifting line(s) up and down
+* a visual keymap cheat sheet (above)
+* 1 key word and paragraph select
+* 1 key toggle comment line and toggle comment paragraph
 * easy to shift the current line  to the top, middle, or bottom of the view
 * the ability to customize features using lua
+* nvim LSP key bindings
+  * prev/next diagnostic
+  * go to definition
+  * code-action
+  * format
+  * rename
+  * hover
 
 ## ABOUT
 Being dyslexic has taught me its often easier for me to build a system for
@@ -100,7 +103,7 @@ unruly-worker layout, is a classic example of the type of outcomes that my
 somewhat accidental process produces. A tool that may not be useful for anyone
 else, but makes a tool that is useful to many other people accessible to me.
 
-## Help Wanted
+## HELP WANTED
 Suggestions, Critique, and Spellcheck are all ways appreciated :)
 
 See the [Contributing Guite](./CONTRIBUTING.md)
