@@ -32,7 +32,10 @@ unruly_worker.setup({
 
 ## HELP
 Type `:help unruly-worker` for documentation that includes mnemonics for each
-remap, as well as descriptions about the optional configurations. 
+remap, as well as descriptions about the optional configurations.
+
+Type `help uw_(some key)` for documentation about the default for a specific key.
+For example `uw_S` will go to documentation for the `S` key.
 
 ## PRO TIPS
 * Map `j` to Find by filename with [fzf](https://github.com/junegunn/fzf.vim) or [telescope](https://github.com/nvim-telescope/telescope.nvim)
