@@ -111,5 +111,8 @@ See the [Contributing Guite](./CONTRIBUTING.md)
 ## SELF-PROMO
 If you like this project star the GitHub repository :)
 
+## TODO
+* create a `:UnrulySchool` command that has an interactive tutorial
+
 ## LICENSE
 [Unlicense](https://unlicense.org/)

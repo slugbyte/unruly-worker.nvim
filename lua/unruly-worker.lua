@@ -94,7 +94,7 @@ local map_undisputed = function()
   map('z', 'z')
   map('Z', 'Z')
   map(':', ':')
-  map("'", '\\')
+  map("'", ':')
   map('"', '\\')
   map('`', '\\')
   map(',', '.')
@@ -195,16 +195,6 @@ local map_quote_command = function(enable)
   end
 end
 
---- (@,$,#) -> (top, middle, bottom) if enable is true
---- @param enable boolean
-local map_alt_jump_scroll = function(enable)
-  if enable then
-    map("@", 'zt')
-    map("$", 'zz')
-    map("#", 'zb')
-  end
-end
-
 --- <C-(y,n,e,o)> nave windows if enable is true
 --- @param enable boolean
 local map_easy_window_navigate = function(enable)
@@ -232,7 +222,6 @@ local function setup(config)
     enable_comment_map = false,
     enable_wrap_navigate = false,
     enable_visual_navigate = false,
-    enable_alt_jump_scroll = false,
   }
 
   if config then
@@ -247,7 +236,6 @@ local function setup(config)
   map_comment(context.enable_comment_map)
   map_wrap_navigate(context.enable_wrap_navigate)
   map_quote_command(context.enable_quote_command)
-  map_alt_jump_scroll(context.enable_alt_jump_scroll)
   map_visual_navigate(context.enable_visual_navigate)
   map_easy_window_navigate(context.enable_easy_window_navigate)
 end
