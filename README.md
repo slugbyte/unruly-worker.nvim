@@ -1,8 +1,7 @@
 # unruly worker
 > a semantic key map for nvim designed for the workman keyboard layout
 
-![unruly worker vim layout](/asset/keymap.png)
-![unruly worker vim ctrl key action legend](/asset/action.png)
+![unruly worker vim layout cheatsheet](./asset/cheatsheet.png)
 
 ## DEPENDENCIES
 * [nvim](https://neovim.io/) version > 0.5
