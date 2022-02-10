@@ -110,10 +110,10 @@ DEFAULT KEYMAP                                            *unruly-worker-keymap*
 *uw_c-e* {<C-e>}              navigate to split above     e for `elevate`
 *uw_c-y* {<C-y>}              navigate to split left      y for `yonder`
 *uw_c-o* {<C-o>}              navigate to split right     o for `over`
-*uw_c-w_n* {<C-w>n}             navigate to split below     n for `nosedive`
-*uw_c-w_e* {<C-w>e}             navigate to split above     n for `nosedive`
-*uw_c-w_y* {<C-w>y}             navigate to split left      n for `nosedive`
-*uw_c-w_o* {<C-w>o}             navigate to split right     n for `nosedive`
+*uw_c-w_n* {<C-w>n}           navigate to split below     n for `nosedive`
+*uw_c-w_e* {<C-w>e}           navigate to split above     n for `nosedive`
+*uw_c-w_y* {<C-w>y}           navigate to split left      n for `nosedive`
+*uw_c-w_o* {<C-w>o}           navigate to split right     n for `nosedive`
 *uw_c-a* {<C-a>}              lsp code action             a for `action`
 *uw_c-d* {<C-d>}              lsp split & goto definiton  d for `definition`
 *uw_c-f* {<C-f>}              lsp format                  f for `format`
