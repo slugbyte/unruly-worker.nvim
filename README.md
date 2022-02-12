@@ -70,31 +70,27 @@ For example `uw_c-a` will go to documentation for the `<C-a>` keymap.
 Being dyslexic has taught me its often easier for me to build a system for
 myself than it is to learn a system that works well for everyone else. This
 usually isn't my first approach when trying to learn something new, but when
-the struggle is real, I usually decide why not just reinvent the wheel. I
-think the process that lead me to create this keymap is a good example of 
-how this learning style tends to unfold in my life.
+the struggle is real, I inevitably decide its time to reinvent the wheel. I
+think the creation of this keymap is a good example of how my learning style tends to unfold in my life.
 
 After using vim as my only editor for more than 7 years I continued to have
 trouble remembering commands. I was proficient enough for my needs, but my
-skills plateaued far short of where I wanted them to be. No matter how many
-times I played vim golf or studied the cheat sheet, I never quite felt happy
-with my progress.
+skills plateaued far short of where I wanted them to be. I tried to improve using numerous different tips I found online, but I never quite felt happy with my progress.
 
-Unrelated to vim, I decided to learn the [workman layout](https://workmanlayout.org/) 
+Unrelated to vim, I decided to learn the [workman layout](https://workmanlayout.org/).
 This decision forced me to consider how to remap a few keys, but one thing lead
 to another and eventually I had created an entirely new layout, the
 unruly-worker layout. The process of creating this keymap lead to me spending about
 a year reading `:help` and scouring the internet for vim config gems. Which
 probably seems ridiculous for many people, but for me its just how I've had to
-do most things in life. The time feels well spent, because I spent the last decade
-writing code and I don't plan to stop for many decades to come. I've been using
+do most things in life. The time feels well used, because I spent the last decade
+writing code and I don't plan to stop for many decades to come. Now I've been using
 this layout for more than A year at the time of writing this plugin. Unlike
-my first 7 years I can now remember the keymap well enough to experience the
+my first 7 years with vim, I can now remember the keymap well enough to experience the
 sensation of manipulating the text without noticing that my hands, or
 keyboard keys, or even that vim itself has anything to do with it. For me vim
 was all ways the right tool for the job, unruly-worker is just a
-[jig](https://en.wikipedia.org/wiki/Jig_%28tool%29) that helps the tool work perfectly for my needs.
-
+[jig](https://en.wikipedia.org/wiki/Jig_%28tool%29) that makes the tool fit perfectly into my workflow.
 
 Dyslexia may or may not have been what made it so hard for me to learn vim, but
 it has normalized the process of reinventing wheels to learn for me. The
