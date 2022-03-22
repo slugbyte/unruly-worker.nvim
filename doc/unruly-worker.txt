@@ -27,7 +27,7 @@ Unruly Worker Layout philosophy
 		 possible for the keymap to be remembered with mnemonic phrases.
   3. When possible, keys behavior, or behavior substitute, should stay in the
 	   same position as the original-keymap, so that there is no need for 
-		 experienced vim users to unlearn there years of muscle memory.
+		 experienced vim users to unlearn their years of muscle memory.
 
 Features	   
 * nvim LSP support
@@ -57,8 +57,8 @@ Dependencies:
 
 1. Install `unruly-worker` using any nvim-package manager
 2. Add the following lua code to your configuration
-  - If feel free to enable or disable as many optional features as you please
-3. shread on
+  - Feel free to enable or disable as many optional features as you please
+3. Read on
 >
   local unruly_worker = require('unruly-worker')
   unruly_worker.setup({
@@ -142,7 +142,7 @@ DEFAULT KEYMAP                                          *unruly-worker-keymap*
 *uw_c-w_y* {<C-w>y}           navigate to split left     n for `nosedive`
 *uw_c-w_o* {<C-w>o}           navigate to split right    n for `nosedive`
 *uw_c-a* {<C-a>}              lsp code action            a for `action`
-*uw_c-d* {<C-d>}              lsp split & go to definiton d for `definition`
+*uw_c-d* {<C-d>}              lsp split & go to definition d for `definition`
 *uw_c-f* {<C-f>}              lsp format                 f for `format`
 *uw_c-r* {<C-r>}              lsp rename                 r for `rename`
 *uw_-* {-}	                lsp go to prev diagnostic       
@@ -203,7 +203,7 @@ The LSP keymap is enabled by default
 lsp keymap		                behavior                     mnemonic ~
 ------------------------------------------------------------------------------
 {<C-a>}                       lsp code action              a for `action`
-{<C-d>}                       lsp split & go to definiton  d for `definition`
+{<C-d>}                       lsp split & go to definition  d for `definition`
 {<C-f>}                       lsp format                   f for `format`
 {<C-r>}                       lsp rename                   r for `rename`
 {-}	                          lsp go to prev diagnostic       
@@ -285,7 +285,7 @@ disabled easy window navigate key    behavior ~
 ==============================================================================
 COMMENT KEYMAP                                         *unruly-worker-comment*
 
-The comment keymap is disabled by default. If you want to enable set
+The comment keymap is disabled by default. If you want to enable it, set
 `enable_comment_map = true` when you call `setup()`. 
 
 NOTE: the comment keymap requires a comment plugin that
@@ -300,7 +300,7 @@ comment key original-key    behavior                    mnemonic~
 ==============================================================================
 WRAP NAVIGATE KEYMAP       		                	 *unruly-worker-wrap-navigate*
 
-The wrap navigate keymap is disabled by default. If you want to enable set
+The wrap navigate keymap is disabled by default. If you want to enable it, set
 `enable_wrap_navigate = true` when you call `setup()`. 
 
 NOTE: this works by adding `<` and `>` to the vim (whichwrap) option
@@ -313,7 +313,7 @@ comment key original-key   behavior~
 ==============================================================================
 VISUAL NAVIGATE KEYMAP                         *unruly-worker-visual-navigate*
 
-The visual navigate keymap is disabled by default. If you want to enable set
+The visual navigate keymap is disabled by default. If you want to enable it, set
 `enable_visual_navigate = true` when you call `setup()`. 
 
 comment key original-key   behavior~

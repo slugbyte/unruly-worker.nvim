@@ -89,7 +89,7 @@ this layout for more than A year at the time of writing this plugin. Unlike
 my first 7 years with vim, I can now remember the keymap well enough to experience the
 sensation of manipulating the text without noticing that my hands, or
 keyboard keys, or even that vim itself has anything to do with it. For me vim
-was all ways the right tool for the job, unruly-worker is just a
+was always the right tool for the job, unruly-worker is just a
 [jig](https://en.wikipedia.org/wiki/Jig_%28tool%29) that makes the tool fit perfectly into my workflow.
 
 Dyslexia may or may not have been what made it so hard for me to learn vim, but
@@ -99,7 +99,7 @@ somewhat accidental process produces. A tool that may not be useful for anyone
 else, but makes a tool that is useful to many other people accessible to me.
 
 ## HELP WANTED
-Suggestions, Critique, and Spellcheck are all ways appreciated :)
+Suggestions, Critique, and Spellcheck are always appreciated :)
 
 See the [Contributing Guite](./CONTRIBUTING.md)
 
