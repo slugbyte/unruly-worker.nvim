@@ -27,6 +27,15 @@ local create_map = function(mode, noremap)
 	end
 end
 
+local emoticon_list = { "( ͡° ͜ʖ ͡°)", "¯\\_(ツ)_/¯", "ʕ•ᴥ•ʔ", "(•_•)", "<(^_^<)", "(>^_^)>", "ಠ_ಠ", "ಥ_ಥ", "(ง'̀-'́)ง", "╭(°A°`)╮", "༼ つ ◕_◕ ༽つ", "(｡♥‿♥｡)",
+	"（͡°͜ʖ͡°）", "(¬‿¬)", "(⊙_☉)", "(⊙_◎)", "(っ˘ڡ˘ς)", "(⊙_⊙)", "ლ(ಠ_ಠლ)", "(͡•_ ͡• )", "(>人<)", "(ﾟДﾟ)", "(¬_¬)", "(=^･ｪ･^=)", "(ﾟヮﾟ)", "(• ε •)", "(⌐■_■)", 
+	"(⊙_☉)", "(ʘ‿ʘ)", "(∩︵∩)", "٩(͡๏̯͡๏)۶", "( ͡°Ĺ̯ ͡° )", "(╯°□°）╯︵( .o.)", "༼つಠ益ಠ༽つ", "(つ☢益☢)つ", "(⊙ω⊙)", "(☞ﾟヮﾟ)☞", "( ಠ ͜ʖಠ)" ]
+
+local function write_all()
+		vim.cmd("silent! wall")
+		print("[wall]", emoticon_list[math.random(0, #emoticon_list)])
+end
+
 -- noremap
 local map = create_map("", true)
 local nmap = create_map("n", true)
@@ -93,7 +102,7 @@ local map_undisputed = function()
 	map("y", "h", "left")
 	map("Y", "^", "begining of line")
 	map("<C-w>y", "<C-w>h", "focus left")
-	map("z", ":wall<CR>", "save all")
+	map("z", write_all, "save all")
 	map("Z", ":qall<CR>", "quit all")
 	map(":", ":", "command mode")
 	map("'", "\\", "noop")
