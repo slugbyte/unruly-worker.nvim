@@ -125,7 +125,7 @@ local map_undisputed = function()
 	map("H", ",", "hop to char search reverse")
 	map("i", "i", "insert")
 	map("I", "I", "insert begining of line")
-	map("j", "''", "jump to mark")
+	map("j", "'", "jump to mark")
 	map("J", "\\", "")
 	map("k", "y", "kopy")
 	map("K", "Y", "kopy line")
@@ -272,6 +272,17 @@ local map_easy_window_navigate = function(enable)
 	end
 end
 
+local map_double_jump = function(enable)
+	if enable then
+		map("m", "ma", "mark a")
+		map("M", "mb", "mark b")
+		map("j", "'a", "jump a")
+		map("J", "'b", "jump b")
+		map("q", "qz", "record macro")
+		map("Q", "@z", "play macro")
+	end
+end
+
 --- configure and map unruly worker keymap
 --- @param config table
 local function setup(config)
@@ -288,6 +299,7 @@ local function setup(config)
 		enable_comment_map = false,
 		enable_wrap_navigate = false,
 		enable_visual_navigate = false,
+		enable_double_jump = false,
 	}
 
 	if config then
@@ -304,6 +316,7 @@ local function setup(config)
 	map_quote_command(context.enable_quote_command)
 	map_visual_navigate(context.enable_visual_navigate)
 	map_easy_window_navigate(context.enable_easy_window_navigate)
+	map_double_jump(context.enable_double_jump)
 end
 
 return {
