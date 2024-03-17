@@ -14,14 +14,16 @@
 --- @param mode string
 --- @param noremap boolean
 local create_map = function(mode, noremap)
-	--- a mapper that (mode, noremap)
 	-- @param lhs string
 	-- @param rhs string
+	-- @param desc sring
 	return function(lhs, rhs, desc)
 		if lhs == rhs then
+			vim.keymap.set(mode, lhs, "\\")
+			vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc })
 			return
 		end
-		vim.keymap(mode, lhs, rhs, { noremap = noremap, desc = desc })
+		vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc })
 	end
 end
 
@@ -74,77 +76,74 @@ local map_undisputed = function()
 	map("P", "P", "paste before")
 	map("q", "\\", "noop")
 	map("Q", "\\", "noop")
-	map("r", "r")
-	map("R", "R")
-	map("s", "s")
-	map("S", "S")
-	map("t", "f")
-	map("T", "F")
-	map("u", "u")
-	map("U", "<c-r>")
-	map("v", "v")
-	map("V", "V")
-	map("w", "w")
-	map("W", "b")
-	map("x", "x")
-	map("X", "X")
-	map("y", "h")
-	map("Y", "^")
-	map("<C-w>y", "<C-w>h")
-	map("z", "z")
-	map("Z", "Z")
-	map(":", ":")
-	map("'", ":")
-	map('"', "\\")
-	map("`", "\\")
-	map(",", ".")
-	map(".", "&")
-	map("/", "/")
-	map("?", "?")
-	map("@", "zt")
-	map("#", "zz")
-	map("$", "zb")
-	map("~", "~")
-	map("%", "\\")
-	map("^", "\\")
-	map("&", "\\")
-	map("*", "\\")
-	map("-", "\\")
-	map("_", "\\")
-	map("+", "\\")
-	map("=", "\\")
-	map("|", "\\")
-	map(";", "\\")
-	map("(", "(")
-	map(")", ")")
-	map("[", "[")
-	map("]", "]")
-	map(">", ">")
-	map("<", "<")
-	nmap("<C-Down>", ":m .+1<CR>==")
-	nmap("<C-Up>", ":m .-2<CR>==")
-	imap("<C-Down>", ":m .+1<CR>==gi")
-	imap("<C-Up>", ":m .-2<CR>==gi")
-	vmap("<C-Down>", ":m '>+1<CR>gv=gv")
-	vmap("<C-Up>", ":m '<-2<CR>gv=gv")
-	cmap("<C-a>", "<home>")
-	cmap("<C-e>", "<end>")
-	map("ge", "gk")
-	map("gn", "gj")
+	map("r", "r", "replace")
+	map("R", "R", "replace mode")
+	map("s", "s", "delete char into register")
+	map("S", "S", "delete line int register")
+	map("t", "f", "to char")
+	map("T", "F", "to char reverse")
+	map("u", "u", "undo")
+	map("U", "<c-r>", "redo")
+	map("v", "v", "visual mode")
+	map("V", "V", "visual line mode")
+	map("w", "w", "word forward")
+	map("W", "b", "word backbard")
+	map("x", "x", "delete under curser")
+	map("X", "X", "delete before curser")
+	map("y", "h", "left")
+	map("Y", "^", "begining of line")
+	map("<C-w>y", "<C-w>h", "focus left")
+	map("z", ":wall<CR>", "save all")
+	map("Z", ":qall<CR>", "quit all")
+	map(":", ":", "command mode")
+	map("'", "\\", "noop")
+	map('"', "\\", "noop")
+	map("`", "\\", "noop")
+	map(",", "&", "repeat last substitue")
+	map(".", ".", "repeat last change")
+	map("/", "/", "search buffer")
+	map("?", "?", "search buffer reverse")
+	map("@", "zt", "align top of screen")
+	map("#", "zz", "align middle of screen")
+	map("$", "zb", "align bottom of screen")
+	map("~", "~", "swap case")
+	map("%", "\\", "noop")
+	map("^", "\\", "noop")
+	map("&", "\\", "noop")
+	map("*", "\\", "noop")
+	map("-", "\\", "noop")
+	map("_", "\\", "noop")
+	map("+", "\\", "noop")
+	map("=", "\\", "noop")
+	map("|", "\\", "noop")
+	map(";", "\\", "noop")
+	map(")", ")", "next sentence")
+	map("(", "(", "prev sentence")
+	map("]", "]", "jump forward")
+	map("[", "[", "jump backward")
+	map(">", ">", "nudge forward")
+	map("<", "<", "nudge backward")
+	nmap("<C-Down>", ":m .+1<CR>==", "swap down")
+	nmap("<C-Up>", ":m .-2<CR>==", "swap up")
+	imap("<C-Down>", ":m .+1<CR>==gi", "swap down")
+	imap("<C-Up>", ":m .-2<CR>==gi", "swap up")
+	vmap("<C-Down>", ":m '>+1<CR>gv=gv", "swap down")
+	vmap("<C-Up>", ":m '<-2<CR>gv=gv", "swap up")
+	cmap("<C-a>", "<home>", "begining of line")
+	cmap("<C-e>", "<end>", "end of line")
+	map("ge", "gk", "go up column")
+	map("gn", "gj", "go down column")
 end
 
 --- add lsp specific mappings if enable is true
 --- @param enable boolean
 local map_lsp = function(enable)
 	if enable then
-		map("-", ":lua vim.diagnostic.goto_prev()<CR>")
-		map("_", ":lua vim.diagnostic.goto_next()<CR>")
-		map(";", ":lua vim.lsp.buf.hover()<CR>")
-
-		map("<c-f>", ":lua vim.lsp.buf.formatting()<CR>")
-		map("<c-a>", ":lua vim.lsp.buf.code_action()<CR>")
-		map("<c-r>", ":lua vim.lsp.buf.rename()<CR>")
-		map("<c-d>", ":split<CR>:lua vim.lsp.buf.definition()<CR>")
+		map("-", ":lua vim.diagnostic.goto_prev()<CR>", "prev diagnostic")
+		map("_", ":lua vim.diagnostic.goto_next()<CR>", "next diagnostic")
+		map(";", ":lua vim.lsp.buf.hover()<CR>", "lsp hover")
+		map("<c-r>", ":lua vim.lsp.buf.rename()<CR>", "lsp rename")
+		map("<c-d>", ":split<CR>:lua vim.lsp.buf.definition()<CR>", "lsp definition")
 	end
 end
 
@@ -152,10 +151,10 @@ end
 --- @param enable boolean
 local map_comment = function(enable)
 	if enable then
-		remap_map("c", "gcc")
-		remap_map("C", "gcip")
-		remap_vmap("c", "gc")
-		remap_vmap("C", "gc")
+		remap_map("c", "gcc", "comment toggle line")
+		remap_map("C", "gcip", "comment toggle paragraph")
+		remap_vmap("c", "gc", "comment toggle visual")
+		remap_vmap("C", "gc", "comment toggle visual")
 	end
 end
 
@@ -163,8 +162,8 @@ end
 --- @param enable boolean
 local map_select = function(enable)
 	if enable then
-		map("s", "viw")
-		map("S", "vip")
+		map("s", "viw", "select word")
+		map("S", "vip", "select paragraph")
 	end
 end
 
@@ -172,8 +171,8 @@ end
 --- @param enable boolean
 local map_visual_navigate = function(enable)
 	if enable then
-		map("e", "gk")
-		map("n", "gj")
+		map("e", "gk", "up column")
+		map("n", "gj", "down column")
 	end
 end
 
@@ -182,8 +181,8 @@ end
 local map_wrap_navigate = function(enable)
 	if enable then
 		vim.cmd("set ww+=<,>")
-		map("y", "<left>")
-		map("o", "<right>")
+		map("y", "<left>", "y wrap left")
+		map("o", "<right>", "o wrap right")
 	end
 end
 
@@ -191,7 +190,7 @@ end
 --- @param enable boolean
 local map_quote_command = function(enable)
 	if enable then
-		map("'", ":")
+		map("'", ":", "command mode")
 	end
 end
 
@@ -199,10 +198,10 @@ end
 --- @param enable boolean
 local map_easy_window_navigate = function(enable)
 	if enable then
-		map("<c-n>", "<c-w>j")
-		map("<c-e>", "<c-w>k")
-		map("<c-y>", "<c-w>h")
-		map("<c-o>", "<c-w>l")
+		map("<c-n>", "<c-w>j", "focus down")
+		map("<c-e>", "<c-w>k", "focus up")
+		map("<c-y>", "<c-w>h", "focus left")
+		map("<c-o>", "<c-w>l", "focus right")
 	end
 end
 
