@@ -45,15 +45,18 @@ local emoticon_list = {
 	"(⊙_☉)",
 	"(⊙_◎)",
 	"(っ˘ڡ˘ς)",
+	"(っ. .ς)",
 	"(⊙_⊙)",
 	"ლ(ಠ_ಠლ)",
 	"(͡•_ ͡• )",
+	"(つ>人<)つ",
 	"(>人<)",
 	"(ﾟДﾟ)",
 	"(¬_¬)",
 	"(=^･ｪ･^=)",
 	"(ﾟヮﾟ)",
 	"(• ε •)",
+	"(つ• ε •)つ",
 	"(⌐■_■)",
 	"(⊙_☉)",
 	"(ʘ‿ʘ)",
@@ -66,6 +69,24 @@ local emoticon_list = {
 	"(⊙ω⊙)",
 	"(☞ﾟヮﾟ)☞",
 	"( ಠ ͜ʖಠ)",
+	"༼つx x༽つ",
+	"༼つo o༽つ",
+	"༼つo o༽つ",
+	":-)",
+	";-)",
+	":-D",
+	":-P",
+	":-O",
+	":-|",
+	":-]",
+	":-}",
+	":-O",
+	":-)",
+	";-)",
+	":-P",
+	":-|",
+	":-/",
+	":-^",
 }
 
 local function write_all()
@@ -105,7 +126,7 @@ local map_undisputed = function()
 	map("i", "i", "insert")
 	map("I", "I", "insert begining of line")
 	map("j", "''", "jump to mark")
-	map("J", "\\", "noop")
+	map("J", "\\", "")
 	map("k", "y", "kopy")
 	map("K", "Y", "kopy line")
 	map("l", "o", "line create below")
@@ -120,8 +141,8 @@ local map_undisputed = function()
 	map("<C-w>o", "<C-w>l", "focus right")
 	map("p", "p", "paste after")
 	map("P", "P", "paste before")
-	map("q", "\\", "noop")
-	map("Q", "\\", "noop")
+	map("q", '"', "register select")
+	map("Q", "@", "register execute")
 	map("r", "r", "replace")
 	map("R", "R", "replace mode")
 	map("s", "s", "delete char into register")
@@ -142,9 +163,9 @@ local map_undisputed = function()
 	map("z", write_all, "save all")
 	map("Z", ":qall<CR>", "quit all")
 	map(":", ":", "command mode")
-	map("'", "\\", "noop")
-	map('"', "\\", "noop")
-	map("`", "\\", "noop")
+	map("'", "\\", "")
+	map('"', '"', "register")
+	map("`", "\\", "")
 	map(",", "&", "repeat last substitue")
 	map(".", ".", "repeat last change")
 	map("/", "/", "search buffer")
@@ -153,16 +174,16 @@ local map_undisputed = function()
 	map("#", "zz", "align middle of screen")
 	map("$", "zb", "align bottom of screen")
 	map("~", "~", "swap case")
-	map("%", "\\", "noop")
-	map("^", "\\", "noop")
-	map("&", "\\", "noop")
-	map("*", "\\", "noop")
-	map("-", "\\", "noop")
-	map("_", "\\", "noop")
-	map("+", "\\", "noop")
-	map("=", "\\", "noop")
-	map("|", "\\", "noop")
-	map(";", "\\", "noop")
+	map("%", "\\", "")
+	map("^", "\\", "")
+	map("&", "\\", "")
+	map("*", "\\", "")
+	map("-", "\\", "")
+	map("_", "\\", "")
+	map("+", "\\", "")
+	map("=", "\\", "")
+	map("|", "\\", "")
+	map(";", "\\", "")
 	map(")", ")", "next sentence")
 	map("(", "(", "prev sentence")
 	map("]", "]", "jump forward")
