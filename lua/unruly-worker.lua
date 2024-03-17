@@ -70,7 +70,7 @@ local emoticon_list = {
 
 local function write_all()
 	vim.cmd("silent! wall")
-	print("[wall]", emoticon_list[math.random(0, #emoticon_list)])
+	print(emoticon_list[math.random(0, #emoticon_list)])
 end
 
 -- noremap
