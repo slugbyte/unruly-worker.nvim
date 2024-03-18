@@ -49,7 +49,7 @@ local function write_all()
 	print(emoticon_list[math.random(0, #emoticon_list)])
 end
 
-local function register_peek()
+function register_peek()
 	print("REGISTER_PEEK tap to peek")
 	local ch_num = vim.fn.getchar()
 	local ch = string.char(ch_num)
@@ -59,8 +59,11 @@ local function register_peek()
 	end
 
 	local reg_content = vim.fn.getreg(ch)
+	reg_content = reg_content:gsub("\n", "\\n")
+	reg_content = reg_content:gsub("\t", "\\t")
+
 	if #reg_content > 0 then
-		print(string.format("REGISTER_PEEK %s (%s)", ch, vim.fn.getreg(ch)))
+		print(string.format("REGISTER_PEEK %s (%s)", ch, reg_content))
 	else
 		print(string.format("REGISTER_PEEK %s (empty)", ch))
 	end
@@ -251,8 +254,6 @@ local map_eazy_macro = function(enable)
 	end
 end
 
-local cmp_cmdline_preset = function() end
-
 local load = function(config)
 	local context = {
 		enable_lsp_map = true,
@@ -298,5 +299,6 @@ return {
 	setup = setup,
 	util = {
 		write_all = write_all,
+		register_peek = register_peek,
 	},
 }
