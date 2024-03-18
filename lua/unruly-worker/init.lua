@@ -40,8 +40,8 @@ local cmap = create_map("c", true)
 local vmap = create_map("v", true)
 
 -- remap
-local remap_vmap = create_map("v", false)
-local remap_map = create_map("", false)
+local remap_vmap = create_map("v", true)
+local remap_map = create_map("", true)
 
 -- actions
 local emoticon_list = require("unruly-worker.emoticon-list")
