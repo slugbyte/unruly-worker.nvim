@@ -28,7 +28,6 @@ local create_map = function(mode, noremap)
 			vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc })
 			return
 		end
-		print("noremap", noremap, lhs, rhs)
 		vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc })
 	end
 end
@@ -121,9 +120,12 @@ local map_undisputed = function()
 	map("<C-w>o", "<C-w>l", "focus right")
 	map("p", "p", "paste after")
 	map("P", "P", "paste before")
-	map("q", '"', "register select")
-	map("Q", "q", "macro record")
-	map("<c-q>", "@", "macro execute")
+	map("q", write_all, "save all")
+	map("Q", ":qall<cr>", "quit")
+	map("<c-q>", ":qall!<cr>", "quit no write")
+	-- map("q", '"', "register select")
+	-- map("Q", "q", "macro record")
+	-- map("<c-q>", "@", "macro execute")
 	map("r", "r", "replace")
 	map("R", "R", "replace mode")
 	map("s", "s", "delete char into register")
@@ -141,9 +143,10 @@ local map_undisputed = function()
 	map("y", "h", "left")
 	map("Y", "^", "begining of line")
 	map("<C-w>y", "<C-w>h", "focus left")
-	map("z", write_all, "save all")
-	map("Z", ":qall<CR>", "quit all")
-	map(":", ":", "command mode")
+	map("z", '"', "register select")
+	map("Z", "q", "macro record")
+	map("<c-z>", "@", "macro play")
+	map(":", "", "command mode")
 	map("'", register_peek, "register peek")
 	map("`", register_peek, "register peek")
 	map('"', '"', "register select")
@@ -199,11 +202,10 @@ end
 --- @param enable boolean
 local map_comment = function(enable)
 	if enable then
-		print("comment enable")
-		remap_map("c", "gcc", "comment toggle line")
-		remap_map("C", "gcip", "comment toggle paragraph")
-		remap_vmap("c", "gc", "comment toggle visual")
-		remap_vmap("C", "gc", "comment toggle visual")
+		vim.keymap.set("", "c", "gcc", { desc = "comment toggle line" })
+		vim.keymap.set("", "C", "gcip", { desc = "comment toggle paragraph" })
+		vim.keymap.set("v", "c", "gc", { desc = "comment toggle visual" })
+		vim.keymap.set("v", "C", "gc", { desc = "comment toggle visual" })
 	end
 end
 
@@ -265,9 +267,9 @@ end
 
 local map_eazy_macro = function(enable)
 	if enable then
-		map("q", "qz", "record macro")
-		map("Q", "@z", "play macro")
-		vim.keymap.del("n", "<c-q>")
+		map("z", "qz", "record macro")
+		map("Z", "@z", "play macro")
+		vim.keymap.del("n", "<c-z>")
 	end
 end
 
@@ -317,6 +319,7 @@ return {
 	util = {
 		write_all = write_all,
 		register_peek = register_peek,
+		debug_char = debug_char,
 		load = load_unruly,
 	},
 }
