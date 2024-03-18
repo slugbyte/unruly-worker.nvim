@@ -50,8 +50,14 @@ local function write_all()
 end
 
 local function register_peek()
-	local register_name = vim.fn.input("register: ")
-	print("reg", register_name, "(", vim.fn.getreg(register_name), ")")
+	print("which register?")
+	local ch_num = vim.fn.getchar()
+	local ch = string.char(ch_num)
+	if ch_num == 27 then
+		return
+	end
+
+	print("REG", ch, "(", vim.fn.getreg(ch), ")")
 end
 
 local map_undisputed = function()
