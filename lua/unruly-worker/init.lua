@@ -34,15 +34,15 @@ local create_map = function(mode, noremap)
 end
 
 -- noremap
-local map = create_map("", false)
-local nmap = create_map("n", false)
-local imap = create_map("i", false)
-local cmap = create_map("c", false)
-local vmap = create_map("v", false)
+local map = create_map("", true)
+local nmap = create_map("n", true)
+local imap = create_map("i", true)
+local cmap = create_map("c", true)
+local vmap = create_map("v", true)
 
 -- remap
-local remap_vmap = create_map("v", true)
-local remap_map = create_map("", true)
+local remap_vmap = create_map("v", false)
+local remap_map = create_map("", false)
 
 -- actions
 local emoticon_list = require("unruly-worker.emoticon-list")
