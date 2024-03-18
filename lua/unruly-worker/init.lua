@@ -12,6 +12,8 @@
 --  TODO: add cmp.insert and cmd presets
 --  TODO: add lsp leader commands
 --  TODO: add treesitter search commands
+--
+
 
 --- create a key mapper that does nothing when trying
 --- to map something to itself
@@ -49,6 +51,15 @@ local function write_all()
 	print(emoticon_list[math.random(0, #emoticon_list)])
 end
 
+function debug_char()
+	local ch_num = vim.fn.getchar()
+
+	print("nums:", ch_num, ch_num == 80, ch_num == 8, ch_num == "<BS>")
+	print("num:", ch_num, ch_num == 80, ch_num == 8, string.format("%s", ch_num) == "<80>kb")
+	-- local ch = string.char(ch_num)
+	-- print("char:", ch)
+end
+
 function register_peek()
 	print("REGISTER_PEEK tap to peek")
 	local ch_num = vim.fn.getchar()
@@ -61,6 +72,11 @@ function register_peek()
 	local reg_content = vim.fn.getreg(ch)
 	reg_content = reg_content:gsub("\n", "\\n")
 	reg_content = reg_content:gsub("\t", "\\t")
+	reg_content = reg_content:gsub("\t", "\\t")
+	reg_content = reg_content:gsub(string.char(27), "<esc>")
+	reg_content = reg_content:gsub(string.char(8), "<bs>")
+	reg_content = reg_content:gsub(string.char(9), "<tab>")
+	reg_content = reg_content:gsub(string.char(13), "<enter>")
 
 	if #reg_content > 0 then
 		print(string.format("REGISTER_PEEK %s (%s)", ch, reg_content))
@@ -183,6 +199,7 @@ end
 --- @param enable boolean
 local map_comment = function(enable)
 	if enable then
+		print("comment enable")
 		remap_map("c", "gcc", "comment toggle line")
 		remap_map("C", "gcip", "comment toggle paragraph")
 		remap_vmap("c", "gc", "comment toggle visual")
@@ -300,5 +317,6 @@ return {
 	util = {
 		write_all = write_all,
 		register_peek = register_peek,
+		load = load,
 	},
 }
