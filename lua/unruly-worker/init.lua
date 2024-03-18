@@ -14,7 +14,6 @@
 --  TODO: add treesitter search commands
 --
 
-
 --- create a key mapper that does nothing when trying
 --- to map something to itself
 --- @param mode string
@@ -29,20 +28,21 @@ local create_map = function(mode, noremap)
 			vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc })
 			return
 		end
+		print("noremap", noremap, lhs, rhs)
 		vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc })
 	end
 end
 
 -- noremap
-local map = create_map("", true)
-local nmap = create_map("n", true)
-local imap = create_map("i", true)
-local cmap = create_map("c", true)
-local vmap = create_map("v", true)
+local map = create_map("", false)
+local nmap = create_map("n", false)
+local imap = create_map("i", false)
+local cmap = create_map("c", false)
+local vmap = create_map("v", false)
 
 -- remap
-local remap_vmap = create_map("v", false)
-local remap_map = create_map("", false)
+local remap_vmap = create_map("v", true)
+local remap_map = create_map("", true)
 
 -- actions
 local emoticon_list = require("unruly-worker.emoticon-list")
@@ -271,17 +271,17 @@ local map_eazy_macro = function(enable)
 	end
 end
 
-local load = function(config)
+load = function(config)
 	local context = {
 		enable_lsp_map = true,
 		enable_select_map = true,
 		enable_quote_command = true,
 		enable_easy_window_navigate = true,
-		enable_comment_map = false,
-		enable_wrap_navigate = false,
-		enable_visual_navigate = false,
-		enable_double_jump = false,
-		enable_easy_macro = false,
+		enable_comment_map = true,
+		enable_wrap_navigate = true,
+		enable_visual_navigate = true,
+		enable_double_jump = true,
+		enable_easy_macro = true,
 	}
 
 	if config then
