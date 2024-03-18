@@ -49,6 +49,11 @@ local function write_all()
 	print(emoticon_list[math.random(0, #emoticon_list)])
 end
 
+local function register_peek()
+	local register_name = vim.fn.input("register: ")
+	print("reg", register_name, "(", vim.fn.getreg(register_name), ")")
+end
+
 local map_undisputed = function()
 	map("a", "a", "append")
 	map("A", "A", "append line")
@@ -108,7 +113,7 @@ local map_undisputed = function()
 	map("z", write_all, "save all")
 	map("Z", ":qall<CR>", "quit all")
 	map(":", ":", "command mode")
-	map("'", "\\", "")
+	map("'", register_peek, "register peek")
 	map('"', '"', "register")
 	map("`", "\\", "")
 	map(",", "&", "repeat last substitue")
@@ -234,6 +239,8 @@ local map_eazy_macro = function(enable)
 	end
 end
 
+local cmp_cmdline_preset = function() end
+
 local load = function(config)
 	local context = {
 		enable_lsp_map = true,
@@ -277,4 +284,7 @@ end
 
 return {
 	setup = setup,
+	util = {
+		write_all = write_all,
+	},
 }
