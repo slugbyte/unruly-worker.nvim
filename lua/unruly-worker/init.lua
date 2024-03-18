@@ -8,6 +8,10 @@
 --  License: Unlicense
 --  Maintainer: Duncan Marsh (slugbyte@slugbyte.com)
 --  Repository: https://github.com/slugbyte/unruly-worker
+--
+--  TODO: add cmp.insert and cmd presets
+--  TODO: add lsp leader commands
+--  TODO: add treesitter search commands
 
 --- create a key mapper that does nothing when trying
 --- to map something to itself
@@ -27,73 +31,6 @@ local create_map = function(mode, noremap)
 	end
 end
 
-local emoticon_list = {
-	"( ͡° ͜ʖ ͡°)",
-	"¯\\_(ツ)_/¯",
-	"ʕ•ᴥ•ʔ",
-	"(•_•)",
-	"<(^_^<)",
-	"(>^_^)>",
-	"ಠ_ಠ",
-	"ಥ_ಥ",
-	"(ง'̀-'́)ง",
-	"╭(°A°`)╮",
-	"༼ つ ◕_◕ ༽つ",
-	"(｡♥‿♥｡)",
-	"（͡°͜ʖ͡°）",
-	"(¬‿¬)",
-	"(⊙_☉)",
-	"(⊙_◎)",
-	"(っ˘ڡ˘ς)",
-	"(っ. .ς)",
-	"(⊙_⊙)",
-	"ლ(ಠ_ಠლ)",
-	"(͡•_ ͡• )",
-	"(つ>人<)つ",
-	"(>人<)",
-	"(ﾟДﾟ)",
-	"(¬_¬)",
-	"(=^･ｪ･^=)",
-	"(ﾟヮﾟ)",
-	"(• ε •)",
-	"(つ• ε •)つ",
-	"(⌐■_■)",
-	"(⊙_☉)",
-	"(ʘ‿ʘ)",
-	"(∩︵∩)",
-	"٩(͡๏̯͡๏)۶",
-	"( ͡°Ĺ̯ ͡° )",
-	"(╯°□°）╯︵( .o.)",
-	"༼つಠ益ಠ༽つ",
-	"(つ☢益☢)つ",
-	"(⊙ω⊙)",
-	"(☞ﾟヮﾟ)☞",
-	"( ಠ ͜ʖಠ)",
-	"༼つx x༽つ",
-	"༼つo o༽つ",
-	"༼つo o༽つ",
-	":-)",
-	";-)",
-	":-D",
-	":-P",
-	":-O",
-	":-|",
-	":-]",
-	":-}",
-	":-O",
-	":-)",
-	";-)",
-	":-P",
-	":-|",
-	":-/",
-	":-^",
-}
-
-local function write_all()
-	vim.cmd("silent! wall")
-	print(emoticon_list[math.random(0, #emoticon_list)])
-end
-
 -- noremap
 local map = create_map("", true)
 local nmap = create_map("n", true)
@@ -104,6 +41,13 @@ local vmap = create_map("v", true)
 -- remap
 local remap_vmap = create_map("v", false)
 local remap_map = create_map("", false)
+
+-- actions
+local emoticon_list = require("unruly-worker.emoticon-list")
+local function write_all()
+	vim.cmd("silent! wall")
+	print(emoticon_list[math.random(0, #emoticon_list)])
+end
 
 local map_undisputed = function()
 	map("a", "a", "append")
@@ -142,7 +86,8 @@ local map_undisputed = function()
 	map("p", "p", "paste after")
 	map("P", "P", "paste before")
 	map("q", '"', "register select")
-	map("Q", "@", "register execute")
+	map("Q", "q", "macro record")
+	map("<c-q>", "@", "macro execute")
 	map("r", "r", "replace")
 	map("R", "R", "replace mode")
 	map("s", "s", "delete char into register")
@@ -278,19 +223,18 @@ local map_double_jump = function(enable)
 		map("M", "mb", "mark b")
 		map("j", "'a", "jump a")
 		map("J", "'b", "jump b")
-		map("q", "qz", "record macro")
-		map("Q", "@z", "play macro")
 	end
 end
 
---- configure and map unruly worker keymap
---- @param config table
-local function setup(config)
-	if vim.g.unruly_worker then
-		return
+local map_eazy_macro = function(enable)
+	if enable then
+		map("q", "qz", "record macro")
+		map("Q", "@z", "play macro")
+		vim.keymap.del("n", "<c-q>")
 	end
-	vim.g.unruly_worker = true
+end
 
+local load = function(config)
 	local context = {
 		enable_lsp_map = true,
 		enable_select_map = true,
@@ -300,13 +244,12 @@ local function setup(config)
 		enable_wrap_navigate = false,
 		enable_visual_navigate = false,
 		enable_double_jump = false,
+		enable_easy_macro = false,
 	}
 
 	if config then
 		context = vim.tbl_extend("force", context, config)
 	end
-
-	vim.g.unruly_worker_context = context
 
 	map_undisputed()
 	map_lsp(context.enable_lsp_map)
@@ -317,6 +260,19 @@ local function setup(config)
 	map_visual_navigate(context.enable_visual_navigate)
 	map_easy_window_navigate(context.enable_easy_window_navigate)
 	map_double_jump(context.enable_double_jump)
+	map_eazy_macro(context.enable_easy_macro)
+end
+
+---  configure and map unruly worker keymap
+--- @param config table
+local function setup(config)
+	-- dont reload if  loaded
+	if vim.g.unruly_worker then
+		return
+	end
+	vim.g.unruly_worker = true
+
+	load(config)
 end
 
 return {
