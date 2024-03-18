@@ -51,7 +51,7 @@ local function write_all()
 	print(emoticon_list[math.random(0, #emoticon_list)])
 end
 
-function debug_char()
+local function debug_char()
 	local ch_num = vim.fn.getchar()
 
 	print("nums:", ch_num, ch_num == 80, ch_num == 8, ch_num == "<BS>")
@@ -60,7 +60,7 @@ function debug_char()
 	-- print("char:", ch)
 end
 
-function register_peek()
+local function register_peek()
 	print("REGISTER_PEEK tap to peek")
 	local ch_num = vim.fn.getchar()
 	local ch = string.char(ch_num)
@@ -271,7 +271,7 @@ local map_eazy_macro = function(enable)
 	end
 end
 
-load = function(config)
+local load_unruly = function(config)
 	local context = {
 		enable_lsp_map = true,
 		enable_select_map = true,
@@ -309,7 +309,7 @@ local function setup(config)
 	end
 	vim.g.unruly_worker = true
 
-	load(config)
+	load_unruly(config)
 end
 
 return {
@@ -317,6 +317,6 @@ return {
 	util = {
 		write_all = write_all,
 		register_peek = register_peek,
-		load = load,
+		load = load_unruly,
 	},
 }
