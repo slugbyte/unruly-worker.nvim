@@ -299,9 +299,11 @@ end
 
 local map_easy_jump = function(enable)
 	if enable then
-		-- TODO: require telescope ~= nil check with pcall
-		vim.keymap.set('', 'j', ":Telescope find_files<CR>", { noremap = true, desc = "jump file" })
-		vim.keymap.set('', 'J', ":Telescope live_grep<CR>", { noremap = true, desc = "jump grep" })
+		local status, telescope = pcall(require, "telescope")
+		if (status and telescope ~= nil) then
+			vim.keymap.set('', 'j', ":Telescope find_files<CR>", { noremap = true, desc = "jump file" })
+			vim.keymap.set('', 'J', ":Telescope live_grep<CR>", { noremap = true, desc = "jump grep" })
+		end
 	end
 end
 
@@ -318,6 +320,7 @@ local load_unruly = function(config)
 		enable_double_jump = true,
 		enable_easy_macro = true,
 		enable_easy_source = true,
+		enable_easy_jump = true,
 	}
 
 	if config then
@@ -336,6 +339,7 @@ local load_unruly = function(config)
 	map_double_jump(context.enable_double_jump)
 	map_easy_macro(context.enable_easy_macro)
 	map_easy_source(context.enable_easy_source)
+	map_easy_jump(context.enable_easy_jump)
 end
 
 ---  configure and map unruly worker keymap
