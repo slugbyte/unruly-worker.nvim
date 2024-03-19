@@ -22,13 +22,17 @@ local create_map = function(mode, noremap)
 	-- @param lhs string
 	-- @param rhs string
 	-- @param desc sring
-	return function(lhs, rhs, desc)
+	return function(lhs, rhs, desc, silent)
+		if silent == nil then
+			silent = false
+		end
+
 		if lhs == rhs then
 			vim.keymap.set(mode, lhs, "\\")
-			vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc, silent = true })
+			vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc, silent = silent })
 			return
 		end
-		vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc, silent = true })
+		vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc, silent = silent })
 	end
 end
 
@@ -288,9 +292,8 @@ end
 
 local map_easy_source = function(enable)
 	if enable then
-		vim.print("easy source enabled")
 		-- vim.keymap.del("n", "%")
-		map("%", ":source %<cr>", "source % file")
+		map("%", ":source %<cr>", "source % file", true)
 	end
 end
 
