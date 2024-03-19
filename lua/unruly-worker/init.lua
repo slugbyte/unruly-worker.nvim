@@ -108,7 +108,7 @@ local map_undisputed = function()
 	map("H", ",", "hop to char search reverse")
 	map("i", "i", "insert")
 	map("I", "I", "insert begining of line")
-	map("j", "'", "jump to mark")
+	map("j", "\\", "")
 	map("J", "\\", "")
 	map("k", "y", "kopy")
 	map("K", "Y", "kopy line")
@@ -276,8 +276,8 @@ local map_double_jump = function(enable)
 	if enable then
 		map("m", "ma", "mark a")
 		map("M", "mb", "mark b")
-		map("j", "'azt", "jump a")
-		map("J", "'bzt", "jump b")
+		map("z", "'azt", "jump a")
+		map("z", "'bzt", "jump b")
 	end
 end
 
@@ -294,6 +294,14 @@ local map_easy_source = function(enable)
 	if enable then
 		-- vim.keymap.del("n", "%")
 		map("%", ":source %<cr>", "source % file", true)
+	end
+end
+
+local map_easy_jump = function(enable)
+	if enable then
+		-- TODO: require telescope ~= nil check with pcall
+		vim.keymap.set('', 'j', ":Telescope find_files<CR>", { noremap = true, desc = "jump file" })
+		vim.keymap.set('', 'J', ":Telescope live_grep<CR>", { noremap = true, desc = "jump grep" })
 	end
 end
 
