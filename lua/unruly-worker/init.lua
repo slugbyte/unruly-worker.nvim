@@ -147,9 +147,8 @@ local map_undisputed = function()
 	map("y", "h", "left")
 	map("Y", "^", "begining of line")
 	map("<C-w>y", "<C-w>h", "focus left")
-	map("z", '"', "register select")
-	map("Z", "q", "macro record")
-	map("<c-z>", "@", "macro play")
+	map("z", '\\', "")
+	map("Z", "\\", "")
 	map(":", ":", "command mode")
 	map("'", "\\", "register peek")
 	map("`", register_peek, "register peek")
@@ -206,10 +205,15 @@ end
 --- @param enable boolean
 local map_comment = function(enable)
 	if enable then
-		vim.keymap.set("", "c", "gcc", { desc = "comment toggle line" })
-		vim.keymap.set("", "C", "gcip", { desc = "comment toggle paragraph" })
-		vim.keymap.set("v", "c", "gc", { desc = "comment toggle visual" })
-		vim.keymap.set("v", "C", "gc", { desc = "comment toggle visual" })
+		vim.cmd(":map c gcc")
+		vim.cmd(":map C gcip")
+		vim.cmd(":vmap c gc")
+		vim.cmd(":vmap C gc")
+
+		-- remap_map("<c-h>", "gcc", "comment")
+		-- vim.keymap.set("", "c", "", { desc = "comment toggle line", noremap = false })
+		-- vim.keymap.set("v", "<c-h>", "gc", { desc = "comment toggle visual" })
+		-- vim.keymap.set("", "C", "gcip", { desc = "comment toggle paragraph" }) vim.keymap.set("v", "C", "gc", { desc = "comment toggle visual" })
 	end
 end
 
@@ -235,7 +239,6 @@ end
 --- @param enable boolean
 local map_wrap_navigate = function(enable)
 	if enable then
-		vim.print("")
 		vim.cmd("set ww+=<,>")
 		map("y", "<left>", "y wrap left")
 		map("o", "<right>", "o wrap right")
@@ -246,16 +249,14 @@ end
 --- @param enable boolean
 local map_quote_command = function(enable)
 	if enable then
-		vim.print("comma quote enabled")
 		map("'", ":", "command mode")
 	end
 end
 
 --- <C-(y,n,e,o)> nave windows if enable is true
 --- @param enable boolean
-local map_easy_window_navigate = function(enable)
+local map_easy_window = function(enable)
 	if enable then
-		vim.print("easy window navigate")
 		map("<c-n>", "<c-w>j", "focus down")
 		map("<c-e>", "<c-w>k", "focus up")
 		map("<c-y>", "<c-w>h", "focus left")
@@ -263,7 +264,7 @@ local map_easy_window_navigate = function(enable)
 	end
 end
 
-local map_easy_window_navigate_tmux = function(enable)
+local map_easy_tmux = function(enable)
 	if (enable) then
 		vim.keymap.set('n', '<C-n>', ":TmuxNavigateDown<CR>", { silent = true, desc = "focus down (vim/tmux)" })
 		vim.keymap.set('n', '<C-e>', ":TmuxNavigateUp<CR>", { silent = true, desc = "focus up (vim/tmux)" })
@@ -272,7 +273,7 @@ local map_easy_window_navigate_tmux = function(enable)
 	end
 end
 
-local map_double_jump = function(enable)
+local map_easy_mark = function(enable)
 	if enable then
 		map("m", "ma", "mark a")
 		map("M", "mb", "mark b")
@@ -283,9 +284,8 @@ end
 
 local map_easy_macro = function(enable)
 	if enable then
-		vim.print("easy macro enabled")
-		map("z", "qz", "record macro")
-		map("Z", "@z", "play macro")
+		map("<c-m>", "qz", "record macro")
+		map("<c-z>", "@z", "play macro")
 		vim.keymap.del("n", "<c-z>")
 	end
 end
@@ -334,9 +334,9 @@ local load_unruly = function(config)
 	map_wrap_navigate(context.enable_wrap_navigate)
 	map_quote_command(context.enable_quote_command)
 	map_visual_navigate(context.enable_visual_navigate)
-	map_easy_window_navigate(context.enable_easy_window_navigate)
-	map_easy_window_navigate_tmux(context.enable_easy_window_navigate_tmux)
-	map_double_jump(context.enable_double_jump)
+	map_easy_window(context.enable_easy_window_navigate)
+	map_easy_tmux(context.enable_easy_window_navigate_tmux)
+	map_easy_mark(context.enable_double_jump)
 	map_easy_macro(context.enable_easy_macro)
 	map_easy_source(context.enable_easy_source)
 	map_easy_jump(context.enable_easy_jump)
@@ -362,8 +362,8 @@ return {
 		-- TODO: HOW TO UNMAP
 		easy_source = map_easy_source,
 		easy_macro = map_easy_macro,
-		double_jump = map_double_jump,
-		easy_window_navigate = map_easy_window_navigate,
+		double_jump = map_easy_mark,
+		easy_window_navigate = map_easy_window,
 	},
 	util = {
 		write_all = write_all,
