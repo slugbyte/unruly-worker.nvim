@@ -265,11 +265,17 @@ local map_double_jump = function(enable)
 	end
 end
 
-local map_eazy_macro = function(enable)
+local map_easy_macro = function(enable)
 	if enable then
 		map("z", "qz", "record macro")
 		map("Z", "@z", "play macro")
 		vim.keymap.del("n", "<c-z>")
+	end
+end
+
+local map_easy_source = function(enable)
+	if enable then
+		map("%", ":source  %<cr>", "source % file")
 	end
 end
 
@@ -284,6 +290,7 @@ local load_unruly = function(config)
 		enable_visual_navigate = true,
 		enable_double_jump = true,
 		enable_easy_macro = true,
+		enable_easy_source = true,
 	}
 
 	if config then
@@ -299,7 +306,8 @@ local load_unruly = function(config)
 	map_visual_navigate(context.enable_visual_navigate)
 	map_easy_window_navigate(context.enable_easy_window_navigate)
 	map_double_jump(context.enable_double_jump)
-	map_eazy_macro(context.enable_easy_macro)
+	map_easy_macro(context.enable_easy_macro)
+	map_easy_source(context.map_easy_source)
 end
 
 ---  configure and map unruly worker keymap
