@@ -280,7 +280,7 @@ end
 local map_easy_source = function(enable)
 	if enable then
 		vim.print("easy source enabled")
-		vim.keymap.del("n", "")
+		-- vim.keymap.del("n", "%")
 		map("%", ":source  %<cr>", "source % file")
 	end
 end
@@ -313,7 +313,7 @@ local load_unruly = function(config)
 	map_easy_window_navigate(context.enable_easy_window_navigate)
 	map_double_jump(context.enable_double_jump)
 	map_easy_macro(context.enable_easy_macro)
-	map_easy_source(context.map_easy_source)
+	map_easy_source(context.enable_easy_source)
 end
 
 ---  configure and map unruly worker keymap
