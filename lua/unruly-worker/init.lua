@@ -263,8 +263,8 @@ local map_double_jump = function(enable)
 	if enable then
 		map("m", "ma", "mark a")
 		map("M", "mb", "mark b")
-		map("j", "'a", "jump a")
-		map("J", "'b", "jump b")
+		map("j", "'azt", "jump a")
+		map("J", "'bzt", "jump b")
 	end
 end
 
