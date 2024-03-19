@@ -231,6 +231,7 @@ end
 --- @param enable boolean
 local map_wrap_navigate = function(enable)
 	if enable then
+		vim.print("")
 		vim.cmd("set ww+=<,>")
 		map("y", "<left>", "y wrap left")
 		map("o", "<right>", "o wrap right")
@@ -241,6 +242,7 @@ end
 --- @param enable boolean
 local map_quote_command = function(enable)
 	if enable then
+		vim.print("comma quote enabled")
 		map("'", ":", "command mode")
 	end
 end
@@ -249,6 +251,7 @@ end
 --- @param enable boolean
 local map_easy_window_navigate = function(enable)
 	if enable then
+		vim.print("easy window navigate")
 		map("<c-n>", "<c-w>j", "focus down")
 		map("<c-e>", "<c-w>k", "focus up")
 		map("<c-y>", "<c-w>h", "focus left")
@@ -267,6 +270,7 @@ end
 
 local map_easy_macro = function(enable)
 	if enable then
+		vim.print("easy macro enabled")
 		map("z", "qz", "record macro")
 		map("Z", "@z", "play macro")
 		vim.keymap.del("n", "<c-z>")
@@ -275,6 +279,8 @@ end
 
 local map_easy_source = function(enable)
 	if enable then
+		vim.print("easy source enabled")
+		vim.keymap.del("n", "")
 		map("%", ":source  %<cr>", "source % file")
 	end
 end
@@ -323,7 +329,16 @@ local function setup(config)
 end
 
 return {
+	-- TODO: HOW TO BLACKLIST MAPS IN SETUP
 	setup = setup,
+	enable = {
+		-- TODO: FINISH FILLING THIS OUT (needed?)
+		-- TODO: HOW TO UNMAP
+		easy_source = map_easy_source,
+		easy_macro = map_easy_macro,
+		double_jump = map_double_jump,
+		easy_window_navigate = map_easy_window_navigate,
+	},
 	util = {
 		write_all = write_all,
 		register_peek = register_peek,
