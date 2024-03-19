@@ -25,10 +25,10 @@ local create_map = function(mode, noremap)
 	return function(lhs, rhs, desc)
 		if lhs == rhs then
 			vim.keymap.set(mode, lhs, "\\")
-			vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc })
+			vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc, silent = true })
 			return
 		end
-		vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc })
+		vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc, silent = true })
 	end
 end
 
@@ -46,7 +46,7 @@ local remap_map = create_map("", true)
 -- actions
 local emoticon_list = require("unruly-worker.emoticon-list")
 local function write_all()
-	vim.cmd("silent! wall")
+	vim.cmd("wall")
 	print(emoticon_list[math.random(0, #emoticon_list)])
 end
 
@@ -290,7 +290,7 @@ local map_easy_source = function(enable)
 	if enable then
 		vim.print("easy source enabled")
 		-- vim.keymap.del("n", "%")
-		map("%", ":source  %<cr>", "source % file")
+		map("%", ":source %<cr>", "source % file")
 	end
 end
 
@@ -321,7 +321,7 @@ local load_unruly = function(config)
 	map_quote_command(context.enable_quote_command)
 	map_visual_navigate(context.enable_visual_navigate)
 	map_easy_window_navigate(context.enable_easy_window_navigate)
-	map_easy_window_navigate_tmux(context.enable_easy_window_navigate_tmux)
+	map_easy_window_navigate_tmux(context.enable_easy_window_navigate)
 	map_double_jump(context.enable_double_jump)
 	map_easy_macro(context.enable_easy_macro)
 	map_easy_source(context.enable_easy_source)
