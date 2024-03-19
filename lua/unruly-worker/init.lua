@@ -259,6 +259,15 @@ local map_easy_window_navigate = function(enable)
 	end
 end
 
+local map_easy_window_navigate_tmux = function(enable)
+	if (enable) then
+		vim.keymap.set('n', '<C-n>', ":TmuxNavigateDown<CR>", { silent = true, desc = "focus down (vim/tmux)" })
+		vim.keymap.set('n', '<C-e>', ":TmuxNavigateUp<CR>", { silent = true, desc = "focus up (vim/tmux)" })
+		vim.keymap.set('n', '<C-o>', ":TmuxNavigateRight<CR>", { silent = true, desc = "focus right (vim/tmux)" })
+		vim.keymap.set('n', '<C-y>', ":TmuxNavigateLeft<CR>", { silent = true, desc = "focus left (vim/tmux)" })
+	end
+end
+
 local map_double_jump = function(enable)
 	if enable then
 		map("m", "ma", "mark a")
@@ -290,7 +299,8 @@ local load_unruly = function(config)
 		enable_lsp_map = true,
 		enable_select_map = true,
 		enable_quote_command = true,
-		enable_easy_window_navigate = true,
+		enable_easy_window_navigate = false,
+		enable_easy_window_navigate_tmux = true,
 		enable_comment_map = true,
 		enable_wrap_navigate = true,
 		enable_visual_navigate = true,
@@ -311,6 +321,7 @@ local load_unruly = function(config)
 	map_quote_command(context.enable_quote_command)
 	map_visual_navigate(context.enable_visual_navigate)
 	map_easy_window_navigate(context.enable_easy_window_navigate)
+	map_easy_window_navigate_tmux(context.enable_easy_window_navigate_tmux)
 	map_double_jump(context.enable_double_jump)
 	map_easy_macro(context.enable_easy_macro)
 	map_easy_source(context.enable_easy_source)
