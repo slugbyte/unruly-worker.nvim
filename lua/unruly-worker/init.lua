@@ -12,6 +12,7 @@
 --  TODO: add cmp.insert and cmd presets
 --  TODO: add lsp leader commands
 --  TODO: add treesitter search commands
+--  TODO: toggle delete mode own register
 
 local util = require("unruly-worker.util")
 local external = require("unruly-worker.external")
@@ -104,8 +105,8 @@ local mapping = {
 
 			-- mark maintanence
 			["<leader>ma"] = cfg_basic(":delm A<CR>", "[M]ark Delete [A]"),
-			["<leader>mb"] = cfg_basic(":delm A<CR>", "[M]ark Delete [B]"),
-			["<leader>mz"] = cfg_basic(":delm A<CR>", "[M]ark Delete [Z]"),
+			["<leader>mb"] = cfg_basic(":delm B<CR>", "[M]ark Delete [B]"),
+			["<leader>mz"] = cfg_basic(":delm Z<CR>", "[M]ark Delete [Z]"),
 			["<leader>mA"] = cfg_basic(":delm A B Z<CR>", "[M]ark Delete [A]ll"),
 
 			-- parens
