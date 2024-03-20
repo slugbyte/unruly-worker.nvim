@@ -46,7 +46,7 @@ local mapping = {
 			a = cfg_basic("a", "append cursor"),
 			A = cfg_basic("A", "append line"),
 			b = cfg_basic("%", "brace match"),
-			B = cfg_basic('"', "select register"),
+			B = cfg_basic("'Z", "before mark jump"),
 			c = cfg_basic('"xc', "delete motion into reg x and insert"),
 			cc = cfg_basic('"xcc', "delete lines into reg x and insert"),
 			C = cfg_basic('"xC', "delete to EOL into reg x and insert"),
@@ -54,7 +54,7 @@ local mapping = {
 			dd = cfg_basic('"xdd', "delete lines into reg x"),
 			D = cfg_basic('"xD', "delete to EOL into reg x"),
 			e = cfg_basic("k", "up"),
-			E = cfg_basic("'Bzz", "zip to markBb"),
+			E = cfg_basic("mZ'Bzz", "zip to markBb"),
 			f = cfg_basic("n", "find next"),
 			F = cfg_basic("N", "find prev"),
 			["<c-f>"] = cfg_basic('&', "repeat substitue"),
@@ -74,7 +74,7 @@ local mapping = {
 			m = cfg_basic("mA", "mark A"),
 			M = cfg_basic("mB", "mark B"),
 			n = cfg_basic("j", "down"),
-			N = cfg_basic("'Azz", "zip to mark a"),
+			N = cfg_basic("mZ'Azz", "zip to mark a"),
 			o = cfg_basic("l", "right"),
 			O = cfg_basic("$", "right to EOL"),
 			p = cfg_basic("p", "paste after"),
@@ -101,6 +101,10 @@ local mapping = {
 			Y = cfg_basic("^", "left to BOL"),
 			z = cfg_basic("qz", "macro record"),
 			Z = cfg_basic("@z", "macro play"),
+
+			["<leader>mda"] = cfg_basic(":delm A<CR>", "[M]ark [D]elete A"),
+			["<leader>mdn"] = cfg_basic(":delm A<CR>", "[M]ark [D]elete B"),
+			["<leader>mde"] = cfg_basic(":delm A<CR>", "[M]ark [D]elete B"),
 
 			-- parens
 			[")"] = cfg_basic(")", "next sentence"),
@@ -181,7 +185,7 @@ local mapping = {
 			["<C-c>"] = cfg_custom("gc", remap, no_silent, "comment"),
 		},
 	},
-	easylsp = {
+	easy_lsp = {
 		m = {
 			["_"] = cfg_basic(vim.diagnostic.goto_next, "diagnostic next"),
 			["-"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
