@@ -286,23 +286,23 @@ local key_equal = function(a, b)
 	end
 
 	-- would be better to replace specifc bad things line <C- <c-
-	if string.lower(a) == string.lower(b) then
-		return true
-	end
-	return false
+	return string.lower(a) == string.lower(b)
 end
 
 local should_map = function(key, skip_list)
-	return true
-	--	local result = false
-	--	for _, skip_key in ipairs(skip_list) do
-	--		result = result or key_equal(key, skip_key)
-	--	end
-	--
-	--	if not result then
-	--		print("skiping map", key)
-	--	end
-	--	return result
+	if skip_list == nil then
+		skip_list = {}
+	end
+
+	local skip = false
+	for _, skip_key in ipairs(skip_list) do
+		skip = skip or key_equal(key, skip_key)
+	end
+
+	if skip then
+		print("skiping map", key)
+	end
+	return not skip
 end
 
 local map_config = function(config, skip_list)
@@ -339,9 +339,15 @@ local setup_force = function(config)
 		skip_list = { "'" },
 	}
 
+	vim.print("context before")
+	vim.print(context)
+
 	if config then
-		context = vim.tbl_deep_extend("force", context, config)
+		context = vim.tbl_extend("force", context, config)
 	end
+
+	vim.print("context after")
+	vim.print(context)
 
 	map_config(mapping.general)
 
