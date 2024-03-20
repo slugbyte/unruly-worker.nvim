@@ -46,7 +46,7 @@ local mapping = {
 			a = cfg_basic("a", "append cursor"),
 			A = cfg_basic("A", "append line"),
 			b = cfg_basic("%", "brace match"),
-			B = cfg_basic("'Z", "before mark jump"),
+			B = cfg_basic("'Zzz", "mark jump"),
 			c = cfg_basic('"xc', "delete motion into reg x and insert"),
 			cc = cfg_basic('"xcc', "delete lines into reg x and insert"),
 			C = cfg_basic('"xC', "delete to EOL into reg x and insert"),
@@ -102,9 +102,11 @@ local mapping = {
 			z = cfg_basic("qz", "macro record"),
 			Z = cfg_basic("@z", "macro play"),
 
-			["<leader>mda"] = cfg_basic(":delm A<CR>", "[M]ark [D]elete A"),
-			["<leader>mdn"] = cfg_basic(":delm A<CR>", "[M]ark [D]elete B"),
-			["<leader>mde"] = cfg_basic(":delm A<CR>", "[M]ark [D]elete B"),
+			-- mark maintanence
+			["<leader>ma"] = cfg_basic(":delm A<CR>", "[M]ark Delete [A]"),
+			["<leader>mb"] = cfg_basic(":delm A<CR>", "[M]ark Delete [B]"),
+			["<leader>mz"] = cfg_basic(":delm A<CR>", "[M]ark Delete [Z]"),
+			["<leader>mA"] = cfg_basic(":delm A B Z<CR>", "[M]ark Delete [A]ll"),
 
 			-- parens
 			[")"] = cfg_basic(")", "next sentence"),
