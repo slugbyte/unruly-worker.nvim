@@ -66,7 +66,7 @@ local mapping = {
 			I = cfg_basic("I", "insert BOL"),
 			j = cfg_noop(),
 			J = cfg_noop(),
-			["<c-j>"] = cfg_basic("j", "join lines"),
+			["<c-j>"] = cfg_basic("J", "join lines"),
 			k = cfg_basic("y", "kopy"),
 			K = cfg_basic("Y", "kopy line"),
 			l = cfg_basic("o", "line insert below"),
@@ -181,7 +181,7 @@ local mapping = {
 			["<C-c>"] = cfg_custom("gc", remap, no_silent, "comment"),
 		},
 	},
-	easy_lsp = {
+	easylsp = {
 		m = {
 			["_"] = cfg_basic(vim.diagnostic.goto_next, "diagnostic next"),
 			["-"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
