@@ -47,14 +47,17 @@ local mapping = {
 			A = cfg_basic("A", "append line"),
 			b = cfg_basic("%", "brace match"),
 			B = cfg_basic('"', "select register"),
-			c = cfg_basic("c", "delete and insert"),
-			C = cfg_basic("C", "delete and insert to EOL"),
-			d = cfg_basic("d", "delete motion"),
-			D = cfg_basic("D", "delete to EOL"),
+			c = cfg_basic('"xc', "delete motion into reg x and insert"),
+			cc = cfg_basic('"xcc', "delete lines into reg x and insert"),
+			C = cfg_basic('"xC', "delete to EOL into reg x and insert"),
+			d = cfg_basic('"xd', "delete motion into reg x"),
+			dd = cfg_basic('"xdd', "delete lines into reg x"),
+			D = cfg_basic('"xD', "delete to EOL into reg x"),
 			e = cfg_basic("k", "up"),
-			E = cfg_basic("e", "end of word"),
+			E = cfg_basic("'Bzz", "zip to markBb"),
 			f = cfg_basic("n", "find next"),
 			F = cfg_basic("N", "find prev"),
+			["<c-f>"] = cfg_basic('&', "repeat substitue"),
 			g = cfg_basic("g", "g command"),
 			G = cfg_basic("G", "goto line"),
 			h = cfg_basic(";", "hop to repeat"),
@@ -63,14 +66,15 @@ local mapping = {
 			I = cfg_basic("I", "insert BOL"),
 			j = cfg_noop(),
 			J = cfg_noop(),
+			["<c-j>"] = cfg_basic("j", "join lines"),
 			k = cfg_basic("y", "kopy"),
 			K = cfg_basic("Y", "kopy line"),
 			l = cfg_basic("o", "line insert below"),
 			L = cfg_basic("O", "line insert above"),
-			m = cfg_basic("ma", "mark a"),
-			M = cfg_basic("mb", "mark b"),
+			m = cfg_basic("mA", "mark A"),
+			M = cfg_basic("mB", "mark B"),
 			n = cfg_basic("j", "down"),
-			N = cfg_basic("J", "join lines"),
+			N = cfg_basic("'Azz", "zip to mark a"),
 			o = cfg_basic("l", "right"),
 			O = cfg_basic("$", "right to EOL"),
 			p = cfg_basic("p", "paste after"),
@@ -91,12 +95,12 @@ local mapping = {
 			V = cfg_basic("V", "visual line mode"),
 			w = cfg_basic("w", "word forward"),
 			W = cfg_basic("b", "word backward"),
-			x = cfg_basic("s", "delete char"),
-			X = cfg_basic("S", "delete previous char"),
+			x = cfg_basic('"Xx', "delete char"),
+			X = cfg_basic('"XX', "delete previous"),
 			y = cfg_basic("h", "left"),
 			Y = cfg_basic("^", "left to BOL"),
-			z = cfg_basic("'azz", "zip to mark a"),
-			Z = cfg_basic("'bzz", "zip to mark b"),
+			z = cfg_basic("qz", "macro record"),
+			Z = cfg_basic("@z", "macro play"),
 
 			-- parens
 			[")"] = cfg_basic(")", "next sentence"),
@@ -122,8 +126,9 @@ local mapping = {
 
 			-- repeat
 			-- TODO: should "." just be repeat text object move?
-			["."] = cfg_basic('&', "repeat substitue"),
-			[","] = cfg_basic(',', "repeat search t/f"),
+
+			["."] = cfg_basic('"', "select register"),
+			[","] = cfg_basic('"xp', "print x register"),
 
 			-- register
 			['"'] = cfg_basic('"', "register select"),
@@ -144,9 +149,6 @@ local mapping = {
 			["$"] = cfg_basic("zz", "align middle"),
 			["#"] = cfg_basic("zb", "align bottom"),
 
-			-- macro
-			["<leader>mr"] = cfg_basic("q0", "macro record"),
-			["<leader>mp"] = cfg_basic("@0", "macro play"),
 
 			-- noop
 			["%"] = cfg_noop(),
@@ -183,15 +185,9 @@ local mapping = {
 	easy_comment = {
 		n = {
 			["<C-c>"] = cfg_custom("gcc", remap, no_silent, "comment"),
-			["<C-/>"] = cfg_custom("gcc", remap, no_silent, "comment"),
 		},
 		v = {
 			["<C-c>"] = cfg_custom("gc", remap, no_silent, "comment"),
-			["<C-/>"] = cfg_custom("gc", remap, no_silent, "comment"),
-		},
-		i = {
-			["<C-c>"] = cfg_custom("gcc", remap, no_silent, "comment"),
-			["<C-/>"] = cfg_custom("gcc", remap, no_silent, "comment"),
 		},
 	},
 	easy_lsp = {
