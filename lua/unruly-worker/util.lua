@@ -1,4 +1,43 @@
+local textobject_staus, textobject = pcall(require, "nvim-treesitter.textobjects.repeatable_move")
+local telescope_status, telescope_builtin = pcall(require, "telescope.builtin")
+
 local emoticon_list = require("unruly-worker.data.emoticon-list")
+
+local function textobject_seek_forward()
+	if textobject_staus and (textobject ~= nil) then
+		textobject.repeat_last_move_next()
+	end
+end
+
+local function textobject_seek_reverse()
+	if textobject_staus and (textobject ~= nil) then
+		textobject.repeat_last_move_previous()
+	end
+end
+
+local function lsp_definiton()
+	if telescope_status and (telescope_builtin ~= nil) then
+		telescope_builtin.lsp_definitions()
+	else
+		vim.lsp.buf.definition()
+	end
+end
+
+local function telescope_find_files()
+	if telescope_status and (telescope_builtin ~= nil) then
+		telescope_builtin.find_files()
+		return
+	end
+	print("UNRULY ERROR: telescope not found")
+end
+
+local function telescope_live_grep()
+	if telescope_status and (telescope_builtin ~= nil) then
+		telescope_builtin.live_grep()
+		return
+	end
+	print("UNRULY ERROR: telescope not found")
+end
 
 local function write_all()
 	vim.cmd("wall")
@@ -67,4 +106,9 @@ return {
 	write_all = write_all,
 	key_equal = key_equal,
 	should_map = should_map,
+	textobject_seek_forward = textobject_seek_forward,
+	textobject_seek_reverse = textobject_seek_reverse,
+	telescope_find_files = telescope_find_files,
+	telescope_live_grep = telescope_live_grep,
+	lsp_definiton = lsp_definiton,
 }

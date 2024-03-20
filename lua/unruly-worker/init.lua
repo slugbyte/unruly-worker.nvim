@@ -15,7 +15,6 @@
 
 local util = require("unruly-worker.util")
 local external = require("unruly-worker.external")
-local telescope_status, telescope_builtin = pcall(require, "telescope.builtin")
 
 local no_remap = false
 local remap = true
@@ -146,8 +145,8 @@ local mapping = {
 			["#"] = cfg_basic("zb", "align bottom"),
 
 			-- macro
-			["<C-m>"] = cfg_basic("q0", "macro record"),
-			["<C-p>"] = cfg_basic("@0", "macro play"),
+			["<leader>mr"] = cfg_basic("q0", "macro record"),
+			["<leader>mp"] = cfg_basic("@0", "macro play"),
 
 			-- noop
 			["%"] = cfg_noop(),
@@ -201,13 +200,7 @@ local mapping = {
 			["-"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
 			[";"] = cfg_basic(vim.lsp.buf.hover, "lsp hover"),
 			["<C-r>"] = cfg_basic(vim.lsp.buf.rename, "lsp rename"),
-			["<C-d>"] = cfg_basic(function()
-				if telescope_status and (telescope_builtin ~= nil) then
-					telescope_builtin.lsp_definitions()
-				else
-					vim.lsp.buf.definition()
-				end
-			end, "lsp rename"),
+			["<C-d>"] = cfg_basic(util.lsp_definiton, "lsp rename"),
 		},
 	},
 	easy_move = {
@@ -231,22 +224,24 @@ local mapping = {
 	},
 	easy_jump = {
 		m = {
-			j = cfg_basic(function()
-				if telescope_status and (telescope_builtin ~= nil) then
-					telescope_builtin.find_files()
-					return
-				end
-				print("UNRULY ERROR: telescope not found")
-			end, "jump files"),
-			J = cfg_basic(function()
-				if telescope_status and (telescope_builtin ~= nil) then
-					telescope_builtin.live_grep()
-					return
-				end
-				print("UNRULY ERROR: telescope not found")
-			end, "jump files"),
+			j = cfg_basic(util.telescope_find_files, "jump files"),
+			J = cfg_basic(util.telescope_live_grep, "jump files"),
 		}
 	},
+	easy_textobject = {
+		n = {
+			s = cfg_basic(util.textobject_seek_forward, "seek textobject forward"),
+			S = cfg_basic(util.textobject_seek_reverse, "seek textobject reverse")
+		},
+		x = {
+			s = cfg_basic(util.textobject_seek_forward, "seek textobject forward"),
+			S = cfg_basic(util.textobject_seek_reverse, "seek textobject reverse")
+		},
+		o = {
+			s = cfg_basic(util.textobject_seek_forward, "seek textobject forward"),
+			S = cfg_basic(util.textobject_seek_reverse, "seek textobject reverse")
+		},
+	}
 }
 
 local map_config = function(config, skip_list)
@@ -273,12 +268,13 @@ local setup_force = function(config)
 
 	local context = {
 		booster   = {
-			easy_lsp     = true,
-			easy_move    = true,
-			easy_tmux    = true,
-			easy_comment = true,
-			easy_source  = true,
-			easy_jump    = true,
+			easy_lsp        = true,
+			easy_move       = true,
+			easy_tmux       = true,
+			easy_comment    = true,
+			easy_source     = true,
+			easy_jump       = true,
+			easy_textobject = true,
 		},
 		skip_list = {},
 	}
