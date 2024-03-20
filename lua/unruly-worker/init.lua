@@ -95,8 +95,8 @@ local mapping = {
 			V = cfg_basic("V", "visual line mode"),
 			w = cfg_basic("w", "word forward"),
 			W = cfg_basic("b", "word backward"),
-			x = cfg_basic('"Xx', "delete char"),
-			X = cfg_basic('"XX', "delete previous"),
+			x = cfg_basic('"9x', "delete char"),
+			X = cfg_basic('"9X', "delete previous char"),
 			y = cfg_basic("h", "left"),
 			Y = cfg_basic("^", "left to BOL"),
 			z = cfg_basic("qz", "macro record"),
@@ -125,10 +125,8 @@ local mapping = {
 			["?"] = cfg_basic("?", "search up"),
 
 			-- repeat
-			-- TODO: should "." just be repeat text object move?
-
-			["."] = cfg_basic('"', "select register"),
-			[","] = cfg_basic('"xp', "print x register"),
+			[","] = cfg_basic('"xP', "paste register x above"),
+			["."] = cfg_basic('"xp', "paste register x below"),
 
 			-- register
 			['"'] = cfg_basic('"', "register select"),
@@ -149,7 +147,6 @@ local mapping = {
 			["$"] = cfg_basic("zz", "align middle"),
 			["#"] = cfg_basic("zb", "align bottom"),
 
-
 			-- noop
 			["%"] = cfg_noop(),
 			["^"] = cfg_noop(),
@@ -167,13 +164,7 @@ local mapping = {
 			["<C-Down>"] = cfg_basic(":m .+1<CR>==", "swap down"),
 			["<C-Up>"] = cfg_basic(":m .-2<CR>==", "swap up"),
 		},
-		i = {
-			-- swap lines insert
-			["<C-Down>"] = cfg_basic(":m .+1<CR>==gi", "swap down"),
-			["<C-Up>"] = cfg_basic(":m .-2<CR>==gi", "swap up"),
-		},
 		v = {
-			-- swap lines visual
 			["<C-Down>"] = cfg_basic(":m '>+1<CR>gv=gv", "swap down"),
 			["<C-Up>"] = cfg_basic(":m '<-2<CR>gv=gv", "swap up"),
 		},
