@@ -171,8 +171,8 @@ local mapping = {
 			["#"] = cfg_basic("zb", "align bottom"),
 
 			-- macro
-			["<C-m>"] = cfg_basic("qq", "macro record"),
-			["<C-p>"] = cfg_basic("@q", "macro play"),
+			["<C-m>"] = cfg_basic("q0", "macro record"),
+			["<C-p>"] = cfg_basic("@0", "macro play"),
 
 			-- noop
 			["%"] = cfg_noop(),
@@ -206,7 +206,7 @@ local mapping = {
 			["<C-e>"] = cfg_basic("<end>", "goto EOL"),
 		},
 	},
-	comment = {
+	easy_comment = {
 		n = {
 			["<C-c>"] = cfg_basic("gcc", "comment"),
 			["<C-/>"] = cfg_basic("gcc", "comment"),
@@ -220,7 +220,7 @@ local mapping = {
 			["<C-/>"] = cfg_basic("gc", "comment"),
 		},
 	},
-	lsp = {
+	easy_lsp = {
 		m = {
 			["_"] = cfg_basic(vim.diagnostic.goto_next, "diagnostic next"),
 			["-"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
@@ -228,22 +228,20 @@ local mapping = {
 			["<C-r>"] = cfg_basic(vim.lsp.buf.rename, "lsp rename"),
 			["<C-d>"] = cfg_basic(function()
 				if telescope_status and (telescope_builtin ~= nil) then
-					vim.print("telescope diagnostic!")
 					telescope_builtin.lsp_definitions()
 				else
-					vim.print("vim diagnostic :(")
 					vim.lsp.buf.definition()
 				end
 			end, "lsp rename"),
 		},
 	},
-	navigate_column = {
+	easy_move = {
 		m = {
 			e = cfg_basic("gk", "up"),
 			n = cfg_basic("gj", "down"),
 		},
 	},
-	tmux = {
+	easy_tmux = {
 		m = {
 			["<C-y>"] = cfg_custom(":TmuxNavigateLeft<CR>", no_remap, silent, "focus left (vim/tmux)"),
 			["<C-n>"] = cfg_custom(":TmuxNavigateDown<CR>", no_remap, silent, "focus down (vim/tmux)"),
@@ -251,12 +249,12 @@ local mapping = {
 			["<C-o>"] = cfg_custom(":TmuxNavigateRight<CR>", no_remap, silent, "focus right (vim/tmux)"),
 		},
 	},
-	source = {
+	easy_source = {
 		m = {
 			["%"] = cfg_custom(":source %<CR>", no_remap, silent, "source current buffer"),
 		},
 	},
-	jump = {
+	easy_jump = {
 		m = {
 			j = cfg_basic(function()
 				if telescope_status and (telescope_builtin ~= nil) then
@@ -276,48 +274,82 @@ local mapping = {
 	},
 }
 
-local map_config = function(config)
+local key_equal = function(a, b)
+	local len_a = #a
+	local len_b = #b
+	if len_a ~= len_b then
+		return false
+	end
+
+	if len_a == 1 then
+		return a == b
+	end
+
+	-- would be better to replace specifc bad things line <C- <c-
+	if string.lower(a) == string.lower(b) then
+		return true
+	end
+	return false
+end
+
+local should_map = function(key, skip_list)
+	return true
+	--	local result = false
+	--	for _, skip_key in ipairs(skip_list) do
+	--		result = result or key_equal(key, skip_key)
+	--	end
+	--
+	--	if not result then
+	--		print("skiping map", key)
+	--	end
+	--	return result
+end
+
+local map_config = function(config, skip_list)
 	for mode, mode_cfg in pairs(config) do
 		if mode == "m" then
 			mode = ""
 		end
 		for key, key_cfg in pairs(mode_cfg) do
-			print("unruly mapping:", mode, key, key_cfg.value, key_cfg.desc)
-			vim.keymap.set(mode, key, key_cfg.value, {
-				desc = key_cfg.desc,
-				silent = key_cfg.is_silent,
-				remap = key_cfg.is_remap,
-			})
+			if should_map(key, skip_list) then
+				vim.keymap.set(mode, key, key_cfg.value, {
+					desc = key_cfg.desc,
+					silent = key_cfg.is_silent,
+					remap = key_cfg.is_remap,
+				})
+			end
 		end
 	end
 end
 
+local setup_force = function(config)
+	if config == nil then
+		config = {}
+	end
 
-local load_unruly = function(config)
 	local context = {
-		enable_lsp_map = true,
-		enable_select_map = true,
-		enable_quote_command = true,
-		enable_easy_window_navigate = false,
-		enable_easy_window_navigate_tmux = true,
-		enable_comment_map = true,
-		enable_wrap_navigate = true,
-		enable_visual_navigate = true,
-		enable_double_jump = true,
-		enable_easy_source = true,
-		enable_easy_jump = true,
+		booster   = {
+			easy_lsp     = true,
+			easy_move    = true,
+			easy_tmux    = true,
+			easy_comment = true,
+			easy_source  = true,
+			easy_jump    = true,
+		},
+		skip_list = { "'" },
 	}
 
 	if config then
-		context = vim.tbl_extend("force", context, config)
+		context = vim.tbl_deep_extend("force", context, config)
 	end
 
 	map_config(mapping.general)
-	map_config(mapping.navigate_column)
-	map_config(mapping.lsp)
-	map_config(mapping.tmux)
-	map_config(mapping.jump)
-	map_config(mapping.comment)
+
+	for booster, is_enabled in pairs(context.booster) do
+		if is_enabled then
+			map_config(mapping[booster], context.skip_list)
+		end
+	end
 end
 
 ---  configure and map unruly worker keymap
@@ -329,13 +361,13 @@ local function setup(config)
 	end
 	vim.g.unruly_worker = true
 
-	load_unruly(config)
+	setup_force(config)
 end
 
 return {
 	-- TODO: HOW TO BLACKLIST MAPS IN SETUP
 	setup = setup,
 	external = external,
-	setup_force = load_unruly,
+	setup_force = setup_force,
 	util = util,
 }
