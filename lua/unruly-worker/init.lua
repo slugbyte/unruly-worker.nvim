@@ -15,6 +15,7 @@
 
 local util = require("unruly-worker.util")
 local external = require("unruly-worker.external")
+local telescope_status, telescope_builtin = pcall(require, "telescope.builtin")
 
 --- create a key mapper that does nothing when trying
 --- to map something to itself
@@ -40,17 +41,8 @@ end
 
 -- noremap
 local map = create_map("", true)
-local nmap = create_map("n", true)
-local imap = create_map("i", true)
-local cmap = create_map("c", true)
-local vmap = create_map("v", true)
-
--- remap
-local remap_vmap = create_map("v", true)
-local remap_map = create_map("", true)
 
 -- actions
-
 local no_remap = false
 local remap = true
 
@@ -86,7 +78,7 @@ local mapping = {
 			C = cfg_basic("C", "delete and insert to EOL"),
 			d = cfg_basic("d", "delete motion"),
 			D = cfg_basic("D", "delete to EOL"),
-			e = cfg_basic("gk", "up"),
+			e = cfg_basic("k", "up"),
 			E = cfg_basic("e", "end of word"),
 			f = cfg_basic("n", "find next"),
 			F = cfg_basic("N", "find prev"),
@@ -104,7 +96,7 @@ local mapping = {
 			L = cfg_basic("O", "line insert above"),
 			m = cfg_basic("ma", "mark a"),
 			M = cfg_basic("mb", "mark b"),
-			n = cfg_basic("gj", "down"),
+			n = cfg_basic("j", "down"),
 			N = cfg_basic("J", "join lines"),
 			o = cfg_basic("l", "right"),
 			O = cfg_basic("$", "right to EOL"),
@@ -116,7 +108,7 @@ local mapping = {
 			r = cfg_basic("r", "replace"),
 			R = cfg_basic("R", "replace mode"),
 			s = cfg_basic("s", "substitue"),
-			S = cfg_basic("S", "substitue line"),
+			S = cfg_basic("vip", "select paragraph"),
 			t = cfg_basic("f", "to char"),
 			T = cfg_basic("F", "to char reverse"),
 			u = cfg_basic("u", "undo"),
@@ -182,10 +174,6 @@ local mapping = {
 			["<C-m>"] = cfg_basic("qq", "macro record"),
 			["<C-p>"] = cfg_basic("@q", "macro play"),
 
-			-- comment
-			["<C-c>"] = cfg_basic("gcc", "comment"),
-			["<C-/>"] = cfg_basic("gcc", "comment"),
-
 			-- noop
 			["%"] = cfg_noop(),
 			["^"] = cfg_noop(),
@@ -218,15 +206,83 @@ local mapping = {
 			["<C-e>"] = cfg_basic("<end>", "goto EOL"),
 		},
 	},
+	comment = {
+		n = {
+			["<C-c>"] = cfg_basic("gcc", "comment"),
+			["<C-/>"] = cfg_basic("gcc", "comment"),
+		},
+		v = {
+			["<C-c>"] = cfg_basic("gc", "comment"),
+			["<C-/>"] = cfg_basic("gc", "comment"),
+		},
+		i = {
+			["<C-c>"] = cfg_basic("gc", "comment"),
+			["<C-/>"] = cfg_basic("gc", "comment"),
+		},
+	},
+	lsp = {
+		m = {
+			["_"] = cfg_basic(vim.diagnostic.goto_next, "diagnostic next"),
+			["-"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
+			[";"] = cfg_basic(vim.lsp.buf.hover, "lsp hover"),
+			["<C-r>"] = cfg_basic(vim.lsp.buf.rename, "lsp rename"),
+			["<C-d>"] = cfg_basic(function()
+				if telescope_status and (telescope_builtin ~= nil) then
+					vim.print("telescope diagnostic!")
+					telescope_builtin.lsp_definitions()
+				else
+					vim.print("vim diagnostic :(")
+					vim.lsp.buf.definition()
+				end
+			end, "lsp rename"),
+		},
+	},
+	navigate_column = {
+		m = {
+			e = cfg_basic("gk", "up"),
+			n = cfg_basic("gj", "down"),
+		},
+	},
+	tmux = {
+		m = {
+			["<C-y>"] = cfg_custom(":TmuxNavigateLeft<CR>", no_remap, silent, "focus left (vim/tmux)"),
+			["<C-n>"] = cfg_custom(":TmuxNavigateDown<CR>", no_remap, silent, "focus down (vim/tmux)"),
+			["<C-e>"] = cfg_custom(":TmuxNavigateUp<CR>", no_remap, silent, "focus up (vim/tmux)"),
+			["<C-o>"] = cfg_custom(":TmuxNavigateRight<CR>", no_remap, silent, "focus right (vim/tmux)"),
+		},
+	},
+	source = {
+		m = {
+			["%"] = cfg_custom(":source %<CR>", no_remap, silent, "source current buffer"),
+		},
+	},
+	jump = {
+		m = {
+			j = cfg_basic(function()
+				if telescope_status and (telescope_builtin ~= nil) then
+					telescope_builtin.find_files()
+					return
+				end
+				print("UNRULY ERROR: telescope not found")
+			end, "jump files"),
+			J = cfg_basic(function()
+				if telescope_status and (telescope_builtin ~= nil) then
+					telescope_builtin.live_grep()
+					return
+				end
+				print("UNRULY ERROR: telescope not found")
+			end, "jump files"),
+		}
+	},
 }
 
-local map_undisputed = function()
-	for mode, mode_cfg in pairs(mapping.general) do
+local map_config = function(config)
+	for mode, mode_cfg in pairs(config) do
 		if mode == "m" then
 			mode = ""
 		end
 		for key, key_cfg in pairs(mode_cfg) do
-			vim.print("unruly mapping:", mode, key, key_cfg.value, key_cfg.desc)
+			print("unruly mapping:", mode, key, key_cfg.value, key_cfg.desc)
 			vim.keymap.set(mode, key, key_cfg.value, {
 				desc = key_cfg.desc,
 				silent = key_cfg.is_silent,
@@ -236,123 +292,6 @@ local map_undisputed = function()
 	end
 end
 
---- add lsp specific mappings if enable is true
---- @param enable boolean
-local map_lsp = function(enable)
-	if enable then
-		map("-", ":lua vim.diagnostic.goto_prev()<CR>", "prev diagnostic")
-		map("_", ":lua vim.diagnostic.goto_next()<CR>", "next diagnostic")
-		map(";", ":lua vim.lsp.buf.hover()<CR>", "lsp hover")
-		map("<c-r>", ":lua vim.lsp.buf.rename()<CR>", "lsp rename")
-		map("<c-d>", ":split<CR>:lua vim.lsp.buf.definition()<CR>", "lsp definition")
-	end
-end
-
---- c will toggle comment if enable is true
---- @param enable boolean
-local map_comment = function(enable)
-	if enable then
-		vim.cmd(":map c gcc")
-		vim.cmd(":map C gcip")
-		vim.cmd(":vmap c gc")
-		vim.cmd(":vmap C gc")
-
-		-- remap_map("<c-h>", "gcc", "comment")
-		-- vim.keymap.set("", "c", "", { desc = "comment toggle line", noremap = false })
-		-- vim.keymap.set("v", "<c-h>", "gc", { desc = "comment toggle visual" })
-		-- vim.keymap.set("", "C", "gcip", { desc = "comment toggle paragraph" }) vim.keymap.set("v", "C", "gc", { desc = "comment toggle visual" })
-	end
-end
-
---- s will visual select if enable is true
---- @param enable boolean
-local map_select = function(enable)
-	if enable then
-		map("s", "viw", "select word")
-		map("S", "vip", "select paragraph")
-	end
-end
-
---- e and n will navigate visualy if enable is true
---- @param enable boolean
-local map_visual_navigate = function(enable)
-	if enable then
-		map("e", "gk", "up column")
-		map("n", "gj", "down column")
-	end
-end
-
---- y and o will wrap lines if enable is true
---- @param enable boolean
-local map_wrap_navigate = function(enable)
-	if enable then
-		vim.cmd("set ww+=<,>")
-		map("y", "<left>", "y wrap left")
-		map("o", "<right>", "o wrap right")
-	end
-end
-
---- ' is equivalent to : if enable is true
---- @param enable boolean
-local map_quote_command = function(enable)
-	if enable then
-		map("'", ":", "command mode")
-	end
-end
-
---- <C-(y,n,e,o)> nave windows if enable is true
---- @param enable boolean
-local map_easy_window = function(enable)
-	if enable then
-		map("<c-n>", "<c-w>j", "focus down")
-		map("<c-e>", "<c-w>k", "focus up")
-		map("<c-y>", "<c-w>h", "focus left")
-		map("<c-o>", "<c-w>l", "focus right")
-	end
-end
-
-local map_easy_tmux = function(enable)
-	if (enable) then
-		vim.keymap.set('n', '<C-n>', ":TmuxNavigateDown<CR>", { silent = true, desc = "focus down (vim/tmux)" })
-		vim.keymap.set('n', '<C-e>', ":TmuxNavigateUp<CR>", { silent = true, desc = "focus up (vim/tmux)" })
-		vim.keymap.set('n', '<C-o>', ":TmuxNavigateRight<CR>", { silent = true, desc = "focus right (vim/tmux)" })
-		vim.keymap.set('n', '<C-y>', ":TmuxNavigateLeft<CR>", { silent = true, desc = "focus left (vim/tmux)" })
-	end
-end
-
-local map_easy_mark = function(enable)
-	if enable then
-		map("m", "ma", "mark a")
-		map("M", "mb", "mark b")
-		map("z", "'azt", "jump a")
-		map("Z", "'bzt", "jump b")
-	end
-end
-
-local map_easy_macro = function(enable)
-	if enable then
-		map("<c-m>", "qz", "record macro")
-		map("<c-z>", "@z", "play macro")
-		vim.keymap.del("n", "<c-z>")
-	end
-end
-
-local map_easy_source = function(enable)
-	if enable then
-		-- vim.keymap.del("n", "%")
-		map("%", ":source %<cr>", "source % file", true)
-	end
-end
-
-local map_easy_jump = function(enable)
-	if enable then
-		local status, telescope = pcall(require, "telescope")
-		if (status and telescope ~= nil) then
-			vim.keymap.set('', 'j', ":Telescope find_files<CR>", { noremap = true, desc = "jump file" })
-			vim.keymap.set('', 'J', ":Telescope live_grep<CR>", { noremap = true, desc = "jump grep" })
-		end
-	end
-end
 
 local load_unruly = function(config)
 	local context = {
@@ -365,7 +304,6 @@ local load_unruly = function(config)
 		enable_wrap_navigate = true,
 		enable_visual_navigate = true,
 		enable_double_jump = true,
-		enable_easy_macro = true,
 		enable_easy_source = true,
 		enable_easy_jump = true,
 	}
@@ -374,19 +312,12 @@ local load_unruly = function(config)
 		context = vim.tbl_extend("force", context, config)
 	end
 
-	map_undisputed()
-	map_lsp(context.enable_lsp_map)
-	map_select(context.enable_select_map)
-	map_comment(context.enable_comment_map)
-	map_wrap_navigate(context.enable_wrap_navigate)
-	map_quote_command(context.enable_quote_command)
-	map_visual_navigate(context.enable_visual_navigate)
-	map_easy_window(context.enable_easy_window_navigate)
-	map_easy_tmux(context.enable_easy_window_navigate_tmux)
-	map_easy_mark(context.enable_double_jump)
-	map_easy_macro(context.enable_easy_macro)
-	map_easy_source(context.enable_easy_source)
-	map_easy_jump(context.enable_easy_jump)
+	map_config(mapping.general)
+	map_config(mapping.navigate_column)
+	map_config(mapping.lsp)
+	map_config(mapping.tmux)
+	map_config(mapping.jump)
+	map_config(mapping.comment)
 end
 
 ---  configure and map unruly worker keymap
