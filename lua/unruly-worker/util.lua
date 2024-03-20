@@ -35,7 +35,36 @@ local function register_peek()
 	end
 end
 
+local key_equal = function(a, b)
+	local len_a = #a
+	local len_b = #b
+	if len_a ~= len_b then
+		return false
+	end
+
+	if len_a == 1 then
+		return a == b
+	end
+
+	if (string.find(a, "leader") ~= nil) then
+		return a == b
+	end
+
+	return string.lower(a) == string.lower(b)
+end
+
+local should_map = function(key, skip_list)
+	local skip = false
+	for _, skip_key in ipairs(skip_list) do
+		skip = skip or key_equal(key, skip_key)
+	end
+
+	return not skip
+end
+
 return {
 	register_peek = register_peek,
 	write_all = write_all,
+	key_equal = key_equal,
+	should_map = should_map,
 }

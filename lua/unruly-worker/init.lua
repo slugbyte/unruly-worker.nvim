@@ -17,32 +17,6 @@ local util = require("unruly-worker.util")
 local external = require("unruly-worker.external")
 local telescope_status, telescope_builtin = pcall(require, "telescope.builtin")
 
---- create a key mapper that does nothing when trying
---- to map something to itself
---- @param mode string
---- @param noremap boolean
-local create_map = function(mode, noremap)
-	-- @param lhs string
-	-- @param rhs string
-	-- @param desc sring
-	return function(lhs, rhs, desc, silent)
-		if silent == nil then
-			silent = false
-		end
-
-		if lhs == rhs then
-			vim.keymap.set(mode, lhs, "\\")
-			vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc, silent = silent })
-			return
-		end
-		vim.keymap.set(mode, lhs, rhs, { noremap = noremap, desc = desc, silent = silent })
-	end
-end
-
--- noremap
-local map = create_map("", true)
-
--- actions
 local no_remap = false
 local remap = true
 
@@ -107,8 +81,9 @@ local mapping = {
 			["<C-q>"] = cfg_basic(":qall!<cr>", "quit all force"),
 			r = cfg_basic("r", "replace"),
 			R = cfg_basic("R", "replace mode"),
-			s = cfg_basic("s", "substitue"),
-			S = cfg_basic("vip", "select paragraph"),
+			s = cfg_noop(),
+			S = cfg_noop(),
+			["<C-s>"] = cfg_basic("vip", "select paragraph"),
 			t = cfg_basic("f", "to char"),
 			T = cfg_basic("F", "to char reverse"),
 			u = cfg_basic("u", "undo"),
@@ -117,8 +92,8 @@ local mapping = {
 			V = cfg_basic("V", "visual line mode"),
 			w = cfg_basic("w", "word forward"),
 			W = cfg_basic("b", "word backward"),
-			x = cfg_basic("x", "delete char"),
-			X = cfg_basic("X", "delete previous char"),
+			x = cfg_basic("s", "delete char"),
+			X = cfg_basic("S", "delete previous char"),
 			y = cfg_basic("h", "left"),
 			Y = cfg_basic("^", "left to BOL"),
 			z = cfg_basic("'azz", "zip to mark a"),
@@ -208,16 +183,16 @@ local mapping = {
 	},
 	easy_comment = {
 		n = {
-			["<C-c>"] = cfg_basic("gcc", "comment"),
-			["<C-/>"] = cfg_basic("gcc", "comment"),
+			["<C-c>"] = cfg_custom("gcc", remap, no_silent, "comment"),
+			["<C-/>"] = cfg_custom("gcc", remap, no_silent, "comment"),
 		},
 		v = {
-			["<C-c>"] = cfg_basic("gc", "comment"),
-			["<C-/>"] = cfg_basic("gc", "comment"),
+			["<C-c>"] = cfg_custom("gc", remap, no_silent, "comment"),
+			["<C-/>"] = cfg_custom("gc", remap, no_silent, "comment"),
 		},
 		i = {
-			["<C-c>"] = cfg_basic("gc", "comment"),
-			["<C-/>"] = cfg_basic("gc", "comment"),
+			["<C-c>"] = cfg_custom("gcc", remap, no_silent, "comment"),
+			["<C-/>"] = cfg_custom("gcc", remap, no_silent, "comment"),
 		},
 	},
 	easy_lsp = {
@@ -274,40 +249,13 @@ local mapping = {
 	},
 }
 
-local key_equal = function(a, b)
-	local len_a = #a
-	local len_b = #b
-	if len_a ~= len_b then
-		return false
-	end
-
-	if len_a == 1 then
-		return a == b
-	end
-
-	-- would be better to replace specifc bad things line <C- <c-
-	return string.lower(a) == string.lower(b)
-end
-
-local should_map = function(key, skip_list)
-	local skip = false
-	for _, skip_key in ipairs(skip_list) do
-		skip = skip or key_equal(key, skip_key)
-	end
-
-	if skip then
-		print("skiping map", key)
-	end
-	return not skip
-end
-
 local map_config = function(config, skip_list)
 	for mode, mode_cfg in pairs(config) do
 		if mode == "m" then
 			mode = ""
 		end
 		for key, key_cfg in pairs(mode_cfg) do
-			if should_map(key, skip_list) then
+			if util.should_map(key, skip_list) then
 				vim.keymap.set(mode, key, key_cfg.value, {
 					desc = key_cfg.desc,
 					silent = key_cfg.is_silent,
@@ -332,7 +280,7 @@ local setup_force = function(config)
 			easy_source  = true,
 			easy_jump    = true,
 		},
-		skip_list = { "'" },
+		skip_list = {},
 	}
 
 	if config then
@@ -361,7 +309,6 @@ local function setup(config)
 end
 
 return {
-	-- TODO: HOW TO BLACKLIST MAPS IN SETUP
 	setup = setup,
 	external = external,
 	setup_force = setup_force,
