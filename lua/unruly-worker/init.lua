@@ -121,8 +121,8 @@ local mapping = {
 			X = cfg_basic("X", "delete previous char"),
 			y = cfg_basic("h", "left"),
 			Y = cfg_basic("^", "left to BOL"),
-			z = cfg_basic("'azt", "zip to mark a"),
-			Z = cfg_basic("'bzt", "zip to mark b"),
+			z = cfg_basic("'azz", "zip to mark a"),
+			Z = cfg_basic("'bzz", "zip to mark b"),
 
 			-- parens
 			[")"] = cfg_basic(")", "next sentence"),
@@ -290,10 +290,6 @@ local key_equal = function(a, b)
 end
 
 local should_map = function(key, skip_list)
-	if skip_list == nil then
-		skip_list = {}
-	end
-
 	local skip = false
 	for _, skip_key in ipairs(skip_list) do
 		skip = skip or key_equal(key, skip_key)
@@ -339,17 +335,11 @@ local setup_force = function(config)
 		skip_list = { "'" },
 	}
 
-	vim.print("context before")
-	vim.print(context)
-
 	if config then
 		context = vim.tbl_extend("force", context, config)
 	end
 
-	vim.print("context after")
-	vim.print(context)
-
-	map_config(mapping.general)
+	map_config(mapping.general, context.skip_list)
 
 	for booster, is_enabled in pairs(context.booster) do
 		if is_enabled then
