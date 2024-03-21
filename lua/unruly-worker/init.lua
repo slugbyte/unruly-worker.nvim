@@ -16,6 +16,7 @@
 --  TODO: add luasnips completion
 
 local util = require("unruly-worker.util")
+local hop = require("unruly-worker.hop")
 local external = require("unruly-worker.external")
 
 -- remap keys will recusively map meaning future keys will instead map to the new value
@@ -46,7 +47,7 @@ local mapping = {
 	general = {
 		m = {
 			-- alphabet
-			a = cfg_basic("a", "append cursor"),
+			a = cfg_custom("a", remap, no_silent, "append cursor"),
 			A = cfg_basic("A", "append line"),
 			b = cfg_basic("%", "brace match"),
 			B = cfg_basic("'Zzz", "mark jump"),
@@ -201,7 +202,7 @@ local mapping = {
 	},
 	easy_move = {
 		m = {
-			y = cfg_basic("gjen", "left wrap"),
+			y = cfg_basic("<Left>", "left wrap"),
 			n = cfg_basic("gj", "down"),
 			e = cfg_basic("gk", "up"),
 			o = cfg_basic("<Right>", "right wrap"),
@@ -239,7 +240,14 @@ local mapping = {
 			s = cfg_basic(util.textobject_seek_forward, "seek textobject forward"),
 			S = cfg_basic(util.textobject_seek_reverse, "seek textobject reverse")
 		},
-	}
+	},
+	easy_hop = {
+		m = {
+			["<leader>uhm"] = cfg_basic(hop.HopModeSetMark, "homp mode mark"),
+			["<leader>uht"] = cfg_basic(hop.HopModeSetTextObject, "homp mode text object"),
+			["<leader>uhq"] = cfg_basic(hop.HopModeSetQuickFix, "homp mode quick fix"),
+		},
+	},
 }
 
 local map_config = function(config, skip_list)
@@ -273,6 +281,7 @@ local setup_force = function(config)
 			easy_source     = true,
 			easy_jump       = true,
 			easy_textobject = true,
+			easy_hop        = true,
 		},
 		skip_list = {},
 	}
