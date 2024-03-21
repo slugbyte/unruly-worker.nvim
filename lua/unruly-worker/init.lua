@@ -246,6 +246,9 @@ local mapping = {
 			["<leader>uhm"] = cfg_basic(hop.HopModeSetMark, "homp mode mark"),
 			["<leader>uht"] = cfg_basic(hop.HopModeSetTextObject, "homp mode text object"),
 			["<leader>uhq"] = cfg_basic(hop.HopModeSetQuickFix, "homp mode quick fix"),
+			["<C-h>"] = cfg_basic(hop.HopModeRotate, "rotate hop mode"),
+			N = cfg_basic(hop.HopReverse, "hop reverse"),
+			E = cfg_basic(hop.HopForward, "hop forward"),
 		},
 	},
 }
