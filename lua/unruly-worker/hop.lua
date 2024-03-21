@@ -25,7 +25,7 @@ end
 -- hop quick fix list
 M.HopModeSetMark = NewHopModeSet(M.mode_option.mark)
 M.HopModeSetTextObject = NewHopModeSet(M.mode_option.text_object)
-M.HopModeSetQuickFixt = NewHopModeSet(M.mode_option.quick_fix)
+M.HopModeSetQuickFix = NewHopModeSet(M.mode_option.quick_fix)
 M.HopModeSetBuffer = NewHopModeSet(M.mode_option.buffer)
 
 
