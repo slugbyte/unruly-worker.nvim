@@ -13,10 +13,12 @@
 --  TODO: add lsp leader commands
 --  TODO: add treesitter search commands
 --  TODO: toggle delete mode own register
+--  TODO: add luasnips completion
 
 local util = require("unruly-worker.util")
 local external = require("unruly-worker.external")
 
+-- remap keys will recusively map meaning future keys will instead map to the new value
 local no_remap = false
 local remap = true
 
@@ -199,8 +201,10 @@ local mapping = {
 	},
 	easy_move = {
 		m = {
-			e = cfg_basic("gk", "up"),
+			y = cfg_basic("gjen", "left wrap"),
 			n = cfg_basic("gj", "down"),
+			e = cfg_basic("gk", "up"),
+			o = cfg_basic("<Right>", "right wrap"),
 		},
 	},
 	easy_tmux = {

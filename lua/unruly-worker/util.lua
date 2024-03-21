@@ -3,16 +3,30 @@ local telescope_status, telescope_builtin = pcall(require, "telescope.builtin")
 
 local emoticon_list = require("unruly-worker.data.emoticon-list")
 
+local function notify_error(error)
+	vim.notify("UNRULY ERROR: " .. error, vim.log.levels.ERROR)
+end
+
+local function notify_warn(warn)
+	vim.notify("UNRULY ERROR: " .. warn, vim.log.levels.WARN)
+end
+
+local function notify_info(info)
+	vim.notify(info, vim.log.levels.INFO)
+end
+
 local function textobject_seek_forward()
 	if textobject_staus and (textobject ~= nil) then
 		textobject.repeat_last_move_next()
 	end
+	notify_error("treesitter textobject not found")
 end
 
 local function textobject_seek_reverse()
 	if textobject_staus and (textobject ~= nil) then
 		textobject.repeat_last_move_previous()
 	end
+	notify_error("treesitter textobject not found")
 end
 
 local function lsp_definiton()
@@ -25,36 +39,40 @@ end
 
 local function telescope_find_files()
 	if telescope_status and (telescope_builtin ~= nil) then
-		telescope_builtin.find_files()
+		telescope_builtin.find_files({
+			hidden = true,
+		})
 		return
 	end
-	print("UNRULY ERROR: telescope not found")
+	notify_error("telescope not found")
 end
 
 local function telescope_live_grep()
 	if telescope_status and (telescope_builtin ~= nil) then
-		telescope_builtin.live_grep()
+		telescope_builtin.live_grep({
+			hidden = true,
+		})
 		return
 	end
-	print("UNRULY ERROR: telescope not found")
+	notify_error("telescope not found")
 end
 
 local function write_all()
 	vim.cmd("wall")
-	print(emoticon_list[math.random(0, #emoticon_list)])
+	notify_info(emoticon_list[math.random(0, #emoticon_list)])
 end
 
 local function register_peek()
-	print("REGISTER_PEEK tap to peek")
+	notify_info("REGISTER_PEEK tap to peek")
 	local ch_num = vim.fn.getchar()
 	local ch = string.char(ch_num)
 	if ch_num == 27 then
-		print("REGISTER_PEEK abort")
+		notify_warn("REGISTER_PEEK abort")
 		return
 	end
 
 	if ch_num < 21 or ch_num > 126 then
-		print("REGISTER_PEEK invalid key")
+		notify_error("REGISTER_PEEK invalid key")
 		return
 	end
 
@@ -68,9 +86,9 @@ local function register_peek()
 	reg_content = reg_content:gsub(string.char(13), "<enter>")
 
 	if #reg_content > 0 then
-		vim.print(string.format("REGISTER_PEEK %s (%s)", ch, reg_content))
+		notify_info(string.format("REGISTER_PEEK %s (%s)", ch, reg_content))
 	else
-		vim.print(string.format("REGISTER_PEEK %s (empty)", ch))
+		notify_info(string.format("REGISTER_PEEK %s (empty)", ch))
 	end
 end
 
@@ -102,9 +120,12 @@ local should_map = function(key, skip_list)
 end
 
 return {
+	notify_error = notify_error,
+	notify_warn = notify_warn,
+	notify_info = notify_info,
 	register_peek = register_peek,
-	write_all = write_all,
 	key_equal = key_equal,
+	write_all = write_all,
 	should_map = should_map,
 	textobject_seek_forward = textobject_seek_forward,
 	textobject_seek_reverse = textobject_seek_reverse,
