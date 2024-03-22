@@ -13,7 +13,7 @@
 -- })
 --
 -- @return bool, table (status, result)
-local function get_cmp_unruly()
+local function create_module()
 	local status, cmp = pcall(require, "cmp")
 	if (not status) or (cmp == nil) then
 		return nil
@@ -40,8 +40,20 @@ local function get_cmp_unruly()
 			cmp.complete()
 		end
 	end
+	--
+	-- local action_luasnip_next = cmp.mapping(function()
+	-- 	if luasnip.expand_or_locally_jumpable() then
+	-- 		luasnip.jump(1)
+	-- 	end
+	-- end)
+	--
+	-- local action_luasnip_prev = cmp.mapping(function()
+	-- 	if luasnip.locally_jumpable(-1) then
+	-- 		luasnip.jump(-1)
+	-- 	end
+	-- end)
 
-	local cmp_insert = {
+	local cmp_insert_mapping = {
 		["<C-f>"] = { i = action_confirm_select },
 		["<C-j>"] = { i = action_confirm_continue },
 		["<CR>"] = { i = action_confirm_select },
@@ -53,9 +65,17 @@ local function get_cmp_unruly()
 		["<Up>"] = { i = action_insert_prev },
 
 		["<C-BS>"] = { c = action_abort },
+		-- ["<c-l>"] = {
+		-- 	i = action_luasnip_next,
+		-- 	s = action_luasnip_next,
+		-- },
+		-- ["<c-k"] = {
+		-- 	i = action_luasnip_prev,
+		-- 	s = action_luasnip_next,
+		-- },
 	}
 
-	local cmp_cmdline = {
+	local cmdline_mapping = {
 		["<C-BS>"] = { c = action_abort },
 		["<C-f>"] = { c = action_confirm_select },
 		["<C-j>"] = { c = action_confirm_continue },
@@ -65,9 +85,9 @@ local function get_cmp_unruly()
 
 	return {
 		-- TODO: create a way to deep merge and blacklist
-		cmp_insert = cmp_insert,
-		cmp_cmdline = cmp_cmdline,
+		insert_mapping = cmp_insert_mapping,
+		cmdline_mapping = cmdline_mapping,
 	}
 end
 
-return get_cmp_unruly()
+return create_module()

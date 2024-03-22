@@ -324,5 +324,6 @@ return {
 	setup = setup,
 	external = external,
 	setup_force = setup_force,
+	action = action,
 	util = util,
 }
