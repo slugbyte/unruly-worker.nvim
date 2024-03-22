@@ -1,3 +1,3 @@
 return {
-	nvim_cmp = require("unruly-worker.external.nvim-cmp")
+	nvim_cmp_setup = require("unruly-worker.external.nvim-cmp")
 }
