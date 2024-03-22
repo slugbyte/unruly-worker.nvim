@@ -16,6 +16,7 @@
 --  TODO: add luasnips completion
 
 local util = require("unruly-worker.util")
+local action = require("unruly-worker.action")
 local hop = require("unruly-worker.hop")
 local external = require("unruly-worker.external")
 
@@ -83,7 +84,7 @@ local mapping = {
 			O = cfg_basic("$", "right to EOL"),
 			p = cfg_basic("p", "paste after"),
 			P = cfg_basic("P", "paste before"),
-			q = cfg_basic(util.write_all, "write all"),
+			q = cfg_basic(action.unruly.write_all, "write all"),
 			Q = cfg_basic(":qall<cr>", "quit all"),
 			["<C-q>"] = cfg_basic(":qall!<cr>", "quit all force"),
 			r = cfg_basic("r", "replace"),
@@ -140,7 +141,7 @@ local mapping = {
 
 			-- register
 			['"'] = cfg_basic('"', "register select"),
-			["`"] = cfg_basic(util.register_peek, "register_peek"),
+			["`"] = cfg_basic(action.unruly.register_peek, "register_peek"),
 
 			-- window nav
 			["<C-w>y"] = cfg_basic("<C-w>h", "focus left"),
@@ -148,7 +149,11 @@ local mapping = {
 			["<C-w>e"] = cfg_basic("<C-w>k", "focus up"),
 			["<C-w>o"] = cfg_basic("<C-w>l", "focus right"),
 			["<C-w>x"] = cfg_basic(":close<CR>", "close pane"),
-			["<C-w>h"] = cfg_noop(),
+			["<C-w>h"] = cfg_basic(":sp<CR>", "split horizontal"),
+			["<C-w>v"] = cfg_basic(":vs<CR>", "split verticle"),
+			["<C-x>"] = cfg_basic(":close<CR>", "close pane"),
+			["<C-h>"] = cfg_basic(":sp<CR>", "split horizontal"),
+			["<C-v>"] = cfg_basic(":vs<CR>", "split verticle"),
 			["<C-w>j"] = cfg_noop(),
 			["<C-w>k"] = cfg_noop(),
 			["<C-w>l"] = cfg_noop(),
@@ -198,7 +203,7 @@ local mapping = {
 			["-"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
 			[";"] = cfg_basic(vim.lsp.buf.hover, "lsp hover"),
 			["<C-r>"] = cfg_basic(vim.lsp.buf.rename, "lsp rename"),
-			["<C-d>"] = cfg_basic(util.lsp_definiton, "lsp rename"),
+			["<C-d>"] = cfg_basic(action.telescope.lsp_definiton, "lsp rename"),
 		},
 	},
 	easy_move = {
@@ -224,8 +229,8 @@ local mapping = {
 	},
 	easy_jump = {
 		m = {
-			j = cfg_basic(util.telescope_find_files, "jump files"),
-			J = cfg_basic(util.telescope_live_grep, "jump files"),
+			j = cfg_basic(action.telescope.find_files, "jump files"),
+			J = cfg_basic(action.telescope.live_grep, "jump files"),
 		}
 	},
 	easy_textobject = {
@@ -247,7 +252,7 @@ local mapping = {
 			["<leader>uhm"] = cfg_basic(hop.HopModeSetMark, "homp mode mark"),
 			["<leader>uht"] = cfg_basic(hop.HopModeSetTextObject, "homp mode text object"),
 			["<leader>uhq"] = cfg_basic(hop.HopModeSetQuickFix, "homp mode quick fix"),
-			["<C-h>"] = cfg_basic(hop.HopModeRotate, "rotate hop mode"),
+			["<C-b>"] = cfg_basic(hop.HopModeRotate, "rotate hop mode"),
 			N = cfg_basic(hop.HopReverse, "hop reverse"),
 			E = cfg_basic(hop.HopForward, "hop forward"),
 		},
