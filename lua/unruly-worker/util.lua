@@ -59,7 +59,7 @@ end
 
 local function write_all()
 	vim.cmd("wall")
-	notify_info(emoticon_list[math.random(0, #emoticon_list)])
+	notify_info(emoticon_list[math.random(1, #emoticon_list)])
 end
 
 local function register_peek()

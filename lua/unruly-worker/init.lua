@@ -147,6 +147,7 @@ local mapping = {
 			["<C-w>n"] = cfg_basic("<C-w>j", "focus down"),
 			["<C-w>e"] = cfg_basic("<C-w>k", "focus up"),
 			["<C-w>o"] = cfg_basic("<C-w>l", "focus right"),
+			["<C-w>x"] = cfg_basic(":close<CR>", "close pane"),
 			["<C-w>h"] = cfg_noop(),
 			["<C-w>j"] = cfg_noop(),
 			["<C-w>k"] = cfg_noop(),
