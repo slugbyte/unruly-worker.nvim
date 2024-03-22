@@ -3,6 +3,21 @@
 
 ![unruly worker vim layout cheatsheet](./asset/cheatsheet.png)
 
+# 3.0 Update Comming Soon
+I am currently working on a version 3.0, Its going to be more fun & fast, and
+integrate more modern plugins. Plus its going to keep all the best ideas and 
+features from the last 4 years.
+
+### 3.0 Features To Look Forward to
+* telescope, nvim-cmp, treesitter, and luasnip support
+* fast macros and marks with auto register selection
+* fast quicklist and buffer navigation (next,prev,first)
+* fast `:wall`,`:qall`, and `:qall!`
+* keymaps will have descriptions set :)
+* you can protect your own keymaps by passing a `skip_map_list` to setup's
+  config
+* tmux, zsh, and less config files with unruly keymaps setup
+
 ## DEPENDENCIES
 * [nvim](https://neovim.io/) version > 0.5
 * (optional) a comment plugin that supports `gcc` and `gcip` 
@@ -48,7 +63,7 @@ For example `uw_c-a` will go to documentation for the `<C-a>` keymap.
 2. When possible, commands are arranged onto a semantic key. This makes it possible for the keymap to be remembered with mnemonic phrases.
 3. When possible, keys behavior, or behavior substitute, should stay in the same position as the original-keymap, so that there is no need for experienced vim users to unlearn there years of muscle memory.
 
-## FEATURES
+## 2.0 FEATURES
 * visual up and down
 * wrap left and right
 * easy split window navigation
