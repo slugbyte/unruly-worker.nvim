@@ -235,16 +235,16 @@ local mapping = {
 	},
 	easy_textobject = {
 		n = {
-			s = cfg_basic(util.textobject_seek_forward, "seek textobject forward"),
-			S = cfg_basic(util.textobject_seek_reverse, "seek textobject reverse")
+			s = cfg_basic(action.text_object.seek_forward, "seek textobject forward"),
+			S = cfg_basic(action.text_object.seek_reverse, "seek textobject reverse")
 		},
 		x = {
-			s = cfg_basic(util.textobject_seek_forward, "seek textobject forward"),
-			S = cfg_basic(util.textobject_seek_reverse, "seek textobject reverse")
+			s = cfg_basic(action.text_object.seek_forward, "seek textobject forward"),
+			S = cfg_basic(action.text_object.seek_reverse, "seek textobject reverse")
 		},
 		o = {
-			s = cfg_basic(util.textobject_seek_forward, "seek textobject forward"),
-			S = cfg_basic(util.textobject_seek_reverse, "seek textobject reverse")
+			s = cfg_basic(action.text_object.seek_forward, "seek textobject forward"),
+			S = cfg_basic(action.text_object.seek_reverse, "seek textobject reverse")
 		},
 	},
 	easy_hop = {

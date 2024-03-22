@@ -1,5 +1,3 @@
-local textobject_staus, textobject = pcall(require, "nvim-treesitter.textobjects.repeatable_move")
-
 local emoticon_list = require("unruly-worker.data.emoticon-list")
 
 local function notify_error(error)
@@ -16,20 +14,6 @@ end
 
 local function emoticon()
 	return emoticon_list[math.random(1, #emoticon_list)]
-end
-
-local function textobject_seek_forward()
-	if textobject_staus and (textobject ~= nil) then
-		textobject.repeat_last_move_next()
-	end
-	notify_error("treesitter textobject not found")
-end
-
-local function textobject_seek_reverse()
-	if textobject_staus and (textobject ~= nil) then
-		textobject.repeat_last_move_previous()
-	end
-	notify_error("treesitter textobject not found")
 end
 
 local key_equal = function(a, b)
@@ -66,6 +50,4 @@ return {
 	notify_info = notify_info,
 	key_equal = key_equal,
 	should_map = should_map,
-	textobject_seek_forward = textobject_seek_forward,
-	textobject_seek_reverse = textobject_seek_reverse,
 }
