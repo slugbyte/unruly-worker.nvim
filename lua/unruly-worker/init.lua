@@ -15,6 +15,8 @@
 --  TODO: toggle delete mode own register
 --  TODO: add luasnips completion
 
+
+
 local util = require("unruly-worker.util")
 local action = require("unruly-worker.action")
 local hop = require("unruly-worker.hop")
@@ -51,7 +53,7 @@ local mapping = {
 			a = cfg_custom("a", remap, no_silent, "append cursor"),
 			A = cfg_basic("A", "append line"),
 			b = cfg_basic("%", "brace match"),
-			B = cfg_basic("'Zzz", "mark jump"),
+			B = cfg_basic("%", "brace match"),
 			c = cfg_basic('"xc', "delete motion into reg x and insert"),
 			cc = cfg_basic('"xcc', "delete lines into reg x and insert"),
 			C = cfg_basic('"xC', "delete to EOL into reg x and insert"),
@@ -59,7 +61,7 @@ local mapping = {
 			dd = cfg_basic('"xdd', "delete lines into reg x"),
 			D = cfg_basic('"xD', "delete to EOL into reg x"),
 			e = cfg_basic("k", "up"),
-			E = cfg_basic("mZ'Bzz", "zip to markBb"),
+			E = cfg_basic("'Bzz", "zip to mark B"),
 			f = cfg_basic("n", "find next"),
 			F = cfg_basic("N", "find prev"),
 			-- ["<c-f>"] = cfg_basic('&', "repeat substitue"),
@@ -79,7 +81,7 @@ local mapping = {
 			m = cfg_basic("mA", "mark A"),
 			M = cfg_basic("mB", "mark B"),
 			n = cfg_basic("j", "down"),
-			N = cfg_basic("mZ'Azz", "zip to mark a"),
+			N = cfg_basic("'Azz", "zip to mark A"),
 			o = cfg_basic("l", "right"),
 			O = cfg_basic("$", "right to EOL"),
 			p = cfg_basic("p", "paste after"),
@@ -120,8 +122,8 @@ local mapping = {
 			["}"] = cfg_basic("}", "next paragraph"),
 			["{"] = cfg_basic("{", "prev paragraph"),
 
-			["]"] = cfg_basic("]", "square bracket command"),
-			["["] = cfg_basic("[", "square bracket command"),
+			["["] = cfg_basic("<C-o>", "jumplist back"),
+			["]"] = cfg_basic("<C-i>", "jumplist forward"),
 
 			["<"] = cfg_basic("<", "nudge left"),
 			[">"] = cfg_basic(">", "nudge right"),
@@ -157,6 +159,9 @@ local mapping = {
 			["<C-f>"] = cfg_basic(":on<CR>", "full screen"),
 			["<C-h>"] = cfg_basic(":sp<CR>", "split horizontal"),
 			["<C-s>"] = cfg_basic(":vs<CR>", "split verticle"),
+
+			["<leader>]"] = cfg_basic("o<esc>^d$<Up>", "[]) empty line below"),
+			["<leader>["] = cfg_basic("O<esc>^d$<Down>", "([) empty line above"),
 
 			["<C-w>j"] = cfg_noop(),
 			["<C-w>k"] = cfg_noop(),
@@ -220,10 +225,14 @@ local mapping = {
 	},
 	easy_tmux = {
 		m = {
-			["<C-y>"] = cfg_custom(":TmuxNavigateLeft<CR>", no_remap, silent, "focus left (vim/tmux)"),
-			["<C-n>"] = cfg_custom(":TmuxNavigateDown<CR>", no_remap, silent, "focus down (vim/tmux)"),
-			["<C-e>"] = cfg_custom(":TmuxNavigateUp<CR>", no_remap, silent, "focus up (vim/tmux)"),
-			["<C-o>"] = cfg_custom(":TmuxNavigateRight<CR>", no_remap, silent, "focus right (vim/tmux)"),
+			["<C-y>"] = cfg_custom(action.tmux.focus_left, no_remap, silent, "focus left (vim/tmux)"),
+			["<C-n>"] = cfg_custom(action.tmux.focus_down, no_remap, silent, "focus down (vim/tmux)"),
+			["<C-e>"] = cfg_custom(action.tmux.focus_up, no_remap, silent, "focus up (vim/tmux)"),
+			["<C-o>"] = cfg_custom(action.tmux.focus_right, no_remap, silent, "focus right (vim/tmux)"),
+			-- ["<C-y>"] = cfg_custom(":TmuxNavigateLeft<CR>", no_remap, silent, "focus left (vim/tmux)"),
+			-- ["<C-n>"] = cfg_custom(":TmuxNavigateDown<CR>", no_remap, silent, "focus down (vim/tmux)"),
+			-- ["<C-e>"] = cfg_custom(":TmuxNavigateUp<CR>", no_remap, silent, "focus up (vim/tmux)"),
+			-- ["<C-o>"] = cfg_custom(":TmuxNavigateRight<CR>", no_remap, silent, "focus right (vim/tmux)"),
 		},
 	},
 	easy_source = {
@@ -251,6 +260,16 @@ local mapping = {
 			S = cfg_basic(action.text_object.seek_reverse, "seek textobject reverse")
 		},
 	},
+	easy_luasnip = {
+		i = {
+			["<c-l>"] = cfg_basic(action.luasnip.jump_forward, "luasnip jump next"),
+			["<c-k>"] = cfg_basic(action.luasnip.jump_reverse, "luasnip jump prev"),
+		},
+		s = {
+			["<c-l>"] = cfg_basic(action.luasnip.jump_forward, "luasnip jump next"),
+			["<c-k>"] = cfg_basic(action.luasnip.jump_reverse, "luasnip jump prev"),
+		},
+	},
 	easy_hop = {
 		m = {
 			["<leader>uhm"] = cfg_basic(hop.HopModeSetMark, "homp mode mark"),
@@ -274,6 +293,7 @@ local map_config = function(config, skip_list)
 					desc = key_cfg.desc,
 					silent = key_cfg.is_silent,
 					remap = key_cfg.is_remap,
+					noremap = not key_cfg.is_remap,
 				})
 			end
 		end
@@ -294,7 +314,8 @@ local setup_force = function(config)
 			easy_source     = true,
 			easy_jump       = true,
 			easy_textobject = true,
-			easy_hop        = true,
+			easy_luasnip    = true,
+			easy_hop        = false,
 		},
 		skip_list = {},
 	}

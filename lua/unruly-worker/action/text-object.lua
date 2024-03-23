@@ -5,14 +5,26 @@ local M = {}
 
 function M.seek_forward()
 	if textobject_staus and (textobject ~= nil) then
-		textobject.repeat_last_move_next()
+		if textobject.last_move == nil then
+			print("no textobject selected")
+			return
+		end
+		local value = textobject.repeat_last_move_next({ start = true })
+		print(value)
+		return
 	end
 	util.notify_error("treesitter textobject not found")
 end
 
 function M.seek_reverse()
 	if textobject_staus and (textobject ~= nil) then
-		textobject.repeat_last_move_previous()
+		if textobject.last_move == nil then
+			print("no textobject selected")
+			return
+		end
+		local result = textobject.repeat_last_move_previous({ start = true })
+		print(result)
+		return
 	end
 	util.notify_error("treesitter textobject not found")
 end

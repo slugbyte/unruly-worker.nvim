@@ -2,7 +2,6 @@
 -- TODO: setup luasnip
 -- TODO: create a way to create a skip list?
 -- TODO: create a way to merge additional mappings?
--- TODO: find a way not to directly depend on cmp?
 local util = require("unruly-worker.util")
 
 local function create_module(config)
@@ -16,32 +15,11 @@ local function create_module(config)
 		return nil
 	end
 
-	local luasnip = require("luasnip")
-	vim.print("luasnip", luasnip)
-	--
-	--
-	-- local select_behavior_insert = "insert"
-	-- local select_behavior_continue = "select"
-
 	local action_abort = cmp.mapping.abort()
 	local action_confirm_select = cmp.mapping.confirm({ select = true })
 	local action_confirm_continue = cmp.mapping.confirm({ select = false })
 	local action_insert_next = cmp.mapping.select_next_item({ behavior = "select" })
 	local action_insert_prev = cmp.mapping.select_prev_item({ behavior = "select" })
-
-	local action_luasnip_next = cmp.mapping(function()
-		if luasnip.expand_or_locally_jumpable() then
-			luasnip.jump(1)
-		end
-	end)
-
-	local action_luasnip_prev = cmp.mapping(function()
-		if luasnip.locally_jumpable(-1) then
-			luasnip.jump(-1)
-		end
-	end)
-	--
-	--
 
 	local default_insert_mapping = {
 		["<C-f>"] = { i = action_confirm_continue },
@@ -57,14 +35,6 @@ local function create_module(config)
 		["<Up>"] = { i = action_insert_prev },
 
 		["<C-BS>"] = { i = action_abort },
-		["<c-l>"] = {
-			i = action_luasnip_next,
-			v = action_luasnip_next,
-		},
-		["<c-k"] = {
-			i = action_luasnip_prev,
-			v = action_luasnip_next,
-		},
 	}
 
 	local function action_cmdline_next()

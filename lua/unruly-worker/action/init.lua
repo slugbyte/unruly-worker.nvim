@@ -1,9 +1,7 @@
-local unruly = require("unruly-worker.action.unruly")
-local telescope = require("unruly-worker.action.telescope")
-local text_object = require("unruly-worker.action.text-object")
-
 return {
-	unruly = unruly,
-	telescope = telescope,
-	text_object = text_object,
+	luasnip = require("unruly-worker.action.luasnip"),
+	telescope = require("unruly-worker.action.telescope"),
+	text_object = require("unruly-worker.action.text-object"),
+	tmux = require("unruly-worker.action.tmux"),
+	unruly = require("unruly-worker.action.unruly"),
 }
