@@ -1,4 +1,4 @@
-# unruly worker
+# unruly worker 2.0
 > a semantic key map for nvim designed for the workman keyboard layout
 
 ![unruly worker vim layout cheatsheet](./asset/cheatsheet.png)
