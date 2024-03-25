@@ -45,16 +45,20 @@ function M.should_map(key, skip_list)
 	return not skip
 end
 
-function M.is_ascii_num(ch_int)
+function M.is_int_ascii_num(ch_int)
 	return ch_int > 47 and ch_int < 58
 end
 
-function M.is_ascii_alpha(ch_int)
-	return (ch_int > 64 and ch_int < 91) or (ch_int > 96 and ch_int < 123)
+function M.is_int_ascii_uppercase(ch_int)
+	return ch_int > 64 and ch_int < 91
 end
 
-function M.is_valid_register(ch_int)
-	return M.is_ascii_num(ch_int) or M.is_ascii_alpha(ch_int)
+function M.is_int_ascii_lowercase(ch_int)
+	return ch_int > 96 and ch_int < 123
+end
+
+function M.is_int_ascii_alpha(ch_int)
+	return M.is_int_ascii_lowercase(ch_int) or M.is_int_ascii_uppercase(ch_int)
 end
 
 return M
