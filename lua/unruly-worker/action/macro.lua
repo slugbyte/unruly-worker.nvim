@@ -1,3 +1,6 @@
+-- TODO: Paste keytrans macro
+-- TODO: YANK keytrans macro
+
 local util = require("unruly-worker.util")
 
 local S = {

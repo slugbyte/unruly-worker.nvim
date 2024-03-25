@@ -18,6 +18,10 @@
 -- TODO: add luasnips completion
 
 
+-- TODO: make cfg_basic somehow respect config so that maps can react to it
+-- for exaple do you want marks to Jump by file of by buffer?
+-- or should I just make a mark action ?
+
 local util = require("unruly-worker.util")
 local action = require("unruly-worker.action")
 local hop = require("unruly-worker.hop")
@@ -60,14 +64,15 @@ local mapping = {
 			a = cfg_custom("a", remap, no_silent, "append cursor"),
 			A = cfg_basic("A", "append line"),
 			["<c-a>"] = cfg_basic(function()
-				vim.fn.feedkeys("'A", "n")
-				print("GOTO MARK A")
-			end, "goto mark A"),
+				vim.fn.feedkeys("'a", "n")
+				print("GOTO MARK a")
+			end, "goto mark a"),
 			b = cfg_basic("%", "brace match"),
+			B = cfg_basic("<C-o>", "Back Jump"),
 			["<c-b>"] = cfg_basic(function()
-				vim.fn.feedkeys("'B", "n")
-				print("GOTO MARK B")
-			end, "goto mark B"),
+				vim.fn.feedkeys("'b", "n")
+				print("GOTO MARK b")
+			end, "goto mark b"),
 			c = cfg_basic('"xc', "delete motion into reg x and insert"),
 			cc = cfg_basic('"xcc', "delete lines into reg x and insert"),
 			C = cfg_basic('"xC', "delete to EOL into reg x and insert"),
@@ -96,13 +101,13 @@ local mapping = {
 			-- m = cfg_basic("mA", "mark A"),
 			-- M = cfg_basic("mB", "mark B"),
 			m = cfg_basic(function()
-				vim.fn.feedkeys("mA", "n")
-				print("SET MARK A")
-			end, "set mark A"),
+				vim.fn.feedkeys("ma", "n")
+				print("SET MARK a")
+			end, "set mark a"),
 			M = cfg_basic(function()
-				vim.fn.feedkeys("mB", "n")
-				print("set mark B")
-			end, "goto mark B"),
+				vim.fn.feedkeys("mb", "n")
+				print("set mark b")
+			end, "goto mark b"),
 			n = cfg_basic("j", "down"),
 			N = cfg_basic("J", "join lines"),
 			o = cfg_basic("l", "right"),
