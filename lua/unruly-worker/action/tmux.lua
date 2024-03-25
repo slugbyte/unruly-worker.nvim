@@ -1,4 +1,3 @@
--- TODO: impl own tmux pane switcher with auto save as possiblity
 local util = require("unruly-worker.util")
 local navigator_status, navigator = pcall(require, "Navigator")
 local M = {}

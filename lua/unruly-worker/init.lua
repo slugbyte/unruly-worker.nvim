@@ -9,12 +9,13 @@
 --  Maintainer: Duncan Marsh (slugbyte@slugbyte.com)
 --  Repository: https://github.com/slugbyte/unruly-worker
 --
---  TODO: add cmp.insert and cmd presets
---  TODO: add lsp leader commands
---  TODO: add treesitter search commands
---  TODO: toggle delete mode own register
---  TODO: add luasnips completion
-
+-- TODO: refactor macro stuff into action
+--  * make a get_macro_register fn (for lualine)
+-- TODO: add cmp.insert and cmd presets
+-- TODO: add lsp leader commands
+-- TODO: add treesitter search commands
+-- TODO: toggle delete mode own register
+-- TODO: add luasnips completion
 
 
 local util = require("unruly-worker.util")
@@ -22,6 +23,12 @@ local action = require("unruly-worker.action")
 local hop = require("unruly-worker.hop")
 local external = require("unruly-worker.external")
 
+-- vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+-- 	pattern = { "*.lua", "*.zig", "*.cljs", "*.txt", "*.py", "*.go", "*.c", "*.h", "*.md", "*.html", "*.java" },
+-- 	callback = function(ev)
+-- 		print(string.format('event fired: %s ', vim.inspect(ev)) .. util.emoticon())
+-- 	end
+-- })
 -- remap keys will recusively map meaning future keys will instead map to the new value
 local no_remap = false
 local remap = true
@@ -52,8 +59,15 @@ local mapping = {
 			-- alphabet
 			a = cfg_custom("a", remap, no_silent, "append cursor"),
 			A = cfg_basic("A", "append line"),
+			["<c-a>"] = cfg_basic(function()
+				vim.fn.feedkeys("'A", "n")
+				print("GOTO MARK A")
+			end, "goto mark A"),
 			b = cfg_basic("%", "brace match"),
-			B = cfg_basic("%", "brace match"),
+			["<c-b>"] = cfg_basic(function()
+				vim.fn.feedkeys("'B", "n")
+				print("GOTO MARK B")
+			end, "goto mark B"),
 			c = cfg_basic('"xc', "delete motion into reg x and insert"),
 			cc = cfg_basic('"xcc', "delete lines into reg x and insert"),
 			C = cfg_basic('"xC', "delete to EOL into reg x and insert"),
@@ -61,7 +75,7 @@ local mapping = {
 			dd = cfg_basic('"xdd', "delete lines into reg x"),
 			D = cfg_basic('"xD', "delete to EOL into reg x"),
 			e = cfg_basic("k", "up"),
-			E = cfg_basic("'Bzz", "zip to mark B"),
+			E = cfg_basic(vim.lsp.buf.hover, "lsp hover"),
 			f = cfg_basic("n", "find next"),
 			F = cfg_basic("N", "find prev"),
 			-- ["<c-f>"] = cfg_basic('&', "repeat substitue"),
@@ -73,15 +87,24 @@ local mapping = {
 			I = cfg_basic("I", "insert BOL"),
 			j = cfg_noop(),
 			J = cfg_noop(),
-			["<c-j>"] = cfg_basic("J", "join lines"),
+			["<c-j>"] = cfg_basic(action.telescope.jump_list, "jump list"),
+			-- ["<c-j>"] = cfg_basic("J", "join lines"),
 			k = cfg_basic("y", "kopy"),
 			K = cfg_basic("Y", "kopy line"),
 			l = cfg_basic("o", "line insert below"),
 			L = cfg_basic("O", "line insert above"),
-			m = cfg_basic("mA", "mark A"),
-			M = cfg_basic("mB", "mark B"),
+			-- m = cfg_basic("mA", "mark A"),
+			-- M = cfg_basic("mB", "mark B"),
+			m = cfg_basic(function()
+				vim.fn.feedkeys("mA", "n")
+				print("SET MARK A")
+			end, "set mark A"),
+			M = cfg_basic(function()
+				vim.fn.feedkeys("mB", "n")
+				print("set mark B")
+			end, "goto mark B"),
 			n = cfg_basic("j", "down"),
-			N = cfg_basic("'Azz", "zip to mark A"),
+			N = cfg_basic("J", "join lines"),
 			o = cfg_basic("l", "right"),
 			O = cfg_basic("$", "right to EOL"),
 			p = cfg_basic("p", "paste after"),
@@ -106,9 +129,9 @@ local mapping = {
 			X = cfg_basic('"9X', "delete previous char"),
 			y = cfg_basic("h", "left"),
 			Y = cfg_basic("^", "left to BOL"),
-			z = cfg_basic("qz", "macro record"),
-			Z = cfg_basic("@z", "macro play"),
-
+			z = cfg_basic(action.macro.record, "macro record"),
+			Z = cfg_basic(action.macro.play, "macro play"),
+			["<c-z>"] = cfg_basic(action.macro.select_register, "select macro register"),
 			-- mark maintanence
 			["<leader>ma"] = cfg_basic(":delm A<CR>", "[M]ark Delete [A]"),
 			["<leader>mb"] = cfg_basic(":delm B<CR>", "[M]ark Delete [B]"),
@@ -275,7 +298,7 @@ local mapping = {
 			["<leader>uhm"] = cfg_basic(hop.HopModeSetMark, "homp mode mark"),
 			["<leader>uht"] = cfg_basic(hop.HopModeSetTextObject, "homp mode text object"),
 			["<leader>uhq"] = cfg_basic(hop.HopModeSetQuickFix, "homp mode quick fix"),
-			["<C-b>"] = cfg_basic(hop.HopModeRotate, "rotate hop mode"),
+			-- ["<C-b>"] = cfg_basic(hop.HopModeRotate, "rotate hop mode"),
 			N = cfg_basic(hop.HopReverse, "hop reverse"),
 			E = cfg_basic(hop.HopForward, "hop forward"),
 		},
@@ -343,6 +366,7 @@ local function setup(config)
 	vim.g.unruly_worker = true
 
 	setup_force(config)
+	util.notify_info("UNRULY")
 end
 
 return {

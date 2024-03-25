@@ -28,8 +28,18 @@ end
 function M.lsp_definiton()
 	if telescope_status and (telescope_builtin ~= nil) then
 		telescope_builtin.lsp_definitions()
+		return
 	else
 		vim.lsp.buf.definition()
+	end
+end
+
+function M.jump_list()
+	if telescope_status and (telescope_builtin ~= nil) then
+		telescope_builtin.jumplist()
+		return
+	else
+		vim.cmd("jumps")
 	end
 end
 

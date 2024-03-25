@@ -1,22 +1,24 @@
 local emoticon_list = require("unruly-worker.data.emoticon-list")
 
-local function notify_error(error)
+local M = {}
+
+function M.notify_error(error)
 	vim.notify("UNRULY ERROR: " .. error, vim.log.levels.ERROR)
 end
 
-local function notify_warn(warn)
+function M.notify_warn(warn)
 	vim.notify("UNRULY ERROR: " .. warn, vim.log.levels.WARN)
 end
 
-local function notify_info(info)
+function M.notify_info(info)
 	vim.notify(info, vim.log.levels.INFO)
 end
 
-local function emoticon()
+function M.emoticon()
 	return emoticon_list[math.random(1, #emoticon_list)]
 end
 
-local key_equal = function(a, b)
+function M.key_equal(a, b)
 	local len_a = #a
 	local len_b = #b
 	if len_a ~= len_b then
@@ -34,20 +36,25 @@ local key_equal = function(a, b)
 	return string.lower(a) == string.lower(b)
 end
 
-local should_map = function(key, skip_list)
+function M.should_map(key, skip_list)
 	local skip = false
 	for _, skip_key in ipairs(skip_list) do
-		skip = skip or key_equal(key, skip_key)
+		skip = skip or M.key_equal(key, skip_key)
 	end
 
 	return not skip
 end
 
-return {
-	emoticon = emoticon,
-	notify_error = notify_error,
-	notify_warn = notify_warn,
-	notify_info = notify_info,
-	key_equal = key_equal,
-	should_map = should_map,
-}
+function M.is_ascii_num(ch_int)
+	return ch_int > 47 and ch_int < 58
+end
+
+function M.is_ascii_alpha(ch_int)
+	return (ch_int > 64 and ch_int < 91) or (ch_int > 96 and ch_int < 123)
+end
+
+function M.is_valid_register(ch_int)
+	return M.is_ascii_num(ch_int) or M.is_ascii_alpha(ch_int)
+end
+
+return M

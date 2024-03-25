@@ -4,4 +4,5 @@ return {
 	text_object = require("unruly-worker.action.text-object"),
 	tmux = require("unruly-worker.action.tmux"),
 	unruly = require("unruly-worker.action.unruly"),
+	macro = require("unruly-worker.action.macro")
 }

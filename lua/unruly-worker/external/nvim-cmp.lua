@@ -1,5 +1,4 @@
 -- TODO: write docs
--- TODO: setup luasnip
 -- TODO: create a way to create a skip list?
 -- TODO: create a way to merge additional mappings?
 local util = require("unruly-worker.util")
