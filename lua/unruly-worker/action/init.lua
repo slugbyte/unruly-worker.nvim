@@ -4,6 +4,6 @@ return {
 	telescope = require("unruly-worker.action.telescope"),
 	text_object = require("unruly-worker.action.text-object"),
 	tmux = require("unruly-worker.action.tmux"),
-	unruly = require("unruly-worker.action.unruly"),
+	save = require("unruly-worker.action.save"),
 	kopy = require("unruly-worker.action.kopy"),
 }

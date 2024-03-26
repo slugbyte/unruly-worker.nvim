@@ -13,7 +13,7 @@ function M.seek_forward()
 		print(value)
 		return
 	end
-	util.notify_error("treesitter textobject not found")
+	util.error("treesitter textobject not found")
 end
 
 function M.seek_reverse()
@@ -26,7 +26,7 @@ function M.seek_reverse()
 		print(result)
 		return
 	end
-	util.notify_error("treesitter textobject not found")
+	util.error("treesitter textobject not found")
 end
 
 return M

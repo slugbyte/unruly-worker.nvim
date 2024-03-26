@@ -8,7 +8,7 @@ function M.focus_left()
 		return
 	end
 	vim.cmd("wincmd h")
-	util.notify_error("Navigator.nvim not found")
+	util.error("Navigator.nvim not found")
 end
 
 function M.focus_down()
@@ -17,7 +17,7 @@ function M.focus_down()
 		return
 	end
 	vim.cmd("wincmd j")
-	util.notify_error("Navigator.nvim not found")
+	util.error("Navigator.nvim not found")
 end
 
 function M.focus_up()
@@ -26,7 +26,7 @@ function M.focus_up()
 		return
 	end
 	vim.cmd("wincmd k")
-	util.notify_error("Navigator.nvim not found")
+	util.error("Navigator.nvim not found")
 end
 
 function M.focus_right()
@@ -35,7 +35,7 @@ function M.focus_right()
 		return
 	end
 	vim.cmd("wincmd l")
-	util.notify_error("Navigator.nvim not found")
+	util.error("Navigator.nvim not found")
 end
 
 return M

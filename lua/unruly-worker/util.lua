@@ -16,27 +16,20 @@ function M.notify_info(info)
 end
 
 function M.error(...)
-	if #... == 1 then
-		M.notify_error(...)
-		return
-	end
-	M.notify_error(string.format(...))
+	vim.notify(string.format(...), vim.log.levels.ERROR)
 end
 
 function M.warn(...)
-	if #... == 1 then
-		M.notify_warn(...)
-		return
-	end
-	M.notify_warn(string.format(...))
+	vim.notify(string.format(...), vim.log.levels.WARN)
 end
 
 function M.info(...)
-	if #... == 1 then
-		M.notify_info(...)
-		return
-	end
-	M.notify_info(string.format(...))
+	vim.notify(string.format(...), vim.log.levels.INFO)
+end
+
+function M.notify(...)
+	vim.notify(string.format(...), vim.log.levels.INFO)
+	vim.defer_fn(function() print("\n") end, 1000)
 end
 
 function M.emoticon()

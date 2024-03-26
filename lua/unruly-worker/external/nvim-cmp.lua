@@ -10,7 +10,7 @@ local function create_module(config)
 
 	local cmp = config.cmp
 	if (cmp == nil) then
-		util.notify_error("cmp not found")
+		util.error("cmp not found")
 		return nil
 	end
 

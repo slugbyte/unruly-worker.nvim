@@ -27,13 +27,6 @@ local action = require("unruly-worker.action")
 local hop = require("unruly-worker.hop")
 local external = require("unruly-worker.external")
 
--- vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
--- 	pattern = { "*.lua", "*.zig", "*.cljs", "*.txt", "*.py", "*.go", "*.c", "*.h", "*.md", "*.html", "*.java" },
--- 	callback = function(ev)
--- 		print(string.format('event fired: %s ', vim.inspect(ev)) .. util.emoticon())
--- 	end
--- })
-
 -- remap keys will recusively map meaning future keys will instead map to the new value
 local no_remap = false
 local remap = true
@@ -73,35 +66,35 @@ local function cfg_noop()
 	return cfg_basic("\\", "")
 end
 
+local function cfg_cmd(cmd, desc, msg)
+	return cfg_basic(function()
+		vim.cmd("silent! normal!" .. cmd)
+		if msg ~= nil then
+			util.info(msg)
+		end
+	end, desc)
+end
+
 local mapping = {
 	general = {
 		m = {
 			-- alphabet
 			a = cfg_custom("a", remap, no_silent, "append cursor"),
 			A = cfg_basic("A", "append line"),
-			["<c-a>"] = cfg_basic(function()
-				vim.fn.feedkeys("'a", "n")
-				print("GOTO MARK a")
-			end, "goto mark a"),
+			["<c-a>"] = cfg_cmd("'azz", "goto mark a", "GOTO MARK: a"),
 			b = cfg_basic("%", "brace match"),
 			B = cfg_basic("<C-o>", "Back Jump"),
-			["<c-b>"] = cfg_basic(function()
-				vim.fn.feedkeys("'b", "n")
-				print("GOTO MARK b")
-			end, "goto mark b"),
+			["<c-b>"] = cfg_cmd("'bzz", "goto mark b", "GOTO MARK: b"),
 			c = cfg_basic(action.kopy.create_delete_cmd("c"), "change content, store old in reg 0"),
 			cc = cfg_basic(action.kopy.create_delete_cmd("cc"), "changle lines, store old in reg 0"),
 			C = cfg_basic(action.kopy.create_delete_cmd("C"), "change to EOL, store old in reg 0"),
 			d = cfg_basic(action.kopy.create_delete_cmd("d"), "delete motion into reg 0"),
 			dd = cfg_basic(action.kopy.create_delete_cmd("dd"), "delete motion into reg 0"),
 			D = cfg_basic(action.kopy.create_delete_cmd("D"), "delete motion into reg 0"),
-			-- dd = cfg_basic('"0dd', "delete lines into reg x"),
-			-- D = cfg_basic('"0D', "delete to EOL into reg x"),
 			e = cfg_basic("k", "up"),
-			E = cfg_basic(vim.lsp.buf.hover, "lsp hover"),
+			E = cfg_cmd("vip", "envelope paraghaph"),
 			f = cfg_basic("n", "find next"),
 			F = cfg_basic("N", "find prev"),
-			-- ["<c-f>"] = cfg_basic('&', "repeat substitue"),
 			g = cfg_basic("g", "g command"),
 			G = cfg_basic("G", "goto line"),
 			h = cfg_basic(";", "hop to repeat"),
@@ -111,23 +104,13 @@ local mapping = {
 			j = cfg_noop(),
 			J = cfg_noop(),
 			["<c-j>"] = cfg_basic(action.telescope.jump_list, "jump list"),
-			-- ["<c-j>"] = cfg_basic("J", "join lines"),
 			k = cfg_basic_expr(action.kopy.expr_yank, "kopy"),
 			K = cfg_basic_expr(action.kopy.expr_yank_line, "kopy line"),
-			["<C-k>"] = cfg_basic(action.kopy.register_select, "select kopy register"),
-			-- K = cfg_basic("Y", "kopy line"),
+			-- ["<C-k>"] = cfg_basic(action.kopy.register_select, "select kopy register"),
 			l = cfg_basic("o", "line insert below"),
 			L = cfg_basic("O", "line insert above"),
-			-- m = cfg_basic("mA", "mark A"),
-			-- M = cfg_basic("mB", "mark B"),
-			m = cfg_basic(function()
-				vim.fn.feedkeys("ma", "n")
-				print("SET MARK a")
-			end, "set mark a"),
-			M = cfg_basic(function()
-				vim.fn.feedkeys("mb", "n")
-				print("set mark b")
-			end, "goto mark b"),
+			m = cfg_cmd("ma", "set mark a", "MARK SET: a"),
+			M = cfg_cmd("mb", "set mark b", "MARK SET: b"),
 			n = cfg_basic("j", "down"),
 			N = cfg_basic("J", "join lines"),
 			o = cfg_basic("l", "right"),
@@ -135,7 +118,7 @@ local mapping = {
 			p = cfg_basic_expr(action.kopy.expr_paste_below, "paste after"),
 			P = cfg_basic_expr(action.kopy.expr_paste_above, "paste before"),
 			["<C-p>"] = cfg_basic_expr(action.kopy.expr_paste_transform_below, "paste transform"),
-			q = cfg_basic(action.unruly.write_all, "write all"),
+			q = cfg_basic(action.save.write_all, "write all"),
 			Q = cfg_basic(":qall<cr>", "quit all"),
 			["<C-q>"] = cfg_basic(":qall!<cr>", "quit all force"),
 			r = cfg_basic("r", "replace"),
@@ -409,3 +392,10 @@ return {
 	action = action,
 	util = util,
 }
+
+-- vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+-- 	pattern = { "*.lua", "*.zig", "*.cljs", "*.txt", "*.py", "*.go", "*.c", "*.h", "*.md", "*.html", "*.java" },
+-- 	callback = function(ev)
+-- 		print(string.format('event fired: %s ', vim.inspect(ev)) .. util.emoticon())
+-- 	end
+-- })

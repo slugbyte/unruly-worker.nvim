@@ -52,20 +52,20 @@ end
 
 function M.HopForward()
 	if S.hop_mode == M.mode_option.text_object then
-		util.notify_info("hopping text_object forward")
+		util.info("hopping text_object forward")
 		util.textobject_seek_forward()
 		return
 	end
-	util.notify_error(string.format("no hop forward impl for %s", M.HopModeGet()))
+	util.error(string.format("no hop forward impl for %s", M.HopModeGet()))
 end
 
 function M.HopReverse()
 	if S.hop_mode == M.mode_option.text_object then
-		util.notify_info("hopping text_object reverse")
+		util.info("hopping text_object reverse")
 		util.textobject_seek_reverse()
 		return
 	end
-	util.notify_error(string.format("no hop reverse impl for %s", M.HopModeGet()))
+	util.error(string.format("no hop reverse impl for %s", M.HopModeGet()))
 end
 
 return M

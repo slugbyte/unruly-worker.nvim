@@ -4,7 +4,7 @@ local M = {}
 
 function M.write_all()
 	vim.cmd("wall")
-	util.notify_info(util.emoticon())
+	util.notify(util.emoticon())
 end
 
 return M

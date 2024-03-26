@@ -5,14 +5,8 @@ local util = require("unruly-worker.util")
 -- if register 1 is selected then
 --     registers 1-8 act like a history
 
-local PASTE_MODE = {
-	DUMP = "d",
-	TRANSFORM = "t",
-}
-
 local S = {
 	register = "+",
-	paste_mode = PASTE_MODE.DUMP,
 }
 
 local function is_valid_register(ch_int)
@@ -34,7 +28,7 @@ function M.get_state()
 end
 
 function M.get_status_text()
-	return string.format("[%s]%s", S.register, S.paste_mode)
+	return string.format("[K %s]", S.register)
 end
 
 function M.expr_yank()

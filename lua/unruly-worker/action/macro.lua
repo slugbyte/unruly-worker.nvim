@@ -21,12 +21,12 @@ end
 
 function M.get_status_text()
 	if (S.is_recording) then
-		return string.format("[M REC %s]", S.register)
+		return string.format("[R %s]", S.register)
 	end
 	if (S.is_locked) then
-		return string.format("[M LOK %s]", S.register)
+		return string.format("[L %s]", S.register)
 	end
-	return string.format("[MACRO %s]", S.register)
+	return string.format("[M %s]", S.register)
 end
 
 function M.record()
