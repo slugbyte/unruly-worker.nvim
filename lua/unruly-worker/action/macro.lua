@@ -6,6 +6,7 @@ local util = require("unruly-worker.util")
 local S = {
 	register = "z",
 	is_recording = false,
+	is_locked = false,
 }
 
 local M = {}
@@ -19,7 +20,21 @@ function M.get_state()
 	return S
 end
 
+function M.get_status_text()
+	if (S.is_recording) then
+		return string.format("[M REC %s]", S.register)
+	end
+	if (S.is_locked) then
+		return string.format("[M LOK %s]", S.register)
+	end
+	return string.format("[MACRO %s]", S.register)
+end
+
 function M.record()
+	if S.is_locked then
+		util.notify_error("MACRO RECORDING LOCKED")
+		return
+	end
 	S.is_recording = not S.is_recording
 	if S.is_recording then
 		vim.fn.setreg(S.register, "")
@@ -62,6 +77,16 @@ function M.select_register()
 		return
 	end
 	util.notify_error(string.format("invalid register: %s, try [0-9][a-z] (Macro Register Still: %s)", ch_str, S.register))
+end
+
+function M.lock()
+	S.is_locked = true
+	util.notify_info("MACRO RECORDING LOCKED")
+end
+
+function M.unlock()
+	S.is_locked = false
+	util.notify_info("MACRO RECORDING UNLOCKED")
 end
 
 return M

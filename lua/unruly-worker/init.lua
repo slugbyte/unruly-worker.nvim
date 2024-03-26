@@ -16,7 +16,7 @@
 -- TODO: add treesitter search commands
 -- TODO: toggle delete mode own register
 -- TODO: add luasnips completion
-
+-- TODO: add healthcheck report
 
 -- TODO: make cfg_basic somehow respect config so that maps can react to it
 -- for exaple do you want marks to Jump by file of by buffer?
@@ -33,6 +33,7 @@ local external = require("unruly-worker.external")
 -- 		print(string.format('event fired: %s ', vim.inspect(ev)) .. util.emoticon())
 -- 	end
 -- })
+
 -- remap keys will recusively map meaning future keys will instead map to the new value
 local no_remap = false
 local remap = true
@@ -369,8 +370,15 @@ local function setup(config)
 		return
 	end
 	vim.g.unruly_worker = true
-
 	setup_force(config)
+
+	-- TODO create a nice way to create autocmds
+	-- add the TextYankPost autocmd
+
+	-- TODO create a better config for creating userc comands
+	vim.api.nvim_create_user_command("UnrulyMacroLock", action.macro.lock, {})
+	vim.api.nvim_create_user_command("UnrulyMacroUnlock", action.macro.unlock, {})
+
 	util.notify_info("UNRULY")
 end
 
