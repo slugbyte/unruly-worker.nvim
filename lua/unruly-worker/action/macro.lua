@@ -12,8 +12,7 @@ local S = {
 local M = {}
 
 local function is_valid_macro_register(ch_int)
-	-- TODO: upper prbos ok now (test it out)
-	return util.is_int_ascii_lowercase(ch_int) or util.is_int_ascii_num(ch_int)
+	return util.is_int_ascii_lowercase(ch_int) or util.is_int_ascii_uppercase(ch_int)
 end
 
 function M.get_state()
@@ -32,7 +31,7 @@ end
 
 function M.record()
 	if S.is_locked then
-		util.notify_error("MACRO RECORDING LOCKED")
+		util.error("MACRO RECORDING LOCKED")
 		return
 	end
 	S.is_recording = not S.is_recording
@@ -41,7 +40,7 @@ function M.record()
 		vim.cmd(string.format("silent! normal! q%s", S.register))
 	else
 		vim.cmd("silent! normal! q")
-		util.notify_info(string.format("MACRO RECORDED: %s", S.register))
+		util.info("MACRO RECORDED: %s", S.register)
 	end
 end
 
@@ -52,18 +51,18 @@ function M.play()
 	-- register, `safe_macro` is just everything but that 'z'
 	local safe_macro = string.sub(register_content, 1, #register_content - 1)
 	if #safe_macro > 0 then
-		util.notify_info(string.format("MACRO PLAY: %s (%s)", S.register, vim.fn.keytrans(safe_macro)))
+		util.info("MACRO PLAY: %s (%s)", S.register, vim.fn.keytrans(safe_macro))
 		vim.fn.setreg("1", safe_macro)
 		vim.cmd('silent! noautocmd normal! @1')
 	else
-		util.notify_info(string.format("MACRO EMPTY: %s", S.register))
+		util.info("MACRO EMPTY: %s", S.register)
 	end
 end
 
 function M.select_register()
 	if S.is_recording then
-		util.notify_error("cannot change macro register while recording")
-		util.notify_error("recording aborted")
+		util.error("cannot change macro register while recording")
+		util.error("recording aborted")
 		vim.cmd("silent! normal! q")
 		vim.fn.setreg(S.register, "")
 		return
@@ -73,10 +72,10 @@ function M.select_register()
 	local ch_str = string.char(ch_int)
 	if is_valid_macro_register(ch_int) then
 		S.register = ch_str
-		util.notify_info(string.format("MACRO REGISTER: %s", S.register))
+		util.info("MACRO REGISTER: %s", S.register)
 		return
 	end
-	util.notify_error(string.format("invalid register: %s, try [0-9][a-z] (Macro Register Still: %s)", ch_str, S.register))
+	util.error("invalid register: %s, try [0-9][a-z] (Macro Register Still: %s)", vim.fn.keytrans(ch_str), S.register)
 end
 
 function M.lock()

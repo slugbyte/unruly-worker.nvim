@@ -1,3 +1,4 @@
+-- TODO: refactor out notfiy_ intermediate fns
 local emoticon_list = require("unruly-worker.data.emoticon-list")
 
 local M = {}
@@ -7,11 +8,35 @@ function M.notify_error(error)
 end
 
 function M.notify_warn(warn)
-	vim.notify("UNRULY ERROR: " .. warn, vim.log.levels.WARN)
+	vim.notify(warn, vim.log.levels.WARN)
 end
 
 function M.notify_info(info)
 	vim.notify(info, vim.log.levels.INFO)
+end
+
+function M.error(...)
+	if #... == 1 then
+		M.notify_error(...)
+		return
+	end
+	M.notify_error(string.format(...))
+end
+
+function M.warn(...)
+	if #... == 1 then
+		M.notify_warn(...)
+		return
+	end
+	M.notify_warn(string.format(...))
+end
+
+function M.info(...)
+	if #... == 1 then
+		M.notify_info(...)
+		return
+	end
+	M.notify_info(string.format(...))
 end
 
 function M.emoticon()

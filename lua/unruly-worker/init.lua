@@ -46,12 +46,27 @@ local function cfg_custom(value, is_remap, is_silent, desc)
 		value = value,
 		is_remap = is_remap,
 		is_silent = is_silent,
+		is_expr = false,
+		desc = desc,
+	}
+end
+
+local function cfg_custom_expr(value, is_remap, is_silent, desc)
+	return {
+		value = value,
+		is_remap = is_remap,
+		is_silent = is_silent,
+		is_expr = true,
 		desc = desc,
 	}
 end
 
 local function cfg_basic(cmd, desc)
 	return cfg_custom(cmd, no_remap, no_silent, desc)
+end
+
+local function cfg_basic_expr(cmd, desc)
+	return cfg_custom_expr(cmd, no_remap, no_silent, desc)
 end
 
 local function cfg_noop()
@@ -74,12 +89,14 @@ local mapping = {
 				vim.fn.feedkeys("'b", "n")
 				print("GOTO MARK b")
 			end, "goto mark b"),
-			c = cfg_basic('"xc', "delete motion into reg x and insert"),
-			cc = cfg_basic('"xcc', "delete lines into reg x and insert"),
-			C = cfg_basic('"xC', "delete to EOL into reg x and insert"),
-			d = cfg_basic('"xd', "delete motion into reg x"),
-			dd = cfg_basic('"xdd', "delete lines into reg x"),
-			D = cfg_basic('"xD', "delete to EOL into reg x"),
+			c = cfg_basic(action.kopy.create_delete_cmd("c"), "change content, store old in reg 0"),
+			cc = cfg_basic(action.kopy.create_delete_cmd("cc"), "changle lines, store old in reg 0"),
+			C = cfg_basic(action.kopy.create_delete_cmd("C"), "change to EOL, store old in reg 0"),
+			d = cfg_basic(action.kopy.create_delete_cmd("d"), "delete motion into reg 0"),
+			dd = cfg_basic(action.kopy.create_delete_cmd("dd"), "delete motion into reg 0"),
+			D = cfg_basic(action.kopy.create_delete_cmd("D"), "delete motion into reg 0"),
+			-- dd = cfg_basic('"0dd', "delete lines into reg x"),
+			-- D = cfg_basic('"0D', "delete to EOL into reg x"),
 			e = cfg_basic("k", "up"),
 			E = cfg_basic(vim.lsp.buf.hover, "lsp hover"),
 			f = cfg_basic("n", "find next"),
@@ -95,8 +112,10 @@ local mapping = {
 			J = cfg_noop(),
 			["<c-j>"] = cfg_basic(action.telescope.jump_list, "jump list"),
 			-- ["<c-j>"] = cfg_basic("J", "join lines"),
-			k = cfg_basic("y", "kopy"),
-			K = cfg_basic("Y", "kopy line"),
+			k = cfg_basic_expr(action.kopy.expr_yank, "kopy"),
+			K = cfg_basic_expr(action.kopy.expr_yank_line, "kopy line"),
+			["<C-k>"] = cfg_basic(action.kopy.register_select, "select kopy register"),
+			-- K = cfg_basic("Y", "kopy line"),
 			l = cfg_basic("o", "line insert below"),
 			L = cfg_basic("O", "line insert above"),
 			-- m = cfg_basic("mA", "mark A"),
@@ -113,9 +132,9 @@ local mapping = {
 			N = cfg_basic("J", "join lines"),
 			o = cfg_basic("l", "right"),
 			O = cfg_basic("$", "right to EOL"),
-			p = cfg_basic("p", "paste after"),
-			P = cfg_basic("P", "paste before"),
-			["<C-p>"] = cfg_basic("vip", "select paragraph"),
+			p = cfg_basic_expr(action.kopy.expr_paste_below, "paste after"),
+			P = cfg_basic_expr(action.kopy.expr_paste_above, "paste before"),
+			["<C-p>"] = cfg_basic_expr(action.kopy.expr_paste_transform_below, "paste transform"),
 			q = cfg_basic(action.unruly.write_all, "write all"),
 			Q = cfg_basic(":qall<cr>", "quit all"),
 			["<C-q>"] = cfg_basic(":qall!<cr>", "quit all force"),
@@ -131,8 +150,8 @@ local mapping = {
 			V = cfg_basic("V", "visual line mode"),
 			w = cfg_basic("w", "word forward"),
 			W = cfg_basic("b", "word backward"),
-			x = cfg_basic('"9x', "delete char"),
-			X = cfg_basic('"9X', "delete previous char"),
+			x = cfg_basic(action.kopy.create_delete_cmd("x"), "delete char into reg 0"),
+			X = cfg_basic(action.kopy.create_delete_cmd("X"), "delete previous char into reg 0"),
 			y = cfg_basic("h", "left"),
 			Y = cfg_basic("^", "left to BOL"),
 			z = cfg_basic(action.macro.record, "macro record"),
@@ -166,13 +185,13 @@ local mapping = {
 			["/"] = cfg_basic("/", "search down"),
 			["?"] = cfg_basic("?", "search up"),
 
-			-- repeat
-			[","] = cfg_basic('"xP', "paste register x above"),
-			["."] = cfg_basic('"xp', "paste register x below"),
+			-- paste delete
+			[","] = cfg_basic('"0P', "paste register x above"),
+			["."] = cfg_basic('"0p', "paste register x below"),
 
 			-- register
-			['"'] = cfg_basic('"', "register select"),
-			["`"] = cfg_basic(action.unruly.register_peek, "register_peek"),
+			['"'] = cfg_basic(action.kopy.register_select, "register select"),
+			["`"] = cfg_basic(action.kopy.register_peek, "register_peek"),
 
 			-- window nav
 			["<C-w>y"] = cfg_basic("<C-w>h", "focus left"),
@@ -291,12 +310,12 @@ local mapping = {
 	},
 	easy_luasnip = {
 		i = {
-			["<c-l>"] = cfg_basic(action.luasnip.jump_forward, "luasnip jump next"),
-			["<c-k>"] = cfg_basic(action.luasnip.jump_reverse, "luasnip jump prev"),
+			["<C-Right>"] = cfg_basic(action.luasnip.jump_forward, "luasnip jump next"),
+			["<C-Left>"] = cfg_basic(action.luasnip.jump_reverse, "luasnip jump prev"),
 		},
 		s = {
-			["<c-l>"] = cfg_basic(action.luasnip.jump_forward, "luasnip jump next"),
-			["<c-k>"] = cfg_basic(action.luasnip.jump_reverse, "luasnip jump prev"),
+			["<C-Right>"] = cfg_basic(action.luasnip.jump_forward, "luasnip jump next"),
+			["<C-Left>"] = cfg_basic(action.luasnip.jump_reverse, "luasnip jump prev"),
 		},
 	},
 	easy_hop = {
@@ -323,6 +342,7 @@ local map_config = function(config, skip_list)
 					silent = key_cfg.is_silent,
 					remap = key_cfg.is_remap,
 					noremap = not key_cfg.is_remap,
+					expr = key_cfg.is_expr,
 				})
 			end
 		end
