@@ -295,10 +295,14 @@ local mapping = {
 		i = {
 			["<C-Right>"] = cfg_basic(action.luasnip.jump_forward, "luasnip jump next"),
 			["<C-Left>"] = cfg_basic(action.luasnip.jump_reverse, "luasnip jump prev"),
+			["<C-l>"] = cfg_basic(action.luasnip.jump_forward, "luasnip jump next"),
+			["<C-k>"] = cfg_basic(action.luasnip.jump_reverse, "luasnip jump prev"),
 		},
 		s = {
 			["<C-Right>"] = cfg_basic(action.luasnip.jump_forward, "luasnip jump next"),
 			["<C-Left>"] = cfg_basic(action.luasnip.jump_reverse, "luasnip jump prev"),
+			["<C-l>"] = cfg_basic(action.luasnip.jump_forward, "luasnip jump next"),
+			["<C-k>"] = cfg_basic(action.luasnip.jump_reverse, "luasnip jump prev"),
 		},
 	},
 	easy_hop = {

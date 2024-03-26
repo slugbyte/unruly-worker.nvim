@@ -21,7 +21,6 @@ local function NewHopModeSet(mode_option)
 	end
 end
 
-
 -- hop quick fix list
 M.HopModeSetMark = NewHopModeSet(M.mode_option.mark)
 M.HopModeSetTextObject = NewHopModeSet(M.mode_option.text_object)
