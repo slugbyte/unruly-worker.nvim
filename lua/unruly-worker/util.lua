@@ -17,7 +17,7 @@ end
 
 function M.notify(...)
 	vim.notify(string.format(...), vim.log.levels.INFO)
-	vim.defer_fn(function() print("\n") end, 1000)
+	-- vim.defer_fn(function() print("\n") end, 1000)
 end
 
 function M.emoticon()

@@ -9,16 +9,10 @@
 --  Maintainer: Duncan Marsh (slugbyte@slugbyte.com)
 --  Repository: https://github.com/slugbyte/unruly-worker
 --
--- TODO: refactor macro stuff into action
---  * make a get_macro_register fn (for lualine)
--- TODO: add cmp.insert and cmd presets
--- TODO: add lsp leader commands
+-- TODO: add lsp leader commands for unruly toggles
 -- TODO: add treesitter search commands
--- TODO: toggle delete mode own register
--- TODO: add luasnips completion
 -- TODO: add healthcheck report
-
--- TODO: make cfg_basic somehow respect config so that maps can react to it
+-- TODO: somehow respect config so that maps can react to it
 -- for exaple do you want marks to Jump by file of by buffer?
 -- or should I just make a mark action ?
 
@@ -83,7 +77,8 @@ local mapping = {
 			A = cfg_basic("A", "append line"),
 			["<c-a>"] = cfg_cmd("'azz", "goto mark a", "GOTO MARK: a"),
 			b = cfg_basic("%", "brace match"),
-			B = cfg_basic("<C-o>", "Back Jump"),
+			B = cfg_basic("g;", "back to last change"),
+			-- B = cfg_basic(action.telescope.buffer_fuzzy_search, "buffer fuzzy find"),
 			["<c-b>"] = cfg_cmd("'bzz", "goto mark b", "GOTO MARK: b"),
 			c = cfg_basic(action.kopy.create_delete_cmd("c"), "change content, store old in reg 0"),
 			cc = cfg_basic(action.kopy.create_delete_cmd("cc"), "changle lines, store old in reg 0"),
@@ -117,7 +112,7 @@ local mapping = {
 			O = cfg_basic("$", "right to EOL"),
 			p = cfg_basic_expr(action.kopy.expr_paste_below, "paste after"),
 			P = cfg_basic_expr(action.kopy.expr_paste_above, "paste before"),
-			["<C-p>"] = cfg_basic_expr(action.kopy.expr_paste_transform_below, "paste transform"),
+			['<C-p>'] = cfg_basic(action.kopy.register_select, "register select"),
 			q = cfg_basic(action.save.write_all, "write all"),
 			Q = cfg_basic(":qall<cr>", "quit all"),
 			["<C-q>"] = cfg_basic(":qall!<cr>", "quit all force"),
@@ -140,11 +135,6 @@ local mapping = {
 			z = cfg_basic(action.macro.record, "macro record"),
 			Z = cfg_basic(action.macro.play, "macro play"),
 			["<c-z>"] = cfg_basic(action.macro.select_register, "select macro register"),
-			-- mark maintanence
-			["<leader>ma"] = cfg_basic(":delm A<CR>", "[M]ark Delete [A]"),
-			["<leader>mb"] = cfg_basic(":delm B<CR>", "[M]ark Delete [B]"),
-			["<leader>mz"] = cfg_basic(":delm Z<CR>", "[M]ark Delete [Z]"),
-			["<leader>mA"] = cfg_basic(":delm A B Z<CR>", "[M]ark Delete [A]ll"),
 
 			-- parens
 			[")"] = cfg_basic(")", "next sentence"),
@@ -167,16 +157,19 @@ local mapping = {
 			["'"] = cfg_basic(":", "command mode"),
 			["/"] = cfg_basic("/", "search down"),
 			["?"] = cfg_basic("?", "search up"),
+			["<leader>/"] = cfg_basic(action.telescope.buffer_fuzzy_search, "buffer fuzzy find"),
 
 			-- paste delete
 			[","] = cfg_basic('"0P', "paste register x above"),
 			["."] = cfg_basic('"0p', "paste register x below"),
 
 			-- register
-			['"'] = cfg_basic(action.kopy.register_select, "register select"),
-			["`"] = cfg_basic(action.kopy.register_peek, "register_peek"),
+			['`'] = cfg_noop(),
+			['"'] = cfg_basic(action.kopy.register_peek, "register_peek"),
 
 			-- window nav
+			["<C-w>k"] = cfg_noop(),
+			["<C-w>l"] = cfg_noop(),
 			["<C-w>y"] = cfg_basic("<C-w>h", "focus left"),
 			["<C-w>n"] = cfg_basic("<C-w>j", "focus down"),
 			["<C-w>e"] = cfg_basic("<C-w>k", "focus up"),
@@ -186,16 +179,17 @@ local mapping = {
 			["<C-w>h"] = cfg_basic(":sp<CR>", "split horizontal"),
 			["<C-w>s"] = cfg_basic(":vs<CR>", "split verticle"),
 
+			["<C-y>"] = cfg_basic("<C-w>h", "focus left"),
+			["<C-n>"] = cfg_basic("<C-w>j", "focus down"),
+			["<C-e>"] = cfg_basic("<C-w>k", "focus up"),
+			["<C-o>"] = cfg_basic("<C-w>l", "focus right"),
 			["<C-x>"] = cfg_basic(":close<CR>", "close pane"),
 			["<C-f>"] = cfg_basic(":on<CR>", "full screen"),
 			["<C-h>"] = cfg_basic(":sp<CR>", "split horizontal"),
 			["<C-s>"] = cfg_basic(":vs<CR>", "split verticle"),
 
-			["<leader>]"] = cfg_basic("o<esc>^d$<Up>", "[]) empty line below"),
-			["<leader>["] = cfg_basic("O<esc>^d$<Down>", "([) empty line above"),
-
-			["<C-w>k"] = cfg_noop(),
-			["<C-w>l"] = cfg_noop(),
+			-- ["<leader>l"] = cfg_basic("o<esc>^d$<Up>", "[]) empty line below"),
+			-- ["<leader>L"] = cfg_basic("O<esc>^d$<Down>", "([) empty line above"),
 
 			-- cursor align
 			["@"] = cfg_basic("zt", "align top"),
@@ -205,18 +199,19 @@ local mapping = {
 			-- noop
 			["%"] = cfg_noop(),
 			["^"] = cfg_noop(),
+			["="] = cfg_noop(),
 			["&"] = cfg_basic("&", "repeat subsitute"),
-			["=>"] = cfg_basic("&", "repeat subsitute"),
 			["*"] = cfg_noop(),
 			["-"] = cfg_noop(),
 			["_"] = cfg_noop(),
 			["+"] = cfg_noop(),
-			-- ["="] = cfg_noop(),
+			["!"] = cfg_noop(),
 			["|"] = cfg_noop(),
 			[";"] = cfg_noop(),
 		},
 		n = {
 			-- swap lines normal
+			["<esc>"] = cfg_basic("<cmd>nohlsearch<CR>", "disable hl search"),
 			["<C-Down>"] = cfg_basic(":m .+1<CR>==", "swap down"),
 			["<C-Up>"] = cfg_basic(":m .-2<CR>==", "swap up"),
 		},
