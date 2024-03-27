@@ -10,6 +10,10 @@ local S = {
 }
 
 local function is_valid_register(ch_int)
+	if ch_int == 48 or ch_int == 43 then
+		-- return true for 0 or +
+		return true
+	end
 	return util.is_int_ascii_alpha(ch_int)
 end
 
@@ -71,16 +75,16 @@ function M.register_select()
 	local ch_str = string.char(ch_int)
 	if is_valid_register(ch_int) then
 		S.register = ch_str
-		util.info("YANK REGISTER: %s", S.register)
+		util.notify("YANK REGISTER: %s", S.register)
 		return
 	end
 	if ch_int == 13 or ch_int == 32 then
 		S.register = "+"
-		util.info("YANK REGISTER: %s", S.register)
+		util.notify("YANK REGISTER: %s", S.register)
 		return
 	end
 	if ch_int == 27 then
-		util.warn("ABORTED SELECT")
+		util.notify("ABORTED SELECT")
 		return
 	end
 	util.error("invalid register: %s (Yank Register Still: %s)", vim.fn.keytrans(ch_str), S.register)
@@ -93,7 +97,7 @@ function M.register_clear()
 end
 
 function M.register_peek()
-	util.notify_info("REGISTER PEEK SELECT> ")
+	util.notify("REGISTER PEEK SELECT> ")
 	local ch_int = vim.fn.getchar()
 	local ch = string.char(ch_int)
 	if ch_int == 27 then
@@ -110,9 +114,9 @@ function M.register_peek()
 
 	if #reg_content > 0 then
 		reg_content = vim.fn.keytrans(reg_content)
-		util.info("REGISTER PEEK %s (%s)", ch, reg_content)
+		util.notify("REGISTER PEEK %s (%s)", ch, reg_content)
 	else
-		util.info("REGISTER PEEK %s (empty)", ch)
+		util.notify("REGISTER PEEK %s (empty)", ch)
 	end
 end
 

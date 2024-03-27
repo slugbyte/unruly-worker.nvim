@@ -70,7 +70,7 @@ local function cfg_cmd(cmd, desc, msg)
 	return cfg_basic(function()
 		vim.cmd("silent! normal!" .. cmd)
 		if msg ~= nil then
-			util.info(msg)
+			util.notify(msg)
 		end
 	end, desc)
 end
@@ -383,10 +383,19 @@ local function setup(config)
 	-- add the TextYankPost autocmd
 
 	-- TODO create a better config for creating userc comands
+	-- UnrulyKopyRegisterReset
+	-- UnrulyKopyRegisterSelect
+	-- UnrulyKopyHistoryPaste
+	-- UnrulyRegisterTransformPaste
+	-- UnrulyRegisterTransformYank
+	-- UnrulyMacroRegisterSelect
+	-- UnrulyMacroLock
+	-- UnrulyMacroUnlock
+	-- UnrulyMarkClear
 	vim.api.nvim_create_user_command("UnrulyMacroLock", action.macro.lock, {})
 	vim.api.nvim_create_user_command("UnrulyMacroUnlock", action.macro.unlock, {})
 
-	util.notify_info("UNRULY")
+	util.notify("UNRULY")
 end
 
 return {

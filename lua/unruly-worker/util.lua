@@ -3,18 +3,6 @@ local emoticon_list = require("unruly-worker.data.emoticon-list")
 
 local M = {}
 
-function M.notify_error(error)
-	vim.notify("UNRULY ERROR: " .. error, vim.log.levels.ERROR)
-end
-
-function M.notify_warn(warn)
-	vim.notify(warn, vim.log.levels.WARN)
-end
-
-function M.notify_info(info)
-	vim.notify(info, vim.log.levels.INFO)
-end
-
 function M.error(...)
 	vim.notify(string.format(...), vim.log.levels.ERROR)
 end

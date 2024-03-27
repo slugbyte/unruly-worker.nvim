@@ -11,7 +11,7 @@ function M.find_files()
 		})
 		return
 	end
-	util.notify_error("telescope not found")
+	util.error("telescope not found")
 end
 
 function M.live_grep()
@@ -21,7 +21,7 @@ function M.live_grep()
 		})
 		return
 	end
-	util.notify_error("telescope not found")
+	util.error("telescope not found")
 end
 
 -- this will work without telescope

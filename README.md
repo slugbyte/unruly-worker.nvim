@@ -1,31 +1,30 @@
 # unruly worker
-> a semantic key map for nvim designed for the workman keyboard layout
+> a ridiculously fun workman keyboard layout plugin for neovim
 
 ![unruly worker vim layout cheatsheet](./asset/cheatsheet.png)
 
 ## DEPENDENCIES
-* [nvim](https://neovim.io/) version > 0.5
-* (optional) a comment plugin that supports `gcc` and `gcip` 
-  * [comment.nvim](https://github.com/numToStr/Comment.nvim)
-  * [commentary.vim](https://github.com/tpope/vim-commentary)
+* [nvim](https://neovim.io/) version > 0.8
+* all of the following plugins are optional but highly recommended
+  * ⭐⭐⭐⭐⭐[nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - auto completion
+  * ⭐⭐⭐⭐⭐[telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) -
+    fuzzy search with preview
+  * ⭐⭐⭐⭐[Comment.nvim](https://github.com/numToStr/Comment.nvim)
+  * ⭐⭐⭐⭐[Navigator.nvim](https://github.com/numToStr/Navigator.nvim) -
+    tmux/wez-term navigation
+  * ⭐⭐⭐[nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) +
+    [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects)
+  * ⭐⭐⭐[LuaSnip](https://github.com/L3MON4D3/LuaSnip)
 
 ## INSTALL AND SETUP
-1. Install with your favorite [package manager](https://github.com/savq/paq-nvim)
+1. Install with your favorite [package manager](https://github.com/folke/lazy.nvim)
 2. Add the following **lua** code to your vim config
 
 ``` lua
 -- Use this setup config if you want to follow the keymap above
 local unruly_worker = require('unruly-worker')
 unruly_worker.setup({
-  -- default true
-  enable_lsp_map = true,
-  enable_select_map = true,
-  enable_quote_command = true,
-  enable_easy_window_navigate = true,
-  -- default false
-  enable_comment_map = true, -- requires a comment plugin (see DEPENDENCIES above)
-  enable_wrap_navigate = true,
-  enable_visual_navigate = true,
+  -- TODO: show setup
 })
 ```
 
@@ -37,11 +36,59 @@ Type `help uw_(some key)` for documentation about the default for a specific key
 For example `uw_S` will go to documentation for the `S` keymap.  
 For example `uw_c-a` will go to documentation for the `<C-a>` keymap.  
 
-## PRO TIPS
-* Map `j` to Find by filename with [fzf](https://github.com/junegunn/fzf.vim) or [telescope](https://github.com/nvim-telescope/telescope.nvim)
-* Map `J` to Find text in file with [fzf](https://github.com/junegunn/fzf.vim) or [telescope](https://github.com/nvim-telescope/telescope.nvim)
-* Visual Map `s` to `<Plug>SurroundAddVisual` with [surround.nvim](https://github.com/blackCauldron7/surround.nvim)
-  * a game changer when coupled with `enable_select_map = true`, hit `s` to select then `s` again to surround
+## Register Stufff
+#### Inspection
+Tap `\`` and then any register to see a pretty print of that registers contents.
+It will display special keys line `<enter>`, `<esc>` or `<c-q>`
+
+#### Preselection
+With Unruly when you select a register, it stays selected until you change it.
+This means you don't select a register for a specific motion, instead you set
+the yank or macro register, and then all future yank/paste or record/play
+actions will use the selected register until you select a new register. 
+
+Regsiters [0-9] are reserved for delete and yank history. [(See Kopy Below)](#Kopy)
+
+## Kopy
+* Yank/Paste uses a preselected register. `+` is the default
+* Unruly always deletes into register `0`.
+* Yank and Delete have seperate key maps for pasting
+* Yank and Delete keep their history in registers 1-9
+
+### yank history
+<!-- TODO: how does pasting from history work -->
+* 1) copy history into current kopy register
+* 2) paste directly from history
+
+### yank and paste from the kopy register
+* `k` - yank
+* `K` - yank line
+* `p` - paste yank below
+* `P` - paste yank above
+* `"` - select kopy register, `[a-z][A-X] and 0 +`
+  * press `<enter>` or `<space>` reset to `+`
+
+#### delete and paste from register 0
+* `d` - delete
+* `dd` - delete line
+* `D` - delete to end of line
+* `x` - delete under curser
+* `X` - delete before curser
+* `c` - delete then enter insert mode
+* `cc` - delete line then enter insert mode 
+* `C` - delete to end of line then enter insert mode
+* `.` - paste delete below
+* `,` - paste delete above
+
+#### Kopy/Delete Tip
+* if you want yank and delete to share the same register set the kopy register
+  to `0`
+
+## Macro
+
+## Mark ab/AB
+
+## Seek (next, prev)
 
 ## LAYOUT PHILOSOPHY
 1. When possible, commands are positioned according to the workman layout heatmap. So frequent use will not strain your hands.

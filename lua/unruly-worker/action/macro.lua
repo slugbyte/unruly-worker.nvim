@@ -40,7 +40,7 @@ function M.record()
 		vim.cmd(string.format("silent! normal! q%s", S.register))
 	else
 		vim.cmd("silent! normal! q")
-		util.info("MACRO RECORDED: %s", S.register)
+		util.notify("MACRO RECORDED: %s", S.register)
 	end
 end
 
@@ -51,11 +51,11 @@ function M.play()
 	-- register, `safe_macro` is just everything but that 'z'
 	local safe_macro = string.sub(register_content, 1, #register_content - 1)
 	if #safe_macro > 0 then
-		util.info("MACRO PLAY: %s (%s)", S.register, vim.fn.keytrans(safe_macro))
+		util.notify("MACRO PLAY: %s (%s)", S.register, vim.fn.keytrans(safe_macro))
 		vim.fn.setreg("1", safe_macro)
 		vim.cmd('silent! noautocmd normal! @1')
 	else
-		util.info("MACRO EMPTY: %s", S.register)
+		util.notify("MACRO EMPTY: %s", S.register)
 	end
 end
 
@@ -67,12 +67,12 @@ function M.select_register()
 		vim.fn.setreg(S.register, "")
 		return
 	end
-	util.notify_info("MACRO REGISTER SELECT> ")
+	util.info("MACRO REGISTER SELECT> ")
 	local ch_int = vim.fn.getchar()
 	local ch_str = string.char(ch_int)
 	if is_valid_macro_register(ch_int) then
 		S.register = ch_str
-		util.info("MACRO REGISTER: %s", S.register)
+		util.notify("MACRO REGISTER: %s", S.register)
 		return
 	end
 	util.error("invalid register: %s, try [0-9][a-z] (Macro Register Still: %s)", vim.fn.keytrans(ch_str), S.register)
@@ -80,12 +80,12 @@ end
 
 function M.lock()
 	S.is_locked = true
-	util.notify_info("MACRO RECORDING LOCKED")
+	util.notify("MACRO RECORDING LOCKED")
 end
 
 function M.unlock()
 	S.is_locked = false
-	util.notify_info("MACRO RECORDING UNLOCKED")
+	util.notify("MACRO RECORDING UNLOCKED")
 end
 
 return M
@@ -118,7 +118,7 @@ return M
 -- 		return
 -- 	end
 --
--- 	util.notify_error("no macros to select")
+-- 	util.error("no macros to select")
 -- end
 -- vim.print(vim.api.nvim_cmd(vim.print(vim.api.nvim_parse_cmd(string.format("silent! normal! q%s", S.register), {})),
 -- { output = true }))
