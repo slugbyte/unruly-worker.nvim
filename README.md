@@ -1,20 +1,20 @@
 # unruly worker
 > a ridiculously fun workman keyboard layout plugin for neovim
 
-![unruly worker vim layout cheatsheet](./asset/cheatsheet.png)
+![unruly worker vim layout cheatsheet](./asset/img/cheatsheet.png)
 
 ## DEPENDENCIES
 * [nvim](https://neovim.io/) version > 0.8
 * all of the following plugins are optional but highly recommended
-  * ⭐⭐⭐⭐⭐[nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - auto completion
-  * ⭐⭐⭐⭐⭐[telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) -
+  * ⭐⭐⭐⭐⭐- [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - auto completion
+  * ⭐⭐⭐⭐⭐- [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) -
     fuzzy search with preview
-  * ⭐⭐⭐⭐[Comment.nvim](https://github.com/numToStr/Comment.nvim)
-  * ⭐⭐⭐⭐[Navigator.nvim](https://github.com/numToStr/Navigator.nvim) -
+  * ⭐⭐⭐⭐- [Comment.nvim](https://github.com/numToStr/Comment.nvim)
+  * ⭐⭐⭐⭐- [Navigator.nvim](https://github.com/numToStr/Navigator.nvim) -
     tmux/wez-term navigation
-  * ⭐⭐⭐[nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) +
+  * ⭐⭐⭐- [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) +
     [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects)
-  * ⭐⭐⭐[LuaSnip](https://github.com/L3MON4D3/LuaSnip)
+  * ⭐⭐⭐- [LuaSnip](https://github.com/L3MON4D3/LuaSnip)
 
 ## INSTALL AND SETUP
 1. Install with your favorite [package manager](https://github.com/folke/lazy.nvim)
