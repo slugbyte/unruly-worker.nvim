@@ -9,12 +9,13 @@
   * ⭐⭐⭐⭐⭐- [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - auto completion
   * ⭐⭐⭐⭐⭐- [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) -
     fuzzy search with preview
-  * ⭐⭐⭐⭐- [Comment.nvim](https://github.com/numToStr/Comment.nvim)
+  * ⭐⭐⭐⭐- [Comment.nvim](https://github.com/numToStr/Comment.nvim) - comment
+    toggling
   * ⭐⭐⭐⭐- [Navigator.nvim](https://github.com/numToStr/Navigator.nvim) -
     tmux/wez-term navigation
   * ⭐⭐⭐- [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) +
-    [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects)
-  * ⭐⭐⭐- [LuaSnip](https://github.com/L3MON4D3/LuaSnip)
+    [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) - syntax navigation
+  * ⭐⭐⭐- [LuaSnip](https://github.com/L3MON4D3/LuaSnip) - powerful snipits
 
 ## INSTALL AND SETUP
 1. Install with your favorite [package manager](https://github.com/folke/lazy.nvim)
@@ -27,6 +28,8 @@ unruly_worker.setup({
   -- TODO: show setup
 })
 ```
+
+
 
 ## HELP
 Type `:help unruly-worker` for documentation that includes mnemonics for each
@@ -48,6 +51,23 @@ the yank or macro register, and then all future yank/paste or record/play
 actions will use the selected register until you select a new register. 
 
 Regsiters [0-9] are reserved for delete and yank history. [(See Kopy Below)](#Kopy)
+
+## Auto Completion with `nvim-cmp`
+
+## Navigation
+### curser navigation
+* `yneo` - are mapped to left, down, up, right
+* `Y` - goes to beginning of line
+* `O` - goes to end of line
+
+### window navigation
+* `<ctrl>` + `yneo` - are mapped to focus pane left, down, up, right
+  * if Navigator.nvim is installed this will also work with your terminal
+    multiplexer
+* `<c-x>` close vim split
+* `<c-f>` fullscreen vim split
+* `<c-s>` split verticle
+* `<c-h>` split horizontal
 
 ## Kopy
 * Yank/Paste uses a preselected register. `+` is the default
@@ -83,6 +103,7 @@ Regsiters [0-9] are reserved for delete and yank history. [(See Kopy Below)](#Ko
 #### Kopy/Delete Tip
 * if you want yank and delete to share the same register set the kopy register
   to `0`
+
 
 ## Macro
 

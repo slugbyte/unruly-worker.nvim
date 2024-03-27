@@ -194,7 +194,6 @@ local mapping = {
 			["<leader>]"] = cfg_basic("o<esc>^d$<Up>", "[]) empty line below"),
 			["<leader>["] = cfg_basic("O<esc>^d$<Down>", "([) empty line above"),
 
-			["<C-w>j"] = cfg_noop(),
 			["<C-w>k"] = cfg_noop(),
 			["<C-w>l"] = cfg_noop(),
 
@@ -207,11 +206,12 @@ local mapping = {
 			["%"] = cfg_noop(),
 			["^"] = cfg_noop(),
 			["&"] = cfg_basic("&", "repeat subsitute"),
+			["=>"] = cfg_basic("&", "repeat subsitute"),
 			["*"] = cfg_noop(),
 			["-"] = cfg_noop(),
 			["_"] = cfg_noop(),
 			["+"] = cfg_noop(),
-			["="] = cfg_noop(),
+			-- ["="] = cfg_noop(),
 			["|"] = cfg_noop(),
 			[";"] = cfg_noop(),
 		},
@@ -242,6 +242,7 @@ local mapping = {
 			["_"] = cfg_basic(vim.diagnostic.goto_next, "diagnostic next"),
 			["-"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
 			[";"] = cfg_basic(vim.lsp.buf.hover, "lsp hover"),
+			["="] = cfg_basic(vim.lsp.buf.code_action, "lsp hover"),
 			["<C-r>"] = cfg_basic(vim.lsp.buf.rename, "lsp rename"),
 			["<C-d>"] = cfg_basic(action.telescope.lsp_definiton, "lsp rename"),
 		},
@@ -268,7 +269,12 @@ local mapping = {
 	},
 	easy_source = {
 		m = {
-			["%"] = cfg_custom(":source %<CR>", no_remap, silent, "source current buffer"),
+			["%"] = cfg_custom(function()
+				local keys = vim.api.nvim_replace_termcodes(":source %<cr>", true, false, true)
+				vim.api.nvim_feedkeys(keys, "n", false)
+				util.notify("sourced current file")
+			end, no_remap, no_silent, "source current buffer")
+			-- ["%"] = cfg_custom(":source %<CR>", no_remap, silent, "source current buffer"),
 		},
 	},
 	easy_jump = {
