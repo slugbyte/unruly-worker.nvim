@@ -268,13 +268,16 @@ local mapping = {
 		},
 	},
 	easy_source = {
-		m = {
+		n = {
 			["%"] = cfg_custom(function()
+				local current_file = vim.fn.expandcmd("%")
+				if current_file == "%" then
+					util.error("cannot source noname buffer, try to save file beforce sourcing")
+					return
+				end
 				local keys = vim.api.nvim_replace_termcodes(":source %<cr>", true, false, true)
 				vim.api.nvim_feedkeys(keys, "n", false)
-				util.notify("sourced current file")
-			end, no_remap, no_silent, "source current buffer")
-			-- ["%"] = cfg_custom(":source %<CR>", no_remap, silent, "source current buffer"),
+			end, no_remap, no_silent, "source current buffer"),
 		},
 	},
 	easy_jump = {
@@ -364,6 +367,11 @@ local setup_force = function(config)
 
 	if config then
 		context = vim.tbl_extend("force", context, config)
+	end
+
+	if config.easy_source then
+		-- disable neovim from auto loading matchit
+		vim.g.loaded_matchit = true
 	end
 
 	map_config(mapping.general, context.skip_list)
