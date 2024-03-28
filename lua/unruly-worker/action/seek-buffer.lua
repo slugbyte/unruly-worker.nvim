@@ -69,12 +69,13 @@ end
 function M.seek_forward()
 	count_buffers()
 	if #S.buf_list <= 1 then
+		S.current_buf_index = 1
 		util.info("no more buffers")
 		return
 	end
 
 	if S.current_buf_index == -1 then
-		S.current_buf_index = 1
+		S.current_buf_index = 0
 	end
 
 	local next_buffer = S.buf_list[S.current_buf_index + 1]
@@ -90,6 +91,7 @@ end
 function M.seek_reverse()
 	count_buffers()
 	if #S.buf_list <= 1 then
+		S.current_buf_index = 1
 		util.info("no more buffers")
 		return
 	end

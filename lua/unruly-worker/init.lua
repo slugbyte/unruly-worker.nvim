@@ -18,7 +18,6 @@
 
 local util = require("unruly-worker.util")
 local action = require("unruly-worker.action")
-local hop = require("unruly-worker.hop")
 local external = require("unruly-worker.external")
 
 -- remap keys will recusively map meaning future keys will instead map to the new value
@@ -314,13 +313,6 @@ local mapping = {
 			["<leader>n"] = cfg_basic(action.seek.seek_forward, "go to next thing"),
 			["<leader>p"] = cfg_basic(action.seek.seek_reverse, "go to next thing"),
 			["<leader>r"] = cfg_basic(action.seek.mode_rotate, "go to next thing"),
-			-- ["<leader>f"] = cfg_basic(action.seek.seek_forward, "go to next thing"),
-			-- ["<leader>uhm"] = cfg_basic(hop.HopModeSetMark, "homp mode mark"),
-			-- ["<leader>uht"] = cfg_basic(hop.HopModeSetTextObject, "homp mode text object"),
-			-- ["<leader>uhq"] = cfg_basic(hop.HopModeSetQuickFix, "homp mode quick fix"),
-			-- ["<C-b>"] = cfg_basic(hop.HopModeRotate, "rotate hop mode"),
-			-- N = cfg_basic(hop.HopReverse, "hop reverse"),
-			-- E = cfg_basic(hop.HopForward, "hop forward"),
 		},
 	},
 }

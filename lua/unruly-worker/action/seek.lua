@@ -31,7 +31,7 @@ local function create_mode_set_fn(mode_option)
 	end
 end
 
--- hop quick fix list
+-- seek quick fix list
 M.mode_set_text_object = create_mode_set_fn(M.mode_option.text_object)
 M.mode_set_quick_fix = create_mode_set_fn(M.mode_option.quick_fix)
 M.mode_set_buffer = create_mode_set_fn(M.mode_option.buffer)
@@ -42,7 +42,7 @@ function M.get_status_text()
 	end
 end
 
--- hop mode rotate
+-- seek mode rotate
 function M.mode_rotate()
 	if S.seek_mode == M.mode_option.quick_fix then
 		M.mode_set_buffer()
@@ -60,14 +60,14 @@ function M.seek_forward()
 		return seek_buffer.seek_forward()
 	end
 
-	util.error("no hop forward impl for %s", M.mode_get())
+	util.error("no seek forward impl for %s", M.mode_get())
 end
 
 function M.seek_reverse()
 	if S.seek_mode == M.mode_option.buffer then
 		return seek_buffer.seek_reverse()
 	end
-	util.error("no hop reverse impl for %s", M.mode_get())
+	util.error("no seek reverse impl for %s", M.mode_get())
 end
 
 return M
