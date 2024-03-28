@@ -309,14 +309,18 @@ local mapping = {
 			["<C-k>"] = cfg_basic(action.luasnip.jump_reverse, "luasnip jump prev"),
 		},
 	},
-	easy_hop = {
+	easy_seek = {
 		m = {
-			["<leader>uhm"] = cfg_basic(hop.HopModeSetMark, "homp mode mark"),
-			["<leader>uht"] = cfg_basic(hop.HopModeSetTextObject, "homp mode text object"),
-			["<leader>uhq"] = cfg_basic(hop.HopModeSetQuickFix, "homp mode quick fix"),
+			["<leader>n"] = cfg_basic(action.seek.seek_forward, "go to next thing"),
+			["<leader>p"] = cfg_basic(action.seek.seek_reverse, "go to next thing"),
+			["<leader>r"] = cfg_basic(action.seek.mode_rotate, "go to next thing"),
+			-- ["<leader>f"] = cfg_basic(action.seek.seek_forward, "go to next thing"),
+			-- ["<leader>uhm"] = cfg_basic(hop.HopModeSetMark, "homp mode mark"),
+			-- ["<leader>uht"] = cfg_basic(hop.HopModeSetTextObject, "homp mode text object"),
+			-- ["<leader>uhq"] = cfg_basic(hop.HopModeSetQuickFix, "homp mode quick fix"),
 			-- ["<C-b>"] = cfg_basic(hop.HopModeRotate, "rotate hop mode"),
-			N = cfg_basic(hop.HopReverse, "hop reverse"),
-			E = cfg_basic(hop.HopForward, "hop forward"),
+			-- N = cfg_basic(hop.HopReverse, "hop reverse"),
+			-- E = cfg_basic(hop.HopForward, "hop forward"),
 		},
 	},
 }
@@ -355,7 +359,7 @@ local setup_force = function(config)
 			easy_jump       = true,
 			easy_textobject = true,
 			easy_luasnip    = true,
-			easy_hop        = false,
+			easy_seek       = true,
 		},
 		skip_list = {},
 	}
