@@ -74,12 +74,10 @@ local mapping = {
 			-- alphabet
 			a = cfg_custom("a", remap, no_silent, "append cursor"),
 			A = cfg_basic("A", "append line"),
-			["<c-a>"] = cfg_basic_expr(action.mark.expr_goto_a, "GOTO MARK: a"),
-			["<c-b>"] = cfg_basic_expr(action.mark.expr_goto_b, "GOTO MARK: b"),
-			-- ["<c-a>"] = cfg_cmd("'azz", "goto mark a", "GOTO MARK: a"),
 			b = cfg_basic("%", "brace match"),
 			B = cfg_basic("g;", "back to last change"),
-			-- B = cfg_basic(action.telescope.buffer_fuzzy_search, "buffer fuzzy find"),
+			["<c-a>"] = cfg_basic_expr(action.mark.expr_goto_a, "GOTO MARK: a"),
+			["<c-b>"] = cfg_basic_expr(action.mark.expr_goto_b, "GOTO MARK: b"),
 			c = cfg_basic(action.kopy.create_delete_cmd("c"), "change content, store old in reg 0"),
 			cc = cfg_basic(action.kopy.create_delete_cmd("cc"), "changle lines, store old in reg 0"),
 			C = cfg_basic(action.kopy.create_delete_cmd("C"), "change to EOL, store old in reg 0"),
@@ -101,7 +99,6 @@ local mapping = {
 			["<c-j>"] = cfg_basic(action.telescope.jump_list, "jump list"),
 			k = cfg_basic_expr(action.kopy.expr_yank, "kopy"),
 			K = cfg_basic_expr(action.kopy.expr_yank_line, "kopy line"),
-			-- ["<C-k>"] = cfg_basic(action.kopy.register_select, "select kopy register"),
 			l = cfg_basic("o", "line insert below"),
 			L = cfg_basic("O", "line insert above"),
 			m = cfg_basic(action.mark.toggle_mode, "mark mode toggle"),
@@ -110,13 +107,7 @@ local mapping = {
 			-- M = cfg_basic_expr(action.mark.expr_set_b, "MARK SET: b"),
 			["<leader>a"] = cfg_basic_expr(action.mark.expr_set_a, "MARK SET: a"),
 			["<leader>b"] = cfg_basic_expr(action.mark.expr_set_b, "MARK SET: b"),
-			-- ["<leader>m"] = cfg_basic(action.mark.toggle_mode, "mark mode toggle"),
-			-- ["<leader>ma"] = cfg_basic(action.mark.delete_a, "mark delete a"),
-			-- ["<leader>mb"] = cfg_basic_expr(action.mark.delete_b, "mark delete b"),
-			-- ["<leader>mm"] = cfg_basic(action.mark.delete_mode, "mark delete mode"),
 			["<leader>mx"] = cfg_basic(action.mark.delete_all, "mark delete all"),
-			-- m = cfg_cmd("ma", "set mark a", "MARK SET: a"),
-			-- M = cfg_cmd("mb", "set mark b", "MARK SET: b"),
 			n = cfg_basic("j", "down"),
 			N = cfg_basic("J", "join lines"),
 			o = cfg_basic("l", "right"),
@@ -146,6 +137,11 @@ local mapping = {
 			z = cfg_basic(action.macro.record, "macro record"),
 			Z = cfg_basic(action.macro.play, "macro play"),
 			["<c-z>"] = cfg_basic(action.macro.select_register, "select macro register"),
+
+			["<End>"] = cfg_basic("9<C-E>", "scroll down fast"),
+			["<PageDown>"] = cfg_basic("3<C-E>", "scroll down"),
+			["<PageUp>"] = cfg_basic("3<C-Y>", "scroll up"),
+			["<Home>"] = cfg_basic("9<C-Y>", "scroll down fast"),
 
 			-- parens
 			[")"] = cfg_basic(")", "next sentence"),
@@ -204,6 +200,7 @@ local mapping = {
 
 			-- cursor align
 			["@"] = cfg_basic("zt", "align top"),
+
 			["$"] = cfg_basic("zz", "align middle"),
 			["#"] = cfg_basic("zb", "align bottom"),
 
@@ -216,6 +213,7 @@ local mapping = {
 			["-"] = cfg_noop(),
 			["_"] = cfg_noop(),
 			["+"] = cfg_noop(),
+
 			["!"] = cfg_noop(),
 			["|"] = cfg_noop(),
 			[";"] = cfg_noop(),
