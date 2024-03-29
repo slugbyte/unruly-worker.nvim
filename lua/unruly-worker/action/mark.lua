@@ -1,3 +1,4 @@
+local util = require("unruly-worker.util")
 -- in vim lower case marks are single buffer
 -- where uppercase marks are multi buffer
 local S = {
@@ -20,7 +21,7 @@ function M.get_state()
 				result.is_a_set = true
 			end
 			if item.mark == "'b" then
-				result.is_a_set = true
+				result.is_b_set = true
 			end
 		end
 		return result
@@ -31,7 +32,7 @@ function M.get_state()
 			result.is_a_set = true
 		end
 		if item.mark == "'B" then
-			result.is_a_set = true
+			result.is_b_set = true
 		end
 	end
 	return result
@@ -59,17 +60,49 @@ end
 
 function M.toggle_mode()
 	S.is_local_mode = not S.is_local_mode
+	if S.is_local_mode then
+		util.info("MARK MODE LOCAL")
+	else
+		util.info("MARK MODE GLOBAL")
+	end
 end
 
-function M.delete_mark_a()
-	vim.cmd("silent! delmarks! a")
+function M.delete_a()
+	if S.is_local_mode then
+		util.info("MARK CLEAR: a")
+		vim.cmd("silent! delmarks a")
+		return
+	end
+	util.info("MARK CLEAR: A")
+	vim.cmd("silent! delmarks A")
 end
 
-function M.delete_mark_b()
-	vim.cmd("silent! delmarks! a")
+function M.delete_b()
+	if S.is_local_mode then
+		util.info("MARK CLEAR: b")
+		vim.cmd("silent! delmarks b")
+		return
+	end
+	util.info("MARK CLEAR: B")
+	vim.cmd("silent! delmarks B")
 end
 
-function M.expr_goto_mark_a()
+function M.delete_mode()
+	if S.is_local_mode then
+		util.info("MARK CLEAR: local")
+		vim.cmd("silent! delmarks ab")
+		return
+	end
+	util.info("MARK CLEAR: global")
+	vim.cmd("silent! delmarks AB")
+end
+
+function M.delete_all()
+	util.info("MARK CLEAR ALL")
+	vim.cmd("silent! delmarks abAB")
+end
+
+function M.expr_goto_a()
 	if S.is_local_mode then
 		return "'azz"
 	else
@@ -77,7 +110,7 @@ function M.expr_goto_mark_a()
 	end
 end
 
-function M.expr_goto_mark_b()
+function M.expr_goto_b()
 	if S.is_local_mode then
 		return "'bzz"
 	else
@@ -85,18 +118,22 @@ function M.expr_goto_mark_b()
 	end
 end
 
-function M.expr_set_mark_a()
+function M.expr_set_a()
 	if S.is_local_mode then
+		util.info("MARK SET: a")
 		return 'ma'
 	else
+		util.info("MARK SET: A")
 		return 'mA'
 	end
 end
 
-function M.expr_set_mark_b()
+function M.expr_set_b()
 	if S.is_local_mode then
+		util.info("MARK SET: b")
 		return 'mb'
 	else
+		util.info("MARK SET: B")
 		return 'mB'
 	end
 end
