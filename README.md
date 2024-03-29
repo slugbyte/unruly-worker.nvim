@@ -1,5 +1,6 @@
 # unruly worker
 > a ridiculously fun workman keyboard layout plugin for neovim
+l
 
 ![unruly worker vim layout cheatsheet](./asset/img/cheatsheet.png)
 

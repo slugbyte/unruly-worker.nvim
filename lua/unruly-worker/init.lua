@@ -17,6 +17,7 @@
 -- or should I just make a mark action ?
 -- TODO: text object mappings (external)
 -- TODO: telescope mappings (external)
+-- TODO: !!!! put marks in gutter https://github.com/chentoast/marks.nvim/blob/74e8d01b2a2131b6e46354cffc553aa7f81bcf5b/lua/marks/utils.lua#L9C1-L19C1
 
 local util = require("unruly-worker.util")
 local action = require("unruly-worker.action")
@@ -117,13 +118,12 @@ local mapping = {
 			O = cfg_basic("$", "right to EOL"),
 			p = cfg_basic_expr(action.kopy.expr_paste_below, "paste after"),
 			P = cfg_basic_expr(action.kopy.expr_paste_above, "paste before"),
-			['<C-p>'] = cfg_basic(action.kopy.register_select, "register select"),
+			["<C-p>"] = cfg_basic(action.telescope.registers, "[P]aste"),
 			q = cfg_basic(action.save.write_all, "write all"),
 			Q = cfg_basic(":qall<cr>", "quit all"),
 			["<C-q>"] = cfg_basic(":qall!<cr>", "quit all force"),
 			r = cfg_basic("r", "replace"),
 			R = cfg_basic("R", "replace mode"),
-			["<leader>r"] = cfg_basic(".", "repeat last change"),
 			s = cfg_noop(),
 			S = cfg_noop(),
 			t = cfg_basic("f", "to char"),
@@ -176,8 +176,8 @@ local mapping = {
 			["."] = cfg_basic('"0p', "paste register x below"),
 
 			-- register
-			['`'] = cfg_noop(),
-			['"'] = cfg_basic(action.kopy.register_peek, "register_peek"),
+			['`'] = cfg_basic(action.kopy.register_peek, "register_peek"),
+			['"'] = cfg_basic(action.kopy.register_select, "register select"),
 
 			-- window nav
 			["<C-w>k"] = cfg_noop(),
@@ -200,8 +200,8 @@ local mapping = {
 			["<C-h>"] = cfg_basic(":sp<CR>", "split horizontal"),
 			["<C-s>"] = cfg_basic(":vs<CR>", "split verticle"),
 
-			-- ["<leader>l"] = cfg_basic("o<esc>^d$<Up>", "[]) empty line below"),
-			-- ["<leader>L"] = cfg_basic("O<esc>^d$<Down>", "([) empty line above"),
+			["<leader>ll"] = cfg_basic("o<esc>^d$<Up>", "[L]ine Below"),
+			["<leader>lL"] = cfg_basic("O<esc>^d$<Down>", "[L]ine Above"),
 
 			-- cursor align
 			["@"] = cfg_basic("zt", "align top"),
@@ -219,7 +219,7 @@ local mapping = {
 			["_"] = cfg_noop(),
 			["+"] = cfg_noop(),
 
-			["!"] = cfg_noop(),
+			["!"] = cfg_basic(".", "repeat change"),
 			["|"] = cfg_noop(),
 			[";"] = cfg_noop(),
 		},
