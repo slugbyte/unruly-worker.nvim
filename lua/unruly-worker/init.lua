@@ -15,12 +15,15 @@
 -- TODO: somehow respect config so that maps can react to it
 -- for exaple do you want marks to Jump by file of by buffer?
 -- or should I just make a mark action ?
+-- TODO: text object mappings (external)
+-- TODO: telescope mappings (external)
 
 local util = require("unruly-worker.util")
 local action = require("unruly-worker.action")
 local external = require("unruly-worker.external")
 
--- remap keys will recusively map meaning future keys will instead map to the new value
+-- remap keys will map to current mapping (so kinda dangerous b/c who knows what peeps maps are)
+-- no_remap keys will be whatever the vim EX cmd defaults are
 local no_remap = false
 local remap = true
 
@@ -107,7 +110,7 @@ local mapping = {
 			-- M = cfg_basic_expr(action.mark.expr_set_b, "MARK SET: b"),
 			["<leader>a"] = cfg_basic_expr(action.mark.expr_set_a, "MARK SET: a"),
 			["<leader>b"] = cfg_basic_expr(action.mark.expr_set_b, "MARK SET: b"),
-			["<leader>mx"] = cfg_basic(action.mark.delete_all, "mark delete all"),
+			-- ["<leader>um"] = cfg_basic(action.mark.delete_all, "mark delete all"),
 			n = cfg_basic("j", "down"),
 			N = cfg_basic("J", "join lines"),
 			o = cfg_basic("l", "right"),
@@ -120,6 +123,7 @@ local mapping = {
 			["<C-q>"] = cfg_basic(":qall!<cr>", "quit all force"),
 			r = cfg_basic("r", "replace"),
 			R = cfg_basic("R", "replace mode"),
+			["<leader>r"] = cfg_basic(".", "repeat last change"),
 			s = cfg_noop(),
 			S = cfg_noop(),
 			t = cfg_basic("f", "to char"),
@@ -130,6 +134,7 @@ local mapping = {
 			V = cfg_basic("V", "visual line mode"),
 			w = cfg_basic("w", "word forward"),
 			W = cfg_basic("b", "word backward"),
+			["<leader>s"] = cfg_basic("z=", "spell check"),
 			x = cfg_basic(action.kopy.create_delete_cmd("x"), "delete char into reg 0"),
 			X = cfg_basic(action.kopy.create_delete_cmd("X"), "delete previous char into reg 0"),
 			y = cfg_basic("h", "left"),
@@ -265,10 +270,6 @@ local mapping = {
 			["<C-n>"] = cfg_custom(action.tmux.focus_down, no_remap, silent, "focus down (vim/tmux)"),
 			["<C-e>"] = cfg_custom(action.tmux.focus_up, no_remap, silent, "focus up (vim/tmux)"),
 			["<C-o>"] = cfg_custom(action.tmux.focus_right, no_remap, silent, "focus right (vim/tmux)"),
-			-- ["<C-y>"] = cfg_custom(":TmuxNavigateLeft<CR>", no_remap, silent, "focus left (vim/tmux)"),
-			-- ["<C-n>"] = cfg_custom(":TmuxNavigateDown<CR>", no_remap, silent, "focus down (vim/tmux)"),
-			-- ["<C-e>"] = cfg_custom(":TmuxNavigateUp<CR>", no_remap, silent, "focus up (vim/tmux)"),
-			-- ["<C-o>"] = cfg_custom(":TmuxNavigateRight<CR>", no_remap, silent, "focus right (vim/tmux)"),
 		},
 	},
 	easy_source = {
@@ -320,10 +321,31 @@ local mapping = {
 	},
 	easy_seek = {
 		m = {
-			["<leader>n"] = cfg_basic(action.seek.seek_forward, "go to next thing"),
-			["<leader>p"] = cfg_basic(action.seek.seek_reverse, "go to next thing"),
-			["<leader>r"] = cfg_basic(action.seek.mode_rotate, "go to next thing"),
+			["<leader>n"] = cfg_basic(action.seek.seek_forward, "[N]ext Seek"),
+			["<leader>p"] = cfg_basic(action.seek.seek_reverse, "[P]rev Seek"),
+			-- TODO: seek first and last (sf, sl)
+			["<leader>sr"] = cfg_basic(action.seek.mode_rotate, "[S]eek [R]otate Mode"),
 		},
+	},
+	telescope_leader = {
+		m = {
+			["<leader>s"] = cfg_basic(action.telescope.spell_suggest, "[S]pellcheck"),
+			["<leader>tb"] = cfg_basic(action.telescope.buffers, "[T]elescope [B]uffers"),
+			["<leader>tr"] = cfg_basic(action.telescope.oldfiles, "[T]elescope [R]ecent"),
+
+			["<leader>tq"] = cfg_basic(action.telescope.quickfix, "[T]elescope [Q]uickfix"),
+			["<leader>tl"] = cfg_basic(action.telescope.loclist, "[T]elescope [L]oclist"),
+			["<leader>tj"] = cfg_basic(action.telescope.loclist, "[T]elescope [J]umplist"),
+
+			["<leader>tm"] = cfg_basic(action.telescope.man_pages, "[T]elescope [M]an pages"),
+			["<leader>th"] = cfg_basic(action.telescope.help_tags, "[T]elescope [H]elp Tags"),
+			["<leader>tt"] = cfg_basic(action.telescope.man_pages, "[T]elescope [T]ags"),
+
+			["<leader>tc"] = cfg_basic(action.telescope.commands, "[T]elescope [C]ommands"),
+			["<leader>tk"] = cfg_basic(action.telescope.keymaps, "[T]elescope [K]eymaps"),
+			["<leader>tp"] = cfg_basic(action.telescope.registers, "[T]elescope [P]aste"),
+			["<leader>ta"] = cfg_basic(action.telescope.resume, "[T]elescope [A]gain"),
+		}
 	},
 }
 
@@ -353,15 +375,16 @@ local setup_force = function(config)
 
 	local context = {
 		booster   = {
-			easy_lsp        = true,
-			easy_move       = true,
-			easy_tmux       = true,
-			easy_comment    = true,
-			easy_source     = true,
-			easy_jump       = true,
-			easy_textobject = true,
-			easy_luasnip    = true,
-			easy_seek       = true,
+			easy_lsp         = true,
+			easy_move        = true,
+			easy_tmux        = true,
+			easy_comment     = true,
+			easy_source      = true,
+			easy_jump        = true,
+			easy_textobject  = true,
+			easy_luasnip     = true,
+			easy_seek        = true,
+			telescope_leader = true,
 		},
 		skip_list = {},
 	}

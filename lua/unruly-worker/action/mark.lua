@@ -61,9 +61,9 @@ end
 function M.toggle_mode()
 	S.is_local_mode = not S.is_local_mode
 	if S.is_local_mode then
-		util.info("MARK MODE LOCAL")
+		util.info("MARK MODE LOCAL " .. M.get_status_text())
 	else
-		util.info("MARK MODE GLOBAL")
+		util.info("MARK MODE GLOBAL " .. M.get_status_text())
 	end
 end
 
