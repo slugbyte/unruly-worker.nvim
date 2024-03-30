@@ -9,7 +9,6 @@
 --  Maintainer: Duncan Marsh (slugbyte@slugbyte.com)
 --  Repository: https://github.com/slugbyte/unruly-worker
 --
--- TODO: add lsp leader commands for unruly toggles
 -- TODO: add treesitter search commands
 -- TODO: add healthcheck report
 -- TODO: somehow respect config so that maps can react to it
@@ -92,6 +91,8 @@ local mapping = {
 			E = cfg_cmd("vip", "envelope paraghaph"),
 			f = cfg_basic("n", "find next"),
 			F = cfg_basic("N", "find prev"),
+			["<leader>f"] = cfg_basic("g*", "[F]ind Word"),
+			["<leader>F"] = cfg_basic("g#", "[F]ind Word Reverse"),
 			g = cfg_basic("g", "g command"),
 			G = cfg_basic("G", "goto line"),
 			h = cfg_basic(";", "hop to repeat"),
@@ -232,6 +233,8 @@ local mapping = {
 		v = {
 			["<C-Down>"] = cfg_basic(":m '>+1<CR>gv=gv", "swap down"),
 			["<C-Up>"] = cfg_basic(":m '<-2<CR>gv=gv", "swap up"),
+			["<leader>i"] = cfg_basic("g<C-a>", "[I]ncrament Number Column"),
+			["<leader>d"] = cfg_basic("g<C-x>", "[D]ecrement Number Column"),
 		},
 		c = {
 			["<C-a>"] = cfg_basic("<home>", "goto BOL"),
@@ -253,7 +256,21 @@ local mapping = {
 			[";"] = cfg_basic(vim.lsp.buf.hover, "lsp hover"),
 			["="] = cfg_basic(vim.lsp.buf.code_action, "lsp hover"),
 			["<C-r>"] = cfg_basic(vim.lsp.buf.rename, "lsp rename"),
-			["<C-d>"] = cfg_basic(action.telescope.lsp_definiton, "lsp rename"),
+			["<C-d>"] = cfg_basic(action.telescope.lsp_definiton, "lsp definition"),
+			["<leader>l?"] = cfg_basic(action.telescope.diagnostics, "[L]sp Diagnostics"),
+			["<leader>la"] = cfg_basic(vim.lsp.buf.code_action, "[L]sp Code [A]ction"),
+			["<leader>ld"] = cfg_basic(action.telescope.lsp_definiton, "[L]sp goto [D]efinition"),
+			["<leader>lD"] = cfg_basic(vim.lsp.buf.declaration, "[L]sp goto [D]eclaration"),
+			["<leader>lf"] = cfg_basic(vim.lsp.buf.format, "[L]sp [F]ormat"),
+			["<leader>lc"] = cfg_basic(action.telescope.lsp_incoming_calls, "[L]sp Incoming [C]alls"),
+			["<leader>lC"] = cfg_basic(action.telescope.lsp_outgoing_calls, "[L]sp Outgoing [C]alls"),
+			["<leader>li"] = cfg_basic(action.telescope.lsp_implementations, "[G]oto [I]mplementation"),
+			["<leader>lr"] = cfg_basic(action.telescope.lsp_references, "[L]sp [R]eferences"),
+			["<leader>lR"] = cfg_basic(vim.lsp.buf.rename, "[L]sp [R]ename"),
+			["<leader>ls"] = cfg_basic(action.telescope.lsp_document_symbols, "[L]sp Document [S]ymbols"),
+			["<leader>lS"] = cfg_basic(action.telescope.lsp_workspace_symbols, "[L]sp Workspace [S]ymbols"),
+			["<leader>l$"] = cfg_basic(action.telescope.lsp_dynamic_workspace_symbols, "[L]sp Dynamic Workspace [S]ymbols"),
+			["<leader>lt"] = cfg_basic(action.telescope.lsp_type_definitions, "[L]sp [T]ypes"),
 		},
 	},
 	easy_move = {
