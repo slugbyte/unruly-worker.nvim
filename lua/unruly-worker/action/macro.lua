@@ -88,6 +88,13 @@ function M.unlock()
 	util.notify("MACRO RECORDING UNLOCKED")
 end
 
+function M.lock_toggle()
+	if S.is_locked then
+		return M.unlock()
+	end
+	M.lock()
+end
+
 return M
 
 -- TODO: figure out how to save load and name macros

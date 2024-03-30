@@ -77,10 +77,12 @@ local mapping = {
 			-- alphabet
 			a = cfg_custom("a", remap, no_silent, "append cursor"),
 			A = cfg_basic("A", "append line"),
+			["<c-a>"] = cfg_basic_expr(action.mark.expr_goto_a, "GOTO MARK: a"),
+			["<leader>a"] = cfg_basic_expr(action.mark.expr_set_a, "MARK SET: a"),
+			["<c-b>"] = cfg_basic_expr(action.mark.expr_goto_b, "GOTO MARK: b"),
+			["<leader>b"] = cfg_basic_expr(action.mark.expr_set_b, "MARK SET: b"),
 			b = cfg_basic("%", "brace match"),
 			B = cfg_basic("g;", "back to last change"),
-			["<c-a>"] = cfg_basic_expr(action.mark.expr_goto_a, "GOTO MARK: a"),
-			["<c-b>"] = cfg_basic_expr(action.mark.expr_goto_b, "GOTO MARK: b"),
 			c = cfg_basic(action.kopy.create_delete_cmd("c"), "change content, store old in reg 0"),
 			cc = cfg_basic(action.kopy.create_delete_cmd("cc"), "changle lines, store old in reg 0"),
 			C = cfg_basic(action.kopy.create_delete_cmd("C"), "change to EOL, store old in reg 0"),
@@ -95,8 +97,8 @@ local mapping = {
 			["<leader>F"] = cfg_basic("g#", "[F]ind Word Reverse"),
 			g = cfg_basic("g", "g command"),
 			G = cfg_basic("G", "goto line"),
-			h = cfg_basic(";", "hop to repeat"),
-			H = cfg_basic(",", "hop to reverse"),
+			h = cfg_basic(";", "hop t repeat"),
+			H = cfg_basic(",", "hop t reverse"),
 			i = cfg_basic("i", "insert"),
 			I = cfg_basic("I", "insert BOL"),
 			j = cfg_noop(),
@@ -106,13 +108,10 @@ local mapping = {
 			K = cfg_basic_expr(action.kopy.expr_yank_line, "kopy line"),
 			l = cfg_basic("o", "line insert below"),
 			L = cfg_basic("O", "line insert above"),
+			["<leader>ll"] = cfg_basic("o<esc>^d$<Up>", "[L]ine Below"),
+			["<leader>lL"] = cfg_basic("O<esc>^d$<Down>", "[L]ine Above"),
 			m = cfg_basic(action.mark.toggle_mode, "mark mode toggle"),
 			M = cfg_basic(action.mark.delete_mode, "mark delete mode"),
-			-- m = cfg_basic_expr(action.mark.expr_set_a, "MARK SET: a"),
-			-- M = cfg_basic_expr(action.mark.expr_set_b, "MARK SET: b"),
-			["<leader>a"] = cfg_basic_expr(action.mark.expr_set_a, "MARK SET: a"),
-			["<leader>b"] = cfg_basic_expr(action.mark.expr_set_b, "MARK SET: b"),
-			-- ["<leader>um"] = cfg_basic(action.mark.delete_all, "mark delete all"),
 			n = cfg_basic("j", "down"),
 			N = cfg_basic("J", "join lines"),
 			o = cfg_basic("l", "right"),
@@ -142,8 +141,10 @@ local mapping = {
 			Y = cfg_basic("^", "left to BOL"),
 			z = cfg_basic(action.macro.record, "macro record"),
 			Z = cfg_basic(action.macro.play, "macro play"),
+			["<leader>z"] = cfg_basic(action.macro.lock_toggle, "macro lock toggle"),
 			["<c-z>"] = cfg_basic(action.macro.select_register, "select macro register"),
 
+			-- Scroll keys
 			["<End>"] = cfg_basic("9<C-E>", "scroll down fast"),
 			["<PageDown>"] = cfg_basic("3<C-E>", "scroll down"),
 			["<PageUp>"] = cfg_basic("3<C-Y>", "scroll up"),
@@ -201,12 +202,8 @@ local mapping = {
 			["<C-h>"] = cfg_basic(":sp<CR>", "split horizontal"),
 			["<C-s>"] = cfg_basic(":vs<CR>", "split verticle"),
 
-			["<leader>ll"] = cfg_basic("o<esc>^d$<Up>", "[L]ine Below"),
-			["<leader>lL"] = cfg_basic("O<esc>^d$<Down>", "[L]ine Above"),
-
 			-- cursor align
 			["@"] = cfg_basic("zt", "align top"),
-
 			["$"] = cfg_basic("zz", "align middle"),
 			["#"] = cfg_basic("zb", "align bottom"),
 
@@ -254,7 +251,7 @@ local mapping = {
 			["_"] = cfg_basic(vim.diagnostic.goto_next, "diagnostic next"),
 			["-"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
 			[";"] = cfg_basic(vim.lsp.buf.hover, "lsp hover"),
-			["="] = cfg_basic(vim.lsp.buf.code_action, "lsp hover"),
+			["="] = cfg_basic(vim.lsp.buf.code_action, "lsp code action"),
 			["<C-r>"] = cfg_basic(vim.lsp.buf.rename, "lsp rename"),
 			["<C-d>"] = cfg_basic(action.telescope.lsp_definiton, "lsp definition"),
 			["<leader>l?"] = cfg_basic(action.telescope.diagnostics, "[L]sp Diagnostics"),
@@ -275,10 +272,10 @@ local mapping = {
 	},
 	easy_move = {
 		m = {
-			y = cfg_basic("<Left>", "left wrap"),
-			n = cfg_basic("gj", "down"),
-			e = cfg_basic("gk", "up"),
-			o = cfg_basic("<Right>", "right wrap"),
+			-- y = cfg_basic("<Left>", "left wrap"),
+			n = cfg_basic("gj", "down column"),
+			e = cfg_basic("gk", "up column"),
+			-- o = cfg_basic("<Right>", "right wrap"),
 		},
 	},
 	easy_tmux = {
