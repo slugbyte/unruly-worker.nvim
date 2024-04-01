@@ -76,6 +76,7 @@ function M.register_select()
 	if is_valid_register(ch_int) then
 		S.register = ch_str
 		util.notify("YANK REGISTER: %s", S.register)
+
 		return
 	end
 	if ch_int == 13 or ch_int == 32 then

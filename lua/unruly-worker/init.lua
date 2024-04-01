@@ -337,13 +337,14 @@ local mapping = {
 		m = {
 			["<leader>n"] = cfg_basic(action.seek.seek_forward, "[N]ext Seek"),
 			["<leader>p"] = cfg_basic(action.seek.seek_reverse, "[P]rev Seek"),
-			-- TODO: seek first and last (sf, sl)
+			["<leader>sf"] = cfg_basic(action.seek.seek_first, "[S]eek [F]irst"),
+			["<leader>sl"] = cfg_basic(action.seek.seek_last, "[S]eek [L]ast"),
 			["<leader>sr"] = cfg_basic(action.seek.mode_rotate, "[S]eek [R]otate Mode"),
 		},
 	},
 	telescope_leader = {
 		m = {
-			["<leader>s"] = cfg_basic(action.telescope.spell_suggest, "[S]pellcheck"),
+			["<leader>sc"] = cfg_basic(action.telescope.spell_suggest, "[S]pell [C]heck"),
 			["<leader>tb"] = cfg_basic(action.telescope.buffers, "[T]elescope [B]uffers"),
 			["<leader>tr"] = cfg_basic(action.telescope.oldfiles, "[T]elescope [R]ecent"),
 
