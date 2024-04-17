@@ -17,6 +17,7 @@
 * Quickly navigate jump list
 * Quickly step through quicklist, loclist, arg list, buffers
 * Easy Spellcheck
+* Easily Opt-Out of specific unruly mappings
 * Plugin Support
   * [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - auto completion
   * [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) -
