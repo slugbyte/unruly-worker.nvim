@@ -103,13 +103,11 @@ is `'z'`.
 * `z` - record a macro into the preselected register (default: `'z'`)
 * `Z` - play a macro from the preselected register
 * `<C-z>` - select the macro register
+* `<leader>z` - toggle macro recording lock
   * this is useful if you want to make sure you don't accidentally overwrite
   the current macro register
-* `<leader>z` - toggle macro recording lock
-
-## Register Inspection
-* `\`<reg>` - pretty print the contents of a register
-It will display special keys line `<enter>`, `<esc>` or `<c-q>`
+*  <code>&#96;</code> - pretty print the contents of the macro register
+It will display special keys like `<enter>`, `<esc>` or `<c-q>`
 
 
 Regsiters [0-9] are reserved for delete and yank history. [(See Kopy Below)](#Kopy)

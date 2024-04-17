@@ -78,6 +78,17 @@ function M.select_register()
 	util.error("invalid register: %s, try [0-9][a-z] (Macro Register Still: %s)", vim.fn.keytrans(ch_str), S.register)
 end
 
+function M.peek_register()
+	local reg_content = vim.fn.getreg(S.register)
+
+	if #reg_content > 0 then
+		reg_content = vim.fn.keytrans(reg_content)
+		util.notify("REGISTER PEEK %s (%s)", S.register, reg_content)
+	else
+		util.notify("REGISTER PEEK %s (empty)", S.register)
+	end
+end
+
 function M.lock()
 	S.is_locked = true
 	util.notify("MACRO RECORDING LOCKED")

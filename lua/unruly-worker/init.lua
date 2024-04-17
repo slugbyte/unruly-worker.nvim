@@ -118,7 +118,7 @@ local mapping = {
 			O = cfg_basic("$", "right to EOL"),
 			p = cfg_basic_expr(action.kopy.expr_paste_below, "paste after"),
 			P = cfg_basic_expr(action.kopy.expr_paste_above, "paste before"),
-			["<C-p>"] = cfg_basic(action.telescope.registers, "[P]aste"),
+			["<C-p>"] = cfg_basic(action.telescope.registers, "Telescope Registers [P]aste"),
 			q = cfg_basic(action.save.write_all, "write all"),
 			Q = cfg_basic(":qall<cr>", "quit all"),
 			["<C-q>"] = cfg_basic(":qall!<cr>", "quit all force"),
@@ -143,6 +143,7 @@ local mapping = {
 			Z = cfg_basic(action.macro.play, "macro play"),
 			["<leader>z"] = cfg_basic(action.macro.lock_toggle, "macro lock toggle"),
 			["<c-z>"] = cfg_basic(action.macro.select_register, "select macro register"),
+			['`'] = cfg_basic(action.macro.peek_register, "macro register peek"),
 
 			-- Scroll keys
 			["<End>"] = cfg_basic("9<C-E>", "scroll down fast"),
@@ -178,7 +179,6 @@ local mapping = {
 			["."] = cfg_basic('"0p', "paste register x below"),
 
 			-- register
-			['`'] = cfg_basic(action.kopy.register_peek, "register_peek"),
 			['"'] = cfg_basic(action.kopy.register_select, "register select"),
 
 			-- window nav

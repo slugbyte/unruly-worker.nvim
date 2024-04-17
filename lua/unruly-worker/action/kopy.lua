@@ -99,28 +99,28 @@ end
 function M.register_clear()
 end
 
-function M.register_peek()
-	util.notify("REGISTER PEEK SELECT> ")
-	local ch_int = vim.fn.getchar()
-	local ch = string.char(ch_int)
-	if ch_int == 27 then
-		util.warn("ABORTED PEEK")
-		return
-	end
-
-	if not is_valid_register(ch_int) then
-		util.error("INVALID REGISTER")
-		return
-	end
-
-	local reg_content = vim.fn.getreg(ch)
-
-	if #reg_content > 0 then
-		reg_content = vim.fn.keytrans(reg_content)
-		util.notify("REGISTER PEEK %s (%s)", ch, reg_content)
-	else
-		util.notify("REGISTER PEEK %s (empty)", ch)
-	end
-end
+-- function M.register_peek()
+-- 	util.notify("REGISTER PEEK SELECT> ")
+-- 	local ch_int = vim.fn.getchar()
+-- 	local ch = string.char(ch_int)
+-- 	if ch_int == 27 then
+-- 		util.warn("ABORTED PEEK")
+-- 		return
+-- 	end
+--
+-- 	if not is_valid_register(ch_int) then
+-- 		util.error("INVALID REGISTER")
+-- 		return
+-- 	end
+--
+-- 	local reg_content = vim.fn.getreg(ch)
+--
+-- 	if #reg_content > 0 then
+-- 		reg_content = vim.fn.keytrans(reg_content)
+-- 		util.notify("REGISTER PEEK %s (%s)", ch, reg_content)
+-- 	else
+-- 		util.notify("REGISTER PEEK %s (empty)", ch)
+-- 	end
+-- end
 
 return M
