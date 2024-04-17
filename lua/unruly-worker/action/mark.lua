@@ -3,10 +3,51 @@ local util = require("unruly-worker.util")
 -- where uppercase marks are multi buffer
 local S = {
 	is_local_mode = true,
+	is_gutter_setup = false,
 }
+
+local id = 4444
 
 local M = {}
 
+local SIGN_GROUP = "UNRULY_GUTTER_MARK"
+
+local SIGN_SPEC = {
+	A = {
+		name = "UNRULY_GUTTER_MARK_A",
+		text = "A",
+	},
+	B = {
+		name = "UNRULY_GUTTER_MARK_B",
+		text = "B",
+	},
+	a = {
+		name = "UNRULY_GUTTER_MARK_a",
+		text = "a",
+	},
+	b = {
+		name = "UNRULY_GUTTER_MARK_b",
+		text = "b",
+	},
+}
+
+-- local function gutter_mark(name, buf, line)
+-- 	if not S.is_gutter_setup then
+-- 		local default_opts = {
+-- 			texthl = "MarkSignHL",
+-- 			numhl = "MarkSignNumHL",
+-- 		}
+-- 		vim.fn.sign_define(SIGN_SPEC.A.name, vim.tbl_extend("force", default_opts, { text = SIGN_SPEC.A.text }))
+-- 		vim.fn.sign_define(SIGN_SPEC.B.name, vim.tbl_extend("force", default_opts, { text = SIGN_SPEC.B.text }))
+-- 		vim.fn.sign_define(SIGN_SPEC.a.name, vim.tbl_extend("force", default_opts, { text = SIGN_SPEC.a.text }))
+-- 		vim.fn.sign_define(SIGN_SPEC.b.name, vim.tbl_extend("force", default_opts, { text = SIGN_SPEC.b.text }))
+-- 	end
+-- 	id = id + 1
+-- 	if type == SIGN_SPEC.A.name then
+-- 		vim.fn.sign_place(id, SIGN_GROUP, name, buf, dict?)
+-- 		e
+-- 	end
+-- end
 
 function M.get_state()
 	local result = {

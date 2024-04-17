@@ -30,7 +30,6 @@ unruly_worker.setup({
 ```
 
 
-
 ## HELP
 Type `:help unruly-worker` for documentation that includes mnemonics for each
 remap, as well as descriptions about the optional configurations.
@@ -76,7 +75,6 @@ Regsiters [0-9] are reserved for delete and yank history. [(See Kopy Below)](#Ko
 * Yank and Delete keep their history in registers 1-9
 
 ### yank history
-<!-- TODO: how does pasting from history work -->
 * 1) copy history into current kopy register
 * 2) paste directly from history
 

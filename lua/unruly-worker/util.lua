@@ -1,4 +1,3 @@
--- TODO: refactor out notfiy_ intermediate fns
 local emoticon_list = require("unruly-worker.data.emoticon-list")
 
 local M = {}
