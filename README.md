@@ -9,14 +9,17 @@
 3. When possible, keys behavior, or behavior substitute, should stay in the same position as the original-keymap, so that there is no need for experienced vim users to unlearn there years of muscle memory.
 
 ## FEATURES
-* LSP support and Diagnostic navigation
+* Navigate vim like normal
 * Register Preselection (Yank, Delete, Macro)
 * Yank and Delete History
 * A nice way to work with macros
-* Quickly jump between marks (a & b)
+* A nice way to work with marks
+* A nice way to work with LSP and Diagnostics
+* Quickly save and quit
 * Quickly navigate jump list
 * Quickly step through quicklist, loclist, arg list, buffers
 * Easy Spellcheck
+* Status bar text generator functions that reveal unruly state
 * Easily Opt-Out of specific unruly mappings
 * Plugin Support
   * [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - auto completion
