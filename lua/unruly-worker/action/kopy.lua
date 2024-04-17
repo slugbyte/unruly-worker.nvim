@@ -9,6 +9,7 @@ local S = {
 	register = "+",
 }
 
+-- valid kopy registers: [a-z] [A-Z] 0 +
 local function is_valid_register(ch_int)
 	if ch_int == 48 or ch_int == 43 then
 		-- return true for 0 or +
@@ -88,7 +89,8 @@ function M.register_select()
 		util.notify("ABORTED SELECT")
 		return
 	end
-	util.error("invalid register: %s (Yank Register Still: %s)", vim.fn.keytrans(ch_str), S.register)
+	util.error("invalid register: %s, valid registers are [a-z] [A-Z] 0 + (Yank Register Still: %s)",
+		vim.fn.keytrans(ch_str), S.register)
 end
 
 function M.register_dupe()

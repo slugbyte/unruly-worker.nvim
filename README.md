@@ -38,18 +38,6 @@ Type `help uw_(some key)` for documentation about the default for a specific key
 For example `uw_S` will go to documentation for the `S` keymap.  
 For example `uw_c-a` will go to documentation for the `<C-a>` keymap.  
 
-## Register Stufff
-#### Inspection
-Tap `\`` and then any register to see a pretty print of that registers contents.
-It will display special keys line `<enter>`, `<esc>` or `<c-q>`
-
-#### Preselection
-With Unruly when you select a register, it stays selected until you change it.
-This means you don't select a register for a specific motion, instead you set
-the yank or macro register, and then all future yank/paste or record/play
-actions will use the selected register until you select a new register. 
-
-Regsiters [0-9] are reserved for delete and yank history. [(See Kopy Below)](#Kopy)
 
 ## Auto Completion with `nvim-cmp`
 
@@ -59,7 +47,7 @@ Regsiters [0-9] are reserved for delete and yank history. [(See Kopy Below)](#Ko
 * `Y` - goes to beginning of line
 * `O` - goes to end of line
 
-### window navigation
+### Window Navigation
 * `<ctrl>` + `yneo` - are mapped to focus pane left, down, up, right
   * if Navigator.nvim is installed this will also work with your terminal
     multiplexer
@@ -68,15 +56,17 @@ Regsiters [0-9] are reserved for delete and yank history. [(See Kopy Below)](#Ko
 * `<c-s>` split verticle
 * `<c-h>` split horizontal
 
-## Kopy
-* Yank/Paste uses a preselected register. `+` is the default
-* Unruly always deletes into register `0`.
-* Yank and Delete have seperate key maps for pasting
-* Yank and Delete keep their history in registers 1-9
+## Register Preselection
+With Unruly when you select a register, it stays selected until you change it.
+This means you don't select a register for a specific motion, instead you set
+the yank or macro register, and then all future yank/paste or record/play
+actions will use the selected register until you select a new register. 
 
-### yank history
-* 1) copy history into current kopy register
-* 2) paste directly from history
+## Kopy Kut Paste
+* Kopy/Paste uses a preselected register. `+` is the default
+* Unruly always deletes into register `0`.
+* Yank and Delete have separate key maps for pasting
+* Yank and Delete use registers 1-9 to track history
 
 ### yank and paste from the kopy register
 * `k` - yank
@@ -90,47 +80,68 @@ Regsiters [0-9] are reserved for delete and yank history. [(See Kopy Below)](#Ko
 * `d` - delete
 * `dd` - delete line
 * `D` - delete to end of line
-* `x` - delete under curser
-* `X` - delete before curser
+* `x` - delete under cursor
+* `X` - delete before cursor
 * `c` - delete then enter insert mode
-* `cc` - delete line then enter insert mode 
+* `cc` - delete line then enter insert mode
 * `C` - delete to end of line then enter insert mode
 * `.` - paste delete below
 * `,` - paste delete above
+
+### paste history
+* `<C-p>` - paste from any register using telescope
+  * registers 1-9 are used to track history of yanks/delete
 
 #### Kopy/Delete Tip
 * if you want yank and delete to share the same register set the kopy register
   to `0`
 
-
 ## Macro
+Macros use preselected registers, similar to kopy/paste. By default the macro register
+is `'z'`.
 
-## Mark ab/AB
+* `z` - record a macro into the preselected register (default: `'z'`)
+* `Z` - play a macro from the preselected register
+* `<C-z>` - select the macro register
+  * this is useful if you want to make sure you don't accidentally overwrite
+  the current macro register
+* `<leader>z` - toggle macro recording lock
 
-## Seek (next, prev)
+## Register Inspection
+* `\`<reg>` - pretty print the contents of a register
+It will display special keys line `<enter>`, `<esc>` or `<c-q>`
+
+
+Regsiters [0-9] are reserved for delete and yank history. [(See Kopy Below)](#Kopy)
+
+## Marks
+The unruly idea behind marks is that you only need two marks, for everything
+else just use [telescope](https://github.com/nvim-telescope/telescope.nvim). Unruly marks can be in local buffer mode or global
+mode. When in local mode unruly uses marks `a` and `b` to hop within a buffer.
+When in global mode unruly uses marks `A` and `B` to hop to marks in any buffer.
+
+* `<leader>a` - set mark a
+* `<leader>b` - set mark b
+* `<C-a>` - goto mark a
+* `<C-b>` - goto mark b
+* `m` - toggle between local and global mark mode
+* `M` - clear current mark mode marks
+
+## Seek Lists (next, prev, first, last)
+Unruly allows you to quickly navigate through currently the quickfix list,
+loclist, arg list, and currently open buffers. Seek keymaps only target one
+type of list at a time, by default seek target mode will be open buffers.
+
+* `<leader>sr` - seek target  mode rotate (buffer, quickfix, loclist, arg list)
+* `<leader>sl` - goto first item in seek list
+* `<leader>sf` - goto last item in seek list
+* `<leader>n` - goto next seek item
+* `<leader>p` - goto prev seek item
 
 ## LAYOUT PHILOSOPHY
 1. When possible, commands are positioned according to the workman layout heatmap. So frequent use will not strain your hands.
 2. When possible, commands are arranged onto a semantic key. This makes it possible for the keymap to be remembered with mnemonic phrases.
 3. When possible, keys behavior, or behavior substitute, should stay in the same position as the original-keymap, so that there is no need for experienced vim users to unlearn there years of muscle memory.
-
-## FEATURES
-* visual up and down
-* wrap left and right
-* easy split window navigation
-* easy shifting line(s) up and down
-* a visual keymap cheat sheet (above)
-* 1 key word and paragraph select
-* 1 key toggle comment line and toggle comment paragraph
-* easy to shift the current line  to the top, middle, or bottom of the view
-* the ability to customize features using lua
-* nvim LSP key bindings
-  * prev/next diagnostic
-  * go to definition
-  * code-action
-  * format
-  * rename
-  * hover
 
 ## ABOUT
 Being dyslexic has taught me its often easier for me to build a system for
