@@ -3,19 +3,37 @@
 
 ![unruly worker vim layout cheatsheet](./asset/img/cheatsheet.png)
 
-## DEPENDENCIES
-* [nvim](https://neovim.io/) version > 0.8
-* all of the following plugins are optional but highly recommended
-  * ⭐⭐⭐⭐⭐- [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - auto completion
-  * ⭐⭐⭐⭐⭐- [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) -
+## LAYOUT PHILOSOPHY
+1. When possible, commands are positioned according to the workman layout heatmap. So frequent use will not strain your hands.
+2. When possible, commands are arranged onto a semantic key. This makes it possible for the keymap to be remembered with mnemonic phrases.
+3. When possible, keys behavior, or behavior substitute, should stay in the same position as the original-keymap, so that there is no need for experienced vim users to unlearn there years of muscle memory.
+
+## FEATURES
+* LSP support and Diagnostic navigation
+* Register Preselection (Yank, Delete, Macro)
+* Yank and Delete History
+* A nice way to work with macros
+* Quickly jump between marks (a & b)
+* Quickly navigate jump list
+* Quickly step through quicklist, loclist, arg list, buffers
+* Easy Spellcheck
+* Plugin Support
+  * [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - auto completion
+  * [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) -
     fuzzy search with preview
-  * ⭐⭐⭐⭐- [Comment.nvim](https://github.com/numToStr/Comment.nvim) - comment
+  * [Comment.nvim](https://github.com/numToStr/Comment.nvim) - comment
     toggling
-  * ⭐⭐⭐⭐- [Navigator.nvim](https://github.com/numToStr/Navigator.nvim) -
+  * [Navigator.nvim](https://github.com/numToStr/Navigator.nvim) -
     tmux/wez-term navigation
-  * ⭐⭐⭐- [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) +
+  * [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) +
     [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) - syntax navigation
-  * ⭐⭐⭐- [LuaSnip](https://github.com/L3MON4D3/LuaSnip) - powerful snipits
+  * [LuaSnip](https://github.com/L3MON4D3/LuaSnip) - powerful snipits
+
+## REGISTER PRESELECTION
+With Unruly when you select a register, it stays selected until you change it.
+This means you don't select a register for a specific motion, instead you set
+the yank or macro register, and then all future yank/paste or record/play
+actions will use the selected register until you select a new register. 
 
 ## INSTALL AND SETUP
 1. Install with your favorite [package manager](https://github.com/folke/lazy.nvim)
@@ -29,7 +47,6 @@ unruly_worker.setup({
 })
 ```
 
-
 ## HELP
 Type `:help unruly-worker` for documentation that includes mnemonics for each
 remap, as well as descriptions about the optional configurations.
@@ -38,14 +55,21 @@ Type `help uw_(some key)` for documentation about the default for a specific key
 For example `uw_S` will go to documentation for the `S` keymap.  
 For example `uw_c-a` will go to documentation for the `<C-a>` keymap.  
 
-
 ## Auto Completion with `nvim-cmp`
 
-## Navigation
-### curser navigation
+## Telescope Setup `nvim-cmp`
+
+## NAVIGATION
+### Buffer Navigation
 * `yneo` - are mapped to left, down, up, right
 * `Y` - goes to beginning of line
 * `O` - goes to end of line
+* `gg` - top of file
+* `G` - end of file
+* `PageUp` - scroll up
+* `PageDown` - scroll down
+* `Home` - scroll up fast
+* `End` - scroll down fast
 
 ### Window Navigation
 * `<ctrl>` + `yneo` - are mapped to focus pane left, down, up, right
@@ -55,12 +79,6 @@ For example `uw_c-a` will go to documentation for the `<C-a>` keymap.
 * `<c-f>` fullscreen vim split
 * `<c-s>` split verticle
 * `<c-h>` split horizontal
-
-## Register Preselection
-With Unruly when you select a register, it stays selected until you change it.
-This means you don't select a register for a specific motion, instead you set
-the yank or macro register, and then all future yank/paste or record/play
-actions will use the selected register until you select a new register. 
 
 ## Kopy Kut Paste
 * Kopy/Paste uses a preselected register. `+` is the default
@@ -109,10 +127,9 @@ is `'z'`.
 *  <code>&#96;</code> - pretty print the contents of the macro register
 It will display special keys like `<enter>`, `<esc>` or `<c-q>`
 
+Regsiters [0-9] are reserved for the delete register and yank history. [(See Kopy Below)](#Kopy)
 
-Regsiters [0-9] are reserved for delete and yank history. [(See Kopy Below)](#Kopy)
-
-## Marks
+## MARKS
 The unruly idea behind marks is that you only need two marks, for everything
 else just use [telescope](https://github.com/nvim-telescope/telescope.nvim). Unruly marks can be in local buffer mode or global
 mode. When in local mode unruly uses marks `a` and `b` to hop within a buffer.
@@ -135,11 +152,6 @@ type of list at a time, by default seek target mode will be open buffers.
 * `<leader>sf` - goto last item in seek list
 * `<leader>n` - goto next seek item
 * `<leader>p` - goto prev seek item
-
-## LAYOUT PHILOSOPHY
-1. When possible, commands are positioned according to the workman layout heatmap. So frequent use will not strain your hands.
-2. When possible, commands are arranged onto a semantic key. This makes it possible for the keymap to be remembered with mnemonic phrases.
-3. When possible, keys behavior, or behavior substitute, should stay in the same position as the original-keymap, so that there is no need for experienced vim users to unlearn there years of muscle memory.
 
 ## ABOUT
 Being dyslexic has taught me its often easier for me to build a system for

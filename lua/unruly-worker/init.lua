@@ -344,7 +344,7 @@ local mapping = {
 	},
 	telescope_leader = {
 		m = {
-			["<leader>sc"] = cfg_basic(action.telescope.spell_suggest, "[S]pell [C]heck"),
+			["<leader>s"] = cfg_basic(action.telescope.spell_suggest, "[S]pell [C]heck"),
 			["<leader>tb"] = cfg_basic(action.telescope.buffers, "[T]elescope [B]uffers"),
 			["<leader>tr"] = cfg_basic(action.telescope.oldfiles, "[T]elescope [R]ecent"),
 
