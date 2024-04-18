@@ -62,6 +62,32 @@ For example `uw_c-a` will go to documentation for the `<C-a>` keymap.
 ## Auto Completion with `nvim-cmp`
 
 ## Telescope Setup `nvim-cmp`
+### insert mode
+* `<CR>` - select default
+* `<C-h>` - select into horizontal split
+* `<C-s>` - select into vertical split
+* `<Down> or <C-n>` - move selection down
+* `<Up> or <C-e>` - move selection up
+* `<Tab>` - toggle selection
+* `<C-a>` - select all
+* `<C-d>` - deselect all
+* `<C-q>` - add selected to quickfix list
+* `<C-l>` - add selected to quickfix list
+* `<C-k>` - telescope which key
+* `<PageUp>` - scroll preview up
+* `<PageDown>` - scroll preview down
+
+### insert mode
+> includes everything in insert mode ^
+* `e` move selection up
+* `n` move selection down
+* `N` move to top of selection list
+* `E` move to bottom of selection list
+* `a` select all
+* `d` deselect all
+* `q` add to quickfix list and open
+* `q` add to loclist and open
+
 
 ## NAVIGATION
 ### Buffer Navigation
