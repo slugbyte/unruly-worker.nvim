@@ -303,8 +303,8 @@ local mapping = {
 	},
 	diagnostic_leader = {
 		m = {
-			["<leader>d"] = cfg_basic(vim.diagnostic.goto_next, "diagnostic next"),
-			["<leader>D"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
+			["<leader>dn"] = cfg_basic(vim.diagnostic.goto_next, "diagnostic next"),
+			["<leader>dp"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
 		},
 	},
 	plugin_comment = {

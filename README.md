@@ -46,28 +46,69 @@ actions will use the selected register until you select a new register.
 ``` lua
 -- Use this setup config if you want to follow the keymap above
 local unruly_worker = require('unruly-worker')
+
+-- example setup with default settings
 unruly_worker.setup({
-  -- TODO: show setup
+  -- you can use the skip_list = {} to stop unruly from creating certain mappings
+  -- skip_list = { "z", "Z", "<C-z>"},  skip z related mappings
+  skip_list = {},
+  booster = {
+    quit_easy                   = true,
+    scroll_easy                 = true,
+    swap_easy                   = true,
+    incrament_easy              = true,
+    hlsearch_easy               = true,
+    lsp_easy                    = true,
+    lsp_leader                  = true,
+    diagnostic_easy             = true,
+    diagnostic_leader           = true,
+    -- plugin boosters default to false because they all have dependencies
+    plugin_navigator            = false,
+    plugin_comment              = false,
+    plugin_luasnip              = false,
+    plugin_textobject           = false,
+    plugin_telescope_leader     = false,
+    plugin_telescope_lsp_leader = false,
+    plugin_telescope_jump_easy  = false,
+    plugin_telescope_paste_easy = false,
+    -- the seek booster is "experimental". it seems to work well but the code
+    -- feels a lil hacky... I ran into issues in buffer mode when netrw is open and wrote a 
+    -- kinda janky hack to get it to behave the way i wanted it to. (🤷 works for me)
+    experimental_seek           = false,
+  },
 })
+
+-- to setup with the defaults you can simply
+-- unruly_worker.setup()
 ```
+## [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) MAPPING SETUP
+``` lua
+local cmp = require("cmp")
+local unruly_cmp = require('unruly-worker.external.nvim-cmp')
+cmp.setup({
+    mapping = unruly_cmp.create_insert_mapping(),
+    --  ...
+})
 
-## HELP
-Type `:help unruly-worker` for documentation that includes mnemonics for each
-remap, as well as descriptions about the optional configurations.
+cmp.setup.cmdline({ "/", "?" }, {
+    mapping = unruly_cmp.create_cmdline_mapping(),
+    -- ...
+})
 
-Type `help uw_(some key)` for documentation about the default for a specific key.  
-For example `uw_S` will go to documentation for the `S` keymap.  
-For example `uw_c-a` will go to documentation for the `<C-a>` keymap.  
-
-## Auto Completion with `nvim-cmp`
-### insert mode
+cmp.setup.cmdline(":", {
+    mapping = unruly_cmp.create_cmdline_mapping(),
+    -- ...
+})
+-- my personal nvim-cmp config file: https://github.com/slugbyte/config/blob/main/conf/config/nvim/lua/slugbyte/plugin/cmp-and-luasnip.lua
+```
+### `nvim-cmp` insert mode
 * `<CR>` - confirm select
 * `<C-g> or <Right>` - confirm continue
 * `<Tab> or <Down>` - next suggestion
 * `<S-Tab> or <Up>` - prev suggestion
 * `<C-x>` - abort
 
-### cmdline mode
+### `nvim-cmp` cmdline mode
 * `<C-g> or <Right>` - confirm continue
 * `<Tab>` - next suggestion
 * `<S-Tab>` - prev suggestion
@@ -76,17 +117,19 @@ For example `uw_c-a` will go to documentation for the `<C-a>` keymap.
 * `<CR>` - execute
 * `<C-x>` - abort
 
-## Telescope Setup `nvim-cmp`
-### telescope mapping setup
+## [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
+MAPPING SETUP
 ``` lua
 local unruly_telescope = require("unruly-worker.external.telescope")
 require("telescope").setup({
     defaults = {
         mappings = unruly_telescope.create_mappings(),
     },
+    -- ...
 })
+-- my personal telescope setup: https://github.com/slugbyte/config/blob/main/conf/config/nvim/lua/slugbyte/plugin/telescope.lua
 ```
-### insert mode
+### telescope insert mode
 * `<CR>` - select default
 * `<C-h>` - select into horizontal split
 * `<C-s>` - select into vertical split
@@ -102,7 +145,7 @@ require("telescope").setup({
 * `<C-q>` - add selected to quickfix list
 * `<C-l>` - add selected to loclist list
 
-### normal mode
+### telescope normal mode
 > includes everything in insert mode ^
 * `e` - move selection up
 * `n` - move selection down
@@ -209,12 +252,12 @@ type of list at a time, by default seek target mode will be open buffers.
 > might want to opt out of.
 
 #### quit_easy
-* if enabled
+* if disabled
+  * `q` anq `Q` will have no behavior `noOP`
+* if **enabled**
   * `q` - write all buffers (`:wall`)
   * `Q` - quit all (`:qall`)
   * `<C-q>` - force quit all (`:qall!`)
-* if disabled
-  * `q` anq `Q` will have no behavior `noOP`
 
 #### swap_easy
 * `<C-Up>` swap line/lines up
@@ -231,8 +274,12 @@ type of list at a time, by default seek target mode will be open buffers.
 * `<Esc>` - will disable current hlsearch
 
 #### diagnostic_easy
-* `<->` - prev diagnostic
-* `<_>` - next diagnostic
+* `-` prev diagnostic
+* `_` next diagnostic
+
+#### diagnostic_leader
+* `<leader>dp` prev diagnostic
+* `<leader>dn` next diagnostic
 
 #### lsp_easy
 * `<C-d>` - lsp goto definition
@@ -264,15 +311,15 @@ type of list at a time, by default seek target mode will be open buffers.
 > this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
 * if disabled
   * `j` and `J` will have no behavior (`noOP`)
-* if enabled
+* if **enabled**
   * `j` - telescope find files (jump)
   * `J` - telescope live grep (grep jump)
   * `<C-j>` - telescope jumplist (jumplist jump)
 
-#### plugin_telescope_paste_easy
+#### `plugin_telescope_paste_easy = true`
 * `<c-p>` - telescope paste from any register
 
-#### plugin_telescope_leader
+#### `plugin_telescope_leader = true`
 > this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
 * `<leader>/` - telescope fuzzy find in current buffer
 * `<leader>tb` - telescope buffers
@@ -286,6 +333,33 @@ type of list at a time, by default seek target mode will be open buffers.
 * `<leader>tc` - telescope keymaps
 * `<leader>tp` - telescope paste from any register
 * `<leader>tr` - telescope repeat last search
+
+#### `plugin_comment = true`
+> this booster depends on any plugin that uses `gc` and `gcc` mappings to comment toggle, like
+> [Comment.nvim](https://github.com/numToStr/Comment.nvim)
+* `<c-c>` - toggle comment
+
+#### `plugin_navigator = true`
+> this booster depends on [Navigator.nvim](https://github.com/numToStr/Navigator.nvim)
+* `<c-y>` - focus left (vim or terminal multiplexer)
+* `<c-n>` - focus down (vim or terminal multiplexer)
+* `<c-e>` - focus up (vim or terminal multiplexer)
+* `<c-o>` - focus right (vim or terminal multiplexer)
+
+#### `plugin_textobject = true`
+> this booster depends on [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) and
+    [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects)
+* if disabled
+  * `s` substitute
+  * `S` substitute line
+* if **enabled**
+  * `s` next text object
+  * `S` prev text object
+
+#### `plugin_luasnip = true`
+> this booster depends on [LuaSnip](https://github.com/L3MON4D3/LuaSnip) - powerful snipits
+* `<C-k> or <C-Left>` luasnip jump prev
+* `<C-l> or <C-Right>` luasnip jump next
 
 ## ABOUT
 Being dyslexic has taught me its often easier for me to build a system for
