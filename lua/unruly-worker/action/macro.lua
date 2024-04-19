@@ -1,6 +1,3 @@
--- TODO: Paste keytrans macro
--- TODO: YANK keytrans macro
-
 local util = require("unruly-worker.util")
 
 local S = {
@@ -107,37 +104,3 @@ function M.lock_toggle()
 end
 
 return M
-
--- TODO: figure out how to save load and name macros
---
---function M.save_macro()
--- 	local desc = vim.fn.input("What does the macro do?")
--- 	table.insert(S.macro_list, {
--- 		desc = desc,
--- 		content = vim.fn.getreg(S.register),
--- 	})
--- 	S.current_macro = #S.macro_list
--- 	for index, value in ipairs(S.macro_list) do
--- 		print(string.format("%d: %s", index, value.desc))
--- 	end
--- end
--- function M.select_macro()
--- 	if #S.macro_list > 0 then
--- 		local choices = {}
--- 		for _, value in ipairs(S.macro_list) do
--- 			table.insert(choices, value.desc)
--- 		end
---
--- 		vim.ui.select({ "cool", "beans", "dude" },
--- 			{ prompt = "Select a Macro:", kind = "string" },
--- 			function(_, choice)
--- 				print("you selected", choice)
--- 			end)
--- 		return
--- 	end
---
--- 	util.error("no macros to select")
--- end
--- vim.print(vim.api.nvim_cmd(vim.print(vim.api.nvim_parse_cmd(string.format("silent! normal! q%s", S.register), {})),
--- { output = true }))
--- vim.print("result:::", vim.api.nvim_cmd({ "silent!", "normal!", string.format("q%s", S.register) }, { output = true }))

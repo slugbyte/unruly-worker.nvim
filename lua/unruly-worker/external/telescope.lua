@@ -36,6 +36,7 @@ function M.create_mappings()
 		i = default_mappings,
 		n = vim.tbl_deep_extend("force", default_mappings, {
 			["<Esc>"] = actions.close,
+			x = actions.close,
 			E = actions.move_to_top,
 			N = actions.move_to_bottom,
 			n = actions.move_selection_next,

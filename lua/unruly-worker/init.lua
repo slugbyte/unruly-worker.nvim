@@ -9,14 +9,21 @@
 --  Maintainer: Duncan Marsh (slugbyte@slugbyte.com)
 --  Repository: https://github.com/slugbyte/unruly-worker
 --
--- TODO: add treesitter search commands
--- TODO: add healthcheck report
--- TODO: somehow respect config so that maps can react to it
--- for exaple do you want marks to Jump by file of by buffer?
--- or should I just make a mark action ?
--- TODO: text object mappings (external)
--- TODO: telescope mappings (external)
--- TODO: !!!! put marks in gutter https://github.com/chentoast/marks.nvim/blob/74e8d01b2a2131b6e46354cffc553aa7f81bcf5b/lua/marks/utils.lua#L9C1-L19C1
+-- TODO: !! put marks in gutter https://github.com/chentoast/marks.nvim/blob/74e8d01b2a2131b6e46354cffc553aa7f81bcf5b/lua/marks/utils.lua#L9C1-L19C1
+-- TODO: ?? (external) add treesitter search commands
+-- TODO: ?? (external) text object mappings
+-- TODO: figure out how to chage from quick list 0 - 9, is this necessary?
+-- TODO: add and document tmux config
+--
+-- Idea: ?? make some helper unruly user commands
+--
+-- Idea: do magic with keytrans to make it so you can edit macros with insert mode
+--       ?maby? user cmommand to paste keytrans macro
+--       ?maby? user command YANK keytrans macro
+--
+-- Idea: create a healthcheck report
+--
+-- Idea: create a UnrulyTutor
 
 local util = require("unruly-worker.util")
 local action = require("unruly-worker.action")

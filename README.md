@@ -1,5 +1,5 @@
 # unruly worker
-> a ridiculously fun workman keyboard layout plugin for neovim
+> a ridiculously fun neovim and tmux workman keyboard layout setup
 
 ![unruly worker vim layout cheatsheet](./asset/img/cheatsheet.png)
 
@@ -164,6 +164,10 @@ require("telescope").setup({
 * `T{char}` go to the [count]'th occurance of char to the left
 * `h` repeat the last t/T (hop)
 * `H` repeat the last t/T reverse (hop reverse)
+* `(` prev sentence
+* `)` next sentence
+* `{` prev paragraph
+* `}` next paragraph
 
 ### Insert text
 * `i` - Insert
@@ -172,6 +176,10 @@ require("telescope").setup({
 * `a` - Append to end of line
 * `l` - insert Line below
 * `L` - insert Line above
+
+## Indent text
+* `<<` shift indent left
+* `>>` shift indent right
 
 ### Buffer Search
 * `/` - search down
@@ -249,6 +257,8 @@ When in global mode unruly uses marks `A` and `B` to hop to marks in any buffer.
 * `<C-b>` goto mark b
 * `m` toggle between local and global mark mode
 * `M` clear current mark mode marks
+* `[` goto prev jumplist entry (jump history back)
+* `]` goto next jumplist entry (jump history forward)
 
 ## Seek Lists (next, prev, first, last)
 Unruly allows you to quickly navigate through currently the quickfix list,
@@ -414,9 +424,6 @@ See the [Contributing Guite](./CONTRIBUTING.md)
 
 ## SELF-PROMO
 If you like this project star the GitHub repository :)
-
-## TODO
-* create a `:UnrulySchool` command that has an interactive tutorial
 
 ## LICENSE
 [Unlicense](https://unlicense.org/)

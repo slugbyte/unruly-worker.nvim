@@ -1,6 +1,3 @@
--- TODO: write docs
--- TODO: create a way to create a skip list?
--- TODO: create a way to merge additional mapping?
 local util = require("unruly-worker.util")
 
 local M = {}

@@ -1,4 +1,3 @@
--- TODO: should this have a find config (files/grep)?
 local util = require("unruly-worker.util")
 local telescope_status, telescope_builtin = pcall(require, "telescope.builtin")
 local _, telescope_themes = pcall(require, "telescope.themes")
@@ -45,7 +44,6 @@ function M.live_grep()
 	util.error("telescope not found")
 end
 
--- this will work without telescope
 function M.lsp_definiton_safe()
 	if telescope_status and (telescope_builtin ~= nil) then
 		telescope_builtin.lsp_definitions()
