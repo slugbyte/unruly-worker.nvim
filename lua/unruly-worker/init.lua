@@ -8,20 +8,7 @@
 --  License: Unlicense
 --  Maintainer: Duncan Marsh (slugbyte@slugbyte.com)
 --  Repository: https://github.com/slugbyte/unruly-worker
---
--- TODO: add and document tmux config
--- TODO: !! put marks in gutter https://github.com/chentoast/marks.nvim/blob/74e8d01b2a2131b6e46354cffc553aa7f81bcf5b/lua/marks/utils.lua#L9C1-L19C1
--- TODO: figure out how to chage from quick list 0 - 9, is this necessary?
---
--- Idea: ?? make some helper unruly user commands
---
--- Idea: do magic with keytrans to make it so you can edit macros with insert mode
---       ?maby? user cmommand to paste keytrans macro
---       ?maby? user command YANK keytrans macro
---
--- Idea: create a healthcheck report
---
--- Idea: create a UnrulyTutor
+
 local state = {
 	is_setup = false,
 	config = nil,

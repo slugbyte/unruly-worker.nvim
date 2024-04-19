@@ -368,7 +368,6 @@ mode, by default it will be in local mode.
 * `<c-s>` split verticle
 * `<c-h>` split horizontal
 
-
 ## BOOSTERS
 > idk why i called them boosters, they are really just things I thought people
 > might want to opt out of.
@@ -438,10 +437,10 @@ mode, by default it will be in local mode.
   * `J` telescope live grep (grep jump)
   * `<C-j>` telescope jumplist (jumplist jump)
 
-#### plugin_telescope_paste_easy = true
+#### plugin_telescope_paste_easy
 * `<c-p>` telescope paste from any register
 
-#### plugin_telescope_leader = true
+#### plugin_telescope_leader
 > this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
 * `<leader>/` telescope fuzzy find in current buffer
 * `<leader>tb` telescope buffers
@@ -456,19 +455,19 @@ mode, by default it will be in local mode.
 * `<leader>tp` telescope paste from any register
 * `<leader>tr` telescope repeat last search
 
-#### plugin_comment = true
+#### plugin_comment
 > this booster depends on any plugin that uses `gc` and `gcc` mappings to comment toggle, like
 > [Comment.nvim](https://github.com/numToStr/Comment.nvim)
 * `<c-c>` toggle comment
 
-#### plugin_navigator = true
+#### plugin_navigator
 > this booster depends on [Navigator.nvim](https://github.com/numToStr/Navigator.nvim)
 * `<c-y>` focus left (vim or terminal multiplexer)
 * `<c-n>` focus down (vim or terminal multiplexer)
 * `<c-e>` focus up (vim or terminal multiplexer)
 * `<c-o>` focus right (vim or terminal multiplexer)
 
-#### plugin_textobject = true
+#### plugin_textobject
 > this booster depends on [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) and
     [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects)
 * if disabled
@@ -478,12 +477,12 @@ mode, by default it will be in local mode.
   * `s` next text object
   * `S` prev text object
 
-#### `plugin_luasnip = true`
+#### plugin_luasnip
 > this booster depends on [LuaSnip](https://github.com/L3MON4D3/LuaSnip) powerful snipits
 * `<C-k> or <C-Left>` luasnip jump prev
 * `<C-l> or <C-Right>` luasnip jump next
 
-#### `experimental_seek = true`
+#### `experimental_seek
 Unruly allows you to quickly navigate through currently the quickfix list,
 loclist, arg list, and currently open buffers. Seek keymaps only target one
 type of list at a time, by default seek target mode will be open buffers.
