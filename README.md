@@ -1,5 +1,5 @@
 # unruly worker
-> a ridiculously fun neovim and tmux workman keyboard layout setup
+> a ridiculously fun alternative neovim keymap and tmux setup for the workman keyboard layout
 
 ![unruly worker vim layout cheatsheet](./asset/img/cheatsheet.png)
 
@@ -9,22 +9,21 @@
 3. When possible, keys behavior, or behavior substitute, should stay in the same position as the original-keymap, so that there is no need for experienced vim users to unlearn there years of muscle memory.
 
 ## FEATURES
-* Navigate vim like normal
-* Register Preselection (Yank, Delete, Macro)
-* Yank and Delete History
-* A nice way to work with macros
-* A nice way to work with marks
-* A nice way to work with LSP and Diagnostics
-* Quickly save and quit
-* Quickly navigate jump list
-* Quickly step through quicklist, loclist, arg list, buffers
-* Easy Spellcheck
-* Status bar text generator functions that reveal unruly state
+* Navigate vim like normal using `yneo`
 * Easily Opt-Out of specific unruly mappings
+* Register preselection (Yank, Delete, and Macro)
+* Yank and delete have history
+* A nice way to work with macros
+* A nice way to work with marks and navigate the jumplist
+* A nice way to work with LSPs
+* A nice way to navigate diagnostics
+* A nice way to spellcheck
+* A nice way to step through the quickfix list, loclist, and buffers
+* A status bar text generator that creates a [HUD](https://en.wikipedia.org/wiki/Head-up_display) for unruly-worker's state
+* An tmux config that perfectly suits unruly-worker and absolutely rips (optional)
 * Plugin Support
-  * [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - auto completion
-  * [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) -
-    fuzzy search with preview
+  * [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - nvim-cmp auto completion
+  * [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) - fuzzy search with preview
   * [Comment.nvim](https://github.com/numToStr/Comment.nvim) - comment
     toggling
   * [Navigator.nvim](https://github.com/numToStr/Navigator.nvim) -
@@ -84,7 +83,21 @@ unruly_worker.setup({
 ```
 
 ## TMUX SETUP (optional)
-* copy `tmux/tmux.conf` into `~/.config/tmux/tmux.conf`
+> this is a somewhat minimal tmux config, you may want to tweek it or just use it as
+> a reference and make your own
+* set the env vars `EDITOR`, `COPYIER`, and `SCRATCHPAD_PATH` in your shell config
+```sh
+# EXAMPLE .zshrc|.bashrc env var setup
+export SCRATCHPAD_PATH=~/scatchpad.md
+export EDITOR=$(which nvim)
+if [[ $(uname) == "Darwin" ]];then
+   export COPYER=$(which pbcopy)
+else
+   # this is for X11 (not wayland)
+   export COPYER="$(which xclip) -in -selection clipboard > /dev/null'"
+fi
+```
+* copy `<THIS_REPO>/tmux/tmux.conf` into `~/.config/tmux/tmux.conf`
 
 #### TMUX NAVIGATTION
 * `(C-y)` _______ focus pane left
@@ -97,7 +110,7 @@ unruly_worker.setup({
 * `(C-t g)` _____ goto window (select menu)
 * `(C-t j)` _____ join pane into a goto window (select menu)
 
-## TMUX WINDOW & PANE MANAGEMENT
+#### TMUX WINDOW & PANE MANAGEMENT
 * `(C-t n)` _____ new window
 * `(C-t x)` _____ close pane
 * `(C-t s)` _____ split vertical
@@ -115,6 +128,7 @@ unruly_worker.setup({
 * `(C-t .)` _____ swap pane next
 
 #### TMUX OTHER
+* `(C-t S)` _____ popup scratchpad :)
 * `(C-t c)` _____ clear screen
 * `(C-t v)` _____ enter visual mode (called copy mode in tmux)
 * `(C-t p)` _____ paste
@@ -253,7 +267,7 @@ require("nvim-treesitter.configs").setup({
   * `r` return
   * `s` struct or class
 
-## Unruly Keymap
+## UNRULY KEYMAP OVERVIEW
 ### CURSOR MOVEMENT
 * `yneo` - are mapped to left, down, up, right
 * `Y` - goes to beginning of line
