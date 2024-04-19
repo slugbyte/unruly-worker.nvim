@@ -117,8 +117,7 @@ cmp.setup.cmdline(":", {
 * `<CR>` - execute
 * `<C-x>` - abort
 
-## [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
-MAPPING SETUP
+## [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) MAPPING SETUP
 ``` lua
 local unruly_telescope = require("unruly-worker.external.telescope")
 require("telescope").setup({
@@ -129,7 +128,7 @@ require("telescope").setup({
 })
 -- my personal telescope setup: https://github.com/slugbyte/config/blob/main/conf/config/nvim/lua/slugbyte/plugin/telescope.lua
 ```
-### telescope insert mode
+### `telescope.nvim` insert mode
 * `<CR>` - select default
 * `<C-h>` - select into horizontal split
 * `<C-s>` - select into vertical split
@@ -145,7 +144,7 @@ require("telescope").setup({
 * `<C-q>` - add selected to quickfix list
 * `<C-l>` - add selected to loclist list
 
-### telescope normal mode
+### `telescope.nvim` normal mode
 > includes everything in insert mode ^
 * `e` - move selection up
 * `n` - move selection down
@@ -153,72 +152,87 @@ require("telescope").setup({
 * `E` - move to bottom of selection list
 * `<Esc>` - abort
 
-## NAVIGATION
-### Buffer Navigation
+
+## Unruly Keymap
+### Cursor Movement
 * `yneo` - are mapped to left, down, up, right
 * `Y` - goes to beginning of line
 * `O` - goes to end of line
-* `gg` - top of file
-* `G` - end of file
-* `PageUp` - scroll up
-* `PageDown` - scroll down
-* `Home` - scroll up fast
-* `End` - scroll down fast
+* `gg` - toto top of file
+* `GG` - goto end of file
+* `t{char}` go to the [count]'th occurance of char to the right
+* `T{char}` go to the [count]'th occurance of char to the left
+* `h` repeat the last t/T (hop)
+* `H` repeat the last t/T reverse (hop reverse)
+
+### Insert text
+* `i` - Insert
+* `I` - Insert at beginning of line
+* `a` - Append
+* `a` - Append to end of line
+* `l` - insert Line below
+* `L` - insert Line above
+
+### Buffer Search
+* `/` - search down
+* `?` - search up
+* `f` - repeat search (find)
+* `F` - repeat search reverse (find reverse)
+
+## Command mode
+* `:` or `'` command mode
+
+## undo/redo
+* `u` undo
+* `U` redo
 
 ### Window Navigation
+* `<ctrl>w` + `yneo` - are mapped to focus pane left, down, up, right
 * `<ctrl>` + `yneo` - are mapped to focus pane left, down, up, right
-  * if Navigator.nvim is installed this will also work with your terminal
-    multiplexer
 * `<c-x>` close vim split
 * `<c-f>` fullscreen vim split
 * `<c-s>` split verticle
 * `<c-h>` split horizontal
 
-## Kopy Kut Paste
+## Kopy and Paste
 * Kopy/Paste uses a preselected register. `+` is the default
 * Unruly always deletes into register `0`.
 * Yank and Delete have separate key maps for pasting
 * Yank and Delete use registers 1-9 to track history
+* if you want yank and delete to share the same register set the kopy register
+  to `0`
 
 ### yank and paste from the kopy register
-* `k` - yank
-* `K` - yank line
-* `p` - paste yank below
-* `P` - paste yank above
-* `"` - select kopy register, `[a-z][A-X] and 0 +`
+* `k` - yank (kopy)
+* `K` - yank line (kopy line)
+* `p` - Paste yank below
+* `P` - Paste yank above
+* `"` - select Kopy register, `[a-z][A-X] and 0 +`
   * press `<enter>` or `<space>` reset to `+`
 
 #### delete and paste from register 0
-* `d` - delete
-* `dd` - delete line
-* `D` - delete to end of line
-* `x` - delete under cursor
-* `X` - delete before cursor
-* `c` - delete then enter insert mode
-* `cc` - delete line then enter insert mode
-* `C` - delete to end of line then enter insert mode
-* `.` - paste delete below
-* `,` - paste delete above
-
-### paste history
-* `<C-p>` - paste from any register using telescope
-  * registers 1-9 are used to track history of yanks/delete
-
-#### Kopy/Delete Tip
-* if you want yank and delete to share the same register set the kopy register
-  to `0`
+* `d` delete
+* `dd` delete line
+* `D` delete to end of line
+* `x` delete under cursor
+* `X` delete before cursor
+* `c` delete then enter insert mode
+* `cc` delete line then enter insert mode
+* `C` delete to end of line then enter insert mode
+* `.` paste delete below
+* `,` paste delete above
 
 ## Macro
 Macros use preselected registers, similar to kopy/paste. By default the macro register
 is `'z'`.
 
-* `z` - record a macro into the preselected register (default: `'z'`)
-* `Z` - play a macro from the preselected register
-* `<C-z>` - select the macro register
-* `<leader>z` - toggle macro recording lock
+* `z` record a macro into the preselected register (default: `'z'`)
+* `Z` play a macro from the preselected register
+* `<C-z>` select the macro register
+* `<leader>zl` toggle macro recording lock
   * this is useful if you want to make sure you don't accidentally overwrite
   the current macro register
-*  <code>&#96;</code> - pretty print the contents of the macro register
+*  `<leader>zp` pretty print the contents of the macro register
 It will display special keys like `<enter>`, `<esc>` or `<c-q>`
 
 Regsiters [0-9] are reserved for the delete register and yank history. [(See Kopy Below)](#Kopy)
@@ -229,23 +243,23 @@ else just use [telescope](https://github.com/nvim-telescope/telescope.nvim). Unr
 mode. When in local mode unruly uses marks `a` and `b` to hop within a buffer.
 When in global mode unruly uses marks `A` and `B` to hop to marks in any buffer.
 
-* `<leader>a` - set mark a
-* `<leader>b` - set mark b
-* `<C-a>` - goto mark a
-* `<C-b>` - goto mark b
-* `m` - toggle between local and global mark mode
-* `M` - clear current mark mode marks
+* `<leader>a` set mark a
+* `<leader>b` set mark b
+* `<C-a>` goto mark a
+* `<C-b>` goto mark b
+* `m` toggle between local and global mark mode
+* `M` clear current mark mode marks
 
 ## Seek Lists (next, prev, first, last)
 Unruly allows you to quickly navigate through currently the quickfix list,
 loclist, arg list, and currently open buffers. Seek keymaps only target one
 type of list at a time, by default seek target mode will be open buffers.
 
-* `<leader>sr` - seek target  mode rotate (buffer, quickfix, loclist, arg list)
-* `<leader>sl` - goto first item in seek list
-* `<leader>sf` - goto last item in seek list
-* `<leader>n` - goto next seek item
-* `<leader>p` - goto prev seek item
+* `<leader>sr` seek target  mode rotate (buffer, quickfix, loclist, arg list)
+* `<leader>sl` goto first item in seek list
+* `<leader>sf` goto last item in seek list
+* `<leader>n` goto next seek item
+* `<leader>p` goto prev seek item
 
 ## Boosters
 > idk why i called them boosters, they are really just things I thought people
@@ -255,23 +269,23 @@ type of list at a time, by default seek target mode will be open buffers.
 * if disabled
   * `q` anq `Q` will have no behavior `noOP`
 * if **enabled**
-  * `q` - write all buffers (`:wall`)
-  * `Q` - quit all (`:qall`)
-  * `<C-q>` - force quit all (`:qall!`)
+  * `q` write all buffers (`:wall`)
+  * `Q` quit all (`:qall`)
+  * `<C-q>` force quit all (`:qall!`)
 
 #### swap_easy
 * `<C-Up>` swap line/lines up
 * `<C-Down>` swap line/lines down
 
 #### scroll_easy
-* `<PageUp>` - scroll up
-* `<Home>` - scroll up fast
-* `<PageDown>` - scroll down
-* `<End>` - scroll down fast
+* `<PageUp>` scroll up
+* `<Home>` scroll up fast
+* `<PageDown>` scroll down
+* `<End>` scroll down fast
 
 #### hlsearch_easy
 > NOTE: for this to work hlsearch needs to be enabled `vim.opt.hlsearch = true`
-* `<Esc>` - will disable current hlsearch
+* `<Esc>` will disable current hlsearch
 
 #### diagnostic_easy
 * `-` prev diagnostic
@@ -282,69 +296,69 @@ type of list at a time, by default seek target mode will be open buffers.
 * `<leader>dn` next diagnostic
 
 #### lsp_easy
-* `<C-d>` - lsp goto definition
-* `<C-r>` - lsp rename
-* `;` - lsp hover
-* `=` - lsp code action
+* `<C-d>` lsp goto definition
+* `<C-r>` lsp rename
+* `;` lsp hover
+* `=` lsp code action
 
 #### lsp_leader
-* `<leader>la` - lsp code action
-* `<leader>lh` - lsp hover
-* `<leader>ld` - lsp goto definition
-* `<leader>lD` - lsp goto Declaration
-* `<leader>lf` - lsp format
-* `<leader>lr` - lsp rename
+* `<leader>la` lsp code action
+* `<leader>lh` lsp hover
+* `<leader>ld` lsp goto definition
+* `<leader>lD` lsp goto Declaration
+* `<leader>lf` lsp format
+* `<leader>lr` lsp rename
 
 #### plugin_telescope_lsp_leader
 > this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
-* `<leader>l?` - telescope lsp diagnostics
-* `<leader>lc` - telescope lsp incoming calls
-* `<leader>lC` - telescope lsp outgoing calls
-* `<leader>li` - telescope lsp goto implementaion
-* `<leader>lR` - telescope lsp references
-* `<leader>ls` - telescope lsp domument symbols
-* `<leader>lS` - telescope lsp workspace symbols
-* `<leader>l$` - telescope lsp dynamic workspacen symbols
-* `<leader>lt` - telescope lsp types
+* `<leader>l?` telescope lsp diagnostics
+* `<leader>lc` telescope lsp incoming calls
+* `<leader>lC` telescope lsp outgoing calls
+* `<leader>li` telescope lsp goto implementaion
+* `<leader>lR` telescope lsp references
+* `<leader>ls` telescope lsp domument symbols
+* `<leader>lS` telescope lsp workspace symbols
+* `<leader>l$` telescope lsp dynamic workspacen symbols
+* `<leader>lt` telescope lsp types
 
 #### plugin_telescope_jump_easy
 > this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
 * if disabled
   * `j` and `J` will have no behavior (`noOP`)
 * if **enabled**
-  * `j` - telescope find files (jump)
-  * `J` - telescope live grep (grep jump)
-  * `<C-j>` - telescope jumplist (jumplist jump)
+  * `j` telescope find files (jump)
+  * `J` telescope live grep (grep jump)
+  * `<C-j>` telescope jumplist (jumplist jump)
 
 #### `plugin_telescope_paste_easy = true`
-* `<c-p>` - telescope paste from any register
+* `<c-p>` telescope paste from any register
 
 #### `plugin_telescope_leader = true`
 > this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
-* `<leader>/` - telescope fuzzy find in current buffer
-* `<leader>tb` - telescope buffers
-* `<leader>to` - telescope old files (recent files)
-* `<leader>tq` - telescope quickfix
-* `<leader>tl` - telescope loclist
-* `<leader>tj` - telescope jumplist
-* `<leader>tm` - telescope man pages
-* `<leader>th` - telescope help tags
-* `<leader>tt` - telescope tags
-* `<leader>tc` - telescope keymaps
-* `<leader>tp` - telescope paste from any register
-* `<leader>tr` - telescope repeat last search
+* `<leader>/` telescope fuzzy find in current buffer
+* `<leader>tb` telescope buffers
+* `<leader>to` telescope old files (recent files)
+* `<leader>tq` telescope quickfix
+* `<leader>tl` telescope loclist
+* `<leader>tj` telescope jumplist
+* `<leader>tm` telescope man pages
+* `<leader>th` telescope help tags
+* `<leader>tt` telescope tags
+* `<leader>tc` telescope keymaps
+* `<leader>tp` telescope paste from any register
+* `<leader>tr` telescope repeat last search
 
 #### `plugin_comment = true`
 > this booster depends on any plugin that uses `gc` and `gcc` mappings to comment toggle, like
 > [Comment.nvim](https://github.com/numToStr/Comment.nvim)
-* `<c-c>` - toggle comment
+* `<c-c>` toggle comment
 
 #### `plugin_navigator = true`
 > this booster depends on [Navigator.nvim](https://github.com/numToStr/Navigator.nvim)
-* `<c-y>` - focus left (vim or terminal multiplexer)
-* `<c-n>` - focus down (vim or terminal multiplexer)
-* `<c-e>` - focus up (vim or terminal multiplexer)
-* `<c-o>` - focus right (vim or terminal multiplexer)
+* `<c-y>` focus left (vim or terminal multiplexer)
+* `<c-n>` focus down (vim or terminal multiplexer)
+* `<c-e>` focus up (vim or terminal multiplexer)
+* `<c-o>` focus right (vim or terminal multiplexer)
 
 #### `plugin_textobject = true`
 > this booster depends on [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) and
@@ -357,7 +371,7 @@ type of list at a time, by default seek target mode will be open buffers.
   * `S` prev text object
 
 #### `plugin_luasnip = true`
-> this booster depends on [LuaSnip](https://github.com/L3MON4D3/LuaSnip) - powerful snipits
+> this booster depends on [LuaSnip](https://github.com/L3MON4D3/LuaSnip) powerful snipits
 * `<C-k> or <C-Left>` luasnip jump prev
 * `<C-l> or <C-Right>` luasnip jump next
 
