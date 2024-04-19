@@ -445,7 +445,6 @@ local setup_force = function(config)
 			plugin_telescope_lsp_leader = false,
 			plugin_telescope_jump_easy  = false,
 			plugin_telescope_paste_easy = false,
-			experimental_seek           = false,
 		},
 		skip_list = {},
 	}

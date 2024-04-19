@@ -78,10 +78,68 @@ unruly_worker.setup({
   },
 })
 
+
 -- to setup with the defaults you can simply
 -- unruly_worker.setup()
 ```
-## [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) MAPPING SETUP
+
+## TMUX SETUP (optional)
+* copy `tmux/tmux.conf` into `~/.config/tmux/tmux.conf`
+
+#### TMUX NAVIGATTION
+* `(C-y)` _______ focus pane left
+* `(C-n)` _______ focus pane down
+* `(C-e)` _______ focus pane up
+* `(C-r)` _______ focus pane up
+* `(C-t Space)` _ next window
+* `(C-t o)` _____ next window
+* `(C-t y)` _____ previous-window
+* `(C-t g)` _____ goto window (select menu)
+* `(C-t j)` _____ join pane into a goto window (select menu)
+
+## TMUX WINDOW & PANE MANAGEMENT
+* `(C-t n)` _____ new window
+* `(C-t x)` _____ close pane
+* `(C-t s)` _____ split vertical
+* `(C-t h)` _____ split horizontal
+* `(C-t f)` _____ full screen current pane
+* `(C-t r)` _____ rename pane
+
+#### TMUX LAYOUT
+* `(C-t l)` _____ next layout
+* `(C-t Y)` _____ resize grow left
+* `(C-t N)` _____ resize grow down
+* `(C-t E)` _____ resize grow up
+* `(C-t O)` _____ resize grow right
+* `(C-t ,)` _____ swap pane prev
+* `(C-t .)` _____ swap pane next
+
+#### TMUX OTHER
+* `(C-t c)` _____ clear screen
+* `(C-t v)` _____ enter visual mode (called copy mode in tmux)
+* `(C-t p)` _____ paste
+
+#### TMUX VISUAL MODE
+* `(copy mode | v)` begin selection
+* `(copy mode | v)` copy selection
+* `(copy mode | y)` left
+* `(copy mode | n)` down
+* `(copy mode | e)` up
+* `(copy mode | e)` right
+* `(copy mode | f)` repeat last search
+* `(copy mode | F)` repeat last search backwards
+* `(copy mode | Y)` goto beginning of line
+* `(copy mode | O)` goto end of line
+* `(copy mode | N)` go down half a page
+* `(copy mode | E)` go up half a page
+* `(copy mode | w)` go to next word
+* `(copy mode | w)` go to prev word
+
+#### TMUX CHOICE MODE
+* `(choice mode)`(n) next choice (down)
+* `(choice mode)`(e) prev choice (up)
+
+## [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) MAPPING SETUP (optional)
 ``` lua
 local cmp = require("cmp")
 local unruly_cmp = require('unruly-worker.external.nvim-cmp')
@@ -117,7 +175,7 @@ cmp.setup.cmdline(":", {
 * `<CR>` - execute
 * `<C-x>` - abort
 
-## [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) MAPPING SETUP
+## [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) MAPPING SETUP (optional)
 ``` lua
 local unruly_telescope = require("unruly-worker.external.telescope")
 require("telescope").setup({
