@@ -46,7 +46,7 @@ function M.live_grep()
 end
 
 -- this will work without telescope
-function M.lsp_definiton()
+function M.lsp_definiton_safe()
 	if telescope_status and (telescope_builtin ~= nil) then
 		telescope_builtin.lsp_definitions()
 		return
@@ -55,12 +55,21 @@ function M.lsp_definiton()
 	end
 end
 
-function M.jump_list()
+function M.jump_list_safe()
 	if telescope_status and (telescope_builtin ~= nil) then
 		telescope_builtin.jumplist()
 		return
 	else
 		vim.cmd("jumps")
+	end
+end
+
+function M.spell_suggest_safe()
+	if telescope_status and (telescope_builtin ~= nil) then
+		telescope_builtin.spell_suggest()
+		return
+	else
+		vim.cmd("z=")
 	end
 end
 
@@ -71,7 +80,6 @@ M.resume = create_telescope_action("resume")
 M.oldfiles = create_telescope_action("oldfiles")
 M.quickfix = create_telescope_action("quickfix")
 M.registers = create_telescope_action("registers")
-M.spell_suggest = create_telescope_action("spell_suggest")
 M.tags = create_telescope_action("tags")
 M.man_pages = create_telescope_action("man_pages")
 M.loclist = create_telescope_action("loclist")

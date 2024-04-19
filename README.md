@@ -60,34 +60,55 @@ For example `uw_S` will go to documentation for the `S` keymap.
 For example `uw_c-a` will go to documentation for the `<C-a>` keymap.  
 
 ## Auto Completion with `nvim-cmp`
+### insert mode
+* `<CR>` - confirm select
+* `<C-g> or <Right>` - confirm continue
+* `<Tab> or <Down>` - next suggestion
+* `<S-Tab> or <Up>` - prev suggestion
+* `<C-x>` - abort
+
+### cmdline mode
+* `<C-g> or <Right>` - confirm continue
+* `<Tab>` - next suggestion
+* `<S-Tab>` - prev suggestion
+* `<Up>` - prev history
+* `<Down>` - next history
+* `<CR>` - execute
+* `<C-x>` - abort
 
 ## Telescope Setup `nvim-cmp`
+### telescope mapping setup
+``` lua
+local unruly_telescope = require("unruly-worker.external.telescope")
+require("telescope").setup({
+    defaults = {
+        mappings = unruly_telescope.create_mappings(),
+    },
+})
+```
 ### insert mode
 * `<CR>` - select default
 * `<C-h>` - select into horizontal split
 * `<C-s>` - select into vertical split
 * `<Down> or <C-n>` - move selection down
 * `<Up> or <C-e>` - move selection up
+* `<C-k>` - telescope which key
+* `<C-x>` - abort
+* `<PageUp>` - scroll preview up
+* `<PageDown>` - scroll preview down
 * `<Tab>` - toggle selection
 * `<C-a>` - select all
 * `<C-d>` - deselect all
 * `<C-q>` - add selected to quickfix list
-* `<C-l>` - add selected to quickfix list
-* `<C-k>` - telescope which key
-* `<PageUp>` - scroll preview up
-* `<PageDown>` - scroll preview down
+* `<C-l>` - add selected to loclist list
 
-### insert mode
+### normal mode
 > includes everything in insert mode ^
-* `e` move selection up
-* `n` move selection down
-* `N` move to top of selection list
-* `E` move to bottom of selection list
-* `a` select all
-* `d` deselect all
-* `q` add to quickfix list and open
-* `q` add to loclist and open
-
+* `e` - move selection up
+* `n` - move selection down
+* `N` - move to top of selection list
+* `E` - move to bottom of selection list
+* `<Esc>` - abort
 
 ## NAVIGATION
 ### Buffer Navigation
@@ -182,6 +203,89 @@ type of list at a time, by default seek target mode will be open buffers.
 * `<leader>sf` - goto last item in seek list
 * `<leader>n` - goto next seek item
 * `<leader>p` - goto prev seek item
+
+## Boosters
+> idk why i called them boosters, they are really just things I thought people
+> might want to opt out of.
+
+#### quit_easy
+* if enabled
+  * `q` - write all buffers (`:wall`)
+  * `Q` - quit all (`:qall`)
+  * `<C-q>` - force quit all (`:qall!`)
+* if disabled
+  * `q` anq `Q` will have no behavior `noOP`
+
+#### swap_easy
+* `<C-Up>` swap line/lines up
+* `<C-Down>` swap line/lines down
+
+#### scroll_easy
+* `<PageUp>` - scroll up
+* `<Home>` - scroll up fast
+* `<PageDown>` - scroll down
+* `<End>` - scroll down fast
+
+#### hlsearch_easy
+> NOTE: for this to work hlsearch needs to be enabled `vim.opt.hlsearch = true`
+* `<Esc>` - will disable current hlsearch
+
+#### diagnostic_easy
+* `<->` - prev diagnostic
+* `<_>` - next diagnostic
+
+#### lsp_easy
+* `<C-d>` - lsp goto definition
+* `<C-r>` - lsp rename
+* `;` - lsp hover
+* `=` - lsp code action
+
+#### lsp_leader
+* `<leader>la` - lsp code action
+* `<leader>lh` - lsp hover
+* `<leader>ld` - lsp goto definition
+* `<leader>lD` - lsp goto Declaration
+* `<leader>lf` - lsp format
+* `<leader>lr` - lsp rename
+
+#### plugin_telescope_lsp_leader
+> this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
+* `<leader>l?` - telescope lsp diagnostics
+* `<leader>lc` - telescope lsp incoming calls
+* `<leader>lC` - telescope lsp outgoing calls
+* `<leader>li` - telescope lsp goto implementaion
+* `<leader>lR` - telescope lsp references
+* `<leader>ls` - telescope lsp domument symbols
+* `<leader>lS` - telescope lsp workspace symbols
+* `<leader>l$` - telescope lsp dynamic workspacen symbols
+* `<leader>lt` - telescope lsp types
+
+#### plugin_telescope_jump_easy
+> this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
+* if disabled
+  * `j` and `J` will have no behavior (`noOP`)
+* if enabled
+  * `j` - telescope find files (jump)
+  * `J` - telescope live grep (grep jump)
+  * `<C-j>` - telescope jumplist (jumplist jump)
+
+#### plugin_telescope_paste_easy
+* `<c-p>` - telescope paste from any register
+
+#### plugin_telescope_leader
+> this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
+* `<leader>/` - telescope fuzzy find in current buffer
+* `<leader>tb` - telescope buffers
+* `<leader>to` - telescope old files (recent files)
+* `<leader>tq` - telescope quickfix
+* `<leader>tl` - telescope loclist
+* `<leader>tj` - telescope jumplist
+* `<leader>tm` - telescope man pages
+* `<leader>th` - telescope help tags
+* `<leader>tt` - telescope tags
+* `<leader>tc` - telescope keymaps
+* `<leader>tp` - telescope paste from any register
+* `<leader>tr` - telescope repeat last search
 
 ## ABOUT
 Being dyslexic has taught me its often easier for me to build a system for

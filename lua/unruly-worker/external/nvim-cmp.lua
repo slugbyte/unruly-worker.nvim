@@ -1,39 +1,13 @@
 -- TODO: write docs
 -- TODO: create a way to create a skip list?
--- TODO: create a way to merge additional mappings?
+-- TODO: create a way to merge additional mapping?
 local util = require("unruly-worker.util")
 
-local function create_module(config)
-	if config == nil then
-		config = {}
-	end
+local M = {}
 
-	local cmp = config.cmp
-	if (cmp == nil) then
-		util.error("cmp not found")
-		return nil
-	end
-
-	local action_abort = cmp.mapping.abort()
-	local action_confirm_select = cmp.mapping.confirm({ select = true })
+function M.create_cmdline_mapping()
+	local cmp = require("cmp")
 	local action_confirm_continue = cmp.mapping.confirm({ select = false })
-	local action_insert_next = cmp.mapping.select_next_item({ behavior = "select" })
-	local action_insert_prev = cmp.mapping.select_prev_item({ behavior = "select" })
-
-	local default_insert_mapping = {
-		["<Right>"] = { i = action_confirm_continue },
-		["<C-g>"] = { i = action_confirm_continue },
-
-		["<CR>"] = { i = action_confirm_select },
-
-		["<Tab>"] = { i = action_insert_next },
-		["<Down>"] = { i = action_insert_next },
-
-		["<S-Tab>"] = { i = action_insert_prev },
-		["<Up>"] = { i = action_insert_prev },
-
-		["<C-BS>"] = { i = action_abort },
-	}
 
 	local function action_cmdline_next()
 		if cmp.visible() then
@@ -55,15 +29,37 @@ local function create_module(config)
 
 		["<Right>"] = { c = action_confirm_continue },
 		["<Tab>"] = { c = action_cmdline_next },
-
 		["<S-Tab>"] = { c = action_cmdline_prev },
-		["<C-BS>"] = { c = action_abort },
+		["<C-x>"] = { c = cmp.mapping.abort() },
 	}
 
-	return {
-		insert_mapping = default_insert_mapping,
-		cmdline_mapping = default_cmdline_mapping,
-	}
+	return default_cmdline_mapping
 end
 
-return create_module
+function M.create_insert_mapping()
+	local cmp = require("cmp")
+	local action_abort = cmp.mapping.abort()
+	local action_confirm_select = cmp.mapping.confirm({ select = true })
+	local action_confirm_continue = cmp.mapping.confirm({ select = false })
+	local action_insert_next = cmp.mapping.select_next_item({ behavior = "select" })
+	local action_insert_prev = cmp.mapping.select_prev_item({ behavior = "select" })
+
+	local default_insert_mapping = {
+		["<Right>"] = { i = action_confirm_continue },
+		["<C-g>"] = { i = action_confirm_continue },
+
+		["<CR>"] = { i = action_confirm_select },
+
+		["<Tab>"] = { i = action_insert_next },
+		["<Down>"] = { i = action_insert_next },
+
+		["<S-Tab>"] = { i = action_insert_prev },
+		["<Up>"] = { i = action_insert_prev },
+
+		["<C-x>"] = { i = action_abort },
+	}
+
+	return default_insert_mapping
+end
+
+return M

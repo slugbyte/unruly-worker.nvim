@@ -1,5 +1,4 @@
 local util = require("unruly-worker.util")
-local text_object = require("unruly-worker.action.text-object")
 local seek_buffer = require("unruly-worker.action.seek-buffer")
 local seek_quickfix = require("unruly-worker.action.seek-quickfix")
 local seek_loclist = require("unruly-worker.action.seek-loclist")
@@ -11,7 +10,7 @@ M.mode_option = {
 	quickfix = "Q",
 	loclist = "L",
 	buffer = "B",
-	arg_list = "A",
+	-- arg_list = "A",
 }
 
 local S = {
@@ -25,7 +24,6 @@ local function create_mode_set_fn(mode_option)
 end
 
 -- seek quick fix list
-M.mode_set_text_object = create_mode_set_fn(M.mode_option.text_object)
 M.mode_set_quickfix = create_mode_set_fn(M.mode_option.quickfix)
 M.mode_set_buffer = create_mode_set_fn(M.mode_option.buffer)
 M.mode_set_loclist = create_mode_set_fn(M.mode_option.loclist)
@@ -40,19 +38,6 @@ function M.get_status_text()
 	if S.seek_mode == M.mode_option.loclist then
 		return seek_loclist.get_status_text()
 	end
-end
-
--- seek mode rotate
-function M.mode_rotate()
-	if S.seek_mode == M.mode_option.quickfix then
-		M.mode_set_buffer()
-		return
-	end
-	if S.seek_mode == M.mode_option.buffer then
-		M.mode_set_loclist()
-		return
-	end
-	M.mode_set_quickfix()
 end
 
 function M.mode_get()

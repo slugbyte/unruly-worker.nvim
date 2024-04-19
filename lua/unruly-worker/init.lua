@@ -89,7 +89,7 @@ local mapping = {
 			d = cfg_basic(action.kopy.create_delete_cmd("d"), "delete motion into reg 0"),
 			dd = cfg_basic(action.kopy.create_delete_cmd("dd"), "delete motion into reg 0"),
 			D = cfg_basic(action.kopy.create_delete_cmd("D"), "delete motion into reg 0"),
-			e = cfg_basic("k", "up"),
+			e = cfg_basic("gk", "up"),
 			E = cfg_cmd("vip", "envelope paraghaph"),
 			f = cfg_basic("n", "find next"),
 			F = cfg_basic("N", "find prev"),
@@ -103,7 +103,7 @@ local mapping = {
 			I = cfg_basic("I", "insert BOL"),
 			j = cfg_noop(),
 			J = cfg_noop(),
-			["<c-j>"] = cfg_basic(action.telescope.jump_list, "jump list"),
+			["<c-j>"] = cfg_basic(action.telescope.jump_list_safe, "jump list"),
 			k = cfg_basic_expr(action.kopy.expr_yank, "kopy"),
 			K = cfg_basic_expr(action.kopy.expr_yank_line, "kopy line"),
 			l = cfg_basic("o", "line insert below"),
@@ -112,20 +112,19 @@ local mapping = {
 			["<leader>lL"] = cfg_basic("O<esc>^d$<Down>", "[L]ine Above"),
 			m = cfg_basic(action.mark.toggle_mode, "mark mode toggle"),
 			M = cfg_basic(action.mark.delete_mode, "mark delete mode"),
-			n = cfg_basic("j", "down"),
+			n = cfg_basic("gj", "down"),
 			N = cfg_basic("J", "join lines"),
 			o = cfg_basic("l", "right"),
 			O = cfg_basic("$", "right to EOL"),
 			p = cfg_basic_expr(action.kopy.expr_paste_below, "paste after"),
 			P = cfg_basic_expr(action.kopy.expr_paste_above, "paste before"),
-			["<C-p>"] = cfg_basic(action.telescope.registers, "Telescope Registers [P]aste"),
-			q = cfg_basic(action.save.write_all, "write all"),
-			Q = cfg_basic(":qall<cr>", "quit all"),
-			["<C-q>"] = cfg_basic(":qall!<cr>", "quit all force"),
+			q = cfg_noop(),
+			Q = cfg_noop(),
 			r = cfg_basic("r", "replace"),
 			R = cfg_basic("R", "replace mode"),
 			s = cfg_noop(),
 			S = cfg_noop(),
+			["<leader>sc"] = cfg_basic(action.telescope.spell_suggest_safe, "[S]pell [C]heck"),
 			t = cfg_basic("f", "to char"),
 			T = cfg_basic("F", "to char reverse"),
 			u = cfg_basic("u", "undo"),
@@ -134,22 +133,17 @@ local mapping = {
 			V = cfg_basic("V", "visual line mode"),
 			w = cfg_basic("w", "word forward"),
 			W = cfg_basic("b", "word backward"),
-			["<leader>s"] = cfg_basic("z=", "spell check"),
 			x = cfg_basic(action.kopy.create_delete_cmd("x"), "delete char into reg 0"),
 			X = cfg_basic(action.kopy.create_delete_cmd("X"), "delete previous char into reg 0"),
 			y = cfg_basic("h", "left"),
 			Y = cfg_basic("^", "left to BOL"),
+
+			-- macro
 			z = cfg_basic(action.macro.record, "macro record"),
 			Z = cfg_basic(action.macro.play, "macro play"),
-			["<leader>z"] = cfg_basic(action.macro.lock_toggle, "macro lock toggle"),
 			["<c-z>"] = cfg_basic(action.macro.select_register, "select macro register"),
-			['`'] = cfg_basic(action.macro.peek_register, "macro register peek"),
-
-			-- Scroll keys
-			["<End>"] = cfg_basic("9<C-E>", "scroll down fast"),
-			["<PageDown>"] = cfg_basic("3<C-E>", "scroll down"),
-			["<PageUp>"] = cfg_basic("3<C-Y>", "scroll up"),
-			["<Home>"] = cfg_basic("9<C-Y>", "scroll down fast"),
+			["<leader>zl"] = cfg_basic(action.macro.lock_toggle, "Macro [L]ock Toggle"),
+			['<leader>zp'] = cfg_basic(action.macro.peek_register, "Macro [P]eek"),
 
 			-- parens
 			[")"] = cfg_basic(")", "next sentence"),
@@ -172,7 +166,6 @@ local mapping = {
 			["'"] = cfg_basic(":", "command mode"),
 			["/"] = cfg_basic("/", "search down"),
 			["?"] = cfg_basic("?", "search up"),
-			["<leader>/"] = cfg_basic(action.telescope.buffer_fuzzy_search, "buffer fuzzy find"),
 
 			-- paste delete
 			[","] = cfg_basic('"0P', "paste register x above"),
@@ -192,7 +185,6 @@ local mapping = {
 			["<C-w>f"] = cfg_basic(":on<CR>", "full screen"),
 			["<C-w>h"] = cfg_basic(":sp<CR>", "split horizontal"),
 			["<C-w>s"] = cfg_basic(":vs<CR>", "split verticle"),
-
 			["<C-y>"] = cfg_basic("<C-w>h", "focus left"),
 			["<C-n>"] = cfg_basic("<C-w>j", "focus down"),
 			["<C-e>"] = cfg_basic("<C-w>k", "focus up"),
@@ -201,6 +193,7 @@ local mapping = {
 			["<C-f>"] = cfg_basic(":on<CR>", "full screen"),
 			["<C-h>"] = cfg_basic(":sp<CR>", "split horizontal"),
 			["<C-s>"] = cfg_basic(":vs<CR>", "split verticle"),
+
 
 			-- cursor align
 			["@"] = cfg_basic("zt", "align top"),
@@ -223,71 +216,6 @@ local mapping = {
 		},
 		n = {
 			-- swap lines normal
-			["<esc>"] = cfg_basic("<cmd>nohlsearch<CR>", "disable hl search"),
-			["<C-Down>"] = cfg_basic(":m .+1<CR>==", "swap down"),
-			["<C-Up>"] = cfg_basic(":m .-2<CR>==", "swap up"),
-		},
-		v = {
-			["<C-Down>"] = cfg_basic(":m '>+1<CR>gv=gv", "swap down"),
-			["<C-Up>"] = cfg_basic(":m '<-2<CR>gv=gv", "swap up"),
-			["<leader>i"] = cfg_basic("g<C-a>", "[I]ncrament Number Column"),
-			["<leader>d"] = cfg_basic("g<C-x>", "[D]ecrement Number Column"),
-		},
-		c = {
-			["<C-a>"] = cfg_basic("<home>", "goto BOL"),
-			["<C-e>"] = cfg_basic("<end>", "goto EOL"),
-		},
-	},
-	easy_comment = {
-		n = {
-			["<C-c>"] = cfg_custom("gcc", remap, no_silent, "comment"),
-		},
-		v = {
-			["<C-c>"] = cfg_custom("gc", remap, no_silent, "comment"),
-		},
-	},
-	easy_lsp = {
-		m = {
-			["_"] = cfg_basic(vim.diagnostic.goto_next, "diagnostic next"),
-			["-"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
-			[";"] = cfg_basic(vim.lsp.buf.hover, "lsp hover"),
-			["="] = cfg_basic(vim.lsp.buf.code_action, "lsp code action"),
-			["<C-r>"] = cfg_basic(vim.lsp.buf.rename, "lsp rename"),
-			["<C-d>"] = cfg_basic(action.telescope.lsp_definiton, "lsp definition"),
-			["<leader>l?"] = cfg_basic(action.telescope.diagnostics, "[L]sp Diagnostics"),
-			["<leader>la"] = cfg_basic(vim.lsp.buf.code_action, "[L]sp Code [A]ction"),
-			["<leader>ld"] = cfg_basic(action.telescope.lsp_definiton, "[L]sp goto [D]efinition"),
-			["<leader>lD"] = cfg_basic(vim.lsp.buf.declaration, "[L]sp goto [D]eclaration"),
-			["<leader>lf"] = cfg_basic(vim.lsp.buf.format, "[L]sp [F]ormat"),
-			["<leader>lc"] = cfg_basic(action.telescope.lsp_incoming_calls, "[L]sp Incoming [C]alls"),
-			["<leader>lC"] = cfg_basic(action.telescope.lsp_outgoing_calls, "[L]sp Outgoing [C]alls"),
-			["<leader>li"] = cfg_basic(action.telescope.lsp_implementations, "[G]oto [I]mplementation"),
-			["<leader>lr"] = cfg_basic(action.telescope.lsp_references, "[L]sp [R]eferences"),
-			["<leader>lR"] = cfg_basic(vim.lsp.buf.rename, "[L]sp [R]ename"),
-			["<leader>ls"] = cfg_basic(action.telescope.lsp_document_symbols, "[L]sp Document [S]ymbols"),
-			["<leader>lS"] = cfg_basic(action.telescope.lsp_workspace_symbols, "[L]sp Workspace [S]ymbols"),
-			["<leader>l$"] = cfg_basic(action.telescope.lsp_dynamic_workspace_symbols, "[L]sp Dynamic Workspace [S]ymbols"),
-			["<leader>lt"] = cfg_basic(action.telescope.lsp_type_definitions, "[L]sp [T]ypes"),
-		},
-	},
-	easy_move = {
-		m = {
-			-- y = cfg_basic("<Left>", "left wrap"),
-			n = cfg_basic("gj", "down column"),
-			e = cfg_basic("gk", "up column"),
-			-- o = cfg_basic("<Right>", "right wrap"),
-		},
-	},
-	easy_tmux = {
-		m = {
-			["<C-y>"] = cfg_custom(action.tmux.focus_left, no_remap, silent, "focus left (vim/tmux)"),
-			["<C-n>"] = cfg_custom(action.tmux.focus_down, no_remap, silent, "focus down (vim/tmux)"),
-			["<C-e>"] = cfg_custom(action.tmux.focus_up, no_remap, silent, "focus up (vim/tmux)"),
-			["<C-o>"] = cfg_custom(action.tmux.focus_right, no_remap, silent, "focus right (vim/tmux)"),
-		},
-	},
-	easy_source = {
-		n = {
 			["%"] = cfg_custom(function()
 				local current_file = vim.fn.expandcmd("%")
 				if current_file == "%" then
@@ -298,14 +226,104 @@ local mapping = {
 				vim.api.nvim_feedkeys(keys, "n", false)
 			end, no_remap, no_silent, "source current buffer"),
 		},
+		c = {
+			["<C-a>"] = cfg_basic("<home>", "goto BOL"),
+			["<C-e>"] = cfg_basic("<end>", "goto EOL"),
+		},
 	},
-	easy_jump = {
+	experimental_seek = {
 		m = {
-			j = cfg_basic(action.telescope.find_files, "jump files"),
-			J = cfg_basic(action.telescope.live_grep, "jump files"),
-		}
+			["<leader>n"] = cfg_basic(action.seek.seek_forward, "[N]ext Seek"),
+			["<leader>p"] = cfg_basic(action.seek.seek_reverse, "[P]rev Seek"),
+			["<leader>sf"] = cfg_basic(action.seek.seek_first, "[S]eek [F]irst"),
+			["<leader>sl"] = cfg_basic(action.seek.seek_last, "[S]eek [L]ast"),
+			["<leader>sQ"] = cfg_basic(action.seek.mode_set_quickfix, "[S]eek mode [Q]uickfix"),
+			["<leader>sL"] = cfg_basic(action.seek.mode_set_loclist, "[S]eek mode [L]oclist"),
+			["<leader>sB"] = cfg_basic(action.seek.mode_set_buffer, "[S]eek mode [B]uffer"),
+		},
 	},
-	easy_textobject = {
+	quit_easy = {
+		m = {
+			q = cfg_basic(action.save.write_all, "write all"),
+			Q = cfg_basic(":qall<cr>", "quit all"),
+			["<C-q>"] = cfg_basic(":qall!<cr>", "quit all force"),
+		},
+	},
+	scroll_easy = {
+		m = {
+			["<End>"] = cfg_basic("9<C-E>", "scroll down fast"),
+			["<PageDown>"] = cfg_basic("3<C-E>", "scroll down"),
+			["<PageUp>"] = cfg_basic("3<C-Y>", "scroll up"),
+			["<Home>"] = cfg_basic("9<C-Y>", "scroll down fast"),
+		},
+	},
+	swap_easy = {
+		n = {
+			["<C-Down>"] = cfg_basic(":m .+1<CR>==", "swap down"),
+			["<C-Up>"] = cfg_basic(":m .-2<CR>==", "swap up"),
+		},
+		v = {
+			["<C-Down>"] = cfg_basic(":m '>+1<CR>gv=gv", "swap down"),
+			["<C-Up>"] = cfg_basic(":m '<-2<CR>gv=gv", "swap up"),
+		},
+	},
+	incrament_easy = {
+		v = {
+			["<leader>i"] = cfg_basic("g<C-a>", "[I]ncrament Number Column"),
+		},
+	},
+	hlsearch_easy = {
+		n = {
+			["<esc>"] = cfg_basic("<cmd>nohlsearch<CR>", "disable hl search"),
+		},
+	},
+	lsp_easy = {
+		m = {
+			[";"] = cfg_basic(vim.lsp.buf.hover, "lsp hover"),
+			["="] = cfg_basic(vim.lsp.buf.code_action, "lsp code action"),
+			["<C-r>"] = cfg_basic(vim.lsp.buf.rename, "lsp rename"),
+			["<C-d>"] = cfg_basic(action.telescope.lsp_definiton_safe, "lsp definition"),
+		},
+	},
+	lsp_leader = {
+		m = {
+			["<leader>la"] = cfg_basic(vim.lsp.buf.code_action, "[L]sp Code [A]ction"),
+			["<leader>lh"] = cfg_basic(vim.lsp.buf.hover, "[L]sp [H]over"),
+			["<leader>ld"] = cfg_basic(action.telescope.lsp_definiton_safe, "[L]sp goto [D]efinition"),
+			["<leader>lD"] = cfg_basic(vim.lsp.buf.declaration, "[L]sp goto [D]eclaration"),
+			["<leader>lf"] = cfg_basic(vim.lsp.buf.format, "[L]sp [F]ormat"),
+			["<leader>lR"] = cfg_basic(vim.lsp.buf.rename, "[L]sp [R]ename"),
+		},
+	},
+	diagnostic_easy = {
+		m = {
+			["_"] = cfg_basic(vim.diagnostic.goto_next, "diagnostic next"),
+			["-"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
+		},
+	},
+	diagnostic_leader = {
+		m = {
+			["<leader>d"] = cfg_basic(vim.diagnostic.goto_next, "diagnostic next"),
+			["<leader>D"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
+		},
+	},
+	plugin_comment = {
+		n = {
+			["<C-c>"] = cfg_custom("gcc", remap, no_silent, "comment"),
+		},
+		v = {
+			["<C-c>"] = cfg_custom("gc", remap, no_silent, "comment"),
+		},
+	},
+	plugin_navigator = {
+		m = {
+			["<C-y>"] = cfg_custom(action.tmux.focus_left, no_remap, silent, "focus left (vim/tmux)"),
+			["<C-n>"] = cfg_custom(action.tmux.focus_down, no_remap, silent, "focus down (vim/tmux)"),
+			["<C-e>"] = cfg_custom(action.tmux.focus_up, no_remap, silent, "focus up (vim/tmux)"),
+			["<C-o>"] = cfg_custom(action.tmux.focus_right, no_remap, silent, "focus right (vim/tmux)"),
+		},
+	},
+	plugin_textobject = {
 		n = {
 			s = cfg_basic(action.text_object.seek_forward, "seek textobject forward"),
 			S = cfg_basic(action.text_object.seek_reverse, "seek textobject reverse")
@@ -319,7 +337,7 @@ local mapping = {
 			S = cfg_basic(action.text_object.seek_reverse, "seek textobject reverse")
 		},
 	},
-	easy_luasnip = {
+	plugin_luasnip = {
 		i = {
 			["<C-Right>"] = cfg_basic(action.luasnip.jump_forward, "luasnip jump next"),
 			["<C-Left>"] = cfg_basic(action.luasnip.jump_reverse, "luasnip jump prev"),
@@ -333,33 +351,46 @@ local mapping = {
 			["<C-k>"] = cfg_basic(action.luasnip.jump_reverse, "luasnip jump prev"),
 		},
 	},
-	easy_seek = {
+	plugin_telescope_lsp_leader = {
 		m = {
-			["<leader>n"] = cfg_basic(action.seek.seek_forward, "[N]ext Seek"),
-			["<leader>p"] = cfg_basic(action.seek.seek_reverse, "[P]rev Seek"),
-			["<leader>sf"] = cfg_basic(action.seek.seek_first, "[S]eek [F]irst"),
-			["<leader>sl"] = cfg_basic(action.seek.seek_last, "[S]eek [L]ast"),
-			["<leader>sr"] = cfg_basic(action.seek.mode_rotate, "[S]eek [R]otate Mode"),
-		},
+			-- telescope lsp
+			["<leader>l?"] = cfg_basic(action.telescope.diagnostics, "[L]sp Diagnostics"),
+			["<leader>lc"] = cfg_basic(action.telescope.lsp_incoming_calls, "[L]sp Incoming [C]alls"),
+			["<leader>lC"] = cfg_basic(action.telescope.lsp_outgoing_calls, "[L]sp Outgoing [C]alls"),
+			["<leader>li"] = cfg_basic(action.telescope.lsp_implementations, "[L]sp Goto [I]mplementation"),
+			["<leader>lR"] = cfg_basic(action.telescope.lsp_references, "[L]sp [R]eferences"),
+			["<leader>ls"] = cfg_basic(action.telescope.lsp_document_symbols, "[L]sp Document [S]ymbols"),
+			["<leader>lS"] = cfg_basic(action.telescope.lsp_workspace_symbols, "[L]sp Workspace [S]ymbols"),
+			["<leader>l$"] = cfg_basic(action.telescope.lsp_dynamic_workspace_symbols, "[L]sp Dynamic Workspace [S]ymbols"),
+			["<leader>lt"] = cfg_basic(action.telescope.lsp_type_definitions, "[L]sp [T]ypes"),
+		}
 	},
-	telescope_leader = {
+	plugin_telescope_jump_easy = {
 		m = {
-			["<leader>s"] = cfg_basic(action.telescope.spell_suggest, "[S]pell [C]heck"),
+			j = cfg_basic(action.telescope.find_files, "jump files"),
+			J = cfg_basic(action.telescope.live_grep, "jump files"),
+		}
+	},
+	plugin_telescope_paste_easy = {
+		m = {
+			["<C-p>"] = cfg_basic(action.telescope.registers, "Telescope Registers [P]aste"),
+		}
+	},
+	plugin_telescope_leader = {
+		m = {
+			["<leader>/"] = cfg_basic(action.telescope.buffer_fuzzy_search, "buffer fuzzy find"),
 			["<leader>tb"] = cfg_basic(action.telescope.buffers, "[T]elescope [B]uffers"),
-			["<leader>tr"] = cfg_basic(action.telescope.oldfiles, "[T]elescope [R]ecent"),
-
+			["<leader>to"] = cfg_basic(action.telescope.oldfiles, "[T]elescope [O]ldfiles"),
 			["<leader>tq"] = cfg_basic(action.telescope.quickfix, "[T]elescope [Q]uickfix"),
 			["<leader>tl"] = cfg_basic(action.telescope.loclist, "[T]elescope [L]oclist"),
 			["<leader>tj"] = cfg_basic(action.telescope.loclist, "[T]elescope [J]umplist"),
-
 			["<leader>tm"] = cfg_basic(action.telescope.man_pages, "[T]elescope [M]an pages"),
 			["<leader>th"] = cfg_basic(action.telescope.help_tags, "[T]elescope [H]elp Tags"),
 			["<leader>tt"] = cfg_basic(action.telescope.man_pages, "[T]elescope [T]ags"),
-
 			["<leader>tc"] = cfg_basic(action.telescope.commands, "[T]elescope [C]ommands"),
 			["<leader>tk"] = cfg_basic(action.telescope.keymaps, "[T]elescope [K]eymaps"),
 			["<leader>tp"] = cfg_basic(action.telescope.registers, "[T]elescope [P]aste"),
-			["<leader>ta"] = cfg_basic(action.telescope.resume, "[T]elescope [A]gain"),
+			["<leader>tr"] = cfg_basic(action.telescope.resume, "[T]elescope [R]epeat"),
 		}
 	},
 }
@@ -390,16 +421,24 @@ local setup_force = function(config)
 
 	local context = {
 		booster   = {
-			easy_lsp         = true,
-			easy_move        = true,
-			easy_tmux        = true,
-			easy_comment     = true,
-			easy_source      = true,
-			easy_jump        = true,
-			easy_textobject  = true,
-			easy_luasnip     = true,
-			easy_seek        = true,
-			telescope_leader = true,
+			experimental_seek           = true,
+			quit_easy                   = true,
+			scroll_easy                 = true,
+			swap_easy                   = true,
+			incrament_easy              = true,
+			hlsearch_easy               = true,
+			lsp_easy                    = true,
+			lsp_leader                  = true,
+			diagnostic_easy             = true,
+			diagnostic_leader           = true,
+			plugin_navigator            = true,
+			plugin_comment              = true,
+			plugin_luasnip              = true,
+			plugin_textobject           = true,
+			plugin_telescope_leader     = true,
+			plugin_telescope_lsp_leader = true,
+			plugin_telescope_jump_easy  = true,
+			plugin_telescope_paste_easy = true,
 		},
 		skip_list = {},
 	}
