@@ -87,17 +87,17 @@ local cmp = require("cmp")
 local unruly_cmp = require('unruly-worker.external.nvim-cmp')
 cmp.setup({
     mapping = unruly_cmp.create_insert_mapping(),
-    --  ...
+    -- rest of config...
 })
 
 cmp.setup.cmdline({ "/", "?" }, {
     mapping = unruly_cmp.create_cmdline_mapping(),
-    -- ...
+    -- rest of config...
 })
 
 cmp.setup.cmdline(":", {
     mapping = unruly_cmp.create_cmdline_mapping(),
-    -- ...
+    -- rest of config...
 })
 -- my personal nvim-cmp config file: https://github.com/slugbyte/config/blob/main/conf/config/nvim/lua/slugbyte/plugin/cmp-and-luasnip.lua
 ```
@@ -124,7 +124,7 @@ require("telescope").setup({
     defaults = {
         mappings = unruly_telescope.create_mappings(),
     },
-    -- ...
+    -- rest of config...
 })
 -- my personal telescope setup: https://github.com/slugbyte/config/blob/main/conf/config/nvim/lua/slugbyte/plugin/telescope.lua
 ```
@@ -152,6 +152,48 @@ require("telescope").setup({
 * `E` - move to bottom of selection list
 * `<Esc>` - abort
 
+##  [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) MAPPING SETUP
+```lua 
+local unruly_textobjects = require("unruly-worker.external.textobjects")
+require("nvim-treesitter.configs").setup({
+    textobjects = {
+        select = {
+            keymaps = unruly_textobjects.select_keymaps,
+            -- rest of config...
+        },
+        move = {
+            goto_next_start = unruly_textobjects.move_goto_next_start,
+            goto_previous_start = unruly_textobjects.move_goto_previous_start,
+            goto_next_end = unruly_textobjects.move_goto_next_end,
+            goto_previous_end = unruly_textobjects.move_goto_previous_end,
+            -- rest of config...
+        },
+    },
+})
+```
+
+#### textobjects select and movement
+* `go{object}` goto next outer object
+* `gi{object}` goto next inner object
+* `ge{object}` goto prev end object
+* `Go{object}` goto prev outer object
+* `Gi{object}` goto prev inner object
+* `Ge{object}` goto prev end object
+* `vo{object}` visual outer object
+* `vi{object}` visual inner object
+* `do{object}` delete outer object
+* `di{object}` delete inner object
+* `{object}`
+  * `a` assigment
+  * `b` block
+  * `c` call
+  * `d` comment (doc)
+  * `f` function
+  * `i` conditional (if)
+  * `l` loop
+  * `p` parameter
+  * `r` return
+  * `s` struct or class
 
 ## Unruly Keymap
 ### Cursor Movement
