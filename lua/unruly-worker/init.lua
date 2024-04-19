@@ -9,11 +9,9 @@
 --  Maintainer: Duncan Marsh (slugbyte@slugbyte.com)
 --  Repository: https://github.com/slugbyte/unruly-worker
 --
--- TODO: !! put marks in gutter https://github.com/chentoast/marks.nvim/blob/74e8d01b2a2131b6e46354cffc553aa7f81bcf5b/lua/marks/utils.lua#L9C1-L19C1
--- TODO: ?? (external) add treesitter search commands
--- TODO: ?? (external) text object mappings
--- TODO: figure out how to chage from quick list 0 - 9, is this necessary?
 -- TODO: add and document tmux config
+-- TODO: !! put marks in gutter https://github.com/chentoast/marks.nvim/blob/74e8d01b2a2131b6e46354cffc553aa7f81bcf5b/lua/marks/utils.lua#L9C1-L19C1
+-- TODO: figure out how to chage from quick list 0 - 9, is this necessary?
 --
 -- Idea: ?? make some helper unruly user commands
 --
@@ -200,7 +198,6 @@ local mapping = {
 			["<C-f>"] = cfg_basic(":on<CR>", "full screen"),
 			["<C-h>"] = cfg_basic(":sp<CR>", "split horizontal"),
 			["<C-s>"] = cfg_basic(":vs<CR>", "split verticle"),
-
 
 			-- cursor align
 			["@"] = cfg_basic("zt", "align top"),
