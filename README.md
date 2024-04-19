@@ -33,7 +33,7 @@
     [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) - syntax navigation
   * [LuaSnip](https://github.com/L3MON4D3/LuaSnip) - powerful snipits
 
-## REGISTER PRESELECTION
+#### REGISTER PRESELECTION?
 With Unruly when you select a register, it stays selected until you change it.
 This means you don't select a register for a specific motion, instead you set
 the yank or macro register, and then all future yank/paste or record/play
@@ -196,10 +196,12 @@ require("nvim-treesitter.configs").setup({
   * `s` struct or class
 
 ## Unruly Keymap
-### Cursor Movement
+### CURSOR MOVEMENT
 * `yneo` - are mapped to left, down, up, right
 * `Y` - goes to beginning of line
 * `O` - goes to end of line
+B `b` jump to matching brace
+* `B` jump cursor to the last place a change was made (back change)
 * `gg` - toto top of file
 * `GG` - goto end of file
 * `t{char}` go to the [count]'th occurance of char to the right
@@ -211,7 +213,7 @@ require("nvim-treesitter.configs").setup({
 * `{` prev paragraph
 * `}` next paragraph
 
-### Insert text
+### INSERT TEXT
 * `i` - Insert
 * `I` - Insert at beginning of line
 * `a` - Append
@@ -219,48 +221,21 @@ require("nvim-treesitter.configs").setup({
 * `l` - insert Line below
 * `L` - insert Line above
 
-## Indent text
-* `<<` shift indent left
-* `>>` shift indent right
+### KOPY/DELETE PASTE
+* kopy and paste_kopy use the preselected **kopy_register**. `+` is the default
+* delete and paste_delete always use register 0
+* kopy and delete share registers 1-9 to track history
+* delete has its own pasting keymaps
 
-### Buffer Search
-* `/` - search down
-* `?` - search up
-* `f` - repeat search (find)
-* `F` - repeat search reverse (find reverse)
-
-## Command mode
-* `:` or `'` command mode
-
-## undo/redo
-* `u` undo
-* `U` redo
-
-### Window Navigation
-* `<ctrl>w` + `yneo` - are mapped to focus pane left, down, up, right
-* `<ctrl>` + `yneo` - are mapped to focus pane left, down, up, right
-* `<c-x>` close vim split
-* `<c-f>` fullscreen vim split
-* `<c-s>` split verticle
-* `<c-h>` split horizontal
-
-## Kopy and Paste
-* Kopy/Paste uses a preselected register. `+` is the default
-* Unruly always deletes into register `0`.
-* Yank and Delete have separate key maps for pasting
-* Yank and Delete use registers 1-9 to track history
-* if you want yank and delete to share the same register set the kopy register
-  to `0`
-
-### yank and paste from the kopy register
-* `k` - yank (kopy)
-* `K` - yank line (kopy line)
-* `p` - Paste yank below
-* `P` - Paste yank above
-* `"` - select Kopy register, `[a-z][A-X] and 0 +`
+#### kopy and paste_kopy using the preselected **kopy_register**
+* `k` - kopy (yank)
+* `K` - kopy line (yank line)
+* `p` - paste kopy below
+* `P` - paste kopy above
+* `"` - select **kopy_register**, `valid registers: [a-z][A-X] and 0 +`
   * press `<enter>` or `<space>` reset to `+`
 
-#### delete and paste from register 0
+#### delete and paste_delete using register 0
 * `d` delete
 * `dd` delete line
 * `D` delete to end of line
@@ -269,29 +244,27 @@ require("nvim-treesitter.configs").setup({
 * `c` delete then enter insert mode
 * `cc` delete line then enter insert mode
 * `C` delete to end of line then enter insert mode
-* `.` paste delete below
-* `,` paste delete above
+* `.` paste_delete below
+* `,` paste_delete above
 
-## Macro
+### MACROS
 Macros use preselected registers, similar to kopy/paste. By default the macro register
 is `'z'`.
 
 * `z` record a macro into the preselected register (default: `'z'`)
 * `Z` play a macro from the preselected register
-* `<C-z>` select the macro register
+* `<C-z>` select the macro register `valid registers: [a-z][A-Z]`
+  * regsiters [0-9] are reserved for the delete register and yank history.
 * `<leader>zl` toggle macro recording lock
   * this is useful if you want to make sure you don't accidentally overwrite
   the current macro register
 *  `<leader>zp` pretty print the contents of the macro register
 It will display special keys like `<enter>`, `<esc>` or `<c-q>`
 
-Regsiters [0-9] are reserved for the delete register and yank history. [(See Kopy Below)](#Kopy)
-
 ## MARKS
 The unruly idea behind marks is that you only need two marks, for everything
 else just use [telescope](https://github.com/nvim-telescope/telescope.nvim). Unruly marks can be in local buffer mode or global
-mode. When in local mode unruly uses marks `a` and `b` to hop within a buffer.
-When in global mode unruly uses marks `A` and `B` to hop to marks in any buffer.
+mode, by default it will be in local mode.
 
 * `<leader>a` set mark a
 * `<leader>b` set mark b
@@ -302,24 +275,35 @@ When in global mode unruly uses marks `A` and `B` to hop to marks in any buffer.
 * `[` goto prev jumplist entry (jump history back)
 * `]` goto next jumplist entry (jump history forward)
 
-## Seek Lists (next, prev, first, last)
-Unruly allows you to quickly navigate through currently the quickfix list,
-loclist, arg list, and currently open buffers. Seek keymaps only target one
-type of list at a time, by default seek target mode will be open buffers.
+### BUFFER SEARCH
+* `/` - search down
+* `?` - search up
+* `f` - repeat search (find)
+* `F` - repeat search reverse (find reverse)
 
-* `<leader>sr` seek target  mode rotate (buffer, quickfix, loclist, arg list)
-* `<leader>sl` goto first item in seek list
-* `<leader>sf` goto last item in seek list
-* `<leader>n` goto next seek item
-* `<leader>p` goto prev seek item
+### UTILITY
+* `:` or `'` command mode
+* `u` undo
+* `U` redo
+* `<<` shift indent left
+* `>>` shift indent right
 
-## Boosters
+### WINDOW NAVIGATION
+* `<ctrl>w` + `yneo` - are mapped to focus pane left, down, up, right
+* `<ctrl>` + `yneo` - are mapped to focus pane left, down, up, right
+* `<c-x>` close vim split
+* `<c-f>` fullscreen vim split
+* `<c-s>` split verticle
+* `<c-h>` split horizontal
+
+
+## BOOSTERS
 > idk why i called them boosters, they are really just things I thought people
 > might want to opt out of.
 
 #### quit_easy
 * if disabled
-  * `q` anq `Q` will have no behavior `noOP`
+  * `q` anq `Q` will have no behavior, and you can map them to whatever you want
 * if **enabled**
   * `q` write all buffers (`:wall`)
   * `Q` quit all (`:qall`)
@@ -376,16 +360,16 @@ type of list at a time, by default seek target mode will be open buffers.
 #### plugin_telescope_jump_easy
 > this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
 * if disabled
-  * `j` and `J` will have no behavior (`noOP`)
+  * `j` anq `J` will have no behavior, and you can map them to whatever you want
 * if **enabled**
   * `j` telescope find files (jump)
   * `J` telescope live grep (grep jump)
   * `<C-j>` telescope jumplist (jumplist jump)
 
-#### `plugin_telescope_paste_easy = true`
+#### plugin_telescope_paste_easy = true
 * `<c-p>` telescope paste from any register
 
-#### `plugin_telescope_leader = true`
+#### plugin_telescope_leader = true
 > this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
 * `<leader>/` telescope fuzzy find in current buffer
 * `<leader>tb` telescope buffers
@@ -400,19 +384,19 @@ type of list at a time, by default seek target mode will be open buffers.
 * `<leader>tp` telescope paste from any register
 * `<leader>tr` telescope repeat last search
 
-#### `plugin_comment = true`
+#### plugin_comment = true
 > this booster depends on any plugin that uses `gc` and `gcc` mappings to comment toggle, like
 > [Comment.nvim](https://github.com/numToStr/Comment.nvim)
 * `<c-c>` toggle comment
 
-#### `plugin_navigator = true`
+#### plugin_navigator = true
 > this booster depends on [Navigator.nvim](https://github.com/numToStr/Navigator.nvim)
 * `<c-y>` focus left (vim or terminal multiplexer)
 * `<c-n>` focus down (vim or terminal multiplexer)
 * `<c-e>` focus up (vim or terminal multiplexer)
 * `<c-o>` focus right (vim or terminal multiplexer)
 
-#### `plugin_textobject = true`
+#### plugin_textobject = true
 > this booster depends on [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) and
     [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects)
 * if disabled
@@ -426,6 +410,17 @@ type of list at a time, by default seek target mode will be open buffers.
 > this booster depends on [LuaSnip](https://github.com/L3MON4D3/LuaSnip) powerful snipits
 * `<C-k> or <C-Left>` luasnip jump prev
 * `<C-l> or <C-Right>` luasnip jump next
+
+#### `experimental_seek = true`
+Unruly allows you to quickly navigate through currently the quickfix list,
+loclist, arg list, and currently open buffers. Seek keymaps only target one
+type of list at a time, by default seek target mode will be open buffers.
+
+* `<leader>sr` seek target  mode rotate (buffer, quickfix, loclist, arg list)
+* `<leader>sl` goto first item in seek list
+* `<leader>sf` goto last item in seek list
+* `<leader>n` goto next seek item
+* `<leader>p` goto prev seek item
 
 ## ABOUT
 Being dyslexic has taught me its often easier for me to build a system for
