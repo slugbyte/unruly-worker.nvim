@@ -22,10 +22,13 @@
 -- Idea: create a healthcheck report
 --
 -- Idea: create a UnrulyTutor
+local state = {
+	is_setup = false,
+	config = nil,
+}
 
 local util = require("unruly-worker.util")
 local action = require("unruly-worker.action")
-local external = require("unruly-worker.external")
 
 -- remap keys will map to current mapping (so kinda dangerous b/c who knows what peeps maps are)
 -- no_remap keys will be whatever the vim EX cmd defaults are
@@ -425,7 +428,6 @@ local setup_force = function(config)
 
 	local context = {
 		booster   = {
-			experimental_seek           = true,
 			quit_easy                   = true,
 			scroll_easy                 = true,
 			swap_easy                   = true,
@@ -435,14 +437,15 @@ local setup_force = function(config)
 			lsp_leader                  = true,
 			diagnostic_easy             = true,
 			diagnostic_leader           = true,
-			plugin_navigator            = true,
-			plugin_comment              = true,
-			plugin_luasnip              = true,
-			plugin_textobject           = true,
-			plugin_telescope_leader     = true,
-			plugin_telescope_lsp_leader = true,
-			plugin_telescope_jump_easy  = true,
-			plugin_telescope_paste_easy = true,
+			plugin_navigator            = false,
+			plugin_comment              = false,
+			plugin_luasnip              = false,
+			plugin_textobject           = false,
+			plugin_telescope_leader     = false,
+			plugin_telescope_lsp_leader = false,
+			plugin_telescope_jump_easy  = false,
+			plugin_telescope_paste_easy = false,
+			experimental_seek           = false,
 		},
 		skip_list = {},
 	}
@@ -450,6 +453,8 @@ local setup_force = function(config)
 	if config then
 		context = vim.tbl_extend("force", context, config)
 	end
+
+	state.config = context
 
 	if config.easy_source then
 		-- disable neovim from auto loading matchit
@@ -494,17 +499,22 @@ local function setup(config)
 	util.notify("UNRULY")
 end
 
+
+local function get_status_text()
+	local seek_status_text = ""
+	if state.config ~= nil then
+		if state.config.booster.experimental_seek then
+			seek_status_text = " " .. action.seek.get_status_text()
+		end
+	end
+	return action.mark.get_status_text()
+			.. " " .. action.macro.get_status_text()
+			.. " " .. action.kopy.get_status_text()
+			.. seek_status_text
+end
+
 return {
 	setup = setup,
-	external = external,
-	setup_force = setup_force,
 	action = action,
-	util = util,
+	get_status_text = get_status_text,
 }
-
--- vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
--- 	pattern = { "*.lua", "*.zig", "*.cljs", "*.txt", "*.py", "*.go", "*.c", "*.h", "*.md", "*.html", "*.java" },
--- 	callback = function(ev)
--- 		print(string.format('event fired: %s ', vim.inspect(ev)) .. util.emoticon())
--- 	end
--- })

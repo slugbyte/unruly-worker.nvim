@@ -1,6 +1,4 @@
 local util = require("unruly-worker.util")
-
-
 -- register 9 is reseverd for delete
 -- if register 1 is selected then
 --     registers 1-8 act like a history

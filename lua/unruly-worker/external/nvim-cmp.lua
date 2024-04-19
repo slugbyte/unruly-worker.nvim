@@ -1,5 +1,3 @@
-local util = require("unruly-worker.util")
-
 local M = {}
 
 function M.create_cmdline_mapping()
