@@ -1,10 +1,11 @@
 # unruly worker
 > a ridiculously fun alternative neovim keymap and tmux setup for the workman keyboard layout
 
-## Basic mode
+## default setup
+![unruly worker vim layout cheatsheet](./asset/img/cheatsheet-minimal.png)
 
-## Everything enabled
-![unruly worker vim layout cheatsheet](./asset/img/cheatsheet.png)
+## everything enabled
+![unruly worker vim layout cheatsheet](./asset/img/cheatsheet-everything.png)
 
 ## LAYOUT PHILOSOPHY
 1. When possible, commands are positioned according to the workman layout heatmap. So frequent use will not strain your hands.
@@ -470,9 +471,10 @@ type of list at a time, by default seek target mode will be open buffers.
 * `<c-h>` split horizontal
 
 ### unruly_quit
-* `q` write all buffers, and print a random emoticon (`:wall<cr>:echo "(づ ◕‿◕ )づ"<cr>`)
-* `Q` quit all (`:qall<cr>`)
-* `<C-q>` force quit all (`:qall!<cr>`)
+* `q` write all buffers, and print a random emoticon (`:wall`)
+  * the random emoticon is useful as visual feedback that the write occurred `(づ ◕‿◕ )づ`
+* `Q` quit all (`:qall`)
+* `<C-q>` force quit all (`:qall!`)
 
 ## PLUGIN BOOSTERS (disabled by default)
 > plugin boosters have other plugin dependencies

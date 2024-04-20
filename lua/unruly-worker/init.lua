@@ -531,6 +531,7 @@ local setup_force = function(config)
 
 	map_config(mapping.general, context.skip_list)
 
+	-- TODO force booster load order
 	for booster, is_enabled in pairs(context.booster) do
 		if is_enabled then
 			map_config(mapping[booster], context.skip_list, booster)
