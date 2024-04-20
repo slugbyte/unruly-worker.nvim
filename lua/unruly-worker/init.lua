@@ -248,6 +248,11 @@ local mapping = {
 			-- paste
 			p = cfg_basic_expr(action.kopy.expr_paste_below, "paste after"),
 			P = cfg_basic_expr(action.kopy.expr_paste_above, "paste before"),
+			-- paste
+			p = cfg_basic_expr(action.kopy.expr_paste_below, "paste after"),
+			P = cfg_basic_expr(action.kopy.expr_paste_above, "paste before"),
+			[","] = cfg_basic('"0P', "paste delete_reg above"),
+			["."] = cfg_basic('"0p', "paste delete_reg below"),
 		},
 	},
 	unruly_window = {

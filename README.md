@@ -16,18 +16,19 @@
 * basic features
   * Easily Opt-Out of specific unruly mappings
   * Navigate vim like normal using `yneo`
-  * Vim motions are easy to reach
+  * Vim motions are similar to original
   * A nice way to work with LSPs
   * A nice way to navigate diagnostics
   * A nice way to spellcheck
-  * A nice way to work with marks and navigate the jumplist
+  * A nice way to navigate the jump list
   * A workman keyboard tmux config
 * unruly features (you have to opt in explicitly)
   * Yank, Delete, and Macros use register preselection
-  * Yank and delete have history
-  * A nice way to work with macros
+  * Yank and Delete have history
+  * Keys to lock macro recording and pretty print the macro register
   * A nice way to step through the quickfix list, loclist, and buffers
   * A status bar text generator that creates a [HUD](https://en.wikipedia.org/wiki/Head-up_display) for unruly-worker's state
+  * A nice way to work with marks and navigate the jumplist
 * plugin support (you have to opt in explicitly)
   * Workman keyboard layout for [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) auto completion
   * Workman keyboard layout for [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) fuzzy search with preview
@@ -355,9 +356,10 @@ fi
 * `<ctrl>ws` ___ vertical split
 * `<ctrl>ws` ___ vertical split
 
-## EASY BOOSTERS (enabled by default)
+## EASY BOOSTERS (disabled by default)
 > easy boosters don't dramatically alter anything, they are just additional
-> keymaps that I thought people might want to opt of of
+> keymaps that I didn't include in the basic setup, in order to keep it as
+> vanilla as possible.
 
 #### easy_window
 * `<ctrl>` + `yneo` _ are mapped to focus pane left, down, up, right
