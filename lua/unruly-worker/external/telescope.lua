@@ -18,13 +18,13 @@ function M.create_mappings()
 		["<c-l>"] = actions.add_selected_to_loclist + actions.open_loclist,
 
 		["<CR>"] = actions.select_default,
-		["<C-h>"] = actions.select_horizontal,
-		["<C-s>"] = actions.select_vertical,
+		["<c-h>"] = actions.select_horizontal,
+		["<c-s>"] = actions.select_vertical,
 
 		["<Down>"] = actions.move_selection_next,
 		["<Up>"] = actions.move_selection_previous,
-		["<C-e>"] = actions.move_selection_previous,
-		["<C-n>"] = actions.move_selection_next,
+		["<c-e>"] = actions.move_selection_previous,
+		["<c-n>"] = actions.move_selection_next,
 
 		["<PageUp>"] = actions.preview_scrolling_up,
 		["<PageDown>"] = actions.preview_scrolling_down,
@@ -34,16 +34,18 @@ function M.create_mappings()
 
 	local mappings = {
 		i = default_mappings,
-		n = vim.tbl_deep_extend("force", default_mappings, {
-			["<Esc>"] = actions.close,
+		n = vim.tbl_deep_extend("keep", {
+			["<esc>"] = actions.close,
+			-- for some reason <c-x> gets nilled by tbl_deep_extend unless i put it here, ?wtf?
+			["<c-x>"] = actions.close,
 			x = actions.close,
 			E = actions.move_to_top,
 			N = actions.move_to_bottom,
 			n = actions.move_selection_next,
 			e = actions.move_selection_previous,
-		})
+		}, default_mappings)
 	}
-	return vim.tbl_deep_extend("force", default_noop, mappings)
+	return vim.tbl_deep_extend("keep", mappings, default_noop)
 end
 
 return M

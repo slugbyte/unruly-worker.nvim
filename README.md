@@ -155,6 +155,7 @@ fi
 
 ## [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) MAPPING SETUP (optional)
 ``` lua
+-- NOTE: its recommended that you require cmp before unruly_worker.external.nvim-cmp
 local cmp = require("cmp")
 local unruly_cmp = require('unruly-worker.external.nvim-cmp')
 cmp.setup({
@@ -191,8 +192,10 @@ cmp.setup.cmdline(":", {
 
 ## [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) MAPPING SETUP (optional)
 ``` lua
+-- NOTE: its recommended that you require telescope before unruly_worker.external.telescope
+local telescope = require("telescope")
 local unruly_telescope = require("unruly-worker.external.telescope")
-require("telescope").setup({
+telescope.setup({
     defaults = {
         mappings = unruly_telescope.create_mappings(),
     },
@@ -285,6 +288,12 @@ B `b` jump to matching brace
 * `{` prev paragraph
 * `}` next paragraph
 
+## VISUAL MODE
+* `v` visual mode
+* `V` visual line mode
+* `<c-v>` visual block mode
+* `E` select paragraph (envelope paragraph `vip`)
+
 ### INSERT TEXT
 * `i` - Insert
 * `I` - Insert at beginning of line
@@ -292,6 +301,32 @@ B `b` jump to matching brace
 * `a` - Append to end of line
 * `l` - insert Line below
 * `L` - insert Line above
+* `<leader>ll` - add an empty line below (remain in normal mode)
+* `<leader>lL` - add an empty line above (remain normal mode)
+
+## Kopy/Change/Delete Paste
+> this behavior all changes if `unruly_kopy` is enabled
+#### kopy
+* `k` - kopy (yank)
+* `K` - kopy line (yank line)
+
+#### paste
+* `p` - paste
+* `P` - paste line
+
+#### delete
+* `d` - delete
+* `D` - delete to end of line
+* `dd` - delete lines
+* `x` - delete under cursor
+* `X` - delete before cursor
+
+#### delete
+* `c` - change
+* `C` - change to end of line
+* `cc` - change line
+* `s` - substitute
+* `S` - substitute line
 
 ### KOPY/DELETE PASTE
 * kopy and paste_kopy use the preselected **kopy_register**. `+` is the default
@@ -352,6 +387,8 @@ mode, by default it will be in local mode.
 * `?` - search up
 * `f` - repeat search (find)
 * `F` - repeat search reverse (find reverse)
+* `<leader>f` - search word under cursor (find word)
+* `<leader>F` - search word under cursor reverse (find word reverse)
 
 ### UTILITY
 * `:` or `'` command mode

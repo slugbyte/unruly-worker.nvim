@@ -1,4 +1,3 @@
---                       __                         __
 --   __ _____  ______ __/ /_ _______    _____  ____/ /_____ ____
 --  / // / _ \/ __/ // / / // /___/ |/|/ / _ \/ __/  '_/ -_) __/
 --  \_,_/_//_/_/  \_,_/_/\_, /    |__,__/\___/_/ /_/\_\\__/_/
@@ -72,19 +71,15 @@ local mapping = {
 			-- alphabet
 			a = cfg_custom("a", remap, no_silent, "append cursor"),
 			A = cfg_basic("A", "append line"),
-			["<c-a>"] = cfg_basic_expr(action.mark.expr_goto_a, "GOTO MARK: a"),
-			["<leader>a"] = cfg_basic_expr(action.mark.expr_set_a, "MARK SET: a"),
-			["<c-b>"] = cfg_basic_expr(action.mark.expr_goto_b, "GOTO MARK: b"),
-			["<leader>b"] = cfg_basic_expr(action.mark.expr_set_b, "MARK SET: b"),
 			b = cfg_basic("%", "brace match"),
 			B = cfg_basic("g;", "back to last change"),
-			c = cfg_basic(action.kopy.create_delete_cmd("c"), "change content, store old in reg 0"),
-			cc = cfg_basic(action.kopy.create_delete_cmd("cc"), "changle lines, store old in reg 0"),
-			C = cfg_basic(action.kopy.create_delete_cmd("C"), "change to EOL, store old in reg 0"),
-			d = cfg_basic(action.kopy.create_delete_cmd("d"), "delete motion into reg 0"),
-			dd = cfg_basic(action.kopy.create_delete_cmd("dd"), "delete motion into reg 0"),
-			D = cfg_basic(action.kopy.create_delete_cmd("D"), "delete motion into reg 0"),
-			e = cfg_basic("gk", "up"),
+			c = cfg_basic("c", "change"),
+			C = cfg_basic("C", "change to end of line"),
+			cc = cfg_basic("C", "change lines"),
+			d = cfg_basic("d", "delete"),
+			D = cfg_basic("D", "delete to end of line"),
+			dd = cfg_basic("dd", "delete lines"),
+			e = cfg_basic("k", "up"),
 			E = cfg_cmd("vip", "envelope paraghaph"),
 			f = cfg_basic("n", "find next"),
 			F = cfg_basic("N", "find prev"),
@@ -99,26 +94,26 @@ local mapping = {
 			j = cfg_noop(),
 			J = cfg_noop(),
 			["<c-j>"] = cfg_basic(action.telescope.jump_list_safe, "jump list"),
-			k = cfg_basic_expr(action.kopy.expr_yank, "kopy"),
-			K = cfg_basic_expr(action.kopy.expr_yank_line, "kopy line"),
+			k = cfg_basic("y", "kopy"),
+			K = cfg_basic("Y", "kopy line"),
 			l = cfg_basic("o", "line insert below"),
 			L = cfg_basic("O", "line insert above"),
 			["<leader>ll"] = cfg_basic("o<esc>^d$<Up>", "[L]ine Below"),
 			["<leader>lL"] = cfg_basic("O<esc>^d$<Down>", "[L]ine Above"),
-			m = cfg_basic(action.mark.toggle_mode, "mark mode toggle"),
-			M = cfg_basic(action.mark.delete_mode, "mark delete mode"),
-			n = cfg_basic("gj", "down"),
+			m = cfg_basic("'", "m{char} goto mark"),
+			M = cfg_basic("m", "m{char} set mark"),
+			n = cfg_basic("j", "down"),
 			N = cfg_basic("J", "join lines"),
 			o = cfg_basic("l", "right"),
 			O = cfg_basic("$", "right to EOL"),
-			p = cfg_basic_expr(action.kopy.expr_paste_below, "paste after"),
-			P = cfg_basic_expr(action.kopy.expr_paste_above, "paste before"),
-			q = cfg_noop(),
-			Q = cfg_noop(),
+			p = cfg_basic("p", "paste after"),
+			P = cfg_basic("P", "paste before"),
+			q = cfg_basic("q", "z{reg} record macro"),
+			Q = cfg_basic("@", "Z{reg} play macro"),
 			r = cfg_basic("r", "replace"),
 			R = cfg_basic("R", "replace mode"),
-			s = cfg_noop(),
-			S = cfg_noop(),
+			s = cfg_basic("s", "subsitute"),
+			S = cfg_basic("S", "subsitute lines"),
 			["<leader>sc"] = cfg_basic(action.telescope.spell_suggest_safe, "[S]pell [C]heck"),
 			t = cfg_basic("f", "to char"),
 			T = cfg_basic("F", "to char reverse"),
@@ -128,17 +123,12 @@ local mapping = {
 			V = cfg_basic("V", "visual line mode"),
 			w = cfg_basic("w", "word forward"),
 			W = cfg_basic("b", "word backward"),
-			x = cfg_basic(action.kopy.create_delete_cmd("x"), "delete char into reg 0"),
-			X = cfg_basic(action.kopy.create_delete_cmd("X"), "delete previous char into reg 0"),
+			x = cfg_basic("x", "delete under cursor"),
+			X = cfg_basic("X", "delete before cursor"),
 			y = cfg_basic("h", "left"),
 			Y = cfg_basic("^", "left to BOL"),
-
-			-- macro
-			z = cfg_basic(action.macro.record, "macro record"),
-			Z = cfg_basic(action.macro.play, "macro play"),
-			["<c-z>"] = cfg_basic(action.macro.select_register, "select macro register"),
-			["<leader>zl"] = cfg_basic(action.macro.lock_toggle, "Macro [L]ock Toggle"),
-			['<leader>zp'] = cfg_basic(action.macro.peek_register, "Macro [P]eek"),
+			z = cfg_basic("z", "z command"),
+			Z = cfg_basic("Z", "Z command"),
 
 			-- parens
 			[")"] = cfg_basic(")", "next sentence"),
@@ -225,7 +215,7 @@ local mapping = {
 			["<C-e>"] = cfg_basic("<end>", "goto EOL"),
 		},
 	},
-	experimental_seek = {
+	unruly_seek = {
 		m = {
 			["<leader>n"] = cfg_basic(action.seek.seek_forward, "[N]ext Seek"),
 			["<leader>p"] = cfg_basic(action.seek.seek_reverse, "[P]rev Seek"),
@@ -234,6 +224,44 @@ local mapping = {
 			["<leader>sQ"] = cfg_basic(action.seek.mode_set_quickfix, "[S]eek mode [Q]uickfix"),
 			["<leader>sL"] = cfg_basic(action.seek.mode_set_loclist, "[S]eek mode [L]oclist"),
 			["<leader>sB"] = cfg_basic(action.seek.mode_set_buffer, "[S]eek mode [B]uffer"),
+		},
+	},
+	unruly_mark = {
+		m = {
+			m = cfg_basic(action.mark.toggle_mode, "mark mode toggle"),
+			M = cfg_basic(action.mark.delete_mode, "mark delete mode"),
+			["<c-a>"] = cfg_basic_expr(action.mark.expr_goto_a, "GOTO MARK: a"),
+			["<leader>a"] = cfg_basic_expr(action.mark.expr_set_a, "MARK SET: a"),
+			["<c-b>"] = cfg_basic_expr(action.mark.expr_goto_b, "GOTO MARK: b"),
+			["<leader>b"] = cfg_basic_expr(action.mark.expr_set_b, "MARK SET: b"),
+		},
+	},
+	unruly_macro = {
+		m = {
+			z = cfg_basic(action.macro.record, "macro record"),
+			Z = cfg_basic(action.macro.play, "macro play"),
+			["<c-z>"] = cfg_basic(action.macro.select_register, "select macro register"),
+			["<leader>zl"] = cfg_basic(action.macro.lock_toggle, "Macro [L]ock Toggle"),
+			['<leader>zp'] = cfg_basic(action.macro.peek_register, "Macro [P]eek"),
+		},
+	},
+	unruly_kopy = {
+		m = {
+			-- delete
+			c = cfg_basic(action.kopy.create_delete_cmd("c"), "change content, store old in reg 0"),
+			cc = cfg_basic(action.kopy.create_delete_cmd("cc"), "changle lines, store old in reg 0"),
+			C = cfg_basic(action.kopy.create_delete_cmd("C"), "change to EOL, store old in reg 0"),
+			d = cfg_basic(action.kopy.create_delete_cmd("d"), "delete motion into reg 0"),
+			dd = cfg_basic(action.kopy.create_delete_cmd("dd"), "delete motion into reg 0"),
+			D = cfg_basic(action.kopy.create_delete_cmd("D"), "delete motion into reg 0"),
+			x = cfg_basic(action.kopy.create_delete_cmd("x"), "delete char into reg 0"),
+			X = cfg_basic(action.kopy.create_delete_cmd("X"), "delete previous char into reg 0"),
+			-- kopy
+			k = cfg_basic_expr(action.kopy.expr_yank, "kopy"),
+			K = cfg_basic_expr(action.kopy.expr_yank_line, "kopy line"),
+			-- paste
+			p = cfg_basic_expr(action.kopy.expr_paste_below, "paste after"),
+			P = cfg_basic_expr(action.kopy.expr_paste_above, "paste before"),
 		},
 	},
 	quit_easy = {
@@ -319,16 +347,16 @@ local mapping = {
 	},
 	plugin_textobject = {
 		n = {
-			s = cfg_basic(action.text_object.seek_forward, "seek textobject forward"),
-			S = cfg_basic(action.text_object.seek_reverse, "seek textobject reverse")
+			s = cfg_basic(action.text_object.goto_next, "seek textobject forward"),
+			S = cfg_basic(action.text_object.goto_prev, "seek textobject reverse")
 		},
 		x = {
-			s = cfg_basic(action.text_object.seek_forward, "seek textobject forward"),
-			S = cfg_basic(action.text_object.seek_reverse, "seek textobject reverse")
+			s = cfg_basic(action.text_object.goto_next, "seek textobject forward"),
+			S = cfg_basic(action.text_object.goto_prev, "seek textobject reverse")
 		},
 		o = {
-			s = cfg_basic(action.text_object.seek_forward, "seek textobject forward"),
-			S = cfg_basic(action.text_object.seek_reverse, "seek textobject reverse")
+			s = cfg_basic(action.text_object.goto_next, "seek textobject forward"),
+			S = cfg_basic(action.text_object.goto_prev, "seek textobject reverse")
 		},
 	},
 	plugin_luasnip = {
@@ -389,11 +417,16 @@ local mapping = {
 	},
 }
 
-local map_config = function(config, skip_list)
+local map_config = function(config, skip_list, booster_name)
+	if config == nil then
+		util.error("UNRULY SETUP ERROR: unknown booster (" .. booster_name .. ")")
+		return
+	end
 	for mode, mode_cfg in pairs(config) do
 		if mode == "m" then
 			mode = ""
 		end
+		-- print("mode", mode, "config", config_name)
 		for key, key_cfg in pairs(mode_cfg) do
 			if util.should_map(key, skip_list) then
 				vim.keymap.set(mode, key, key_cfg.value, {
@@ -424,34 +457,44 @@ local setup_force = function(config)
 			lsp_leader                  = true,
 			diagnostic_easy             = true,
 			diagnostic_leader           = true,
-			plugin_navigator            = false,
-			plugin_comment              = false,
-			plugin_luasnip              = false,
-			plugin_textobject           = false,
-			plugin_telescope_leader     = false,
-			plugin_telescope_lsp_leader = false,
-			plugin_telescope_jump_easy  = false,
-			plugin_telescope_paste_easy = false,
+			-- unruly
+			unruly_seek                 = true,
+			unruly_mark                 = true,
+			unruly_macro                = true,
+			unruly_kopy                 = true,
+			-- plugin
+			plugin_navigator            = true,
+			plugin_comment              = true,
+			plugin_luasnip              = true,
+			plugin_textobject           = true,
+			plugin_telescope_leader     = true,
+			plugin_telescope_lsp_leader = true,
+			plugin_telescope_jump_easy  = true,
+			plugin_telescope_paste_easy = true,
 		},
 		skip_list = {},
 	}
 
-	if config then
-		context = vim.tbl_extend("force", context, config)
+	if config.booster then
+		context.booster = vim.tbl_extend("force", context.booster, config.booster)
+	end
+
+	if config.skip_list then
+		context.skip_list = config.skip_list
 	end
 
 	state.config = context
 
-	if config.easy_source then
-		-- disable neovim from auto loading matchit
-		vim.g.loaded_matchit = true
-	end
+	-- if config.easy_source then
+	-- disable neovim from auto loading matchit
+	-- vim.g.loaded_matchit = true
+	-- end
 
 	map_config(mapping.general, context.skip_list)
 
 	for booster, is_enabled in pairs(context.booster) do
 		if is_enabled then
-			map_config(mapping[booster], context.skip_list)
+			map_config(mapping[booster], context.skip_list, booster)
 		end
 	end
 end
@@ -485,11 +528,10 @@ local function setup(config)
 	util.notify("UNRULY")
 end
 
-
 local function get_status_text()
 	local seek_status_text = ""
 	if state.config ~= nil then
-		if state.config.booster.experimental_seek then
+		if state.config.booster.unruly_seek then
 			seek_status_text = " " .. action.seek.get_status_text()
 		end
 	end
