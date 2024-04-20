@@ -360,10 +360,6 @@ fi
 
 #### easy_window
 * `<ctrl>` + `yneo` _ are mapped to focus pane left, down, up, right
-* `<c-x>` ___________ close vim split
-* `<c-f>` ___________ fullscreen current split
-* `<c-s>` ___________ split verticle
-* `<c-h>` ___________ split horizontal
 
 #### easy_swap
 * `<C-Up>` __________ swap line/lines up
@@ -392,8 +388,8 @@ fi
 * `<leader>lr` ______ lsp rename
 
 ## UNRULY BOOSTERS (disabled by default)
-> unruly boosters are a little hairbrained, some can change the way neovim
-> typically work
+> unruly boosters are things I thought should be opt in, some unruly boosters can be a little harebrained, and some can change the way neovim
+> typically works
 
 ### unruly_kopy
 * when enabled kopy and delete share registers 1-9 to track history
@@ -467,10 +463,16 @@ type of list at a time, by default seek target mode will be open buffers.
 > NOTE: this will auto enable the vim `hlsearch` option
 * `<Esc>` will disable the current hlsearch highlighting
 
+### unruly_window
+* `<c-x>` close vim split
+* `<c-f>` fullscreen current split
+* `<c-s>` split verticle
+* `<c-h>` split horizontal
+
 ### unruly_quit
-* `q` write all buffers (`:wall`)
-* `Q` quit all (`:qall`)
-* `<C-q>` force quit all (`:qall!`)
+* `q` write all buffers, and print a random emoticon (`:wall<cr>:echo "(づ ◕‿◕ )づ"<cr>`)
+* `Q` quit all (`:qall<cr>`)
+* `<C-q>` force quit all (`:qall!<cr>`)
 
 ## PLUGIN BOOSTERS (disabled by default)
 > plugin boosters have other plugin dependencies

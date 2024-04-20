@@ -252,6 +252,14 @@ local mapping = {
 			P = cfg_basic_expr(action.kopy.expr_paste_above, "paste before"),
 		},
 	},
+	unruly_window = {
+		m = {
+			["<C-x>"] = cfg_basic(":close<CR>", "close pane"),
+			["<C-f>"] = cfg_basic(":on<CR>", "full screen"),
+			["<C-h>"] = cfg_basic(":sp<CR>", "split horizontal"),
+			["<C-s>"] = cfg_basic(":vs<CR>", "split verticle"),
+		},
+	},
 	unruly_quit = {
 		m = {
 			q = cfg_basic(action.save.write_all, "write all"),
@@ -273,10 +281,6 @@ local mapping = {
 			["<C-n>"] = cfg_basic("<C-w>j", "focus down"),
 			["<C-e>"] = cfg_basic("<C-w>k", "focus up"),
 			["<C-o>"] = cfg_basic("<C-w>l", "focus right"),
-			["<C-x>"] = cfg_basic(":close<CR>", "close pane"),
-			["<C-f>"] = cfg_basic(":on<CR>", "full screen"),
-			["<C-h>"] = cfg_basic(":sp<CR>", "split horizontal"),
-			["<C-s>"] = cfg_basic(":vs<CR>", "split verticle"),
 		},
 	},
 	easy_spellcheck = {
@@ -491,6 +495,7 @@ local setup_force = function(config)
 			unruly_quit                 = true,
 			unruly_scroll               = true,
 			unruly_hlsearch             = true,
+			unruly_window               = true,
 			-- plugin
 			plugin_navigator            = true,
 			plugin_comment              = true,
