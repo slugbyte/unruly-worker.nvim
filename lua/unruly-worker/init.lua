@@ -173,14 +173,6 @@ local mapping = {
 			["<C-w>f"] = cfg_basic(":on<CR>", "full screen"),
 			["<C-w>h"] = cfg_basic(":sp<CR>", "split horizontal"),
 			["<C-w>s"] = cfg_basic(":vs<CR>", "split verticle"),
-			["<C-y>"] = cfg_basic("<C-w>h", "focus left"),
-			["<C-n>"] = cfg_basic("<C-w>j", "focus down"),
-			["<C-e>"] = cfg_basic("<C-w>k", "focus up"),
-			["<C-o>"] = cfg_basic("<C-w>l", "focus right"),
-			["<C-x>"] = cfg_basic(":close<CR>", "close pane"),
-			["<C-f>"] = cfg_basic(":on<CR>", "full screen"),
-			["<C-h>"] = cfg_basic(":sp<CR>", "split horizontal"),
-			["<C-s>"] = cfg_basic(":vs<CR>", "split verticle"),
 
 			-- noop
 			["%"] = cfg_noop(),
@@ -275,6 +267,18 @@ local mapping = {
 			["<Home>"] = cfg_basic("9<C-Y>", "scroll down fast"),
 		},
 	},
+	easy_window = {
+		m = {
+			["<C-y>"] = cfg_basic("<C-w>h", "focus left"),
+			["<C-n>"] = cfg_basic("<C-w>j", "focus down"),
+			["<C-e>"] = cfg_basic("<C-w>k", "focus up"),
+			["<C-o>"] = cfg_basic("<C-w>l", "focus right"),
+			["<C-x>"] = cfg_basic(":close<CR>", "close pane"),
+			["<C-f>"] = cfg_basic(":on<CR>", "full screen"),
+			["<C-h>"] = cfg_basic(":sp<CR>", "split horizontal"),
+			["<C-s>"] = cfg_basic(":vs<CR>", "split verticle"),
+		},
+	},
 	easy_spellcheck = {
 		m = {
 			["<leader>sc"] = cfg_basic(action.telescope.spell_suggest_safe, "[S]pell [C]heck"),
@@ -300,6 +304,11 @@ local mapping = {
 		v = {
 			["<C-Down>"] = cfg_basic(":m '>+1<CR>gv=gv", "swap down"),
 			["<C-Up>"] = cfg_basic(":m '<-2<CR>gv=gv", "swap up"),
+		},
+	},
+	easy_jumplist = {
+		m = {
+			["<c-j>"] = cfg_basic(action.telescope.jump_list_safe, "jumplist"),
 		},
 	},
 	easy_incrament = {
@@ -418,7 +427,7 @@ local mapping = {
 			["<leader>to"] = cfg_basic(action.telescope.oldfiles, "[T]elescope [O]ldfiles"),
 			["<leader>tq"] = cfg_basic(action.telescope.quickfix, "[T]elescope [Q]uickfix"),
 			["<leader>tl"] = cfg_basic(action.telescope.loclist, "[T]elescope [L]oclist"),
-			["<leader>tj"] = cfg_basic(action.telescope.loclist, "[T]elescope [J]umplist"),
+			["<leader>tj"] = cfg_basic(action.telescope.jump_list_safe, "[T]elescope [J]umplist"),
 			["<leader>tm"] = cfg_basic(action.telescope.man_pages, "[T]elescope [M]an pages"),
 			["<leader>th"] = cfg_basic(action.telescope.help_tags, "[T]elescope [H]elp Tags"),
 			["<leader>tt"] = cfg_basic(action.telescope.man_pages, "[T]elescope [T]ags"),
@@ -468,6 +477,8 @@ local setup_force = function(config)
 			easy_spellcheck             = true,
 			easy_incrament              = true,
 			easy_hlsearch               = true,
+			easy_window                 = true,
+			easy_jumplist               = true,
 			easy_lsp                    = true,
 			easy_lsp_leader             = true,
 			easy_diagnostic             = true,

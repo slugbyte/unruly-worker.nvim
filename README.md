@@ -9,34 +9,37 @@
 3. When possible, keys behavior, or behavior substitute, should stay in the same position as the original-keymap, so that there is no need for experienced vim users to unlearn there years of muscle memory.
 
 ## FEATURES
-* Navigate vim like normal using `yneo`
-* Easily Opt-Out of specific unruly mappings
-* Register preselection (Yank, Delete, and Macro)
-* Yank and delete have history
-* A nice way to work with macros
-* A nice way to work with marks and navigate the jumplist
-* A nice way to work with LSPs
-* A nice way to navigate diagnostics
-* A nice way to spellcheck
-* A nice way to step through the quickfix list, loclist, and buffers
-* A status bar text generator that creates a [HUD](https://en.wikipedia.org/wiki/Head-up_display) for unruly-worker's state
-* An tmux config that perfectly suits unruly-worker and absolutely rips (optional)
-* Plugin Support
-  * [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - nvim-cmp auto completion
-  * [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) - fuzzy search with preview
-  * [Comment.nvim](https://github.com/numToStr/Comment.nvim) - comment
+* basic features
+  * Easily Opt-Out of specific unruly mappings
+  * Navigate vim like normal using `yneo`
+  * Vim motions are easy to reach
+  * A nice way to work with LSPs
+  * A nice way to navigate diagnostics
+  * A nice way to spellcheck
+  * A nice way to work with marks and navigate the jumplist
+  * A workman keyboard tmux config
+* unruly features (you have to opt in explicitly)
+  * Yank, Delete, and Macros use register preselection
+  * Yank and delete have history
+  * A nice way to work with macros
+  * A nice way to step through the quickfix list, loclist, and buffers
+  * A status bar text generator that creates a [HUD](https://en.wikipedia.org/wiki/Head-up_display) for unruly-worker's state
+  * An tmux config that perfectly suits unruly-worker and absolutely rips (optional)
+* plugin support (you have to opt in explicitly)
+  * workman keyboard layout for [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) auto completion
+  * workman keyboard layout for [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) fuzzy search with preview
+  * workman keyboard layout for [Comment.nvim](https://github.com/numToStr/Comment.nvim) comment toggling
     toggling
-  * [Navigator.nvim](https://github.com/numToStr/Navigator.nvim) -
-    tmux/wez-term navigation
-  * [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) +
-    [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) - syntax navigation
-  * [LuaSnip](https://github.com/L3MON4D3/LuaSnip) - powerful snipits
+  * workman keyboard layout for [Navigator.nvim](https://github.com/numToStr/Navigator.nvim) to navigate tmux or wez-term
+  * workman keyboard layout for [LuaSnip](https://github.com/L3MON4D3/LuaSnip) to navigate snipits
+  * workman keyborad layout for [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) with
+    [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) for syntax navigation
 
 #### REGISTER PRESELECTION?
-With Unruly when you select a register, it stays selected until you change it.
+With `unruly_kopy` and `unruly_macro` when you select a register, it stays selected until you change it.
 This means you don't select a register for a specific motion, instead you set
 the yank or macro register, and then all future yank/paste or record/play
-actions will use the selected register until you select a new register. 
+actions will use the selected register until you select a new register.
 
 ## INSTALL AND SETUP
 1. Install with your favorite neovim [package manager](https://github.com/folke/lazy.nvim)
@@ -52,32 +55,10 @@ unruly_worker.setup({
   -- skip_list = { "z", "Z", "<C-z>"},  skip z related mappings
   skip_list = {},
   booster = {
-    quit_easy                   = true,
-    scroll_easy                 = true,
-    swap_easy                   = true,
-    incrament_easy              = true,
-    hlsearch_easy               = true,
-    lsp_easy                    = true,
-    lsp_leader                  = true,
-    diagnostic_easy             = true,
-    diagnostic_leader           = true,
-    -- plugin boosters default to false because they all have dependencies
-    plugin_navigator            = false,
-    plugin_comment              = false,
-    plugin_luasnip              = false,
-    plugin_textobject           = false,
-    plugin_telescope_leader     = false,
-    plugin_telescope_lsp_leader = false,
-    plugin_telescope_jump_easy  = false,
-    plugin_telescope_paste_easy = false,
-    -- the seek booster is "experimental". it seems to work well but the code
-    -- feels a lil hacky... I ran into issues in buffer mode when netrw is open and wrote a 
-    -- kinda janky hack to get it to behave the way i wanted it to. (🤷 works for me)
-    experimental_seek           = false,
   },
 })
 
--- to setup with the defaults you can simply
+-- to setup with the defaults you can simply put
 -- unruly_worker.setup()
 ```
 
@@ -270,131 +251,148 @@ fi
 * `(choice mode)`(e) prev choice (up)
 
 ## UNRULY KEYMAP OVERVIEW
-### CURSOR MOVEMENT
-* `yneo` - are mapped to left, down, up, right
-* `Y` - goes to beginning of line
-* `O` - goes to end of line
-B `b` jump to matching brace
-* `B` jump cursor to the last place a change was made (back change)
-* `gg` - toto top of file
-* `GG` - goto end of file
-* `t{char}` go to the [count]'th occurance of char to the right
-* `T{char}` go to the [count]'th occurance of char to the left
-* `h` repeat the last t/T (hop)
-* `H` repeat the last t/T reverse (hop reverse)
-* `(` prev sentence
-* `)` next sentence
-* `{` prev paragraph
-* `}` next paragraph
+### cursor movement
+* `yneo` _______ are mapped to left, down, up, right
+* `Y` __________ goes to beginning of line
+* `O` __________ goes to end of line
+* `w` __________ next word
+* `w` __________ prev word
+* `b` __________ jump to matching brace
+* `B` __________ jump cursor to the last place a change was made (back change)
+* `gg` _________ toto top of file
+* `GG` _________ goto end of file
+* `t{char}` ____ go to the [count]'th occurance of char to the right
+* `T{char}` ____ go to the [count]'th occurance of char to the left
+* `h` __________ repeat the last t/T (hop)
+* `H` __________ repeat the last t/T reverse (hop reverse)
+* `(` __________ prev sentence
+* `)` __________ next sentence
+* `{` __________ prev paragraph
+* `}` __________ next paragraph
 
-## VISUAL MODE
+### insert text
+* `i` __________ Insert
+* `I` __________ Insert at beginning of line
+* `a` __________ Append
+* `a` __________ Append to end of line
+* `r` __________ replace
+* `R` __________ replace mode
+* `l` __________ insert Line below
+* `L` __________ insert Line above
+* `<leader>ll` _ add an empty line below (remain in normal mode)
+* `<leader>lL` _ add an empty line above (remain normal mode)
+
+#### kopy
+* `k` __________ kopy (yank)
+* `K` __________ kopy line (yank line)
+
+#### paste
+* `p` __________ paste
+* `P` __________ paste line
+
+#### delete
+* `d` __________ delete
+* `D` __________ delete to end of line
+* `dd` _________ delete lines
+* `x` __________ delete under cursor
+* `X` __________ delete before cursor
+
+#### change
+* `c` __________ change
+* `C` __________ change to end of line
+* `cc` _________ change line
+* `s` __________ substitute
+* `S` __________ substitute line
+
+### macros
+* `q{reg}` _____ record a macro
+* `Q{reg}` _____ play a macro
+
+### marks
+* `m{mark}` ____ goto a mark
+* `M{mark}` ____ set a mark
+
+### visual mode
 * `v` visual mode
 * `V` visual line mode
 * `<c-v>` visual block mode
 * `E` select paragraph (envelope paragraph `vip`)
 
-### INSERT TEXT
-* `i` - Insert
-* `I` - Insert at beginning of line
-* `a` - Append
-* `a` - Append to end of line
-* `l` - insert Line below
-* `L` - insert Line above
-* `<leader>ll` - add an empty line below (remain in normal mode)
-* `<leader>lL` - add an empty line above (remain normal mode)
+### search
+* `/` __________ search down
+* `?` __________ search up
+* `f` __________ repeat search (find)
+* `F` __________ repeat search reverse (find reverse)
+* `<leader>f` __ search word under cursor (find word)
+* `<leader>F` __ search word under cursor reverse (find word reverse)
 
-## Kopy/Change/Delete Paste
-> this behavior all changes if `unruly_kopy` is enabled
-#### kopy
-* `k` - kopy (yank)
-* `K` - kopy line (yank line)
+### utility
+* `:` or `'` ___ command mode
+* `u` __________ undo
+* `U` __________ redo
+* `<<` _________ shift indent left
+* `>>` _________ shift indent right
+* `g` __________ g command
+* `G` __________ G command
+* `z` __________ z command
+* `Z` __________ Z command
+* command mode
+  * `<c-a>` ____ goto beginning of line
+  * `<c-e>` ____ goto end of line
+  * `<c-u>` ____ delete to beginning of line
 
-#### paste
-* `p` - paste
-* `P` - paste line
+### window navigation
+* `<ctrl>wy` ___ focus left
+* `<ctrl>wn` ___ focus down
+* `<ctrl>we` ___ focus up
+* `<ctrl>wo` ___ focus right
+* `<ctrl>wx` ___ close
+* `<ctrl>wf` ___ fullscreen current split
+* `<ctrl>wh` ___ horizontal split
+* `<ctrl>ws` ___ vertical split
+* `<ctrl>ws` ___ vertical split
 
-#### delete
-* `d` - delete
-* `D` - delete to end of line
-* `dd` - delete lines
-* `x` - delete under cursor
-* `X` - delete before cursor
+## EASY BOOSTERS (enabled by default)
+> easy boosters don't dramatically alter anything, they are just additional
+> keymaps that I thought people might want to opt of of
 
-#### delete
-* `c` - change
-* `C` - change to end of line
-* `cc` - change line
-* `s` - substitute
-* `S` - substitute line
-
-### MACROS
-* `q{reg}` - record a macro
-* `Q{reg}` - play a macro
-
-### MARKS 
-* `m{mark}` - goto a mark
-* `M{mark}` - set a mark
-
-### BUFFER SEARCH
-* `/` - search down
-* `?` - search up
-* `f` - repeat search (find)
-* `F` - repeat search reverse (find reverse)
-* `<leader>f` - search word under cursor (find word)
-* `<leader>F` - search word under cursor reverse (find word reverse)
-
-### UTILITY
-* `:` or `'` command mode
-* `u` undo
-* `U` redo
-* `<<` shift indent left
-* `>>` shift indent right
-
-### WINDOW NAVIGATION
-* `<ctrl>w` + `yneo` - are mapped to focus pane left, down, up, right
+#### easy_window
 * `<ctrl>` + `yneo` - are mapped to focus pane left, down, up, right
 * `<c-x>` close vim split
-* `<c-f>` fullscreen vim split
+* `<c-f>` fullscreen current split
 * `<c-s>` split verticle
 * `<c-h>` split horizontal
 
-## EASY BOOSTERS (enabled by default)
-> easy boosters don't dramaticly alter anything, they are just additional
-> keymaps that I thought people might want to opt of of
-
-#### swap_easy
+#### easy_swap
 * `<C-Up>` swap line/lines up
 * `<C-Down>` swap line/lines down
 
-#### scroll_easy
+#### easy_scroll
 * `<PageUp>` scroll up
 * `<Home>` scroll up fast
 * `<PageDown>` scroll down
 * `<End>` scroll down fast
 
-#### hlsearch_easy
+#### easy_hlsearch
 > NOTE: this will auto enable the vim `hlsearch` option
 * `<Esc>` will disable the current hlsearch highlighting
 
-#### easy_source
-* NOTE: this will disable the builtin `matchit` plugin
-* `%` source the current lua or vimscript file
 
-#### diagnostic_easy
+#### easy_diagnostic
 * `-` prev diagnostic
 * `_` next diagnostic
 
-#### diagnostic_leader
+#### easy_diagnostic_leader
 * `<leader>dp` prev diagnostic
 * `<leader>dn` next diagnostic
 
-#### lsp_easy
+#### easy_lsp
 * `<C-d>` lsp goto definition
 * `<C-r>` lsp rename
 * `;` lsp hover
 * `=` lsp code action
 
-#### lsp_leader
+#### easy_lsp_leader
 * `<leader>la` lsp code action
 * `<leader>lh` lsp hover
 * `<leader>ld` lsp goto definition
@@ -406,46 +404,38 @@ B `b` jump to matching brace
 > unruly boosters are a little hairbrained, they can either change the way neovim
 > typically works or are at least 
 
-#### unruly_kopy
-* unruly kopy and paste_kopy use the preselected **kopy_register**. `+` is the default
-* delete and paste_delete always use register 0
-* kopy and delete share registers 1-9 to track history
-* delete has its own pasting keymaps
+### unruly_kopy
+* when enabled kopy and delete share registers 1-9 to track history
+* kopy and paste using the preselected `kopy_register` (default: `+`)
+  * `k` - kopy (yank)
+  * `K` - kopy line (yank line)
+  * `p` - paste kopy below
+  * `P` - paste kopy above
+  * `"` - will prompt you to select a new `kopy_register`
+    * valid registers are: `[a-z][A-X] and 0 +`
+    * you can press `<enter>` or `<space>` reset to the default `+` register
+* delete and paste using register 0
+  * `d` delete
+  * `dd` delete line
+  * `D` delete to end of line
+  * `x` delete under cursor
+  * `X` delete before cursor
+  * `c` delete then enter insert mode
+  * `cc` delete line then enter insert mode
+  * `C` delete to end of line then enter insert mode
+  * `.` paste_delete below
+  * `,` paste_delete above
 
-##### kopy and paste_kopy using the preselected **kopy_register**
-* `k` - kopy (yank)
-* `K` - kopy line (yank line)
-* `p` - paste kopy below
-* `P` - paste kopy above
-* `"` - select **kopy_register**, `valid registers: [a-z][A-X] and 0 +`
-  * press `<enter>` or `<space>` reset to `+`
-
-##### delete and paste_delete using register 0
-* `d` delete
-* `dd` delete line
-* `D` delete to end of line
-* `x` delete under cursor
-* `X` delete before cursor
-* `c` delete then enter insert mode
-* `cc` delete line then enter insert mode
-* `C` delete to end of line then enter insert mode
-* `.` paste_delete below
-* `,` paste_delete above
-
-#### unruly_macro
-* unruly macros use preselected registers, similar to kopy/paste. By default the macro register
-is `'z'`.
-* NOTE: it uses the `z` key instead of `q`, because I use it with `quit_easy`
-
-* `z` record a macro into the preselected register (default: `'z'`)
-* `Z` play a macro from the preselected register
-* `<C-z>` select the macro register `valid registers: [a-z][A-Z]`
-  * regsiters [0-9] are reserved for the delete register and yank history.
-* `<leader>zl` toggle macro recording lock
-  * this is useful if you want to make sure you don't accidentally overwrite
-  the current macro register
-*  `<leader>zp` pretty print the contents of the macro register
-It will display special keys like `<enter>`, `<esc>` or `<c-q>`
+### unruly_macro
+* when enabled macros use a preselected `macro_register` (default: `z`)
+  * `z` record a macro into the preselected register (default: `'z'`)
+  * `Z` play a macro from the preselected register
+  * `<C-z>` select the macro register
+    * valid registers: [a-z][A-Z]
+  *  `<leader>zp` pretty print the contents of the macro register
+  * `<leader>zl` toggle macro recording lock
+    * this is useful if you want to make sure you don't accidentally overwrite
+    the current macro register
 
 ### unruly_mark
 The unruly idea behind marks is that you only need two marks, for everything
@@ -461,7 +451,7 @@ mode, by default it will be in local mode.
 * `[` goto prev jumplist entry (jump history back)
 * `]` goto next jumplist entry (jump history forward)
 
-#### `experimental_seek
+### `experimental_seek
 Unruly allows you to quickly navigate through currently the quickfix list,
 loclist, arg list, and currently open buffers. Seek keymaps only target one
 type of list at a time, by default seek target mode will be open buffers.
@@ -472,7 +462,11 @@ type of list at a time, by default seek target mode will be open buffers.
 * `<leader>n` goto next seek item
 * `<leader>p` goto prev seek item
 
-#### unruly_quit
+### unruly_source 
+* NOTE: this will disable the builtin `matchit` plugin
+* `%` source the current lua or vimscript file
+
+### unruly_quit
 * if disabled
   * `q` anq `Q` will have no behavior, and you can map them to whatever you want
 * if **enabled**
