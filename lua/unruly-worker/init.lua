@@ -517,6 +517,10 @@ local setup_force = function(config)
 		context.skip_list = config.skip_list
 	end
 
+	if config.enable_easter_egg_greeting then
+		context.enable_easter_egg_greeting = true
+	end
+
 	state.config = context
 
 	if config.easy_source then
@@ -545,6 +549,8 @@ local setup_force = function(config)
 	if config.enable_easter_egg_greeting then
 		util.notify(util.emoticon() .. " " .. util.greeting())
 	end
+
+	state.is_setup = true
 end
 
 ---  configure and map unruly worker keymap
@@ -587,8 +593,12 @@ local function get_status_text()
 			.. seek_status_text
 end
 
+
 return {
 	setup = setup,
 	action = action,
 	get_status_text = get_status_text,
+	_get_state = function()
+		return state
+	end
 }
