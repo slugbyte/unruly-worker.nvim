@@ -146,12 +146,8 @@ local mapping = {
 			["/"] = cfg_basic("/", "search down"),
 			["?"] = cfg_basic("?", "search up"),
 
-			-- paste delete
-			[","] = cfg_basic('"0P', "paste register x above"),
-			["."] = cfg_basic('"0p', "paste register x below"),
-
 			-- register
-			['"'] = cfg_basic(action.kopy.register_select, "register select"),
+			['"'] = cfg_basic('"', "register select"),
 
 			-- repeat
 			["&"] = cfg_basic("&", "repeat subsitute"),
@@ -184,6 +180,8 @@ local mapping = {
 			["+"] = cfg_noop(),
 			["|"] = cfg_noop(),
 			[";"] = cfg_noop(),
+			[","] = cfg_noop(),
+			["."] = cfg_noop(),
 		},
 		c = {
 			["<C-a>"] = cfg_basic("<home>", "goto BOL"),
