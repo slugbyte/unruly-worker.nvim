@@ -366,31 +366,31 @@ fi
 > vanilla as possible.
 
 #### easy_swap
-* `<C-Up>` __________ swap line/lines up
-* `<C-Down>` ________ swap line/lines down
+* `<C-Up>` ___________ swap line/lines up
+* `<C-Down>` _________ swap line/lines down
 
-### easy_hlsearch
+#### easy_hlsearch
 > NOTE: this will auto enable the vim `hlsearch` option
-* `<Esc>` will disable the current hlsearch highlighting
+* `<Esc>` ____________ will disable the current hlsearch highlighting
 
-### easy_source 
-* NOTE: this will disable the builtin `matchit` plugin
+#### easy_source 
+> NOTE: this will disable the builtin `matchit` plugin
 * `%` source the current lua or vimscript file
 
 #### easy_scroll
-* `<PageUp>` scroll up
-* `<Home>` scroll up fast
-* `<PageDown>` scroll down
-* `<End>` scroll down fast
+* `<PageUp>` _________ scroll up
+* `<Home>` ___________ scroll up fast
+* `<PageDown>` _______ scroll down
+* `<End>` ____________ scroll down fast
 
 #### easy_focus
-* `<ctrl>` + `yneo` _ are mapped to focus pane left, down, up, right
+* `<ctrl>` + `yneo` __ are mapped to focus pane left, down, up, right
 
-### easy_window
-* `<c-x>` close vim split
-* `<c-f>` fullscreen current split
-* `<c-s>` split verticle
-* `<c-h>` split horizontal
+#### easy_window
+* `<c-x>` ____________ close vim split
+* `<c-f>` ____________ fullscreen current split
+* `<c-s>` ____________ split verticle
+* `<c-h>` ____________ split horizontal
 
 #### easy_diagnostic
 * `-` _______________ prev diagnostic
@@ -415,74 +415,73 @@ fi
 * `<leader>lr` ______ lsp rename
 
 ## UNRULY BOOSTERS (disabled by default)
-> unruly boosters are things I thought should be opt in, some unruly boosters can be a little harebrained, and some can change the way neovim
-> typically works
+> unruly boosters change the way that neovim typically works, they are probably
+> not most vim users cup of tea
 
 ### unruly_kopy
-* when enabled kopy and delete share registers 1-9 to track history
-* kopy and paste using the preselected `kopy_register` (default: `+`)
-  * `k` - kopy (yank)
-  * `K` - kopy line (yank line)
-  * `p` - paste kopy below
-  * `P` - paste kopy above
-  * `"` - will prompt you to select a new `kopy_register`
-    * valid registers are: `[a-z][A-X] and 0 +`
-    * you can press `<enter>` or `<space>` reset to the default `+` register
-* delete and paste using register 0
-  * `d` delete
-  * `dd` delete line
-  * `D` delete to end of line
-  * `x` delete under cursor
-  * `X` delete before cursor
-  * `c` delete then enter insert mode
-  * `cc` delete line then enter insert mode
-  * `C` delete to end of line then enter insert mode
-  * `.` paste_delete below
-  * `,` paste_delete above
+> kopy and paste using the preselected `kopy_register` (default: `+`)
+
+> when enabled kopy and delete share registers 1-9 to track history
+* `k` ______________ kopy (yank)
+* `K` ______________ kopy line (yank line)
+* `p` ______________ paste kopy below
+* `P` ______________ paste kopy above
+* `"` ______________ will prompt you to select a new `kopy_register`
+  * valid registers are: `[a-z][A-X] and 0 +`
+  * you can press `<enter>` or `<space>` reset to the default `+` register
+> delete and paste using register 0
+* `d` ______________ delete
+* `dd` _____________ delete line
+* `D` ______________ delete to end of line
+* `x` ______________ delete under cursor
+* `X` ______________ delete before cursor
+* `c` ______________ delete then enter insert mode
+* `cc` _____________ delete line then enter insert mode
+* `C` ______________ delete to end of line then enter insert mode
+* `.` ______________ paste_delete below
+* `,` ______________ paste_delete above
 
 ### unruly_macro
-* when enabled macros use a preselected `macro_register` (default: `z`)
-  * `z` record a macro into the preselected register (default: `'z'`)
-  * `Z` play a macro from the preselected register
-  * `<C-z>` select the macro register
-    * valid registers: [a-z][A-Z]
-  *  `<leader>zp` pretty print the contents of the macro register
-  * `<leader>zl` toggle macro recording lock
-    * this is useful if you want to make sure you don't accidentally overwrite
-    the current macro register
+> when enabled macros use a preselected `macro_register` (default: `z`)
+* `z` ______________ record macro
+* `Z` ______________ play macro
+* `<C-z>` __________ select the macro register
+  * valid registers: [a-z][A-Z]
+* `<leader>zp` _____ pretty print the contents of the macro register
+* `<leader>zl` _____ toggle macro recording lock
+  * this is useful if you want to make sure you don't accidentally overwrite
+  the current macro register
 
 ### unruly_mark
 The unruly idea behind marks is that you only need two marks, for everything
 else just use [telescope](https://github.com/nvim-telescope/telescope.nvim). Unruly marks can be in local buffer mode or global
 mode, by default it will be in local mode.
+* `<leader>a` _____ set mark a
+* `<leader>b` _____ set mark b
+* `<C-a>` _________ goto mark a
+* `<C-b>` _________ goto mark b
+* `m` _____________ toggle between local and global mark mode
+* `M` _____________ clear current mark mode marks
 
-* `<leader>a` set mark a
-* `<leader>b` set mark b
-* `<C-a>` goto mark a
-* `<C-b>` goto mark b
-* `m` toggle between local and global mark mode
-* `M` clear current mark mode marks
-* `[` goto prev jumplist entry (jump history back)
-* `]` goto next jumplist entry (jump history forward)
+### unruly_seek
+unruly seek allows you to quickly navigate through quickfix list,
+loclist, and currently open buffers. Seek keymaps only target one
+type of seekable list at a time, by default the seek type will be buffers.
 
-### `experimental_seek
-Unruly allows you to quickly navigate through currently the quickfix list,
-loclist, arg list, and currently open buffers. Seek keymaps only target one
-type of list at a time, by default seek target mode will be open buffers.
-
-* `<leader>sr` seek target  mode rotate (buffer, quickfix, loclist, arg list)
-* `<leader>sl` goto first item in seek list
-* `<leader>sf` goto last item in seek list
-* `<leader>n` goto next seek item
-* `<leader>p` goto prev seek item
-
-
+* `<leader>n` _____ goto next seek item
+* `<leader>p`  ____ goto prev seek item
+* `<leader>sQ` ____  seek the quickfix list
+* `<leader>sL` ____  seek the loclist
+* `<leader>sB` ____  seek open buffers
+* `<leader>sl` ____  goto first item in seek list
+* `<leader>sf` ____  goto last item in seek list
 
 ### unruly_quit
-* `q` write all buffers, and print a random emoticon (`:wall`)
+> this is a bad idea, but I love it
+* `q` _____________ write all buffers, and print a random emoticon (`:wall`)
   * the random emoticon is useful as visual feedback that the write occurred `(づ ◕‿◕ )づ`
-* `Q` quit all (`:qall`)
-* `<C-q>` force quit all (`:qall!`)
+* `Q` _____________ quit all (`:qall`)
+* `<C-q>` _________ force quit all (`:qall!`)
 
 ## PLUGIN BOOSTERS (disabled by default)
 > plugin boosters have other plugin dependencies
