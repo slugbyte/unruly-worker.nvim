@@ -1,6 +1,9 @@
 # unruly worker
 > a ridiculously fun alternative neovim keymap and tmux setup for the workman keyboard layout
 
+## Basic mode
+
+## Everything enabled
 ![unruly worker vim layout cheatsheet](./asset/img/cheatsheet.png)
 
 ## LAYOUT PHILOSOPHY
@@ -24,15 +27,14 @@
   * A nice way to work with macros
   * A nice way to step through the quickfix list, loclist, and buffers
   * A status bar text generator that creates a [HUD](https://en.wikipedia.org/wiki/Head-up_display) for unruly-worker's state
-  * An tmux config that perfectly suits unruly-worker and absolutely rips (optional)
 * plugin support (you have to opt in explicitly)
-  * workman keyboard layout for [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) auto completion
-  * workman keyboard layout for [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) fuzzy search with preview
-  * workman keyboard layout for [Comment.nvim](https://github.com/numToStr/Comment.nvim) comment toggling
+  * Workman keyboard layout for [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) auto completion
+  * Workman keyboard layout for [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) fuzzy search with preview
+  * Workman keyboard layout for [Comment.nvim](https://github.com/numToStr/Comment.nvim) comment toggling
     toggling
-  * workman keyboard layout for [Navigator.nvim](https://github.com/numToStr/Navigator.nvim) to navigate tmux or wez-term
-  * workman keyboard layout for [LuaSnip](https://github.com/L3MON4D3/LuaSnip) to navigate snipits
-  * workman keyborad layout for [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) with
+  * Workman keyboard layout for [Navigator.nvim](https://github.com/numToStr/Navigator.nvim) to navigate tmux or wez-term
+  * Workman keyboard layout for [LuaSnip](https://github.com/L3MON4D3/LuaSnip) to navigate snipits
+  * Workman keyboard layout for [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) with
     [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) for syntax navigation
 
 #### REGISTER PRESELECTION?
@@ -474,7 +476,7 @@ type of list at a time, by default seek target mode will be open buffers.
 > plugin boosters have other plugin dependencies
 
 #### plugin_telescope_lsp_leader
-> this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
+> depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
 * `<leader>l?` telescope lsp diagnostics
 * `<leader>lc` telescope lsp incoming calls
 * `<leader>lC` telescope lsp outgoing calls
@@ -486,7 +488,7 @@ type of list at a time, by default seek target mode will be open buffers.
 * `<leader>lt` telescope lsp types
 
 #### plugin_telescope_jump_easy
-> this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
+> depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
 * `j` telescope find files (jump)
 * `J` telescope live grep (grep jump)
 * `<C-j>` telescope jumplist (jumplist jump)
@@ -495,7 +497,7 @@ type of list at a time, by default seek target mode will be open buffers.
 * `<c-p>` telescope paste from any register
 
 #### plugin_telescope_leader
-> this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
+> depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
 * `<leader>/` telescope fuzzy find in current buffer
 * `<leader>tb` telescope buffers
 * `<leader>to` telescope old files (recent files)
@@ -510,29 +512,25 @@ type of list at a time, by default seek target mode will be open buffers.
 * `<leader>tr` telescope repeat last search
 
 #### plugin_comment
-> this booster depends on any plugin that uses `gc` and `gcc` mappings to comment toggle, like
+> depends on any plugin that uses `gc` and `gcc` mappings to comment toggle, like
 > [Comment.nvim](https://github.com/numToStr/Comment.nvim)
 * `<c-c>` toggle comment
 
 #### plugin_navigator
-> this booster depends on [Navigator.nvim](https://github.com/numToStr/Navigator.nvim)
+> depends on [Navigator.nvim](https://github.com/numToStr/Navigator.nvim)
 * `<c-y>` focus left (vim or terminal multiplexer)
 * `<c-n>` focus down (vim or terminal multiplexer)
 * `<c-e>` focus up (vim or terminal multiplexer)
 * `<c-o>` focus right (vim or terminal multiplexer)
 
 #### plugin_textobject
-> this booster depends on [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) and
+> depends on [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) and
     [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects)
-* if disabled
-  * `s` substitute
-  * `S` substitute line
-* if **enabled**
-  * `s` next text object
-  * `S` prev text object
+  * `s` skip to next textobject
+  * `S` skip to prev textobject
 
 #### plugin_luasnip
-> this booster depends on [LuaSnip](https://github.com/L3MON4D3/LuaSnip) powerful snipits
+> depends on [LuaSnip](https://github.com/L3MON4D3/LuaSnip) powerful snipits
 * `<C-k> or <C-Left>` luasnip jump prev
 * `<C-l> or <C-Right>` luasnip jump next
 
