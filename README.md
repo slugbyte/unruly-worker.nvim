@@ -247,8 +247,8 @@ fi
 * `(copy mode | w)` go to prev word
 
 #### TMUX CHOICE MODE
-* `(choice mode)`(n) next choice (down)
-* `(choice mode)`(e) prev choice (up)
+* `(choice mode | n)` next choice (down)
+* `(choice mode | e)` prev choice (up)
 
 ## UNRULY KEYMAP OVERVIEW
 ### cursor movement
@@ -256,7 +256,7 @@ fi
 * `Y` __________ goes to beginning of line
 * `O` __________ goes to end of line
 * `w` __________ next word
-* `w` __________ prev word
+* `W` __________ prev word
 * `b` __________ jump to matching brace
 * `B` __________ jump cursor to the last place a change was made (back change)
 * `gg` _________ toto top of file
@@ -313,10 +313,10 @@ fi
 * `M{mark}` ____ set a mark
 
 ### visual mode
-* `v` visual mode
-* `V` visual line mode
-* `<c-v>` visual block mode
-* `E` select paragraph (envelope paragraph `vip`)
+* `v` __________ visual mode
+* `V` __________ visual line mode
+* `<c-v>` ______ visual block mode
+* `E` __________ select paragraph (envelope paragraph `vip`)
 
 ### search
 * `/` __________ search down
@@ -357,52 +357,41 @@ fi
 > keymaps that I thought people might want to opt of of
 
 #### easy_window
-* `<ctrl>` + `yneo` - are mapped to focus pane left, down, up, right
-* `<c-x>` close vim split
-* `<c-f>` fullscreen current split
-* `<c-s>` split verticle
-* `<c-h>` split horizontal
+* `<ctrl>` + `yneo` _ are mapped to focus pane left, down, up, right
+* `<c-x>` ___________ close vim split
+* `<c-f>` ___________ fullscreen current split
+* `<c-s>` ___________ split verticle
+* `<c-h>` ___________ split horizontal
 
 #### easy_swap
-* `<C-Up>` swap line/lines up
-* `<C-Down>` swap line/lines down
-
-#### easy_scroll
-* `<PageUp>` scroll up
-* `<Home>` scroll up fast
-* `<PageDown>` scroll down
-* `<End>` scroll down fast
-
-#### easy_hlsearch
-> NOTE: this will auto enable the vim `hlsearch` option
-* `<Esc>` will disable the current hlsearch highlighting
-
+* `<C-Up>` __________ swap line/lines up
+* `<C-Down>` ________ swap line/lines down
 
 #### easy_diagnostic
-* `-` prev diagnostic
-* `_` next diagnostic
+* `-` _______________ prev diagnostic
+* `_` _______________ next diagnostic
 
 #### easy_diagnostic_leader
-* `<leader>dp` prev diagnostic
-* `<leader>dn` next diagnostic
+* `<leader>dp` ______ prev diagnostic
+* `<leader>dn` ______ next diagnostic
 
 #### easy_lsp
-* `<C-d>` lsp goto definition
-* `<C-r>` lsp rename
-* `;` lsp hover
-* `=` lsp code action
+* `<C-d>`  __________ lsp goto definition
+* `<C-r>`  __________ lsp rename
+* `;`  ______________ lsp hover
+* `=`  ______________ lsp code action
 
 #### easy_lsp_leader
-* `<leader>la` lsp code action
-* `<leader>lh` lsp hover
-* `<leader>ld` lsp goto definition
-* `<leader>lD` lsp goto Declaration
-* `<leader>lf` lsp format
-* `<leader>lr` lsp rename
+* `<leader>la` ______ lsp code action
+* `<leader>lh` ______ lsp hover
+* `<leader>ld` ______ lsp goto definition
+* `<leader>lD` ______ lsp goto Declaration
+* `<leader>lf` ______ lsp format
+* `<leader>lr` ______ lsp rename
 
 ## UNRULY BOOSTERS (disabled by default)
-> unruly boosters are a little hairbrained, they can either change the way neovim
-> typically works or are at least 
+> unruly boosters are a little hairbrained, some can change the way neovim
+> typically work
 
 ### unruly_kopy
 * when enabled kopy and delete share registers 1-9 to track history
@@ -466,13 +455,20 @@ type of list at a time, by default seek target mode will be open buffers.
 * NOTE: this will disable the builtin `matchit` plugin
 * `%` source the current lua or vimscript file
 
+#### unruly_scroll
+* `<PageUp>` scroll up
+* `<Home>` scroll up fast
+* `<PageDown>` scroll down
+* `<End>` scroll down fast
+
+### unruly_hlsearch
+> NOTE: this will auto enable the vim `hlsearch` option
+* `<Esc>` will disable the current hlsearch highlighting
+
 ### unruly_quit
-* if disabled
-  * `q` anq `Q` will have no behavior, and you can map them to whatever you want
-* if **enabled**
-  * `q` write all buffers (`:wall`)
-  * `Q` quit all (`:qall`)
-  * `<C-q>` force quit all (`:qall!`)
+* `q` write all buffers (`:wall`)
+* `Q` quit all (`:qall`)
+* `<C-q>` force quit all (`:qall!`)
 
 ## PLUGIN BOOSTERS (disabled by default)
 > plugin boosters have other plugin dependencies
@@ -491,12 +487,9 @@ type of list at a time, by default seek target mode will be open buffers.
 
 #### plugin_telescope_jump_easy
 > this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
-* if disabled
-  * `j` anq `J` will have no behavior, and you can map them to whatever you want
-* if **enabled**
-  * `j` telescope find files (jump)
-  * `J` telescope live grep (grep jump)
-  * `<C-j>` telescope jumplist (jumplist jump)
+* `j` telescope find files (jump)
+* `J` telescope live grep (grep jump)
+* `<C-j>` telescope jumplist (jumplist jump)
 
 #### plugin_telescope_paste_easy
 * `<c-p>` telescope paste from any register

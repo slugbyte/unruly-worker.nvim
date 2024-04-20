@@ -316,7 +316,7 @@ local mapping = {
 			["<leader>i"] = cfg_basic("g<C-a>", "[I]ncrament Number Column"),
 		},
 	},
-	easy_hlsearch = {
+	unruly_hlsearch = {
 		n = {
 			["<esc>"] = cfg_basic("<cmd>nohlsearch<CR>", "disable hl search"),
 		},
@@ -476,7 +476,6 @@ local setup_force = function(config)
 			easy_line                   = true,
 			easy_spellcheck             = true,
 			easy_incrament              = true,
-			easy_hlsearch               = true,
 			easy_window                 = true,
 			easy_jumplist               = true,
 			easy_lsp                    = true,
@@ -491,6 +490,7 @@ local setup_force = function(config)
 			unruly_source               = true,
 			unruly_quit                 = true,
 			unruly_scroll               = true,
+			unruly_hlsearch             = true,
 			-- plugin
 			plugin_navigator            = true,
 			plugin_comment              = true,
@@ -519,7 +519,7 @@ local setup_force = function(config)
 		vim.g.loaded_matchit = true
 	end
 
-	if config.easy_hlsearch then
+	if config.unruly_hlsearch then
 		-- enable hlsearh
 		vim.opt.hlsearch = true
 	end
