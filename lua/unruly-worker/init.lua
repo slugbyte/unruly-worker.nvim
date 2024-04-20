@@ -477,37 +477,34 @@ local setup_force = function(config)
 
 	local context = {
 		booster   = {
-			-- easy stuff shouldn't be hairbraind
-			easy_swap                   = true,
-			easy_find                   = true,
-			easy_line                   = true,
-			easy_spellcheck             = true,
-			easy_incrament              = true,
-			easy_hlsearch               = true,
-			easy_focus                  = true,
-			easy_window                 = true,
-			easy_jumplist               = true,
-			easy_scroll                 = true,
-			easy_source                 = true,
-			easy_lsp                    = true,
-			easy_lsp_leader             = true,
-			easy_diagnostic             = true,
-			easy_diagnostic_leader      = true,
-			-- unruly stuff is kinda hairbraind
-			unruly_seek                 = true,
-			unruly_mark                 = true,
-			unruly_macro                = true,
-			unruly_kopy                 = true,
-			unruly_quit                 = true,
-			-- plugin
-			plugin_navigator            = true,
-			plugin_comment              = true,
-			plugin_luasnip              = true,
-			plugin_textobject           = true,
-			plugin_telescope_leader     = true,
-			plugin_telescope_lsp_leader = true,
-			plugin_telescope_easy_jump  = true,
-			plugin_telescope_easy_paste = true,
+			easy_swap                   = false,
+			easy_find                   = false,
+			easy_line                   = false,
+			easy_spellcheck             = false,
+			easy_incrament              = false,
+			easy_hlsearch               = false,
+			easy_focus                  = false,
+			easy_window                 = false,
+			easy_jumplist               = false,
+			easy_scroll                 = false,
+			easy_source                 = false,
+			easy_lsp                    = false,
+			easy_lsp_leader             = false,
+			easy_diagnostic             = false,
+			easy_diagnostic_leader      = false,
+			unruly_seek                 = false,
+			unruly_mark                 = false,
+			unruly_macro                = false,
+			unruly_kopy                 = false,
+			unruly_quit                 = false,
+			plugin_navigator            = false,
+			plugin_comment              = false,
+			plugin_luasnip              = false,
+			plugin_textobject           = false,
+			plugin_telescope_leader     = false,
+			plugin_telescope_lsp_leader = false,
+			plugin_telescope_easy_jump  = false,
+			plugin_telescope_easy_paste = false,
 		},
 		skip_list = {},
 	}
@@ -532,6 +529,10 @@ local setup_force = function(config)
 		vim.opt.hlsearch = true
 	end
 
+	if context.booster.easy_focus and context.booster.plugin_navigator then
+		context.booster.easy_focus = false
+	end
+
 	map_config(mapping.general, context.skip_list)
 
 	-- TODO force booster load order
@@ -539,6 +540,10 @@ local setup_force = function(config)
 		if is_enabled then
 			map_config(mapping[booster], context.skip_list, booster)
 		end
+	end
+
+	if config.enable_easter_egg_greeting then
+		util.notify(util.emoticon() .. " " .. util.greeting())
 	end
 end
 
@@ -567,8 +572,6 @@ local function setup(config)
 	-- UnrulyMarkClear
 	vim.api.nvim_create_user_command("UnrulyMacroLock", action.macro.lock, {})
 	vim.api.nvim_create_user_command("UnrulyMacroUnlock", action.macro.unlock, {})
-
-	util.notify("UNRULY")
 end
 
 local function get_status_text()

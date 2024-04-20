@@ -63,11 +63,43 @@ unruly_worker.setup({
   -- you can use the skip_list = {} to stop unruly from creating certain mappings
   -- skip_list = { "z", "Z", "<C-z>"},  skip z related mappings
   skip_list = {},
+  -- all boosters are documented in the README (https://github.com/slugbyte/unruly-worker)
   booster = {
+    -- easy stuff are just additional opt in keymaps
+    easy_swap                   = false,
+    easy_find                   = false,
+    easy_line                   = false,
+    easy_spellcheck             = false,
+    easy_incrament              = false,
+    easy_hlsearch               = false,
+    easy_focus                  = false,
+    easy_window                 = false,
+    easy_jumplist               = false,
+    easy_scroll                 = false,
+    easy_source                 = false,
+    easy_lsp                    = false,
+    easy_lsp_leader             = false,
+    easy_diagnostic             = false,
+    easy_diagnostic_leader      = false,
+    -- unruly stuff change neovim's normal behavior
+    unruly_seek                 = false,
+    unruly_mark                 = false,
+    unruly_macro                = false,
+    unruly_kopy                 = false,
+    unruly_quit                 = false,
+    -- plugin stuff have external dependencies
+    plugin_navigator            = false,
+    plugin_comment              = false,
+    plugin_luasnip              = false,
+    plugin_textobject           = false,
+    plugin_telescope_leader     = false,
+    plugin_telescope_lsp_leader = false,
+    plugin_telescope_easy_jump  = false,
+    plugin_telescope_easy_paste = false,
   },
 })
 
--- to setup with the defaults you can simply put
+-- to setup with the defaults you can simply put (all boosters will be false)
 -- unruly_worker.setup()
 ```
 
