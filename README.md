@@ -19,6 +19,7 @@
   * Navigate vim like normal using `yneo`
   * Vim motions are similar to original
   * Close to vanilla experience
+  * A healthcheck to ensure your setup is correct
 * basic opt-in features
   * A nice way to work with LSPs
   * A nice way to navigate diagnostics

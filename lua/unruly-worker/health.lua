@@ -12,6 +12,12 @@ M.check = function()
 		return
 	end
 
+	if state.is_config_legacy == true then
+		vim.health.report_error("unruly-worker had a big update, and you now have an incompatable configuration.")
+		vim.health.report_info(
+		"checkout the github to see how to setup your config: https://github.com/slubyte/unruly-worker")
+	end
+
 	if state.config == nil then
 		return
 	end

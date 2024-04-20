@@ -10,6 +10,7 @@
 
 local state = {
 	is_setup = false,
+	is_config_legacy = false,
 	config = nil,
 }
 
@@ -470,6 +471,16 @@ local map_config = function(config, skip_list, booster_name)
 	end
 end
 
+local function is_config_legacy(config)
+	return (config.enable_lsp_map ~= nil)
+			or (config.enable_select_map ~= nil)
+			or (config.enable_quote_command ~= nil)
+			or (config.enable_easy_window_navigate ~= nil)
+			or (config.enable_comment_map ~= nil)
+			or (config.enable_wrap_navigate ~= nil)
+			or (config.enable_visual_navigate ~= nil)
+end
+
 local setup_force = function(config)
 	if config == nil then
 		config = {}
@@ -521,14 +532,16 @@ local setup_force = function(config)
 		context.enable_easter_egg_greeting = true
 	end
 
+	-- TODO: should I do anything if the config is legacy?
 	state.config = context
+	state.is_config_legacy = is_config_legacy(config)
 
-	if config.easy_source then
+	if context.booster.easy_source then
 		-- disable neovim from auto loading matchit
 		vim.g.loaded_matchit = true
 	end
 
-	if config.easy_hlsearch then
+	if context.booster.easy_hlsearch then
 		-- enable hlsearh
 		vim.opt.hlsearch = true
 	end
