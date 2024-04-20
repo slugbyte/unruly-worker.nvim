@@ -188,7 +188,7 @@ local mapping = {
 			["<C-e>"] = cfg_basic("<end>", "goto EOL"),
 		},
 	},
-	unruly_source = {
+	easy_source = {
 		n = {
 			["%"] = cfg_custom(function()
 				local current_file = vim.fn.expandcmd("%")
@@ -255,7 +255,7 @@ local mapping = {
 			["."] = cfg_basic('"0p', "paste delete_reg below"),
 		},
 	},
-	unruly_window = {
+	easy_window = {
 		m = {
 			["<C-x>"] = cfg_basic(":close<CR>", "close pane"),
 			["<C-f>"] = cfg_basic(":on<CR>", "full screen"),
@@ -270,7 +270,7 @@ local mapping = {
 			["<C-q>"] = cfg_basic(":qall!<cr>", "quit all force"),
 		},
 	},
-	unruly_scroll = {
+	easy_scroll = {
 		m = {
 			["<End>"] = cfg_basic("9<C-E>", "scroll down fast"),
 			["<PageDown>"] = cfg_basic("3<C-E>", "scroll down"),
@@ -278,7 +278,7 @@ local mapping = {
 			["<Home>"] = cfg_basic("9<C-Y>", "scroll down fast"),
 		},
 	},
-	easy_window = {
+	easy_focus = {
 		m = {
 			["<C-y>"] = cfg_basic("<C-w>h", "focus left"),
 			["<C-n>"] = cfg_basic("<C-w>j", "focus down"),
@@ -323,7 +323,7 @@ local mapping = {
 			["<leader>i"] = cfg_basic("g<C-a>", "[I]ncrament Number Column"),
 		},
 	},
-	unruly_hlsearch = {
+	easy_hlsearch = {
 		n = {
 			["<esc>"] = cfg_basic("<cmd>nohlsearch<CR>", "disable hl search"),
 		},
@@ -483,8 +483,12 @@ local setup_force = function(config)
 			easy_line                   = true,
 			easy_spellcheck             = true,
 			easy_incrament              = true,
+			easy_hlsearch               = true,
+			easy_focus                  = true,
 			easy_window                 = true,
 			easy_jumplist               = true,
+			easy_scroll                 = true,
+			easy_source                 = true,
 			easy_lsp                    = true,
 			easy_lsp_leader             = true,
 			easy_diagnostic             = true,
@@ -494,11 +498,7 @@ local setup_force = function(config)
 			unruly_mark                 = true,
 			unruly_macro                = true,
 			unruly_kopy                 = true,
-			unruly_source               = true,
 			unruly_quit                 = true,
-			unruly_scroll               = true,
-			unruly_hlsearch             = true,
-			unruly_window               = true,
 			-- plugin
 			plugin_navigator            = true,
 			plugin_comment              = true,
@@ -522,12 +522,12 @@ local setup_force = function(config)
 
 	state.config = context
 
-	if config.unruly_source then
+	if config.easy_source then
 		-- disable neovim from auto loading matchit
 		vim.g.loaded_matchit = true
 	end
 
-	if config.unruly_hlsearch then
+	if config.easy_hlsearch then
 		-- enable hlsearh
 		vim.opt.hlsearch = true
 	end

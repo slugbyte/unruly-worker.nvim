@@ -13,23 +13,27 @@
 3. When possible, keys behavior, or behavior substitute, should stay in the same position as the original-keymap, so that there is no need for experienced vim users to unlearn there years of muscle memory.
 
 ## FEATURES
-* basic features
+* default features
   * Easily Opt-Out of specific unruly mappings
   * Navigate vim like normal using `yneo`
   * Vim motions are similar to original
+  * Close to vanilla experience
+* basic opt-in features
   * A nice way to work with LSPs
   * A nice way to navigate diagnostics
   * A nice way to spellcheck
-  * A nice way to navigate the jump list
+  * A nice way to swap lines
+  * A nice way to focus and manipulate splits
+  * A nice way to create an incrementing column of numbers
   * A workman keyboard tmux config
-* unruly features (you have to opt in explicitly)
+* unruly opt-in features
   * Yank, Delete, and Macros use register preselection
   * Yank and Delete have history
   * Keys to lock macro recording and pretty print the macro register
   * A nice way to step through the quickfix list, loclist, and buffers
   * A status bar text generator that creates a [HUD](https://en.wikipedia.org/wiki/Head-up_display) for unruly-worker's state
   * A nice way to work with marks and navigate the jumplist
-* plugin support (you have to opt in explicitly)
+* plugin support opt-in features
   * Workman keyboard layout for [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) auto completion
   * Workman keyboard layout for [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) fuzzy search with preview
   * Workman keyboard layout for [Comment.nvim](https://github.com/numToStr/Comment.nvim) comment toggling
@@ -361,12 +365,32 @@ fi
 > keymaps that I didn't include in the basic setup, in order to keep it as
 > vanilla as possible.
 
-#### easy_window
-* `<ctrl>` + `yneo` _ are mapped to focus pane left, down, up, right
-
 #### easy_swap
 * `<C-Up>` __________ swap line/lines up
 * `<C-Down>` ________ swap line/lines down
+
+### easy_hlsearch
+> NOTE: this will auto enable the vim `hlsearch` option
+* `<Esc>` will disable the current hlsearch highlighting
+
+### easy_source 
+* NOTE: this will disable the builtin `matchit` plugin
+* `%` source the current lua or vimscript file
+
+#### easy_scroll
+* `<PageUp>` scroll up
+* `<Home>` scroll up fast
+* `<PageDown>` scroll down
+* `<End>` scroll down fast
+
+#### easy_focus
+* `<ctrl>` + `yneo` _ are mapped to focus pane left, down, up, right
+
+### easy_window
+* `<c-x>` close vim split
+* `<c-f>` fullscreen current split
+* `<c-s>` split verticle
+* `<c-h>` split horizontal
 
 #### easy_diagnostic
 * `-` _______________ prev diagnostic
@@ -452,25 +476,7 @@ type of list at a time, by default seek target mode will be open buffers.
 * `<leader>n` goto next seek item
 * `<leader>p` goto prev seek item
 
-### unruly_source 
-* NOTE: this will disable the builtin `matchit` plugin
-* `%` source the current lua or vimscript file
 
-#### unruly_scroll
-* `<PageUp>` scroll up
-* `<Home>` scroll up fast
-* `<PageDown>` scroll down
-* `<End>` scroll down fast
-
-### unruly_hlsearch
-> NOTE: this will auto enable the vim `hlsearch` option
-* `<Esc>` will disable the current hlsearch highlighting
-
-### unruly_window
-* `<c-x>` close vim split
-* `<c-f>` fullscreen current split
-* `<c-s>` split verticle
-* `<c-h>` split horizontal
 
 ### unruly_quit
 * `q` write all buffers, and print a random emoticon (`:wall`)
