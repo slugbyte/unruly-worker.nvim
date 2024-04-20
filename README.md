@@ -328,59 +328,13 @@ B `b` jump to matching brace
 * `s` - substitute
 * `S` - substitute line
 
-### KOPY/DELETE PASTE
-* kopy and paste_kopy use the preselected **kopy_register**. `+` is the default
-* delete and paste_delete always use register 0
-* kopy and delete share registers 1-9 to track history
-* delete has its own pasting keymaps
-
-#### kopy and paste_kopy using the preselected **kopy_register**
-* `k` - kopy (yank)
-* `K` - kopy line (yank line)
-* `p` - paste kopy below
-* `P` - paste kopy above
-* `"` - select **kopy_register**, `valid registers: [a-z][A-X] and 0 +`
-  * press `<enter>` or `<space>` reset to `+`
-
-#### delete and paste_delete using register 0
-* `d` delete
-* `dd` delete line
-* `D` delete to end of line
-* `x` delete under cursor
-* `X` delete before cursor
-* `c` delete then enter insert mode
-* `cc` delete line then enter insert mode
-* `C` delete to end of line then enter insert mode
-* `.` paste_delete below
-* `,` paste_delete above
-
 ### MACROS
-Macros use preselected registers, similar to kopy/paste. By default the macro register
-is `'z'`.
+* `q{reg}` - record a macro
+* `Q{reg}` - play a macro
 
-* `z` record a macro into the preselected register (default: `'z'`)
-* `Z` play a macro from the preselected register
-* `<C-z>` select the macro register `valid registers: [a-z][A-Z]`
-  * regsiters [0-9] are reserved for the delete register and yank history.
-* `<leader>zl` toggle macro recording lock
-  * this is useful if you want to make sure you don't accidentally overwrite
-  the current macro register
-*  `<leader>zp` pretty print the contents of the macro register
-It will display special keys like `<enter>`, `<esc>` or `<c-q>`
-
-## MARKS
-The unruly idea behind marks is that you only need two marks, for everything
-else just use [telescope](https://github.com/nvim-telescope/telescope.nvim). Unruly marks can be in local buffer mode or global
-mode, by default it will be in local mode.
-
-* `<leader>a` set mark a
-* `<leader>b` set mark b
-* `<C-a>` goto mark a
-* `<C-b>` goto mark b
-* `m` toggle between local and global mark mode
-* `M` clear current mark mode marks
-* `[` goto prev jumplist entry (jump history back)
-* `]` goto next jumplist entry (jump history forward)
+### MARKS 
+* `m{mark}` - goto a mark
+* `M{mark}` - set a mark
 
 ### BUFFER SEARCH
 * `/` - search down
@@ -409,6 +363,62 @@ mode, by default it will be in local mode.
 > idk why i called them boosters, they are really just things I thought people
 > might want to opt out of.
 
+#### unruly_kopy
+* unruly kopy and paste_kopy use the preselected **kopy_register**. `+` is the default
+* delete and paste_delete always use register 0
+* kopy and delete share registers 1-9 to track history
+* delete has its own pasting keymaps
+
+##### kopy and paste_kopy using the preselected **kopy_register**
+* `k` - kopy (yank)
+* `K` - kopy line (yank line)
+* `p` - paste kopy below
+* `P` - paste kopy above
+* `"` - select **kopy_register**, `valid registers: [a-z][A-X] and 0 +`
+  * press `<enter>` or `<space>` reset to `+`
+
+##### delete and paste_delete using register 0
+* `d` delete
+* `dd` delete line
+* `D` delete to end of line
+* `x` delete under cursor
+* `X` delete before cursor
+* `c` delete then enter insert mode
+* `cc` delete line then enter insert mode
+* `C` delete to end of line then enter insert mode
+* `.` paste_delete below
+* `,` paste_delete above
+
+#### unruly_macro
+* unruly macros use preselected registers, similar to kopy/paste. By default the macro register
+is `'z'`.
+* NOTE: it uses the `z` key instead of `q`, because I use it with `quit_easy`
+
+* `z` record a macro into the preselected register (default: `'z'`)
+* `Z` play a macro from the preselected register
+* `<C-z>` select the macro register `valid registers: [a-z][A-Z]`
+  * regsiters [0-9] are reserved for the delete register and yank history.
+* `<leader>zl` toggle macro recording lock
+  * this is useful if you want to make sure you don't accidentally overwrite
+  the current macro register
+*  `<leader>zp` pretty print the contents of the macro register
+It will display special keys like `<enter>`, `<esc>` or `<c-q>`
+
+### MARKS
+The unruly idea behind marks is that you only need two marks, for everything
+else just use [telescope](https://github.com/nvim-telescope/telescope.nvim). Unruly marks can be in local buffer mode or global
+mode, by default it will be in local mode.
+
+* `<leader>a` set mark a
+* `<leader>b` set mark b
+* `<C-a>` goto mark a
+* `<C-b>` goto mark b
+* `m` toggle between local and global mark mode
+* `M` clear current mark mode marks
+* `[` goto prev jumplist entry (jump history back)
+* `]` goto next jumplist entry (jump history forward)
+
+
 #### quit_easy
 * if disabled
   * `q` anq `Q` will have no behavior, and you can map them to whatever you want
@@ -428,8 +438,12 @@ mode, by default it will be in local mode.
 * `<End>` scroll down fast
 
 #### hlsearch_easy
-> NOTE: for this to work hlsearch needs to be enabled `vim.opt.hlsearch = true`
-* `<Esc>` will disable current hlsearch
+> NOTE: this will auto enable the vim `hlsearch` option
+* `<Esc>` will disable the current hlsearch highlighting
+
+#### easy_source
+* NOTE: this will disable the builtin `matchit` plugin
+* `%` source the current lua or vimscript file
 
 #### diagnostic_easy
 * `-` prev diagnostic

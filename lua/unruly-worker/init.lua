@@ -83,23 +83,18 @@ local mapping = {
 			E = cfg_cmd("vip", "envelope paraghaph"),
 			f = cfg_basic("n", "find next"),
 			F = cfg_basic("N", "find prev"),
-			["<leader>f"] = cfg_basic("g*", "[F]ind Word Under Cursor"),
-			["<leader>F"] = cfg_basic("g#", "[F]ind Word Under Cursor Reverse"),
 			g = cfg_basic("g", "g command"),
 			G = cfg_basic("G", "goto line"),
-			h = cfg_basic(";", "hop t repeat"),
-			H = cfg_basic(",", "hop t reverse"),
+			h = cfg_basic(";", "hop t/T{char} repeat"),
+			H = cfg_basic(",", "hop t/T{char} reverse"),
 			i = cfg_basic("i", "insert"),
 			I = cfg_basic("I", "insert BOL"),
 			j = cfg_noop(),
 			J = cfg_noop(),
-			["<c-j>"] = cfg_basic(action.telescope.jump_list_safe, "jump list"),
 			k = cfg_basic("y", "kopy"),
 			K = cfg_basic("Y", "kopy line"),
 			l = cfg_basic("o", "line insert below"),
 			L = cfg_basic("O", "line insert above"),
-			["<leader>ll"] = cfg_basic("o<esc>^d$<Up>", "[L]ine Below"),
-			["<leader>lL"] = cfg_basic("O<esc>^d$<Down>", "[L]ine Above"),
 			m = cfg_basic("'", "m{char} goto mark"),
 			M = cfg_basic("m", "m{char} set mark"),
 			n = cfg_basic("j", "down"),
@@ -114,9 +109,8 @@ local mapping = {
 			R = cfg_basic("R", "replace mode"),
 			s = cfg_basic("s", "subsitute"),
 			S = cfg_basic("S", "subsitute lines"),
-			["<leader>sc"] = cfg_basic(action.telescope.spell_suggest_safe, "[S]pell [C]heck"),
-			t = cfg_basic("f", "to char"),
-			T = cfg_basic("F", "to char reverse"),
+			t = cfg_basic("f", "f{char} go to char"),
+			T = cfg_basic("F", "T{char} go to char reverse"),
 			u = cfg_basic("u", "undo"),
 			U = cfg_basic("<C-r>", "redo"),
 			v = cfg_basic("v", "visual mode"),
@@ -159,6 +153,15 @@ local mapping = {
 			-- register
 			['"'] = cfg_basic(action.kopy.register_select, "register select"),
 
+			-- repeat
+			["&"] = cfg_basic("&", "repeat subsitute"),
+			["!"] = cfg_basic(".", "repeat change"),
+
+			-- cursor align
+			["@"] = cfg_basic("zt", "align top"),
+			["$"] = cfg_basic("zz", "align middle"),
+			["#"] = cfg_basic("zb", "align bottom"),
+
 			-- window nav
 			["<C-w>k"] = cfg_noop(),
 			["<C-w>l"] = cfg_noop(),
@@ -179,27 +182,24 @@ local mapping = {
 			["<C-h>"] = cfg_basic(":sp<CR>", "split horizontal"),
 			["<C-s>"] = cfg_basic(":vs<CR>", "split verticle"),
 
-			-- cursor align
-			["@"] = cfg_basic("zt", "align top"),
-			["$"] = cfg_basic("zz", "align middle"),
-			["#"] = cfg_basic("zb", "align bottom"),
-
 			-- noop
 			["%"] = cfg_noop(),
 			["^"] = cfg_noop(),
 			["="] = cfg_noop(),
-			["&"] = cfg_basic("&", "repeat subsitute"),
 			["*"] = cfg_noop(),
 			["-"] = cfg_noop(),
 			["_"] = cfg_noop(),
 			["+"] = cfg_noop(),
-
-			["!"] = cfg_basic(".", "repeat change"),
 			["|"] = cfg_noop(),
 			[";"] = cfg_noop(),
 		},
+		c = {
+			["<C-a>"] = cfg_basic("<home>", "goto BOL"),
+			["<C-e>"] = cfg_basic("<end>", "goto EOL"),
+		},
+	},
+	unruly_source = {
 		n = {
-			-- swap lines normal
 			["%"] = cfg_custom(function()
 				local current_file = vim.fn.expandcmd("%")
 				if current_file == "%" then
@@ -209,10 +209,6 @@ local mapping = {
 				local keys = vim.api.nvim_replace_termcodes(":source %<cr>", true, false, true)
 				vim.api.nvim_feedkeys(keys, "n", false)
 			end, no_remap, no_silent, "source current buffer"),
-		},
-		c = {
-			["<C-a>"] = cfg_basic("<home>", "goto BOL"),
-			["<C-e>"] = cfg_basic("<end>", "goto EOL"),
 		},
 	},
 	unruly_seek = {
@@ -264,14 +260,14 @@ local mapping = {
 			P = cfg_basic_expr(action.kopy.expr_paste_above, "paste before"),
 		},
 	},
-	quit_easy = {
+	unruly_quit = {
 		m = {
 			q = cfg_basic(action.save.write_all, "write all"),
 			Q = cfg_basic(":qall<cr>", "quit all"),
 			["<C-q>"] = cfg_basic(":qall!<cr>", "quit all force"),
 		},
 	},
-	scroll_easy = {
+	unruly_scroll = {
 		m = {
 			["<End>"] = cfg_basic("9<C-E>", "scroll down fast"),
 			["<PageDown>"] = cfg_basic("3<C-E>", "scroll down"),
@@ -279,7 +275,24 @@ local mapping = {
 			["<Home>"] = cfg_basic("9<C-Y>", "scroll down fast"),
 		},
 	},
-	swap_easy = {
+	easy_spellcheck = {
+		m = {
+			["<leader>sc"] = cfg_basic(action.telescope.spell_suggest_safe, "[S]pell [C]heck"),
+		}
+	},
+	easy_line = {
+		m = {
+			["<leader>ll"] = cfg_basic("o<esc>^d$<Up>", "[L]ine Below"),
+			["<leader>lL"] = cfg_basic("O<esc>^d$<Down>", "[L]ine Above"),
+		},
+	},
+	easy_find = {
+		m = {
+			["<leader>f"] = cfg_basic("g*", "[F]ind Word Under Cursor"),
+			["<leader>F"] = cfg_basic("g#", "[F]ind Word Under Cursor Reverse"),
+		},
+	},
+	easy_swap = {
 		n = {
 			["<C-Down>"] = cfg_basic(":m .+1<CR>==", "swap down"),
 			["<C-Up>"] = cfg_basic(":m .-2<CR>==", "swap up"),
@@ -289,17 +302,17 @@ local mapping = {
 			["<C-Up>"] = cfg_basic(":m '<-2<CR>gv=gv", "swap up"),
 		},
 	},
-	incrament_easy = {
+	easy_incrament = {
 		v = {
 			["<leader>i"] = cfg_basic("g<C-a>", "[I]ncrament Number Column"),
 		},
 	},
-	hlsearch_easy = {
+	easy_hlsearch = {
 		n = {
 			["<esc>"] = cfg_basic("<cmd>nohlsearch<CR>", "disable hl search"),
 		},
 	},
-	lsp_easy = {
+	easy_lsp = {
 		m = {
 			[";"] = cfg_basic(vim.lsp.buf.hover, "lsp hover"),
 			["="] = cfg_basic(vim.lsp.buf.code_action, "lsp code action"),
@@ -307,7 +320,7 @@ local mapping = {
 			["<C-d>"] = cfg_basic(action.telescope.lsp_definiton_safe, "lsp definition"),
 		},
 	},
-	lsp_leader = {
+	easy_lsp_leader = {
 		m = {
 			["<leader>la"] = cfg_basic(vim.lsp.buf.code_action, "[L]sp Code [A]ction"),
 			["<leader>lh"] = cfg_basic(vim.lsp.buf.hover, "[L]sp [H]over"),
@@ -317,13 +330,13 @@ local mapping = {
 			["<leader>lR"] = cfg_basic(vim.lsp.buf.rename, "[L]sp [R]ename"),
 		},
 	},
-	diagnostic_easy = {
+	easy_diagnostic = {
 		m = {
 			["_"] = cfg_basic(vim.diagnostic.goto_next, "diagnostic next"),
 			["-"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
 		},
 	},
-	diagnostic_leader = {
+	easy_diagnostic_leader = {
 		m = {
 			["<leader>dn"] = cfg_basic(vim.diagnostic.goto_next, "diagnostic next"),
 			["<leader>dp"] = cfg_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
@@ -387,13 +400,13 @@ local mapping = {
 			["<leader>lt"] = cfg_basic(action.telescope.lsp_type_definitions, "[L]sp [T]ypes"),
 		}
 	},
-	plugin_telescope_jump_easy = {
+	plugin_telescope_easy_jump = {
 		m = {
 			j = cfg_basic(action.telescope.find_files, "jump files"),
 			J = cfg_basic(action.telescope.live_grep, "jump files"),
 		}
 	},
-	plugin_telescope_paste_easy = {
+	plugin_telescope_easy_paste = {
 		m = {
 			["<C-p>"] = cfg_basic(action.telescope.registers, "Telescope Registers [P]aste"),
 		}
@@ -448,20 +461,25 @@ local setup_force = function(config)
 
 	local context = {
 		booster   = {
-			quit_easy                   = true,
-			scroll_easy                 = true,
-			swap_easy                   = true,
-			incrament_easy              = true,
-			hlsearch_easy               = true,
-			lsp_easy                    = true,
-			lsp_leader                  = true,
-			diagnostic_easy             = true,
-			diagnostic_leader           = true,
-			-- unruly
+			-- easy stuff shouldn't be hairbraind
+			easy_swap                   = true,
+			easy_find                   = true,
+			easy_line                   = true,
+			easy_spellcheck             = true,
+			easy_incrament              = true,
+			easy_hlsearch               = true,
+			easy_lsp                    = true,
+			easy_lsp_leader             = true,
+			easy_diagnostic             = true,
+			easy_diagnostic_leader      = true,
+			-- unruly stuff is kinda hairbraind
 			unruly_seek                 = true,
 			unruly_mark                 = true,
 			unruly_macro                = true,
 			unruly_kopy                 = true,
+			unruly_source               = true,
+			unruly_quit                 = true,
+			unruly_scroll               = true,
 			-- plugin
 			plugin_navigator            = true,
 			plugin_comment              = true,
@@ -469,8 +487,8 @@ local setup_force = function(config)
 			plugin_textobject           = true,
 			plugin_telescope_leader     = true,
 			plugin_telescope_lsp_leader = true,
-			plugin_telescope_jump_easy  = true,
-			plugin_telescope_paste_easy = true,
+			plugin_telescope_easy_jump  = true,
+			plugin_telescope_easy_paste = true,
 		},
 		skip_list = {},
 	}
@@ -485,10 +503,15 @@ local setup_force = function(config)
 
 	state.config = context
 
-	-- if config.easy_source then
-	-- disable neovim from auto loading matchit
-	-- vim.g.loaded_matchit = true
-	-- end
+	if config.unruly_source then
+		-- disable neovim from auto loading matchit
+		vim.g.loaded_matchit = true
+	end
+
+	if config.easy_hlsearch then
+		-- enable hlsearh
+		vim.opt.hlsearch = true
+	end
 
 	map_config(mapping.general, context.skip_list)
 
