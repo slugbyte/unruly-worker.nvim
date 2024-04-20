@@ -39,7 +39,7 @@ the yank or macro register, and then all future yank/paste or record/play
 actions will use the selected register until you select a new register. 
 
 ## INSTALL AND SETUP
-1. Install with your favorite [package manager](https://github.com/folke/lazy.nvim)
+1. Install with your favorite neovim [package manager](https://github.com/folke/lazy.nvim)
 2. Add the following **lua** code to your vim config
 
 ``` lua
@@ -77,12 +77,128 @@ unruly_worker.setup({
   },
 })
 
-
 -- to setup with the defaults you can simply
 -- unruly_worker.setup()
 ```
 
-## TMUX SETUP (optional)
+## [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) MAPPING SETUP (optional)
+``` lua
+-- NOTE: its recommended that you require cmp before unruly_worker.external.nvim-cmp
+local cmp = require("cmp")
+local unruly_cmp = require('unruly-worker.external.nvim-cmp')
+cmp.setup({
+    mapping = unruly_cmp.create_insert_mapping(),
+    -- rest of config...
+})
+
+cmp.setup.cmdline({ "/", "?" }, {
+    mapping = unruly_cmp.create_cmdline_mapping(),
+    -- rest of config...
+})
+
+cmp.setup.cmdline(":", {
+    mapping = unruly_cmp.create_cmdline_mapping(),
+    -- rest of config...
+})
+-- my personal nvim-cmp config file: https://github.com/slugbyte/config/blob/main/conf/config/nvim/lua/slugbyte/plugin/cmp-and-luasnip.lua
+```
+### `nvim-cmp` insert mode
+* `<CR>` - confirm select
+* `<C-g> or <Right>` - confirm continue
+* `<Tab> or <Down>` - next suggestion
+* `<S-Tab> or <Up>` - prev suggestion
+* `<C-x>` - abort
+
+### `nvim-cmp` cmdline mode
+* `<C-g> or <Right>` - confirm continue
+* `<Tab>` - next suggestion
+* `<S-Tab>` - prev suggestion
+* `<Up>` - prev history
+* `<Down>` - next history
+* `<CR>` - execute
+* `<C-x>` - abort
+
+## [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) MAPPING SETUP (optional)
+``` lua
+-- NOTE: its recommended that you require telescope before unruly_worker.external.telescope
+local telescope = require("telescope")
+local unruly_telescope = require("unruly-worker.external.telescope")
+telescope.setup({
+    defaults = {
+        mappings = unruly_telescope.create_mappings(),
+    },
+    -- rest of config...
+})
+-- my personal telescope setup: https://github.com/slugbyte/config/blob/main/conf/config/nvim/lua/slugbyte/plugin/telescope.lua
+```
+### `telescope.nvim` insert mode
+* `<CR>` - select default
+* `<C-h>` - select into horizontal split
+* `<C-s>` - select into vertical split
+* `<Down> or <C-n>` - move selection down
+* `<Up> or <C-e>` - move selection up
+* `<C-k>` - telescope which key
+* `<C-x>` - abort
+* `<PageUp>` - scroll preview up
+* `<PageDown>` - scroll preview down
+* `<Tab>` - toggle selection
+* `<C-a>` - select all
+* `<C-d>` - deselect all
+* `<C-q>` - add selected to quickfix list
+* `<C-l>` - add selected to loclist list
+
+### `telescope.nvim` normal mode (optional)
+> includes everything in insert mode ^
+* `e` - move selection up
+* `n` - move selection down
+* `N` - move to top of selection list
+* `E` - move to bottom of selection list
+* `<Esc>` - abort
+
+##  [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) MAPPING SETUP
+```lua 
+local unruly_textobjects = require("unruly-worker.external.textobjects")
+require("nvim-treesitter.configs").setup({
+    textobjects = {
+        select = {
+            keymaps = unruly_textobjects.select_keymaps,
+            -- rest of config...
+        },
+        move = {
+            goto_next_start = unruly_textobjects.move_goto_next_start,
+            goto_previous_start = unruly_textobjects.move_goto_previous_start,
+            goto_next_end = unruly_textobjects.move_goto_next_end,
+            goto_previous_end = unruly_textobjects.move_goto_previous_end,
+            -- rest of config...
+        },
+    },
+})
+```
+
+#### textobjects select and movement
+* `go{object}` goto next outer object
+* `gi{object}` goto next inner object
+* `ge{object}` goto prev end object
+* `Go{object}` goto prev outer object
+* `Gi{object}` goto prev inner object
+* `Ge{object}` goto prev end object
+* `vo{object}` visual outer object
+* `vi{object}` visual inner object
+* `do{object}` delete outer object
+* `di{object}` delete inner object
+* `{object}`
+  * `a` assigment
+  * `b` block
+  * `c` call
+  * `d` comment (doc)
+  * `f` function
+  * `i` conditional (if)
+  * `l` loop
+  * `p` parameter
+  * `r` return
+  * `s` struct or class
+
+### TMUX SETUP (optional)
 > this is a somewhat minimal tmux config, you may want to tweek it or just use it as
 > a reference and make your own
 * set the env vars `EDITOR`, `COPYIER`, and `SCRATCHPAD_PATH` in your shell config
@@ -152,123 +268,6 @@ fi
 #### TMUX CHOICE MODE
 * `(choice mode)`(n) next choice (down)
 * `(choice mode)`(e) prev choice (up)
-
-## [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) MAPPING SETUP (optional)
-``` lua
--- NOTE: its recommended that you require cmp before unruly_worker.external.nvim-cmp
-local cmp = require("cmp")
-local unruly_cmp = require('unruly-worker.external.nvim-cmp')
-cmp.setup({
-    mapping = unruly_cmp.create_insert_mapping(),
-    -- rest of config...
-})
-
-cmp.setup.cmdline({ "/", "?" }, {
-    mapping = unruly_cmp.create_cmdline_mapping(),
-    -- rest of config...
-})
-
-cmp.setup.cmdline(":", {
-    mapping = unruly_cmp.create_cmdline_mapping(),
-    -- rest of config...
-})
--- my personal nvim-cmp config file: https://github.com/slugbyte/config/blob/main/conf/config/nvim/lua/slugbyte/plugin/cmp-and-luasnip.lua
-```
-### `nvim-cmp` insert mode
-* `<CR>` - confirm select
-* `<C-g> or <Right>` - confirm continue
-* `<Tab> or <Down>` - next suggestion
-* `<S-Tab> or <Up>` - prev suggestion
-* `<C-x>` - abort
-
-### `nvim-cmp` cmdline mode
-* `<C-g> or <Right>` - confirm continue
-* `<Tab>` - next suggestion
-* `<S-Tab>` - prev suggestion
-* `<Up>` - prev history
-* `<Down>` - next history
-* `<CR>` - execute
-* `<C-x>` - abort
-
-## [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) MAPPING SETUP (optional)
-``` lua
--- NOTE: its recommended that you require telescope before unruly_worker.external.telescope
-local telescope = require("telescope")
-local unruly_telescope = require("unruly-worker.external.telescope")
-telescope.setup({
-    defaults = {
-        mappings = unruly_telescope.create_mappings(),
-    },
-    -- rest of config...
-})
--- my personal telescope setup: https://github.com/slugbyte/config/blob/main/conf/config/nvim/lua/slugbyte/plugin/telescope.lua
-```
-### `telescope.nvim` insert mode
-* `<CR>` - select default
-* `<C-h>` - select into horizontal split
-* `<C-s>` - select into vertical split
-* `<Down> or <C-n>` - move selection down
-* `<Up> or <C-e>` - move selection up
-* `<C-k>` - telescope which key
-* `<C-x>` - abort
-* `<PageUp>` - scroll preview up
-* `<PageDown>` - scroll preview down
-* `<Tab>` - toggle selection
-* `<C-a>` - select all
-* `<C-d>` - deselect all
-* `<C-q>` - add selected to quickfix list
-* `<C-l>` - add selected to loclist list
-
-### `telescope.nvim` normal mode
-> includes everything in insert mode ^
-* `e` - move selection up
-* `n` - move selection down
-* `N` - move to top of selection list
-* `E` - move to bottom of selection list
-* `<Esc>` - abort
-
-##  [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) MAPPING SETUP
-```lua 
-local unruly_textobjects = require("unruly-worker.external.textobjects")
-require("nvim-treesitter.configs").setup({
-    textobjects = {
-        select = {
-            keymaps = unruly_textobjects.select_keymaps,
-            -- rest of config...
-        },
-        move = {
-            goto_next_start = unruly_textobjects.move_goto_next_start,
-            goto_previous_start = unruly_textobjects.move_goto_previous_start,
-            goto_next_end = unruly_textobjects.move_goto_next_end,
-            goto_previous_end = unruly_textobjects.move_goto_previous_end,
-            -- rest of config...
-        },
-    },
-})
-```
-
-#### textobjects select and movement
-* `go{object}` goto next outer object
-* `gi{object}` goto next inner object
-* `ge{object}` goto prev end object
-* `Go{object}` goto prev outer object
-* `Gi{object}` goto prev inner object
-* `Ge{object}` goto prev end object
-* `vo{object}` visual outer object
-* `vi{object}` visual inner object
-* `do{object}` delete outer object
-* `di{object}` delete inner object
-* `{object}`
-  * `a` assigment
-  * `b` block
-  * `c` call
-  * `d` comment (doc)
-  * `f` function
-  * `i` conditional (if)
-  * `l` loop
-  * `p` parameter
-  * `r` return
-  * `s` struct or class
 
 ## UNRULY KEYMAP OVERVIEW
 ### CURSOR MOVEMENT
@@ -359,9 +358,53 @@ B `b` jump to matching brace
 * `<c-s>` split verticle
 * `<c-h>` split horizontal
 
-## BOOSTERS
-> idk why i called them boosters, they are really just things I thought people
-> might want to opt out of.
+## EASY BOOSTERS (enabled by default)
+> easy boosters don't dramaticly alter anything, they are just additional
+> keymaps that I thought people might want to opt of of
+
+#### swap_easy
+* `<C-Up>` swap line/lines up
+* `<C-Down>` swap line/lines down
+
+#### scroll_easy
+* `<PageUp>` scroll up
+* `<Home>` scroll up fast
+* `<PageDown>` scroll down
+* `<End>` scroll down fast
+
+#### hlsearch_easy
+> NOTE: this will auto enable the vim `hlsearch` option
+* `<Esc>` will disable the current hlsearch highlighting
+
+#### easy_source
+* NOTE: this will disable the builtin `matchit` plugin
+* `%` source the current lua or vimscript file
+
+#### diagnostic_easy
+* `-` prev diagnostic
+* `_` next diagnostic
+
+#### diagnostic_leader
+* `<leader>dp` prev diagnostic
+* `<leader>dn` next diagnostic
+
+#### lsp_easy
+* `<C-d>` lsp goto definition
+* `<C-r>` lsp rename
+* `;` lsp hover
+* `=` lsp code action
+
+#### lsp_leader
+* `<leader>la` lsp code action
+* `<leader>lh` lsp hover
+* `<leader>ld` lsp goto definition
+* `<leader>lD` lsp goto Declaration
+* `<leader>lf` lsp format
+* `<leader>lr` lsp rename
+
+## UNRULY BOOSTERS (disabled by default)
+> unruly boosters are a little hairbrained, they can either change the way neovim
+> typically works or are at least 
 
 #### unruly_kopy
 * unruly kopy and paste_kopy use the preselected **kopy_register**. `+` is the default
@@ -404,7 +447,7 @@ is `'z'`.
 *  `<leader>zp` pretty print the contents of the macro register
 It will display special keys like `<enter>`, `<esc>` or `<c-q>`
 
-### MARKS
+### unruly_mark
 The unruly idea behind marks is that you only need two marks, for everything
 else just use [telescope](https://github.com/nvim-telescope/telescope.nvim). Unruly marks can be in local buffer mode or global
 mode, by default it will be in local mode.
@@ -418,8 +461,18 @@ mode, by default it will be in local mode.
 * `[` goto prev jumplist entry (jump history back)
 * `]` goto next jumplist entry (jump history forward)
 
+#### `experimental_seek
+Unruly allows you to quickly navigate through currently the quickfix list,
+loclist, arg list, and currently open buffers. Seek keymaps only target one
+type of list at a time, by default seek target mode will be open buffers.
 
-#### quit_easy
+* `<leader>sr` seek target  mode rotate (buffer, quickfix, loclist, arg list)
+* `<leader>sl` goto first item in seek list
+* `<leader>sf` goto last item in seek list
+* `<leader>n` goto next seek item
+* `<leader>p` goto prev seek item
+
+#### unruly_quit
 * if disabled
   * `q` anq `Q` will have no behavior, and you can map them to whatever you want
 * if **enabled**
@@ -427,45 +480,8 @@ mode, by default it will be in local mode.
   * `Q` quit all (`:qall`)
   * `<C-q>` force quit all (`:qall!`)
 
-#### swap_easy
-* `<C-Up>` swap line/lines up
-* `<C-Down>` swap line/lines down
-
-#### scroll_easy
-* `<PageUp>` scroll up
-* `<Home>` scroll up fast
-* `<PageDown>` scroll down
-* `<End>` scroll down fast
-
-#### hlsearch_easy
-> NOTE: this will auto enable the vim `hlsearch` option
-* `<Esc>` will disable the current hlsearch highlighting
-
-#### easy_source
-* NOTE: this will disable the builtin `matchit` plugin
-* `%` source the current lua or vimscript file
-
-#### diagnostic_easy
-* `-` prev diagnostic
-* `_` next diagnostic
-
-#### diagnostic_leader
-* `<leader>dp` prev diagnostic
-* `<leader>dn` next diagnostic
-
-#### lsp_easy
-* `<C-d>` lsp goto definition
-* `<C-r>` lsp rename
-* `;` lsp hover
-* `=` lsp code action
-
-#### lsp_leader
-* `<leader>la` lsp code action
-* `<leader>lh` lsp hover
-* `<leader>ld` lsp goto definition
-* `<leader>lD` lsp goto Declaration
-* `<leader>lf` lsp format
-* `<leader>lr` lsp rename
+## PLUGIN BOOSTERS (disabled by default)
+> plugin boosters have other plugin dependencies
 
 #### plugin_telescope_lsp_leader
 > this booster depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
@@ -532,17 +548,6 @@ mode, by default it will be in local mode.
 > this booster depends on [LuaSnip](https://github.com/L3MON4D3/LuaSnip) powerful snipits
 * `<C-k> or <C-Left>` luasnip jump prev
 * `<C-l> or <C-Right>` luasnip jump next
-
-#### `experimental_seek
-Unruly allows you to quickly navigate through currently the quickfix list,
-loclist, arg list, and currently open buffers. Seek keymaps only target one
-type of list at a time, by default seek target mode will be open buffers.
-
-* `<leader>sr` seek target  mode rotate (buffer, quickfix, loclist, arg list)
-* `<leader>sl` goto first item in seek list
-* `<leader>sf` goto last item in seek list
-* `<leader>n` goto next seek item
-* `<leader>p` goto prev seek item
 
 ## ABOUT
 Being dyslexic has taught me its often easier for me to build a system for
