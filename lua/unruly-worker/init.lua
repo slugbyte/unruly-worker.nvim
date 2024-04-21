@@ -257,7 +257,7 @@ local mapping = {
 	},
 	easy_spellcheck = {
 		m = {
-			["<leader>sc"] = map.basic(action.telescope.spell_suggest_safe, "[S]pell [C]heck"),
+			["<leader>c"] = map.basic(action.telescope.spell_suggest_safe, "[S]pell [C]heck"),
 		}
 	},
 	easy_line = {

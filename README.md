@@ -2,7 +2,7 @@
 > a ridiculously fun alternative neovim keymap and tmux setup for the workman keyboard layout
 
 ## default setup
-![unruly worker default layout cheatsheet](./asset/img/cheatsheet-minimal.png)
+![unruly worker default layout cheatsheet](./asset/img/cheatsheet-default.png)
 
 ## everything enabled
 ![unruly worker everything layout cheatsheet](./asset/img/cheatsheet-everything.png)
