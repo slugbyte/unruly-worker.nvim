@@ -7,17 +7,8 @@ function M.error(...)
 	vim.notify(string.format(...), vim.log.levels.ERROR)
 end
 
-function M.warn(...)
-	vim.notify(string.format(...), vim.log.levels.WARN)
-end
-
 function M.info(...)
 	vim.notify(string.format(...), vim.log.levels.INFO)
-end
-
-function M.notify(...)
-	vim.notify(string.format(...), vim.log.levels.INFO)
-	-- vim.defer_fn(function() print("\n") end, 1000)
 end
 
 function M.emoticon()

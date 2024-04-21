@@ -1,6 +1,6 @@
 local util = require("unruly-worker.util")
 
-local S = {
+local state = {
 	register = "z",
 	is_recording = false,
 	is_locked = false,
@@ -13,94 +13,114 @@ local function is_valid_macro_register(ch_int)
 end
 
 function M.get_state()
-	return S
+	return state
 end
 
 function M.get_status_text()
-	if (S.is_recording) then
-		return string.format("[R %s]", S.register)
+	if (state.is_recording) then
+		return string.format("[R %s]", state.register)
 	end
-	if (S.is_locked) then
-		return string.format("[L %s]", S.register)
+	if (state.is_locked) then
+		return string.format("[L %s]", state.register)
 	end
-	return string.format("[M %s]", S.register)
+	return string.format("[M %s]", state.register)
 end
 
+-- record a macro into the macro_reg, then pretty print the result
 function M.record()
-	if S.is_locked then
+	if state.is_locked then
 		util.error("MACRO RECORDING LOCKED")
 		return
 	end
-	S.is_recording = not S.is_recording
-	if S.is_recording then
-		vim.fn.setreg(S.register, "")
-		vim.cmd(string.format("silent! normal! q%s", S.register))
+	state.is_recording = not state.is_recording
+	if state.is_recording then
+		vim.fn.setreg(state.register, "")
+		vim.cmd(string.format("silent! normal! q%s", state.register))
 	else
 		vim.cmd("silent! normal! q")
-		util.notify("MACRO RECORDED: %s", S.register)
+		local reg_content = vim.fn.getreg(state.register)
+		-- NOTE: strip the last char because them macro_record_key is keymaped to fn
+		-- instead of an excommand so the macro_record_key will allways be added to
+		-- then end of the recorded register
+		local safe_macro = string.sub(reg_content, 1, #reg_content - 1)
+		vim.fn.setreg(state.register, safe_macro)
+		if #safe_macro > 0 then
+			reg_content = vim.fn.keytrans(safe_macro)
+			util.info("MACRO RECORDED: %s (%s)", state.register, reg_content)
+		else
+			util.info("MACRO RECORDED: %s (empty)", state.register)
+		end
 	end
 end
 
+-- play the macro_reg
 function M.play()
-	local register_content = vim.fn.getreg(S.register)
-	-- NOTE: because z is keymaped to fn instead of an excommand
-	-- the letter 'z' will allways be added to then end of the recorded
-	-- register, `safe_macro` is just everything but that 'z'
-	local safe_macro = string.sub(register_content, 1, #register_content - 1)
-	if #safe_macro > 0 then
-		util.notify("MACRO PLAY: %s (%s)", S.register, vim.fn.keytrans(safe_macro))
-		vim.fn.setreg("1", safe_macro)
-		vim.cmd('silent! noautocmd normal! @1')
-	else
-		util.notify("MACRO EMPTY: %s", S.register)
-	end
+	vim.cmd("silent! noautocmd normal! @" .. state.register)
 end
 
+-- select a new macro_reg
 function M.select_register()
-	if S.is_recording then
+	if state.is_recording then
 		util.error("cannot change macro register while recording")
 		util.error("recording aborted")
 		vim.cmd("silent! normal! q")
-		vim.fn.setreg(S.register, "")
+		vim.fn.setreg(state.register, "")
 		return
 	end
 	util.info("MACRO REGISTER SELECT> ")
 	local ch_int = vim.fn.getchar()
 	local ch_str = string.char(ch_int)
 	if is_valid_macro_register(ch_int) then
-		S.register = ch_str
-		util.notify("MACRO REGISTER: %s", S.register)
+		state.register = ch_str
+		util.info("MACRO REGISTER: %s", state.register)
 		return
 	end
-	util.error("invalid register: %s, try [0-9][a-z] (Macro Register Still: %s)", vim.fn.keytrans(ch_str), S.register)
+	util.error("invalid register: %s, try [0-9][a-z] (Macro Register Still: %s)", vim.fn.keytrans(ch_str), state.register)
 end
 
+-- pritty print the macro_reg
 function M.peek_register()
-	local reg_content = vim.fn.getreg(S.register)
+	local reg_content = vim.fn.getreg(state.register)
 
 	if #reg_content > 0 then
 		reg_content = vim.fn.keytrans(reg_content)
-		util.notify("REGISTER PEEK %s (%s)", S.register, reg_content)
+		util.info("REGISTER PEEK %s (%s)", state.register, reg_content)
 	else
-		util.notify("REGISTER PEEK %s (empty)", S.register)
+		util.info("REGISTER PEEK %s (empty)", state.register)
 	end
 end
 
+-- lock all macro recoding
 function M.lock()
-	S.is_locked = true
-	util.notify("MACRO RECORDING LOCKED")
+	state.is_locked = true
+	util.info("MACRO RECORDING LOCKED")
 end
 
+-- unlock all macro recoding
 function M.unlock()
-	S.is_locked = false
-	util.notify("MACRO RECORDING UNLOCKED")
+	state.is_locked = false
+	util.info("MACRO RECORDING UNLOCKED")
 end
 
+-- toggle the macro recording lock
 function M.lock_toggle()
-	if S.is_locked then
+	if state.is_locked then
 		return M.unlock()
 	end
 	M.lock()
+end
+
+-- set the macro_reg to a char
+function M.set_register_silent(register)
+	if string.len(register) ~= 1 then
+		util.error("invalid register: register must be a single character [a-z][A-X]")
+	end
+	if is_valid_macro_register(string.byte(register)) then
+		state.register = register
+		return
+	end
+
+	util.error("invalid register (%s): must be [a-z][A-Z]", register)
 end
 
 return M

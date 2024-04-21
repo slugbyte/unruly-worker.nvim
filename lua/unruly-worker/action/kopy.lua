@@ -8,7 +8,7 @@ local S = {
 }
 
 -- valid kopy registers: [a-z] [A-Z] 0 +
-local function is_valid_register(ch_int)
+local function is_valid_kopy_register(ch_int)
 	if ch_int == 48 or ch_int == 43 then
 		-- return true for 0 or +
 		return true
@@ -72,19 +72,19 @@ function M.register_select()
 	local ch_int = vim.fn.getchar()
 	print("int", ch_int)
 	local ch_str = string.char(ch_int)
-	if is_valid_register(ch_int) then
+	if is_valid_kopy_register(ch_int) then
 		S.register = ch_str
-		util.notify("YANK REGISTER: %s", S.register)
+		util.info("YANK REGISTER: %s", S.register)
 
 		return
 	end
 	if ch_int == 13 or ch_int == 32 then
 		S.register = "+"
-		util.notify("YANK REGISTER: %s", S.register)
+		util.info("YANK REGISTER: %s", S.register)
 		return
 	end
 	if ch_int == 27 then
-		util.notify("ABORTED SELECT")
+		util.info("ABORTED SELECT")
 		return
 	end
 	util.error("invalid register: %s, valid registers are [a-z] [A-Z] 0 + (Yank Register Still: %s)",
@@ -97,8 +97,20 @@ end
 function M.register_clear()
 end
 
+function M.set_register_silent(register)
+	if string.len(register) ~= 1 then
+		util.error("invalid register: register must be a single character [a-z][A-X] + 0")
+	end
+	if is_valid_kopy_register(string.byte(register)) then
+		S.register = register
+		return
+	end
+
+	util.error("invalid register (%s): must be [a-z][A-Z] + 0", register)
+end
+
 -- function M.register_peek()
--- 	util.notify("REGISTER PEEK SELECT> ")
+-- 	util.info("REGISTER PEEK SELECT> ")
 -- 	local ch_int = vim.fn.getchar()
 -- 	local ch = string.char(ch_int)
 -- 	if ch_int == 27 then
@@ -115,9 +127,9 @@ end
 --
 -- 	if #reg_content > 0 then
 -- 		reg_content = vim.fn.keytrans(reg_content)
--- 		util.notify("REGISTER PEEK %s (%s)", ch, reg_content)
+-- 		util.info("REGISTER PEEK %s (%s)", ch, reg_content)
 -- 	else
--- 		util.notify("REGISTER PEEK %s (empty)", ch)
+-- 		util.info("REGISTER PEEK %s (empty)", ch)
 -- 	end
 -- end
 

@@ -108,6 +108,10 @@ function M.toggle_mode()
 	end
 end
 
+function M.set_is_local_mode_silent(is_local_mode)
+	S.is_local_mode = is_local_mode
+end
+
 function M.delete_a()
 	if S.is_local_mode then
 		util.info("MARK CLEAR: a")

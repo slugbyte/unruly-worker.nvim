@@ -15,7 +15,7 @@ M.check = function()
 	if state.is_config_legacy == true then
 		vim.health.report_error("unruly-worker had a big update, and you now have an incompatable configuration.")
 		vim.health.report_info(
-		"checkout the github to see how to setup your config: https://github.com/slubyte/unruly-worker")
+			"checkout the github to see how to setup your config: https://github.com/slubyte/unruly-worker")
 	end
 
 	if state.config == nil then
@@ -26,12 +26,11 @@ M.check = function()
 		return
 	end
 
-	if state.config.enable_easter_egg_greeting then
-		vim.health.report_ok("congrats, you found the easter egg!")
+	if state.config.unruly_greeting then
+		vim.health.report_ok("congrats, you found the easter egg greeting!")
 	end
 
 	vim.health.report_start("checking for unruly dependencies")
-
 
 	local should_have_telescope = state.config.booster.plugin_telescope_leader
 			or state.config.booster.plugin_telescope_easy_jump

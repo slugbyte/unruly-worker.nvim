@@ -10,7 +10,6 @@ M.mode_option = {
 	quickfix = "Q",
 	loclist = "L",
 	buffer = "B",
-	-- arg_list = "A",
 }
 
 local S = {
@@ -38,6 +37,7 @@ function M.get_status_text()
 	if S.seek_mode == M.mode_option.loclist then
 		return seek_loclist.get_status_text()
 	end
+	util.error("no get_status_text impl for %s", M.mode_get())
 end
 
 function M.mode_get()

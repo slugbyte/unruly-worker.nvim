@@ -61,6 +61,18 @@ local unruly_worker = require('unruly-worker')
 
 -- example setup with default settings
 unruly_worker.setup({
+  -- kopy_register must be [a-z] [A-Z] 0 +
+  unruly_kopy_register = "+",
+  -- macro_register must be [a-z] [A-Z]
+  unruly_macro_register = "z",
+  -- to start up unruly_mark in global mode set to true
+  unruly_mark_global_mode = false,
+  -- seek mode options are .buffer, .loclist, and .quickfix
+  unruly_seek_mode = unruly_worker.seek_mode.buffer,
+  -- unruly_swap_q_and_z only applies to unruly_macro and unruly_quit
+  -- unruly_macro commands will use z instead of q
+  -- unruly_quit commands will use q instead of z
+  unruly_swap_q_and_z = false,
   -- you can use the skip_list = {} to stop unruly from creating certain mappings
   -- skip_list = { "z", "Z", "<C-z>"},  skip z related mappings
   skip_list = {},
@@ -477,12 +489,12 @@ fi
 
 ### unruly_macro
 > when enabled macros use a preselected `macro_register` (default: `z`)
-* `z` ______________ record macro
-* `Z` ______________ play macro
-* `<C-z>` __________ select the macro register
+* `q` ______________ record macro
+* `Q` ______________ play macro
+* `<C-q>` __________ select the macro register
   * valid registers: [a-z][A-Z]
-* `<leader>zp` _____ pretty print the contents of the macro register
-* `<leader>zl` _____ toggle macro recording lock
+* `<leader>qp` _____ pretty print the contents of the macro register
+* `<leader>ql` _____ toggle macro recording lock
   * this is useful if you want to make sure you don't accidentally overwrite
   the current macro register
 
@@ -497,6 +509,13 @@ mode, by default it will be in local mode.
 * `m` _____________ toggle between local and global mark mode
 * `M` _____________ clear current mark mode marks
 
+### unruly_quit
+> this is a bad idea, but I love it
+* `z` _____________ write all buffers, and print a random emoticon (`:wall`)
+  * the random emoticon is useful as visual feedback that the write occurred `(づ ◕‿◕ )づ`
+* `Z` _____________ quit all (`:qall`)
+* `<C-z>` _________ force quit all (`:qall!`)
+
 ### unruly_seek
 unruly seek allows you to quickly navigate through quickfix list,
 loclist, and currently open buffers. Seek keymaps only target one
@@ -509,13 +528,6 @@ type of seekable list at a time, by default the seek type will be buffers.
 * `<leader>sB` ____  seek open buffers
 * `<leader>sl` ____  goto first item in seek list
 * `<leader>sf` ____  goto last item in seek list
-
-### unruly_quit
-> this is a bad idea, but I love it
-* `q` _____________ write all buffers, and print a random emoticon (`:wall`)
-  * the random emoticon is useful as visual feedback that the write occurred `(づ ◕‿◕ )づ`
-* `Q` _____________ quit all (`:qall`)
-* `<C-q>` _________ force quit all (`:qall!`)
 
 ## PLUGIN BOOSTERS (disabled by default)
 > plugin boosters have other plugin dependencies
@@ -612,7 +624,7 @@ somewhat accidental process produces. A tool that may not be useful for anyone
 else, but makes a tool that is useful to many other people accessible to me.
 
 ## HELP WANTED
-Suggestions, Critique, and Spellcheck are always appreciated :)
+Suggestions and Spellcheck are always appreciated :)
 
 See the [Contributing Guite](./CONTRIBUTING.md)
 
