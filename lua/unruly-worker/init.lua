@@ -591,7 +591,6 @@ local function get_status_text()
 			.. seek_status_text
 end
 
-
 return {
 	setup = setup,
 	action = action,

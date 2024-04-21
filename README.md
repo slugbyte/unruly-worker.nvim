@@ -362,9 +362,11 @@ fi
 * `q{reg}` _____ record a macro
 * `Q{reg}` _____ play a macro
 
-### marks
+### marks and jumplist
 * `m{mark}` ____ goto a mark
 * `M{mark}` ____ set a mark
+* `[` __________ goto previous jumplist location
+* `]` __________ goto next jumplist location
 
 ### visual mode
 * `v` __________ visual mode
@@ -377,8 +379,6 @@ fi
 * `?` __________ search up
 * `f` __________ repeat search (find)
 * `F` __________ repeat search reverse (find reverse)
-* `<leader>f` __ search word under cursor (find word)
-* `<leader>F` __ search word under cursor reverse (find word reverse)
 
 ### utility
 * `:` or `'` ___ command mode
@@ -523,11 +523,11 @@ type of seekable list at a time, by default the seek type will be buffers.
 
 * `<leader>n` _____ goto next seek item
 * `<leader>p`  ____ goto prev seek item
-* `<leader>sQ` ____  seek the quickfix list
-* `<leader>sL` ____  seek the loclist
-* `<leader>sB` ____  seek open buffers
-* `<leader>sl` ____  goto first item in seek list
-* `<leader>sf` ____  goto last item in seek list
+* `<leader>sQ` ____ seek the quickfix list
+* `<leader>sL` ____ seek the loclist
+* `<leader>sB` ____ seek open buffers
+* `<leader>sl` ____ goto first item in seek list
+* `<leader>sf` ____ goto last item in seek list
 
 ## PLUGIN BOOSTERS (disabled by default)
 > plugin boosters have other plugin dependencies
