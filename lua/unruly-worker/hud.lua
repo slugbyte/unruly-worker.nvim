@@ -1,4 +1,5 @@
 local boost = require("unruly-worker.boost")
+local health = require("unruly-worker.health")
 
 local M = {}
 
@@ -19,7 +20,7 @@ function M.get_state()
 end
 
 ---@param hud_state_mark UnrulyHudStateMark
-local function mark_hud(hud_state_mark)
+local function generate_hud_mark(hud_state_mark)
 	local mark_a = nil
 	local mark_b = nil
 
@@ -46,12 +47,12 @@ local function mark_hud(hud_state_mark)
 end
 
 ---@param hud_state_kopy UnrulyHudStateKopy
-local function kopy_hud(hud_state_kopy)
+local function generate_hud_kopy(hud_state_kopy)
 	return string.format("[K %s]", hud_state_kopy.register)
 end
 
 ---@param hud_state_macro UnrulyHudStateMacro
-local function macro_hud(hud_state_macro)
+local function generate_hud_macro(hud_state_macro)
 	local macro_mode = 'M'
 	if hud_state_macro.is_recording then
 		macro_mode = 'R'
@@ -63,26 +64,39 @@ local function macro_hud(hud_state_macro)
 end
 
 ---@param hud_state_seek UnrulyHudStateSeek
-local function seek_hud(hud_state_seek)
-	return string.format("[S %s %s/%s]", hud_state_seek.mode, hud_state_seek.index, hud_state_seek.len)
+local function generate_hud_seek(hud_state_seek)
+	if hud_state_seek.index < 0 then
+		return string.format("[%s ?/%s]", hud_state_seek.mode, hud_state_seek.len)
+	end
+	return string.format("[%s %s/%s]", hud_state_seek.mode, hud_state_seek.index, hud_state_seek.len)
 end
 
 function M.generate()
+	local health_state = health.get_health_state()
 	local hud_state = M.get_state()
+
+	if not health_state.is_setup or health_state.config == nil then
+		return nil
+	end
 
 	local hud_text = ""
 
-	-- if hud_state.mark then
-	hud_text = hud_text .. mark_hud(hud_state.mark)
-	-- end
+	if health_state.config.booster.unruly_mark then
+		hud_text = hud_text .. generate_hud_mark(hud_state.mark)
+	end
 
-	-- if hud_state.kopy then
-	hud_text = hud_text .. kopy_hud(hud_state.kopy)
-	-- end
+	if health_state.config.booster.unruly_kopy then
+		hud_text = hud_text .. generate_hud_kopy(hud_state.kopy)
+	end
+	-- vim.print(health_state.config)
 
-	-- if hud_state.macro then
-	hud_text = hud_text .. macro_hud(hud_state.macro)
-	-- end
+	if health_state.config.booster.unruly_macro_z or health_state.config.booster.unruly_macro_q then
+		hud_text = hud_text .. generate_hud_macro(hud_state.macro)
+	end
+
+	if health_state.config.booster.unruly_seek then
+		hud_text = hud_text .. generate_hud_seek(hud_state.seek)
+	end
 
 	return hud_text
 end

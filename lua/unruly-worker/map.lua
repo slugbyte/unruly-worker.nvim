@@ -71,13 +71,49 @@ local function is_key_equal(a, b)
 	return string.lower(a) == string.lower(b)
 end
 
-function M.should_map(key, skip_list)
+local function should_map(key, skip_list)
 	local skip = false
 	for _, skip_key in ipairs(skip_list) do
 		skip = skip or is_key_equal(key, skip_key)
 	end
 
 	return not skip
+end
+
+local create_keymaps_for_map_spec_section = function(map_spec_section, skip_list)
+	if map_spec_section == nil then
+		return
+	end
+	for mode, mode_map in pairs(map_spec_section) do
+		if mode == "m" then
+			mode = ""
+		end
+		for key, key_map in pairs(mode_map) do
+			if should_map(key, skip_list) then
+				vim.keymap.set(mode, key, key_map.value, {
+					desc = key_map.desc,
+					silent = key_map.is_silent,
+					remap = key_map.is_remap,
+					noremap = not key_map.is_remap,
+					expr = key_map.is_expr,
+				})
+			end
+		end
+	end
+end
+
+function M.create_keymaps(map_spec, config)
+	create_keymaps_for_map_spec_section(map_spec.default, config.skip_list)
+	for booster, is_enabled in pairs(config.booster) do
+		local is_boster_valid = map_spec[booster] ~= nil
+		if is_boster_valid then
+			if is_enabled then
+				create_keymaps_for_map_spec_section(map_spec[booster], config.skip_list)
+			end
+		else
+			log.error("UNRULY SETUP ERROR: unknown booster (%s)", booster)
+		end
+	end
 end
 
 return M

@@ -8,21 +8,17 @@
 --  Maintainer: Duncan Marsh (slugbyte@slugbyte.com)
 --  Repository: https://github.com/slugbyte/unruly-worker
 
-local health_check_state = {
-	is_setup = false,
-	is_config_legacy = false,
-	config = nil,
-}
 
 local rand = require("unruly-worker.rand")
 local boost = require("unruly-worker.boost")
 local map = require("unruly-worker.map")
 local log = require("unruly-worker.log")
 local hud = require("unruly-worker.hud")
+local health = require("unruly-worker.health")
 local config_util = require("unruly-worker.config-util")
 
 local map_spec = {
-	general = {
+	default = {
 		m = {
 			-- alphabet
 			a = map.spec_custom("a", map.remap, map.no_silent, "append cursor"),
@@ -419,55 +415,25 @@ local map_spec = {
 	},
 }
 
-local create_keymaps_for_map_spec_section = function(map_spec_section, skip_list, section_name)
-	if map_spec_section == nil then
-		log.error("UNRULY SETUP ERROR: unknown booster (" .. section_name .. ")")
-		return
-	end
-	for mode, mode_map in pairs(map_spec_section) do
-		if mode == "m" then
-			mode = ""
-		end
-		-- print("mode", mode, "config", config_name)
-		for key, key_map in pairs(mode_map) do
-			if map.should_map(key, skip_list) then
-				vim.keymap.set(mode, key, key_map.value, {
-					desc = key_map.desc,
-					silent = key_map.is_silent,
-					remap = key_map.is_remap,
-					noremap = not key_map.is_remap,
-					expr = key_map.is_expr,
-				})
-			end
-		end
-	end
-end
-
 --- apply_user_config
---- @param config UnrulyConfig?
-local setup_force = function(config)
-	if config_util.is_config_legacy(config) then
-		health_check_state.is_config_legacy = true
-		log.error("UNRULY_WARNING: unruly-worker had and update and your config is incompatable!")
+--- @param user_config UnrulyConfig?
+local setup_force = function(user_config)
+	local is_config_legacy = config_util.is_config_legacy(user_config)
+	local config = config_util.normalize_user_config(user_config)
+
+	if is_config_legacy then
+		log.error("UNRULY SETUP ERROR: unruly-worker had and update and your setup() config is incompatable!")
 	end
 
-	health_check_state.config = config_util.normalize_user_config(config)
-	config_util.apply_default_options(health_check_state.config)
+	config_util.apply_default_options(config)
+	map.create_keymaps(map_spec, config)
 
-	create_keymaps_for_map_spec_section(map_spec.general, health_check_state.config.skip_list, "general")
-
-	-- TODO: force boost load order
-	for booster, is_enabled in pairs(health_check_state.config.booster) do
-		if is_enabled then
-			create_keymaps_for_map_spec_section(map_spec[booster], health_check_state.config.skip_list, booster)
-		end
-	end
-
-	if health_check_state.config.unruly_greeting then
+	-- NOTE: unruly_greeting is an easter egg, you wont find this in the docs
+	if config.unruly_greeting then
 		log.info(rand.emoticon() .. " " .. rand.greeting())
 	end
 
-	health_check_state.is_setup = true
+	health.setup_complete(is_config_legacy, config)
 end
 
 --- Setup unruly-worker

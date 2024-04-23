@@ -63,7 +63,7 @@ function M.get_hud_state()
 	count_buffers()
 	return {
 		len = S.total_buf_count,
-		index = S.total_buf_index,
+		index = S.current_buf_index,
 	}
 end
 

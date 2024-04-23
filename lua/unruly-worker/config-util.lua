@@ -19,7 +19,9 @@ local M = {}
 ---@field easy_diagnostic_leader boolean
 ---@field unruly_seek boolean
 ---@field unruly_mark boolean
----@field unruly_macro boolean
+---@field unruly_macro boolean?
+---@field unruly_macro_z boolean?
+---@field unruly_macro_q boolean?
 ---@field unruly_kopy boolean
 ---@field unruly_quit boolean
 ---@field plugin_navigator boolean

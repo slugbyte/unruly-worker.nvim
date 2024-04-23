@@ -1,4 +1,27 @@
+---@class UnrulyHealthState
+---@field is_setup boolean
+---@field is_config_legacy boolean
+---@field config UnrulyConfig?
+local health_state = {
+	is_setup = false,
+	is_config_legacy = false,
+	config = nil,
+}
+
 local M = {}
+
+---@return UnrulyHealthState
+function M.get_health_state()
+	return health_state
+end
+
+---@param is_config_legacy boolean
+---@param config UnrulyConfig
+function M.setup_complete(is_config_legacy, config)
+	health_state.is_setup = true
+	health_state.is_config_legacy = is_config_legacy
+	health_state.config = config
+end
 
 M.check = function()
 	local unruly = require("unruly-worker")

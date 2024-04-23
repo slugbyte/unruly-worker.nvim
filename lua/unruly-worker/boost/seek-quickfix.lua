@@ -1,6 +1,6 @@
 local M = {}
 
-function M.get_state()
+function M.get_hud_state()
 	local current_state = vim.fn.getqflist({ idx = 0, size = 0 })
 	return {
 		len = current_state.size,
