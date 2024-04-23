@@ -14,7 +14,7 @@ local state = {
 	config = nil,
 }
 
-local action = require("unruly-worker.action")
+local boost = require("unruly-worker.boost")
 local map = require("unruly-worker.map")
 local log = require("unruly-worker.log")
 
@@ -143,64 +143,64 @@ local mapping = {
 	},
 	unruly_seek = {
 		m = {
-			["<leader>n"] = map.basic(action.seek.seek_forward, "[N]ext Seek"),
-			["<leader>p"] = map.basic(action.seek.seek_reverse, "[P]rev Seek"),
-			["<leader>sf"] = map.basic(action.seek.seek_first, "[S]eek [F]irst"),
-			["<leader>sl"] = map.basic(action.seek.seek_last, "[S]eek [L]ast"),
-			["<leader>sQ"] = map.basic(action.seek.mode_set_quickfix, "[S]eek mode [Q]uickfix"),
-			["<leader>sL"] = map.basic(action.seek.mode_set_loclist, "[S]eek mode [L]oclist"),
-			["<leader>sB"] = map.basic(action.seek.mode_set_buffer, "[S]eek mode [B]uffer"),
+			["<leader>n"] = map.basic(boost.seek.seek_forward, "[N]ext Seek"),
+			["<leader>p"] = map.basic(boost.seek.seek_reverse, "[P]rev Seek"),
+			["<leader>sf"] = map.basic(boost.seek.seek_first, "[S]eek [F]irst"),
+			["<leader>sl"] = map.basic(boost.seek.seek_last, "[S]eek [L]ast"),
+			["<leader>sQ"] = map.basic(boost.seek.mode_set_quickfix, "[S]eek mode [Q]uickfix"),
+			["<leader>sL"] = map.basic(boost.seek.mode_set_loclist, "[S]eek mode [L]oclist"),
+			["<leader>sB"] = map.basic(boost.seek.mode_set_buffer, "[S]eek mode [B]uffer"),
 		},
 	},
 	unruly_mark = {
 		m = {
-			m = map.basic(action.mark.toggle_mode, "mark mode toggle"),
-			M = map.basic(action.mark.delete_mode, "mark delete mode"),
-			["<c-a>"] = map.basic_expr(action.mark.expr_goto_a, "GOTO MARK: a"),
-			["<leader>a"] = map.basic_expr(action.mark.expr_set_a, "MARK SET: a"),
-			["<c-b>"] = map.basic_expr(action.mark.expr_goto_b, "GOTO MARK: b"),
-			["<leader>b"] = map.basic_expr(action.mark.expr_set_b, "MARK SET: b"),
+			m = map.basic(boost.mark.toggle_mode, "mark mode toggle"),
+			M = map.basic(boost.mark.delete_mode, "mark delete mode"),
+			["<c-a>"] = map.basic_expr(boost.mark.expr_goto_a, "GOTO MARK: a"),
+			["<leader>a"] = map.basic_expr(boost.mark.expr_set_a, "MARK SET: a"),
+			["<c-b>"] = map.basic_expr(boost.mark.expr_goto_b, "GOTO MARK: b"),
+			["<leader>b"] = map.basic_expr(boost.mark.expr_set_b, "MARK SET: b"),
 		},
 	},
 	unruly_macro_z = {
 		m = {
-			z = map.basic(action.macro.record, "macro record"),
-			Z = map.basic(action.macro.play, "macro play"),
-			["<c-z>"] = map.basic(action.macro.select_register, "select macro register"),
-			["<leader>zl"] = map.basic(action.macro.lock_toggle, "Macro [L]ock Toggle"),
-			['<leader>zp'] = map.basic(action.macro.peek_register, "Macro [P]eek"),
+			z = map.basic(boost.macro.record, "macro record"),
+			Z = map.basic(boost.macro.play, "macro play"),
+			["<c-z>"] = map.basic(boost.macro.select_register, "select macro register"),
+			["<leader>zl"] = map.basic(boost.macro.lock_toggle, "Macro [L]ock Toggle"),
+			['<leader>zp'] = map.basic(boost.macro.peek_register, "Macro [P]eek"),
 		},
 	},
 	unruly_macro_q = {
 		m = {
-			q = map.basic(action.macro.record, "macro record"),
-			Q = map.basic(action.macro.play, "macro play"),
-			["<c-q>"] = map.basic(action.macro.select_register, "select macro register"),
-			["<leader>ql"] = map.basic(action.macro.lock_toggle, "Macro [L]ock Toggle"),
-			['<leader>qp'] = map.basic(action.macro.peek_register, "Macro [P]eek"),
+			q = map.basic(boost.macro.record, "macro record"),
+			Q = map.basic(boost.macro.play, "macro play"),
+			["<c-q>"] = map.basic(boost.macro.select_register, "select macro register"),
+			["<leader>ql"] = map.basic(boost.macro.lock_toggle, "Macro [L]ock Toggle"),
+			['<leader>qp'] = map.basic(boost.macro.peek_register, "Macro [P]eek"),
 		},
 	},
 	unruly_kopy = {
 		m = {
-			['"'] = map.basic(action.kopy.register_select, "select kopy_register"),
+			['"'] = map.basic(boost.kopy.register_select, "select kopy_register"),
 			-- delete
-			c = map.basic(action.kopy.create_delete_cmd("c"), "change content, store old in reg 0"),
-			cc = map.basic(action.kopy.create_delete_cmd("cc"), "changle lines, store old in reg 0"),
-			C = map.basic(action.kopy.create_delete_cmd("C"), "change to EOL, store old in reg 0"),
-			d = map.basic(action.kopy.create_delete_cmd("d"), "delete motion into reg 0"),
-			dd = map.basic(action.kopy.create_delete_cmd("dd"), "delete motion into reg 0"),
-			D = map.basic(action.kopy.create_delete_cmd("D"), "delete motion into reg 0"),
-			x = map.basic(action.kopy.create_delete_cmd("x"), "delete char into reg 0"),
-			X = map.basic(action.kopy.create_delete_cmd("X"), "delete previous char into reg 0"),
+			c = map.basic(boost.kopy.create_delete_cmd("c"), "change content, store old in reg 0"),
+			cc = map.basic(boost.kopy.create_delete_cmd("cc"), "changle lines, store old in reg 0"),
+			C = map.basic(boost.kopy.create_delete_cmd("C"), "change to EOL, store old in reg 0"),
+			d = map.basic(boost.kopy.create_delete_cmd("d"), "delete motion into reg 0"),
+			dd = map.basic(boost.kopy.create_delete_cmd("dd"), "delete motion into reg 0"),
+			D = map.basic(boost.kopy.create_delete_cmd("D"), "delete motion into reg 0"),
+			x = map.basic(boost.kopy.create_delete_cmd("x"), "delete char into reg 0"),
+			X = map.basic(boost.kopy.create_delete_cmd("X"), "delete previous char into reg 0"),
 			-- kopy
-			k = map.basic_expr(action.kopy.expr_yank, "kopy"),
-			K = map.basic_expr(action.kopy.expr_yank_line, "kopy line"),
+			k = map.basic_expr(boost.kopy.expr_yank, "kopy"),
+			K = map.basic_expr(boost.kopy.expr_yank_line, "kopy line"),
 			-- paste
 			-- p = map.basic_expr(action.kopy.expr_paste_below, "paste after")
 			-- P = map.basic_expr(action.kopy.expr_paste_above, "paste before"),
 			-- paste
-			p = map.basic_expr(action.kopy.expr_paste_below, "paste after"),
-			P = map.basic_expr(action.kopy.expr_paste_above, "paste before"),
+			p = map.basic_expr(boost.kopy.expr_paste_below, "paste after"),
+			P = map.basic_expr(boost.kopy.expr_paste_above, "paste before"),
 			[","] = map.basic('"0P', "paste delete_reg above"),
 			["."] = map.basic('"0p', "paste delete_reg below"),
 		},
@@ -228,16 +228,18 @@ local mapping = {
 	},
 	unruly_quit_q = {
 		m = {
-			q = map.basic(action.save.write_all, "write all"),
-			Q = map.basic(":qall<cr>", "quit all"),
-			["<C-q>"] = map.basic(":qall!<cr>", "quit all force"),
+			q = map.basic(boost.quit.write_all, "write all"),
+			Q = map.basic(boost.quit.quit_all, "quit all"),
+			-- Q = map.basic(":qall<cr>", "quit all"),
+			-- ["<C-q>"] = map.basic(":qall!<cr>", "quit all force"),
+			["<C-q>"] = map.basic(boost.quit.quit_force, "quit all force"),
 		},
 	},
 	unruly_quit_z = {
 		m = {
-			z = map.basic(action.save.write_all, "write all"),
-			Z = map.basic(":qall<cr>", "quit all"),
-			["<C-z>"] = map.basic(":qall!<cr>", "quit all force"),
+			z = map.basic(boost.quit.write_all, "write all"),
+			Z = map.basic(boost.quit.quit_all, "quit all"),
+			["<C-z>"] = map.basic(boost.quit.quit_force, "quit all force"),
 		},
 	},
 	easy_scroll = {
@@ -258,7 +260,7 @@ local mapping = {
 	},
 	easy_spellcheck = {
 		m = {
-			["<leader>c"] = map.basic(action.telescope.spell_suggest_safe, "[S]pell [C]heck"),
+			["<leader>c"] = map.basic(boost.telescope.spell_suggest_safe, "[S]pell [C]heck"),
 		}
 	},
 	easy_line = {
@@ -285,7 +287,7 @@ local mapping = {
 	},
 	easy_jumplist = {
 		m = {
-			["<c-j>"] = map.basic(action.telescope.jump_list_safe, "jumplist"),
+			["<c-j>"] = map.basic(boost.telescope.jump_list_safe, "jumplist"),
 		},
 	},
 	easy_incrament = {
@@ -303,14 +305,14 @@ local mapping = {
 			[";"] = map.basic(vim.lsp.buf.hover, "lsp hover"),
 			["="] = map.basic(vim.lsp.buf.code_action, "lsp code action"),
 			["<C-r>"] = map.basic(vim.lsp.buf.rename, "lsp rename"),
-			["<C-d>"] = map.basic(action.telescope.lsp_definiton_safe, "lsp definition"),
+			["<C-d>"] = map.basic(boost.telescope.lsp_definiton_safe, "lsp definition"),
 		},
 	},
 	easy_lsp_leader = {
 		m = {
 			["<leader>la"] = map.basic(vim.lsp.buf.code_action, "[L]sp Code [A]ction"),
 			["<leader>lh"] = map.basic(vim.lsp.buf.hover, "[L]sp [H]over"),
-			["<leader>ld"] = map.basic(action.telescope.lsp_definiton_safe, "[L]sp goto [D]efinition"),
+			["<leader>ld"] = map.basic(boost.telescope.lsp_definiton_safe, "[L]sp goto [D]efinition"),
 			["<leader>lD"] = map.basic(vim.lsp.buf.declaration, "[L]sp goto [D]eclaration"),
 			["<leader>lf"] = map.basic(vim.lsp.buf.format, "[L]sp [F]ormat"),
 			["<leader>lR"] = map.basic(vim.lsp.buf.rename, "[L]sp [R]ename"),
@@ -338,87 +340,87 @@ local mapping = {
 	},
 	plugin_navigator = {
 		m = {
-			["<C-y>"] = map.custom(action.navigator.focus_left_safe, map.no_remap, map.silent, "focus left (vim/tmux)"),
-			["<C-n>"] = map.custom(action.navigator.focus_down_safe, map.no_remap, map.silent, "focus down (vim/tmux)"),
-			["<C-e>"] = map.custom(action.navigator.focus_up_safe, map.no_remap, map.silent, "focus up (vim/tmux)"),
-			["<C-o>"] = map.custom(action.navigator.focus_right_safe, map.no_remap, map.silent, "focus right (vim/tmux)"),
+			["<C-y>"] = map.custom(boost.navigator.focus_left_safe, map.no_remap, map.silent, "focus left (vim/tmux)"),
+			["<C-n>"] = map.custom(boost.navigator.focus_down_safe, map.no_remap, map.silent, "focus down (vim/tmux)"),
+			["<C-e>"] = map.custom(boost.navigator.focus_up_safe, map.no_remap, map.silent, "focus up (vim/tmux)"),
+			["<C-o>"] = map.custom(boost.navigator.focus_right_safe, map.no_remap, map.silent, "focus right (vim/tmux)"),
 		},
 	},
 	plugin_textobject = {
 		n = {
-			s = map.basic(action.textobjects.goto_next, "seek textobject forward"),
-			S = map.basic(action.textobjects.goto_prev, "seek textobject reverse")
+			s = map.basic(boost.textobjects.goto_next, "seek textobject forward"),
+			S = map.basic(boost.textobjects.goto_prev, "seek textobject reverse")
 		},
 		x = {
-			s = map.basic(action.textobjects.goto_next, "seek textobject forward"),
-			S = map.basic(action.textobjects.goto_prev, "seek textobject reverse")
+			s = map.basic(boost.textobjects.goto_next, "seek textobject forward"),
+			S = map.basic(boost.textobjects.goto_prev, "seek textobject reverse")
 		},
 		o = {
-			s = map.basic(action.textobjects.goto_next, "seek textobject forward"),
-			S = map.basic(action.textobjects.goto_prev, "seek textobject reverse")
+			s = map.basic(boost.textobjects.goto_next, "seek textobject forward"),
+			S = map.basic(boost.textobjects.goto_prev, "seek textobject reverse")
 		},
 	},
 	plugin_luasnip = {
 		i = {
-			["<C-Right>"] = map.basic(action.luasnip.jump_forward, "luasnip jump next"),
-			["<C-Left>"] = map.basic(action.luasnip.jump_reverse, "luasnip jump prev"),
-			["<C-l>"] = map.basic(action.luasnip.jump_forward, "luasnip jump next"),
-			["<C-k>"] = map.basic(action.luasnip.jump_reverse, "luasnip jump prev"),
+			["<C-Right>"] = map.basic(boost.luasnip.jump_forward, "luasnip jump next"),
+			["<C-Left>"] = map.basic(boost.luasnip.jump_reverse, "luasnip jump prev"),
+			["<C-l>"] = map.basic(boost.luasnip.jump_forward, "luasnip jump next"),
+			["<C-k>"] = map.basic(boost.luasnip.jump_reverse, "luasnip jump prev"),
 		},
 		s = {
-			["<C-Right>"] = map.basic(action.luasnip.jump_forward, "luasnip jump next"),
-			["<C-Left>"] = map.basic(action.luasnip.jump_reverse, "luasnip jump prev"),
-			["<C-l>"] = map.basic(action.luasnip.jump_forward, "luasnip jump next"),
-			["<C-k>"] = map.basic(action.luasnip.jump_reverse, "luasnip jump prev"),
+			["<C-Right>"] = map.basic(boost.luasnip.jump_forward, "luasnip jump next"),
+			["<C-Left>"] = map.basic(boost.luasnip.jump_reverse, "luasnip jump prev"),
+			["<C-l>"] = map.basic(boost.luasnip.jump_forward, "luasnip jump next"),
+			["<C-k>"] = map.basic(boost.luasnip.jump_reverse, "luasnip jump prev"),
 		},
 	},
 	plugin_telescope_lsp_leader = {
 		m = {
 			-- telescope lsp
-			["<leader>l?"] = map.basic(action.telescope.diagnostics, "[L]sp Diagnostics"),
-			["<leader>lc"] = map.basic(action.telescope.lsp_incoming_calls, "[L]sp Incoming [C]alls"),
-			["<leader>lC"] = map.basic(action.telescope.lsp_outgoing_calls, "[L]sp Outgoing [C]alls"),
-			["<leader>li"] = map.basic(action.telescope.lsp_implementations, "[L]sp Goto [I]mplementation"),
-			["<leader>lr"] = map.basic(action.telescope.lsp_references, "[L]sp [R]eferences"),
-			["<leader>ls"] = map.basic(action.telescope.lsp_document_symbols, "[L]sp Document [S]ymbols"),
-			["<leader>lS"] = map.basic(action.telescope.lsp_workspace_symbols, "[L]sp Workspace [S]ymbols"),
-			["<leader>l$"] = map.basic(action.telescope.lsp_dynamic_workspace_symbols, "[L]sp Dynamic Workspace [S]ymbols"),
-			["<leader>lt"] = map.basic(action.telescope.lsp_type_definitions, "[L]sp [T]ypes"),
+			["<leader>l?"] = map.basic(boost.telescope.diagnostics, "[L]sp Diagnostics"),
+			["<leader>lc"] = map.basic(boost.telescope.lsp_incoming_calls, "[L]sp Incoming [C]alls"),
+			["<leader>lC"] = map.basic(boost.telescope.lsp_outgoing_calls, "[L]sp Outgoing [C]alls"),
+			["<leader>li"] = map.basic(boost.telescope.lsp_implementations, "[L]sp Goto [I]mplementation"),
+			["<leader>lr"] = map.basic(boost.telescope.lsp_references, "[L]sp [R]eferences"),
+			["<leader>ls"] = map.basic(boost.telescope.lsp_document_symbols, "[L]sp Document [S]ymbols"),
+			["<leader>lS"] = map.basic(boost.telescope.lsp_workspace_symbols, "[L]sp Workspace [S]ymbols"),
+			["<leader>l$"] = map.basic(boost.telescope.lsp_dynamic_workspace_symbols, "[L]sp Dynamic Workspace [S]ymbols"),
+			["<leader>lt"] = map.basic(boost.telescope.lsp_type_definitions, "[L]sp [T]ypes"),
 		}
 	},
 	plugin_telescope_easy_jump = {
 		m = {
-			j = map.basic(action.telescope.find_files, "jump files"),
-			J = map.basic(action.telescope.live_grep, "jump files"),
+			j = map.basic(boost.telescope.find_files, "jump files"),
+			J = map.basic(boost.telescope.live_grep, "jump files"),
 		}
 	},
 	plugin_telescope_easy_paste = {
 		m = {
-			["<C-p>"] = map.basic(action.telescope.registers, "Telescope Registers [P]aste"),
+			["<C-p>"] = map.basic(boost.telescope.registers, "Telescope Registers [P]aste"),
 		}
 	},
 	plugin_telescope_leader = {
 		m = {
-			["<leader>/"] = map.basic(action.telescope.buffer_fuzzy_search, "buffer fuzzy find"),
-			["<leader>tb"] = map.basic(action.telescope.buffers, "[T]elescope [B]uffers"),
-			["<leader>to"] = map.basic(action.telescope.oldfiles, "[T]elescope [O]ldfiles"),
-			["<leader>tq"] = map.basic(action.telescope.quickfix, "[T]elescope [Q]uickfix"),
-			["<leader>tl"] = map.basic(action.telescope.loclist, "[T]elescope [L]oclist"),
-			["<leader>tj"] = map.basic(action.telescope.jump_list_safe, "[T]elescope [J]umplist"),
-			["<leader>tm"] = map.basic(action.telescope.man_pages, "[T]elescope [M]an pages"),
-			["<leader>th"] = map.basic(action.telescope.help_tags, "[T]elescope [H]elp Tags"),
-			["<leader>tt"] = map.basic(action.telescope.man_pages, "[T]elescope [T]ags"),
-			["<leader>tc"] = map.basic(action.telescope.commands, "[T]elescope [C]ommands"),
-			["<leader>tk"] = map.basic(action.telescope.keymaps, "[T]elescope [K]eymaps"),
-			["<leader>tp"] = map.basic(action.telescope.registers, "[T]elescope [P]aste"),
-			["<leader>tr"] = map.basic(action.telescope.resume, "[T]elescope [R]epeat"),
+			["<leader>/"] = map.basic(boost.telescope.buffer_fuzzy_search, "buffer fuzzy find"),
+			["<leader>tb"] = map.basic(boost.telescope.buffers, "[T]elescope [B]uffers"),
+			["<leader>to"] = map.basic(boost.telescope.oldfiles, "[T]elescope [O]ldfiles"),
+			["<leader>tq"] = map.basic(boost.telescope.quickfix, "[T]elescope [Q]uickfix"),
+			["<leader>tl"] = map.basic(boost.telescope.loclist, "[T]elescope [L]oclist"),
+			["<leader>tj"] = map.basic(boost.telescope.jump_list_safe, "[T]elescope [J]umplist"),
+			["<leader>tm"] = map.basic(boost.telescope.man_pages, "[T]elescope [M]an pages"),
+			["<leader>th"] = map.basic(boost.telescope.help_tags, "[T]elescope [H]elp Tags"),
+			["<leader>tt"] = map.basic(boost.telescope.man_pages, "[T]elescope [T]ags"),
+			["<leader>tc"] = map.basic(boost.telescope.commands, "[T]elescope [C]ommands"),
+			["<leader>tk"] = map.basic(boost.telescope.keymaps, "[T]elescope [K]eymaps"),
+			["<leader>tp"] = map.basic(boost.telescope.registers, "[T]elescope [P]aste"),
+			["<leader>tr"] = map.basic(boost.telescope.resume, "[T]elescope [R]epeat"),
 		}
 	},
 }
 
-local map_config = function(config, skip_list, booster_name)
+local map_config = function(config, skip_list, boost_name)
 	if config == nil then
-		log.error("UNRULY SETUP ERROR: unknown booster (" .. booster_name .. ")")
+		log.error("UNRULY SETUP ERROR: unknown boost (" .. boost_name .. ")")
 		return
 	end
 	for mode, mode_map in pairs(config) do
@@ -456,7 +458,7 @@ local setup_force = function(config)
 	end
 
 	local context = {
-		booster   = {
+		boost     = {
 			easy_swap                   = false,
 			easy_find                   = false,
 			easy_line                   = false,
@@ -489,8 +491,8 @@ local setup_force = function(config)
 		skip_list = {},
 	}
 
-	if config.booster then
-		context.booster = vim.tbl_extend("force", context.booster, config.booster)
+	if config.boost then
+		context.boost = vim.tbl_extend("force", context.boost, config.boost)
 	end
 
 	if config.skip_list then
@@ -498,15 +500,15 @@ local setup_force = function(config)
 	end
 
 	if config.unruly_mark_global_mode then
-		action.mark.set_is_local_mode_silent(false)
+		boost.mark.set_is_local_mode_silent(false)
 	end
 
 	if config.unruly_macro_register ~= nil then
-		action.macro.set_register_silent(config.unruly_macro_register)
+		boost.macro.set_register_silent(config.unruly_macro_register)
 	end
 
 	if config.unruly_kopy_register ~= nil then
-		action.kopy.set_register_silent(config.unruly_kopy_register)
+		boost.kopy.set_register_silent(config.unruly_kopy_register)
 	end
 
 
@@ -518,46 +520,46 @@ local setup_force = function(config)
 	end
 
 	-- TODO: figure out if i really want this
-	if context.booster.unruly_macro ~= nil then
+	if context.boost.unruly_macro ~= nil then
 		if config.unruly_swap_q_and_z then
-			context.booster.unruly_macro = nil
-			context.booster.unruly_macro_z = true
+			context.boost.unruly_macro = nil
+			context.boost.unruly_macro_z = true
 		else
-			context.booster.unruly_macro = nil
-			context.booster.unruly_macro_q = true
+			context.boost.unruly_macro = nil
+			context.boost.unruly_macro_q = true
 		end
 	end
 
-	if context.booster.unruly_quit ~= nil then
+	if context.boost.unruly_quit ~= nil then
 		if config.unruly_swap_q_and_z then
-			context.booster.unruly_quit = nil
-			context.booster.unruly_quit_q = true
+			context.boost.unruly_quit = nil
+			context.boost.unruly_quit_q = true
 		else
-			context.booster.unruly_quit = nil
-			context.booster.unruly_quit_z = true
+			context.boost.unruly_quit = nil
+			context.boost.unruly_quit_z = true
 		end
 	end
 
-	if context.booster.easy_source then
+	if context.boost.easy_source then
 		-- disable neovim from auto loading matchit
 		vim.g.loaded_matchit = true
 	end
 
-	if context.booster.easy_hlsearch then
+	if context.boost.easy_hlsearch then
 		-- enable hlsearh
 		vim.opt.hlsearch = true
 	end
 
-	if context.booster.easy_focus and context.booster.plugin_navigator then
-		context.booster.easy_focus = false
+	if context.boost.easy_focus and context.boost.plugin_navigator then
+		context.boost.easy_focus = false
 	end
 
 	map_config(mapping.general, context.skip_list)
 
-	-- TODO: force booster load order
-	for booster, is_enabled in pairs(context.booster) do
+	-- TODO: force boost load order
+	for boost, is_enabled in pairs(context.boost) do
 		if is_enabled then
-			map_config(mapping[booster], context.skip_list, booster)
+			map_config(mapping[boost], context.skip_list, boost)
 		end
 	end
 
@@ -582,21 +584,21 @@ end
 local function get_status_text()
 	local seek_status_text = ""
 	if state.config ~= nil then
-		if state.config.booster.unruly_seek then
-			seek_status_text = " " .. action.seek.get_status_text()
+		if state.config.boost.unruly_seek then
+			seek_status_text = " " .. boost.seek.get_status_text()
 		end
 	end
-	return action.mark.get_status_text()
-			.. " " .. action.macro.get_status_text()
-			.. " " .. action.kopy.get_status_text()
+	return boost.mark.get_status_text()
+			.. " " .. boost.macro.get_status_text()
+			.. " " .. boost.kopy.get_status_text()
 			.. seek_status_text
 end
 
 return {
 	setup = setup,
-	action = action,
+	action = boost,
 	get_status_text = get_status_text,
-	seek_mode = action.seek.mode_option,
+	seek_mode = boost.seek.mode_option,
 	_get_state = function()
 		return state
 	end

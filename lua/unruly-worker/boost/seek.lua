@@ -1,7 +1,7 @@
 local log = require("unruly-worker.log")
-local seek_buffer = require("unruly-worker.action.seek-buffer")
-local seek_quickfix = require("unruly-worker.action.seek-quickfix")
-local seek_loclist = require("unruly-worker.action.seek-loclist")
+local seek_buffer = require("unruly-worker.boost.seek-buffer")
+local seek_quickfix = require("unruly-worker.boost.seek-quickfix")
+local seek_loclist = require("unruly-worker.boost.seek-loclist")
 
 -- module
 local M = {}
