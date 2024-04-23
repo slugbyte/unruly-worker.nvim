@@ -1,6 +1,10 @@
 local ascii = require("unruly-worker.ascii")
 local log = require("unruly-worker.log")
 
+---@class UnrulyHudStateMacro
+---@field register string
+---@field is_recording boolean
+---@field is_locked boolean
 local state = {
 	register = "z",
 	is_recording = false,
@@ -13,7 +17,7 @@ local function is_valid_macro_register(ch_int)
 	return ascii.is_int_lowercase(ch_int) or ascii.is_int_uppercase(ch_int)
 end
 
-function M.get_state()
+function M.get_hud_state()
 	return state
 end
 

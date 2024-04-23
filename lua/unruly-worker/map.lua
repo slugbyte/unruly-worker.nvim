@@ -11,7 +11,7 @@ M.remap = true
 M.silent = true
 M.no_silent = false
 
-function M.custom(value, is_remap, is_silent, desc)
+function M.spec_custom(value, is_remap, is_silent, desc)
 	return {
 		value = value,
 		is_remap = is_remap,
@@ -21,7 +21,7 @@ function M.custom(value, is_remap, is_silent, desc)
 	}
 end
 
-function M.custom_expr(value, is_remap, is_silent, desc)
+function M.spec_custom_expr(value, is_remap, is_silent, desc)
 	return {
 		value = value,
 		is_remap = is_remap,
@@ -31,20 +31,20 @@ function M.custom_expr(value, is_remap, is_silent, desc)
 	}
 end
 
-function M.basic(cmd, desc)
-	return M.custom(cmd, no_remap, no_silent, desc)
+function M.spec_basic(cmd, desc)
+	return M.spec_custom(cmd, M.no_remap, M.no_silent, desc)
 end
 
 function M.basic_expr(cmd, desc)
-	return M.custom_expr(cmd, no_remap, no_silent, desc)
+	return M.spec_custom_expr(cmd, M.no_remap, M.no_silent, desc)
 end
 
-function M.noop()
-	return M.basic("\\", "")
+function M.spec_noop()
+	return M.spec_basic("\\", "")
 end
 
-function M.cmd(cmd, desc, msg)
-	return M.basic(function()
+function M.spec_cmd(cmd, desc, msg)
+	return M.spec_basic(function()
 		vim.cmd("silent! normal!" .. cmd)
 		if msg ~= nil then
 			log.info(msg)

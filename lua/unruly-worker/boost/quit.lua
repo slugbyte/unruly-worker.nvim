@@ -1,31 +1,44 @@
+local rand = require("unruly-worker.rand")
 local log = require("unruly-worker.log")
 
 local M = {}
 
--- save all buffers and print a random emoticon
-function M.write_all()
-	vim.cmd("wall")
-	log.info(log.emoticon())
-end
-
--- quit all buffers
-function M.quit_all()
-	log.info("bye bye!")
-	vim.cmd("qall")
-end
-
--- prompt for force quit, 'y' for yes, any other key for no
-function M.quit_force()
-	log.info("FORCE QUIT? y for yes")
-	local ch_int = vim.fn.getchar()
-
-	if ch_int == 121 then
-		log.info("bye bye!")
-		vim.cmd("qall!")
+function M.write_file()
+	local status, filename = pcall(vim.fn.expand, "%")
+	if status and (#filename > 0) then
+		vim.cmd("w")
+		log.info("%s write %s", rand.emoticon(), filename)
 		return
 	end
+	log.error("WRITE FAILED: no filename")
+end
 
-	log.info("FORCE QUIT ABORTED")
+--- save all buffers and print a random emoticon
+function M.write_all()
+	log.info(rand.emoticon())
+	vim.cmd("wall")
+end
+
+--- qui_all prompt "y" for yes "f" for force
+function M.quit_all_prompt_expr()
+	log.error("QUIT? y for yes, f for force ")
+
+	local ch_int = vim.fn.getchar()
+
+	-- y for quit all
+	if ch_int == 121 then
+		return ":silent qall<cr>"
+	end
+
+	-- f for force quit all
+	if ch_int == 102 then
+		return ":silent qall!<cr>"
+	end
+
+	vim.schedule(function()
+		log.info("QUIT ABORTED")
+	end)
+	return "\\"
 end
 
 return M

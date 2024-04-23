@@ -1,3 +1,4 @@
+local log = require("unruly-worker.log")
 -- NOTE: in vim lower case marks are single buffer
 -- where uppercase marks are multi buffer
 
@@ -49,7 +50,14 @@ local SIGN_SPEC = {
 -- 	end
 -- end
 
-function M.get_state()
+---@class UnrulyHudStateMark
+---@field is_b_set boolean
+---@field is_a_set boolean
+---@field is_local_mode boolean
+
+--- get unruly_mark hud state
+--- @return UnrulyHudStateMark
+function M.get_hud_state()
 	local result = {
 		is_a_set = false,
 		is_b_set = false,
@@ -82,7 +90,7 @@ end
 function M.get_status_text()
 	local a = "x"
 	local b = "x"
-	local mark_status = M.get_state()
+	local mark_status = M.get_hud_state()
 
 	if mark_status.is_a_set then
 		a = "a"

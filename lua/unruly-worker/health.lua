@@ -2,7 +2,7 @@ local M = {}
 
 M.check = function()
 	local unruly = require("unruly-worker")
-	local state = unruly._get_state()
+	local state = unruly._get_heath_check_state()
 	if state.is_setup == false then
 		vim.health.report_error("unruly-worker is not setup")
 		return

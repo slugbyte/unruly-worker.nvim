@@ -28,6 +28,40 @@ M.mode_set_quickfix = create_mode_set_fn(M.mode_option.quickfix)
 M.mode_set_buffer = create_mode_set_fn(M.mode_option.buffer)
 M.mode_set_loclist = create_mode_set_fn(M.mode_option.loclist)
 
+---@class UnrulyHudStateSeek
+---@field mode SeekMode
+---@field len number
+---@field index number
+
+--- get seek hud state
+---@return UnrulyHudStateSeek
+function M.get_hud_state()
+	local result = {
+		mode = S.seek_mode,
+		len = 0,
+		index = 0,
+	}
+
+	if S.seek_mode == M.mode_option.buffer then
+		local buffer_state = seek_buffer.get_hud_state()
+		result.len = buffer_state.len
+		result.index = buffer_state.index
+		return result
+	end
+
+	if S.seek_mode == M.mode_option.quickfix then
+		local buffer_state = seek_quickfix.get_hud_state()
+		result.len = buffer_state.len
+		result.index = buffer_state.index
+		return result
+	end
+
+	local buffer_state = seek_loclist.get_hud_state()
+	result.len = buffer_state.len
+	result.index = buffer_state.index
+	return result
+end
+
 function M.get_status_text()
 	if S.seek_mode == M.mode_option.buffer then
 		return seek_buffer.get_status_text()
@@ -100,6 +134,11 @@ function M.seek_last()
 	end
 
 	log.error("no seek forward impl for %s", M.mode_get())
+end
+
+--- @param seek_mode SeekMode
+function M.set_seek_mode_silent(seek_mode)
+	S.seek_mode = seek_mode
 end
 
 return M

@@ -4,7 +4,9 @@ local log = require("unruly-worker.log")
 -- if register 1 is selected then
 --     registers 1-8 act like a history
 
-local S = {
+---@class UnrulyHudStateKopy
+---@field register string
+local state = {
 	register = "+",
 }
 
@@ -27,28 +29,29 @@ end
 
 local M = {}
 
-function M.get_state()
-	return S
+--- @return UnrulyHudStateKopy
+function M.get_hud_state()
+	return state
 end
 
 function M.get_status_text()
-	return string.format("[K %s]", S.register)
+	return string.format("[K %s]", state.register)
 end
 
 function M.expr_yank()
 	shift_history()
 	vim.defer_fn(function()
-		vim.fn.setreg("1", vim.fn.getreg(S.register))
+		vim.fn.setreg("1", vim.fn.getreg(state.register))
 	end, 0)
-	return string.format('"%sy', S.register)
+	return string.format('"%sy', state.register)
 end
 
 function M.expr_yank_line()
 	shift_history()
 	vim.defer_fn(function()
-		vim.fn.setreg("1", vim.fn.getreg(S.register))
+		vim.fn.setreg("1", vim.fn.getreg(state.register))
 	end, 0)
-	return string.format('"%sY', S.register)
+	return string.format('"%sY', state.register)
 end
 
 function M.create_delete_cmd(key)
@@ -56,15 +59,15 @@ function M.create_delete_cmd(key)
 end
 
 function M.expr_paste_below()
-	return string.format('"%sp', S.register)
+	return string.format('"%sp', state.register)
 end
 
 function M.expr_paste_above()
-	return string.format('"%sP', S.register)
+	return string.format('"%sP', state.register)
 end
 
 function M.expr_paste_transform_below()
-	vim.fn.setreg("9", vim.fn.keytrans(vim.fn.getreg(S.register)))
+	vim.fn.setreg("9", vim.fn.keytrans(vim.fn.getreg(state.register)))
 	return '"9p'
 end
 
@@ -74,14 +77,14 @@ function M.register_select()
 	print("int", ch_int)
 	local ch_str = string.char(ch_int)
 	if is_valid_kopy_register(ch_int) then
-		S.register = ch_str
-		log.info("YANK REGISTER: %s", S.register)
+		state.register = ch_str
+		log.info("YANK REGISTER: %s", state.register)
 
 		return
 	end
 	if ch_int == 13 or ch_int == 32 then
-		S.register = "+"
-		log.info("YANK REGISTER: %s", S.register)
+		state.register = "+"
+		log.info("YANK REGISTER: %s", state.register)
 		return
 	end
 	if ch_int == 27 then
@@ -89,7 +92,7 @@ function M.register_select()
 		return
 	end
 	log.error("invalid register: %s, valid registers are [a-z] [A-Z] 0 + (Yank Register Still: %s)",
-		vim.fn.keytrans(ch_str), S.register)
+		vim.fn.keytrans(ch_str), state.register)
 end
 
 function M.register_dupe()
@@ -103,7 +106,7 @@ function M.set_register_silent(register)
 		log.error("invalid register: register must be a single character [a-z][A-X] + 0")
 	end
 	if is_valid_kopy_register(string.byte(register)) then
-		S.register = register
+		state.register = register
 		return
 	end
 

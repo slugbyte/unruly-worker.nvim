@@ -3,14 +3,14 @@ local M = {}
 function M.get_state()
 	local current_state = vim.fn.getqflist({ idx = 0, size = 0 })
 	return {
-		quickfix_len = current_state.size,
+		len = current_state.size,
 		index = current_state.idx,
 	}
 end
 
 function M.get_status_text()
-	local state = M.get_state()
-	return string.format("[Q %d/%d]", state.index, state.quickfix_len)
+	local state = M.get_hud_state()
+	return string.format("[Q %d/%d]", state.index, state.len)
 end
 
 function M.seek_forward()

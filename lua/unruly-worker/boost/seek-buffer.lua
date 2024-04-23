@@ -59,6 +59,14 @@ local function count_buffers()
 	S.is_loaded = true
 end
 
+function M.get_hud_state()
+	count_buffers()
+	return {
+		len = S.total_buf_count,
+		index = S.total_buf_index,
+	}
+end
+
 function M.get_status_text()
 	count_buffers()
 	if S.current_buf_index == -1 then
