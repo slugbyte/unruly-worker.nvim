@@ -8,11 +8,6 @@ function M.get_hud_state()
 	}
 end
 
-function M.get_status_text()
-	local state = M.get_hud_state()
-	return string.format("[L %d/%d]", state.index, state.len)
-end
-
 function M.seek_forward()
 	vim.cmd("lnext")
 end

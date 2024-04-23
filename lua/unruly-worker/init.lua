@@ -17,6 +17,15 @@ local hud = require("unruly-worker.hud")
 local health = require("unruly-worker.health")
 local config_util = require("unruly-worker.config-util")
 
+---@class SpecBooster
+---@field m table
+---@field n table
+---@field i table
+---@field v table
+---@field s table
+---@field x table
+---@field o table
+
 local map_spec = {
 	default = {
 		m = {
@@ -32,7 +41,7 @@ local map_spec = {
 			D = map.spec_basic("D", "delete to end of line"),
 			dd = map.spec_basic("dd", "delete lines"),
 			e = map.spec_basic("k", "up"),
-			E = map.spec_cmd("vip", "envelope paraghaph"),
+			E = map.spec_basic("vip", "envelope paraghaph"),
 			f = map.spec_basic("n", "find next"),
 			F = map.spec_basic("N", "find prev"),
 			g = map.spec_basic("g", "g command"),
@@ -325,6 +334,7 @@ local map_spec = {
 		m = {
 			["<leader>dn"] = map.spec_basic(vim.diagnostic.goto_next, "diagnostic next"),
 			["<leader>dp"] = map.spec_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
+			["<leader>d?"] = map.spec_basic(boost.telescope.diagnostics, "[L]sp Diagnostics"),
 		},
 	},
 	plugin_comment = {
@@ -345,16 +355,16 @@ local map_spec = {
 	},
 	plugin_textobject = {
 		n = {
-			s = map.spec_basic(boost.textobjects.goto_next, "seek textobject forward"),
-			S = map.spec_basic(boost.textobjects.goto_prev, "seek textobject reverse")
+			s = map.spec_basic(boost.textobjects.goto_next, "skip textobject forward"),
+			S = map.spec_basic(boost.textobjects.goto_prev, "skip textobject reverse")
 		},
 		x = {
-			s = map.spec_basic(boost.textobjects.goto_next, "seek textobject forward"),
-			S = map.spec_basic(boost.textobjects.goto_prev, "seek textobject reverse")
+			s = map.spec_basic(boost.textobjects.goto_next, "skip textobject forward"),
+			S = map.spec_basic(boost.textobjects.goto_prev, "skip textobject reverse")
 		},
 		o = {
-			s = map.spec_basic(boost.textobjects.goto_next, "seek textobject forward"),
-			S = map.spec_basic(boost.textobjects.goto_prev, "seek textobject reverse")
+			s = map.spec_basic(boost.textobjects.goto_next, "skip textobject forward"),
+			S = map.spec_basic(boost.textobjects.goto_prev, "skip textobject reverse")
 		},
 	},
 	plugin_luasnip = {
@@ -374,7 +384,6 @@ local map_spec = {
 	plugin_telescope_lsp_leader = {
 		m = {
 			-- telescope lsp
-			["<leader>l?"] = map.spec_basic(boost.telescope.diagnostics, "[L]sp Diagnostics"),
 			["<leader>lc"] = map.spec_basic(boost.telescope.lsp_incoming_calls, "[L]sp Incoming [C]alls"),
 			["<leader>lC"] = map.spec_basic(boost.telescope.lsp_outgoing_calls, "[L]sp Outgoing [C]alls"),
 			["<leader>li"] = map.spec_basic(boost.telescope.lsp_implementations, "[L]sp Goto [I]mplementation"),
@@ -414,27 +423,6 @@ local map_spec = {
 		}
 	},
 }
-
---- apply_user_config
---- @param user_config UnrulyConfig?
-local setup_force = function(user_config)
-	local is_config_legacy = config_util.is_config_legacy(user_config)
-	local config = config_util.normalize_user_config(user_config)
-
-	if is_config_legacy then
-		log.error("UNRULY SETUP ERROR: unruly-worker had and update and your setup() config is incompatable!")
-	end
-
-	config_util.apply_default_options(config)
-	map.create_keymaps(map_spec, config)
-
-	-- NOTE: unruly_greeting is an easter egg, you wont find this in the docs
-	if config.unruly_greeting then
-		log.info(rand.emoticon() .. " " .. rand.greeting())
-	end
-
-	health.setup_complete(is_config_legacy, config)
-end
 
 --- Setup unruly-worker
 ---
@@ -489,36 +477,35 @@ end
 ---	  },
 --- })
 --- ```
----@param config UnrulyConfig?
-local function setup(config)
+---@param user_config UnrulyConfig?
+local function setup(user_config)
 	-- dont reload if  loaded
 	if vim.g.unruly_worker then
 		return
 	end
 	vim.g.unruly_worker = true
-	setup_force(config)
+	local is_config_legacy = config_util.is_config_legacy(user_config)
+	local config = config_util.normalize_user_config(user_config)
+
+	if is_config_legacy then
+		log.error("UNRULY SETUP ERROR: unruly-worker had and update and your setup() config is incompatable!")
+	end
+
+	config_util.apply_default_options(config)
+	map.create_keymaps(map_spec, config)
+
+	-- NOTE: unruly_greeting is an easter egg, you wont find this in the docs
+	if config.unruly_greeting then
+		log.info(rand.emoticon() .. " " .. rand.greeting())
+	end
+
+	health.setup_complete(is_config_legacy, config)
 end
 
-local function get_status_text()
-	local seek_status_text = ""
-	if health_check_state.config ~= nil then
-		if health_check_state.config.booster.unruly_seek then
-			seek_status_text = " " .. boost.seek.get_status_text()
-		end
-	end
-	return boost.mark.get_status_text()
-			.. " " .. boost.macro.get_status_text()
-			.. " " .. boost.kopy.get_status_text()
-			.. seek_status_text
-end
 
 return {
 	setup = setup,
 	boost = boost,
-	get_status_text = get_status_text,
 	hud = hud,
-	seek_mode = boost.seek.mode_option,
-	_get_heath_check_state = function()
-		return health_check_state
-	end
+	seek_mode = boost.seek.seek_mode,
 }

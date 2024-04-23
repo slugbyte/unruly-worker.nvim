@@ -7,26 +7,27 @@ local seek_loclist = require("unruly-worker.boost.seek-loclist")
 local M = {}
 
 ---@enum SeekMode
-M.mode_option = {
+M.seek_mode = {
 	quickfix = "Q",
 	loclist = "L",
 	buffer = "B",
 }
 
-local S = {
-	seek_mode = M.mode_option.buffer,
+local state = {
+	seek_mode = M.seek_mode.buffer,
 }
 
 local function create_mode_set_fn(mode_option)
 	return function()
-		S.seek_mode = mode_option
+		state.seek_mode = mode_option
+		M.seek_first()
 	end
 end
 
 -- seek quick fix list
-M.mode_set_quickfix = create_mode_set_fn(M.mode_option.quickfix)
-M.mode_set_buffer = create_mode_set_fn(M.mode_option.buffer)
-M.mode_set_loclist = create_mode_set_fn(M.mode_option.loclist)
+M.mode_set_quickfix = create_mode_set_fn(M.seek_mode.quickfix)
+M.mode_set_buffer = create_mode_set_fn(M.seek_mode.buffer)
+M.mode_set_loclist = create_mode_set_fn(M.seek_mode.loclist)
 
 ---@class UnrulyHudStateSeek
 ---@field mode SeekMode
@@ -37,19 +38,19 @@ M.mode_set_loclist = create_mode_set_fn(M.mode_option.loclist)
 ---@return UnrulyHudStateSeek
 function M.get_hud_state()
 	local result = {
-		mode = S.seek_mode,
+		mode = state.seek_mode,
 		len = 0,
 		index = 0,
 	}
 
-	if S.seek_mode == M.mode_option.buffer then
+	if state.seek_mode == M.seek_mode.buffer then
 		local buffer_state = seek_buffer.get_hud_state()
 		result.len = buffer_state.len
 		result.index = buffer_state.index
 		return result
 	end
 
-	if S.seek_mode == M.mode_option.quickfix then
+	if state.seek_mode == M.seek_mode.quickfix then
 		local buffer_state = seek_quickfix.get_hud_state()
 		result.len = buffer_state.len
 		result.index = buffer_state.index
@@ -62,33 +63,20 @@ function M.get_hud_state()
 	return result
 end
 
-function M.get_status_text()
-	if S.seek_mode == M.mode_option.buffer then
-		return seek_buffer.get_status_text()
-	end
-	if S.seek_mode == M.mode_option.quickfix then
-		return seek_quickfix.get_status_text()
-	end
-	if S.seek_mode == M.mode_option.loclist then
-		return seek_loclist.get_status_text()
-	end
-	log.error("no get_status_text impl for %s", M.mode_get())
-end
-
 function M.mode_get()
-	return S.seek_mode
+	return state.seek_mode
 end
 
 function M.seek_forward()
-	if S.seek_mode == M.mode_option.buffer then
+	if state.seek_mode == M.seek_mode.buffer then
 		return seek_buffer.seek_forward()
 	end
 
-	if S.seek_mode == M.mode_option.quickfix then
+	if state.seek_mode == M.seek_mode.quickfix then
 		return seek_quickfix.seek_forward()
 	end
 
-	if S.seek_mode == M.mode_option.loclist then
+	if state.seek_mode == M.seek_mode.loclist then
 		return seek_loclist.seek_forward()
 	end
 
@@ -96,26 +84,26 @@ function M.seek_forward()
 end
 
 function M.seek_reverse()
-	if S.seek_mode == M.mode_option.buffer then
+	if state.seek_mode == M.seek_mode.buffer then
 		return seek_buffer.seek_reverse()
 	end
-	if S.seek_mode == M.mode_option.quickfix then
+	if state.seek_mode == M.seek_mode.quickfix then
 		return seek_quickfix.seek_reverse()
 	end
-	if S.seek_mode == M.mode_option.loclist then
+	if state.seek_mode == M.seek_mode.loclist then
 		return seek_loclist.seek_reverse()
 	end
 	log.error("no seek reverse impl for %s", M.mode_get())
 end
 
 function M.seek_first()
-	if S.seek_mode == M.mode_option.buffer then
+	if state.seek_mode == M.seek_mode.buffer then
 		return seek_buffer.seek_first()
 	end
-	if S.seek_mode == M.mode_option.quickfix then
+	if state.seek_mode == M.seek_mode.quickfix then
 		return seek_quickfix.seek_first()
 	end
-	if S.seek_mode == M.mode_option.loclist then
+	if state.seek_mode == M.seek_mode.loclist then
 		return seek_loclist.seek_first()
 	end
 
@@ -123,13 +111,13 @@ function M.seek_first()
 end
 
 function M.seek_last()
-	if S.seek_mode == M.mode_option.buffer then
+	if state.seek_mode == M.seek_mode.buffer then
 		return seek_buffer.seek_last()
 	end
-	if S.seek_mode == M.mode_option.quickfix then
+	if state.seek_mode == M.seek_mode.quickfix then
 		return seek_quickfix.seek_last()
 	end
-	if S.seek_mode == M.mode_option.loclist then
+	if state.seek_mode == M.seek_mode.loclist then
 		return seek_loclist.seek_last()
 	end
 
@@ -138,7 +126,7 @@ end
 
 --- @param seek_mode SeekMode
 function M.set_seek_mode_silent(seek_mode)
-	S.seek_mode = seek_mode
+	state.seek_mode = seek_mode
 end
 
 return M

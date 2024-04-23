@@ -11,16 +11,33 @@ M.remap = true
 M.silent = true
 M.no_silent = false
 
+---@class SpecKey
+---@field value string|function
+---@field is_remap boolean
+---@field is_silent boolean
+---@field is_expr boolean
+---@field desc string
+
+---@param value string|function
+---@param is_remap boolean
+---@param is_silent boolean
+---@param desc string
+---@return SpecKey
 function M.spec_custom(value, is_remap, is_silent, desc)
 	return {
 		value = value,
 		is_remap = is_remap,
-		s_silent = is_silent,
+		is_silent = is_silent,
 		is_expr = false,
 		desc = desc,
 	}
 end
 
+---@param value string|function
+---@param is_remap boolean
+---@param is_silent boolean
+---@param desc string
+---@return SpecKey
 function M.spec_custom_expr(value, is_remap, is_silent, desc)
 	return {
 		value = value,
@@ -31,25 +48,23 @@ function M.spec_custom_expr(value, is_remap, is_silent, desc)
 	}
 end
 
+---@param cmd string|function
+---@param desc string
+---@return SpecKey
 function M.spec_basic(cmd, desc)
 	return M.spec_custom(cmd, M.no_remap, M.no_silent, desc)
 end
 
+---@param cmd function
+---@param desc string
+---@return SpecKey
 function M.basic_expr(cmd, desc)
 	return M.spec_custom_expr(cmd, M.no_remap, M.no_silent, desc)
 end
 
+---@return SpecKey
 function M.spec_noop()
 	return M.spec_basic("\\", "")
-end
-
-function M.spec_cmd(cmd, desc, msg)
-	return M.spec_basic(function()
-		vim.cmd("silent! normal!" .. cmd)
-		if msg ~= nil then
-			log.info(msg)
-		end
-	end, desc)
 end
 
 local function is_key_equal(a, b)

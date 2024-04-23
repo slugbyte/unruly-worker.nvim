@@ -67,14 +67,6 @@ function M.get_hud_state()
 	}
 end
 
-function M.get_status_text()
-	count_buffers()
-	if S.current_buf_index == -1 then
-		return string.format("[B ?/%d]", S.total_buf_count)
-	end
-	return string.format("[B %d/%d]", S.current_buf_index, S.total_buf_count)
-end
-
 function M.seek_forward()
 	count_buffers()
 	if #S.buf_list <= 1 then

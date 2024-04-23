@@ -1,35 +1,12 @@
-local log = require("unruly-worker.log")
 -- NOTE: in vim lower case marks are single buffer
 -- where uppercase marks are multi buffer
 
-local S = {
-	is_local_mode = true,
-	is_gutter_setup = false,
-}
-
-local id = 4444
+local log = require("unruly-worker.log")
 
 local M = {}
-
-local SIGN_GROUP = "UNRULY_GUTTER_MARK"
-
-local SIGN_SPEC = {
-	A = {
-		name = "UNRULY_GUTTER_MARK_A",
-		text = "A",
-	},
-	B = {
-		name = "UNRULY_GUTTER_MARK_B",
-		text = "B",
-	},
-	a = {
-		name = "UNRULY_GUTTER_MARK_a",
-		text = "a",
-	},
-	b = {
-		name = "UNRULY_GUTTER_MARK_b",
-		text = "b",
-	},
+local state = {
+	is_local_mode = true,
+	is_gutter_setup = false,
 }
 
 -- local function gutter_mark(name, buf, line)
@@ -61,9 +38,9 @@ function M.get_hud_state()
 	local result = {
 		is_a_set = false,
 		is_b_set = false,
-		is_local_mode = S.is_local_mode
+		is_local_mode = state.is_local_mode
 	}
-	if S.is_local_mode then
+	if state.is_local_mode then
 		local local_mark_list = vim.fn.getmarklist(vim.fn.bufnr())
 		for _, item in ipairs(local_mark_list) do
 			if item.mark == "'a" then
@@ -99,7 +76,7 @@ function M.get_status_text()
 		b = "b"
 	end
 
-	if not S.is_local_mode then
+	if not state.is_local_mode then
 		a = string.upper(a)
 		b = string.upper(b)
 	end
@@ -108,8 +85,8 @@ function M.get_status_text()
 end
 
 function M.toggle_mode()
-	S.is_local_mode = not S.is_local_mode
-	if S.is_local_mode then
+	state.is_local_mode = not state.is_local_mode
+	if state.is_local_mode then
 		log.info("MARK MODE LOCAL " .. M.get_status_text())
 	else
 		log.info("MARK MODE GLOBAL " .. M.get_status_text())
@@ -117,11 +94,11 @@ function M.toggle_mode()
 end
 
 function M.set_is_local_mode_silent(is_local_mode)
-	S.is_local_mode = is_local_mode
+	state.is_local_mode = is_local_mode
 end
 
 function M.delete_a()
-	if S.is_local_mode then
+	if state.is_local_mode then
 		log.info("MARK CLEAR: a")
 		vim.cmd("silent! delmarks a")
 		return
@@ -131,7 +108,7 @@ function M.delete_a()
 end
 
 function M.delete_b()
-	if S.is_local_mode then
+	if state.is_local_mode then
 		log.info("MARK CLEAR: b")
 		vim.cmd("silent! delmarks b")
 		return
@@ -141,7 +118,7 @@ function M.delete_b()
 end
 
 function M.delete_mode()
-	if S.is_local_mode then
+	if state.is_local_mode then
 		log.info("MARK CLEAR: local")
 		vim.cmd("silent! delmarks ab")
 		return
@@ -156,7 +133,7 @@ function M.delete_all()
 end
 
 function M.expr_goto_a()
-	if S.is_local_mode then
+	if state.is_local_mode then
 		return "'azz"
 	else
 		return "'Azz"
@@ -164,7 +141,7 @@ function M.expr_goto_a()
 end
 
 function M.expr_goto_b()
-	if S.is_local_mode then
+	if state.is_local_mode then
 		return "'bzz"
 	else
 		return "'Bzz"
@@ -172,7 +149,7 @@ function M.expr_goto_b()
 end
 
 function M.expr_set_a()
-	if S.is_local_mode then
+	if state.is_local_mode then
 		log.info("MARK SET: a")
 		return 'ma'
 	else
@@ -182,7 +159,7 @@ function M.expr_set_a()
 end
 
 function M.expr_set_b()
-	if S.is_local_mode then
+	if state.is_local_mode then
 		log.info("MARK SET: b")
 		return 'mb'
 	else

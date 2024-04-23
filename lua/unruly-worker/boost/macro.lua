@@ -21,16 +21,6 @@ function M.get_hud_state()
 	return state
 end
 
-function M.get_status_text()
-	if (state.is_recording) then
-		return string.format("[R %s]", state.register)
-	end
-	if (state.is_locked) then
-		return string.format("[L %s]", state.register)
-	end
-	return string.format("[M %s]", state.register)
-end
-
 -- record a macro into the macro_reg, then pretty print the result
 function M.record()
 	if state.is_locked then

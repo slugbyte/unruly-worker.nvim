@@ -34,10 +34,6 @@ function M.get_hud_state()
 	return state
 end
 
-function M.get_status_text()
-	return string.format("[K %s]", state.register)
-end
-
 function M.expr_yank()
 	shift_history()
 	vim.defer_fn(function()
