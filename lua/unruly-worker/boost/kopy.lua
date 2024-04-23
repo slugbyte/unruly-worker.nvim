@@ -68,26 +68,26 @@ function M.expr_paste_transform_below()
 end
 
 function M.register_select()
-	log.info("YANK REGISTER SELECT> ")
+	log.info("SELECT KOPY REGISTER: ")
 	local ch_int = vim.fn.getchar()
 	print("int", ch_int)
 	local ch_str = string.char(ch_int)
 	if is_valid_kopy_register(ch_int) then
 		state.register = ch_str
-		log.info("YANK REGISTER: %s", state.register)
+		log.info("KOPY REGISTER: %s", state.register)
 
 		return
 	end
 	if ch_int == 13 or ch_int == 32 then
 		state.register = "+"
-		log.info("YANK REGISTER: %s", state.register)
+		log.info("KOPY REGISTER: %s", state.register)
 		return
 	end
 	if ch_int == 27 then
 		log.info("ABORTED SELECT")
 		return
 	end
-	log.error("invalid register: %s, valid registers are [a-z] [A-Z] 0 + (Yank Register Still: %s)",
+	log.error("invalid register: %s, valid registers are [a-z] [A-Z] 0 + (KOPY REGISTER STILL: %s)",
 		vim.fn.keytrans(ch_str), state.register)
 end
 
@@ -109,28 +109,11 @@ function M.set_register_silent(register)
 	log.error("invalid register (%s): must be [a-z][A-Z] + 0", register)
 end
 
--- function M.register_peek()
--- 	log.info("REGISTER PEEK SELECT> ")
--- 	local ch_int = vim.fn.getchar()
--- 	local ch = string.char(ch_int)
--- 	if ch_int == 27 then
--- 		util.warn("ABORTED PEEK")
--- 		return
--- 	end
---
--- 	if not is_valid_register(ch_int) then
--- 		log.error("INVALID REGISTER")
--- 		return
--- 	end
---
--- 	local reg_content = vim.fn.getreg(ch)
---
--- 	if #reg_content > 0 then
--- 		reg_content = vim.fn.keytrans(reg_content)
--- 		log.info("REGISTER PEEK %s (%s)", ch, reg_content)
--- 	else
--- 		log.info("REGISTER PEEK %s (empty)", ch)
--- 	end
--- end
+function M.expr_prompt_paste()
+	log.info("SELECT PASTE REGISTER: ")
+	local ch_int = vim.fn.getchar()
+	local ch = string.char(ch_int)
+	return string.format('"%sp', ch)
+end
 
 return M

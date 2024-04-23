@@ -31,7 +31,6 @@ local M = {}
 ---@field plugin_telescope_leader boolean
 ---@field plugin_telescope_lsp_leader boolean
 ---@field plugin_telescope_easy_jump boolean
----@field plugin_telescope_easy_paste boolean
 
 ---@class UnrulyConfig
 ---@field unruly_mark_global_mode boolean?
@@ -78,7 +77,6 @@ local default_config = {
 		plugin_telescope_leader     = false,
 		plugin_telescope_lsp_leader = false,
 		plugin_telescope_easy_jump  = false,
-		plugin_telescope_easy_paste = false,
 	},
 	skip_list = {},
 }

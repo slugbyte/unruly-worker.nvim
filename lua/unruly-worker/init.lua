@@ -64,6 +64,7 @@ local map_spec = {
 			O = map.spec_basic("$", "right to EOL"),
 			p = map.spec_basic("p", "paste after"),
 			P = map.spec_basic("P", "paste before"),
+			["<C-p>"] = map.basic_expr(boost.kopy.expr_prompt_paste, "paste before"),
 			q = map.spec_basic("q", "z{reg} record macro"),
 			Q = map.spec_basic("@", "Z{reg} play macro"),
 			r = map.spec_basic("r", "replace"),
@@ -151,8 +152,8 @@ local map_spec = {
 	},
 	unruly_seek = {
 		m = {
-			["<leader>n"] = map.spec_basic(boost.seek.seek_forward, "[N]ext Seek"),
-			["<leader>p"] = map.spec_basic(boost.seek.seek_reverse, "[P]rev Seek"),
+			["<leader>sn"] = map.spec_basic(boost.seek.seek_forward, "[N]ext Seek"),
+			["<leader>sp"] = map.spec_basic(boost.seek.seek_reverse, "[P]rev Seek"),
 			["<leader>sf"] = map.spec_basic(boost.seek.seek_first, "[S]eek [F]irst"),
 			["<leader>sl"] = map.spec_basic(boost.seek.seek_last, "[S]eek [L]ast"),
 			["<leader>sQ"] = map.spec_basic(boost.seek.mode_set_quickfix, "[S]eek mode [Q]uickfix"),
@@ -398,11 +399,6 @@ local map_spec = {
 		m = {
 			j = map.spec_basic(boost.telescope.find_files, "jump files"),
 			J = map.spec_basic(boost.telescope.live_grep, "jump files"),
-		}
-	},
-	plugin_telescope_easy_paste = {
-		m = {
-			["<C-p>"] = map.spec_basic(boost.telescope.registers, "Telescope Registers [P]aste"),
 		}
 	},
 	plugin_telescope_leader = {
