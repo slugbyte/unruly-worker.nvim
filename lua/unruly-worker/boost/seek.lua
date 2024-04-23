@@ -6,6 +6,7 @@ local seek_loclist = require("unruly-worker.boost.seek-loclist")
 -- module
 local M = {}
 
+---@enum SeekMode
 M.mode_option = {
 	quickfix = "Q",
 	loclist = "L",

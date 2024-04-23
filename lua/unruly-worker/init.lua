@@ -458,7 +458,7 @@ local setup_force = function(config)
 	end
 
 	local context = {
-		boost     = {
+		booster   = {
 			easy_swap                   = false,
 			easy_find                   = false,
 			easy_line                   = false,
@@ -491,8 +491,8 @@ local setup_force = function(config)
 		skip_list = {},
 	}
 
-	if config.boost then
-		context.boost = vim.tbl_extend("force", context.boost, config.boost)
+	if config.booster then
+		context.booster = vim.tbl_extend("force", context.booster, config.booster)
 	end
 
 	if config.skip_list then
@@ -520,46 +520,46 @@ local setup_force = function(config)
 	end
 
 	-- TODO: figure out if i really want this
-	if context.boost.unruly_macro ~= nil then
+	if context.booster.unruly_macro ~= nil then
 		if config.unruly_swap_q_and_z then
-			context.boost.unruly_macro = nil
-			context.boost.unruly_macro_z = true
+			context.booster.unruly_macro = nil
+			context.booster.unruly_macro_z = true
 		else
-			context.boost.unruly_macro = nil
-			context.boost.unruly_macro_q = true
+			context.booster.unruly_macro = nil
+			context.booster.unruly_macro_q = true
 		end
 	end
 
-	if context.boost.unruly_quit ~= nil then
+	if context.booster.unruly_quit ~= nil then
 		if config.unruly_swap_q_and_z then
-			context.boost.unruly_quit = nil
-			context.boost.unruly_quit_q = true
+			context.booster.unruly_quit = nil
+			context.booster.unruly_quit_q = true
 		else
-			context.boost.unruly_quit = nil
-			context.boost.unruly_quit_z = true
+			context.booster.unruly_quit = nil
+			context.booster.unruly_quit_z = true
 		end
 	end
 
-	if context.boost.easy_source then
+	if context.booster.easy_source then
 		-- disable neovim from auto loading matchit
 		vim.g.loaded_matchit = true
 	end
 
-	if context.boost.easy_hlsearch then
+	if context.booster.easy_hlsearch then
 		-- enable hlsearh
 		vim.opt.hlsearch = true
 	end
 
-	if context.boost.easy_focus and context.boost.plugin_navigator then
-		context.boost.easy_focus = false
+	if context.booster.easy_focus and context.booster.plugin_navigator then
+		context.booster.easy_focus = false
 	end
 
 	map_config(mapping.general, context.skip_list)
 
 	-- TODO: force boost load order
-	for boost, is_enabled in pairs(context.boost) do
+	for booster, is_enabled in pairs(context.booster) do
 		if is_enabled then
-			map_config(mapping[boost], context.skip_list, boost)
+			map_config(mapping[booster], context.skip_list, booster)
 		end
 	end
 
@@ -570,8 +570,48 @@ local setup_force = function(config)
 	state.is_setup = true
 end
 
+---@class UnrulyConfigBooster
+---@field easy_swap boolean
+---@field easy_find boolean
+---@field easy_line boolean
+---@field easy_spellcheck boolean
+---@field easy_incrament boolean
+---@field easy_hlsearch boolean
+---@field easy_focus boolean
+---@field easy_window boolean
+---@field easy_jumplist boolean
+---@field easy_scroll boolean
+---@field easy_source boolean
+---@field easy_lsp boolean
+---@field easy_lsp_leader boolean
+---@field easy_diagnostic boolean
+---@field easy_diagnostic_leader boolean
+---@field unruly_seek boolean
+---@field unruly_mark boolean
+---@field unruly_macro boolean
+---@field unruly_kopy boolean
+---@field unruly_quit boolean
+---@field plugin_navigator boolean
+---@field plugin_comment boolean
+---@field plugin_luasnip boolean
+---@field plugin_textobject boolean
+---@field plugin_telescope_leader boolean
+---@field plugin_telescope_lsp_leader boolean
+---@field plugin_telescope_easy_jump boolean
+---@field plugin_telescope_easy_paste boolean
+
+---@class UnrulyConfig
+---@field unruly_mark_global_mode boolean?
+---@field unruly_swap_q_and_z boolean?
+---@field unruly_macro_register string?
+---@field unruly_kopy_register string?
+---@field unruly_seek_mode SeekMode?
+---@field unruly_greeting boolean?
+---@field booster UnrulyConfigBooster?
+---@field skip_list string[]?
+
 ---  configure and map unruly worker keymap
---- @param config table
+--- @param config UnrulyConfig?
 local function setup(config)
 	-- dont reload if  loaded
 	if vim.g.unruly_worker then
@@ -594,9 +634,10 @@ local function get_status_text()
 			.. seek_status_text
 end
 
+
 return {
 	setup = setup,
-	action = boost,
+	boost = boost,
 	get_status_text = get_status_text,
 	seek_mode = boost.seek.mode_option,
 	_get_state = function()
