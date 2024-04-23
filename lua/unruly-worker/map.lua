@@ -1,4 +1,4 @@
-local util = require("unruly-worker.util")
+local log = require("unruly-worker.log")
 
 local M = {}
 
@@ -47,9 +47,37 @@ function M.cmd(cmd, desc, msg)
 	return M.basic(function()
 		vim.cmd("silent! normal!" .. cmd)
 		if msg ~= nil then
-			util.info(msg)
+			log.info(msg)
 		end
 	end, desc)
+end
+
+local function is_key_equal(a, b)
+	local len_a = #a
+	local len_b = #b
+	if len_a ~= len_b then
+		return false
+	end
+
+	if len_a == 1 then
+		return a == b
+	end
+
+	if (string.find(a, "leader") ~= nil) then
+		-- BUG: need to remove leader then compare
+		return a == b
+	end
+
+	return string.lower(a) == string.lower(b)
+end
+
+function M.should_map(key, skip_list)
+	local skip = false
+	for _, skip_key in ipairs(skip_list) do
+		skip = skip or is_key_equal(key, skip_key)
+	end
+
+	return not skip
 end
 
 return M

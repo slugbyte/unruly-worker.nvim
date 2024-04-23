@@ -1,4 +1,5 @@
-local util = require("unruly-worker.util")
+local log = require("unruly-worker.log")
+
 local M = {}
 
 local S = {
@@ -70,7 +71,7 @@ function M.seek_forward()
 	count_buffers()
 	if #S.buf_list <= 1 then
 		S.current_buf_index = 1
-		util.info("no more buffers")
+		log.info("no more buffers")
 		return
 	end
 
@@ -92,7 +93,7 @@ function M.seek_reverse()
 	count_buffers()
 	if #S.buf_list <= 1 then
 		S.current_buf_index = 1
-		util.info("no more buffers")
+		log.info("no more buffers")
 		return
 	end
 

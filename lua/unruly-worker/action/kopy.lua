@@ -1,4 +1,5 @@
-local util = require("unruly-worker.util")
+local ascii = require("unruly-worker.ascii")
+local log = require("unruly-worker.log")
 -- register 9 is reseverd for delete
 -- if register 1 is selected then
 --     registers 1-8 act like a history
@@ -13,7 +14,7 @@ local function is_valid_kopy_register(ch_int)
 		-- return true for 0 or +
 		return true
 	end
-	return util.is_int_ascii_alpha(ch_int)
+	return ascii.is_int_alpha(ch_int)
 end
 
 local function shift_history()
@@ -68,26 +69,26 @@ function M.expr_paste_transform_below()
 end
 
 function M.register_select()
-	util.info("YANK REGISTER SELECT> ")
+	log.info("YANK REGISTER SELECT> ")
 	local ch_int = vim.fn.getchar()
 	print("int", ch_int)
 	local ch_str = string.char(ch_int)
 	if is_valid_kopy_register(ch_int) then
 		S.register = ch_str
-		util.info("YANK REGISTER: %s", S.register)
+		log.info("YANK REGISTER: %s", S.register)
 
 		return
 	end
 	if ch_int == 13 or ch_int == 32 then
 		S.register = "+"
-		util.info("YANK REGISTER: %s", S.register)
+		log.info("YANK REGISTER: %s", S.register)
 		return
 	end
 	if ch_int == 27 then
-		util.info("ABORTED SELECT")
+		log.info("ABORTED SELECT")
 		return
 	end
-	util.error("invalid register: %s, valid registers are [a-z] [A-Z] 0 + (Yank Register Still: %s)",
+	log.error("invalid register: %s, valid registers are [a-z] [A-Z] 0 + (Yank Register Still: %s)",
 		vim.fn.keytrans(ch_str), S.register)
 end
 
@@ -99,18 +100,18 @@ end
 
 function M.set_register_silent(register)
 	if string.len(register) ~= 1 then
-		util.error("invalid register: register must be a single character [a-z][A-X] + 0")
+		log.error("invalid register: register must be a single character [a-z][A-X] + 0")
 	end
 	if is_valid_kopy_register(string.byte(register)) then
 		S.register = register
 		return
 	end
 
-	util.error("invalid register (%s): must be [a-z][A-Z] + 0", register)
+	log.error("invalid register (%s): must be [a-z][A-Z] + 0", register)
 end
 
 -- function M.register_peek()
--- 	util.info("REGISTER PEEK SELECT> ")
+-- 	log.info("REGISTER PEEK SELECT> ")
 -- 	local ch_int = vim.fn.getchar()
 -- 	local ch = string.char(ch_int)
 -- 	if ch_int == 27 then
@@ -119,7 +120,7 @@ end
 -- 	end
 --
 -- 	if not is_valid_register(ch_int) then
--- 		util.error("INVALID REGISTER")
+-- 		log.error("INVALID REGISTER")
 -- 		return
 -- 	end
 --
@@ -127,9 +128,9 @@ end
 --
 -- 	if #reg_content > 0 then
 -- 		reg_content = vim.fn.keytrans(reg_content)
--- 		util.info("REGISTER PEEK %s (%s)", ch, reg_content)
+-- 		log.info("REGISTER PEEK %s (%s)", ch, reg_content)
 -- 	else
--- 		util.info("REGISTER PEEK %s (empty)", ch)
+-- 		log.info("REGISTER PEEK %s (empty)", ch)
 -- 	end
 -- end
 

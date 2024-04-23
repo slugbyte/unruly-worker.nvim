@@ -1,4 +1,4 @@
-local util = require("unruly-worker.util")
+local log = require("unruly-worker.log")
 local seek_buffer = require("unruly-worker.action.seek-buffer")
 local seek_quickfix = require("unruly-worker.action.seek-quickfix")
 local seek_loclist = require("unruly-worker.action.seek-loclist")
@@ -37,7 +37,7 @@ function M.get_status_text()
 	if S.seek_mode == M.mode_option.loclist then
 		return seek_loclist.get_status_text()
 	end
-	util.error("no get_status_text impl for %s", M.mode_get())
+	log.error("no get_status_text impl for %s", M.mode_get())
 end
 
 function M.mode_get()
@@ -57,7 +57,7 @@ function M.seek_forward()
 		return seek_loclist.seek_forward()
 	end
 
-	util.error("no seek forward impl for %s", M.mode_get())
+	log.error("no seek forward impl for %s", M.mode_get())
 end
 
 function M.seek_reverse()
@@ -70,7 +70,7 @@ function M.seek_reverse()
 	if S.seek_mode == M.mode_option.loclist then
 		return seek_loclist.seek_reverse()
 	end
-	util.error("no seek reverse impl for %s", M.mode_get())
+	log.error("no seek reverse impl for %s", M.mode_get())
 end
 
 function M.seek_first()
@@ -84,7 +84,7 @@ function M.seek_first()
 		return seek_loclist.seek_first()
 	end
 
-	util.error("no seek forward impl for %s", M.mode_get())
+	log.error("no seek forward impl for %s", M.mode_get())
 end
 
 function M.seek_last()
@@ -98,7 +98,7 @@ function M.seek_last()
 		return seek_loclist.seek_last()
 	end
 
-	util.error("no seek forward impl for %s", M.mode_get())
+	log.error("no seek forward impl for %s", M.mode_get())
 end
 
 return M

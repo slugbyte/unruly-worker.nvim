@@ -1,6 +1,6 @@
-local util = require("unruly-worker.util")
--- in vim lower case marks are single buffer
+-- NOTE: in vim lower case marks are single buffer
 -- where uppercase marks are multi buffer
+
 local S = {
 	is_local_mode = true,
 	is_gutter_setup = false,
@@ -102,9 +102,9 @@ end
 function M.toggle_mode()
 	S.is_local_mode = not S.is_local_mode
 	if S.is_local_mode then
-		util.info("MARK MODE LOCAL " .. M.get_status_text())
+		log.info("MARK MODE LOCAL " .. M.get_status_text())
 	else
-		util.info("MARK MODE GLOBAL " .. M.get_status_text())
+		log.info("MARK MODE GLOBAL " .. M.get_status_text())
 	end
 end
 
@@ -114,36 +114,36 @@ end
 
 function M.delete_a()
 	if S.is_local_mode then
-		util.info("MARK CLEAR: a")
+		log.info("MARK CLEAR: a")
 		vim.cmd("silent! delmarks a")
 		return
 	end
-	util.info("MARK CLEAR: A")
+	log.info("MARK CLEAR: A")
 	vim.cmd("silent! delmarks A")
 end
 
 function M.delete_b()
 	if S.is_local_mode then
-		util.info("MARK CLEAR: b")
+		log.info("MARK CLEAR: b")
 		vim.cmd("silent! delmarks b")
 		return
 	end
-	util.info("MARK CLEAR: B")
+	log.info("MARK CLEAR: B")
 	vim.cmd("silent! delmarks B")
 end
 
 function M.delete_mode()
 	if S.is_local_mode then
-		util.info("MARK CLEAR: local")
+		log.info("MARK CLEAR: local")
 		vim.cmd("silent! delmarks ab")
 		return
 	end
-	util.info("MARK CLEAR: global")
+	log.info("MARK CLEAR: global")
 	vim.cmd("silent! delmarks AB")
 end
 
 function M.delete_all()
-	util.info("MARK CLEAR ALL")
+	log.info("MARK CLEAR ALL")
 	vim.cmd("silent! delmarks abAB")
 end
 
@@ -165,20 +165,20 @@ end
 
 function M.expr_set_a()
 	if S.is_local_mode then
-		util.info("MARK SET: a")
+		log.info("MARK SET: a")
 		return 'ma'
 	else
-		util.info("MARK SET: A")
+		log.info("MARK SET: A")
 		return 'mA'
 	end
 end
 
 function M.expr_set_b()
 	if S.is_local_mode then
-		util.info("MARK SET: b")
+		log.info("MARK SET: b")
 		return 'mb'
 	else
-		util.info("MARK SET: B")
+		log.info("MARK SET: B")
 		return 'mB'
 	end
 end

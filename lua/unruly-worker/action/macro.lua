@@ -1,4 +1,5 @@
-local util = require("unruly-worker.util")
+local ascii = require("unruly-worker.ascii")
+local log = require("unruly-worker.log")
 
 local state = {
 	register = "z",
@@ -9,7 +10,7 @@ local state = {
 local M = {}
 
 local function is_valid_macro_register(ch_int)
-	return util.is_int_ascii_lowercase(ch_int) or util.is_int_ascii_uppercase(ch_int)
+	return ascii.is_int_lowercase(ch_int) or ascii.is_int_uppercase(ch_int)
 end
 
 function M.get_state()
@@ -29,7 +30,7 @@ end
 -- record a macro into the macro_reg, then pretty print the result
 function M.record()
 	if state.is_locked then
-		util.error("MACRO RECORDING LOCKED")
+		log.error("MACRO RECORDING LOCKED")
 		return
 	end
 	state.is_recording = not state.is_recording
@@ -46,9 +47,9 @@ function M.record()
 		vim.fn.setreg(state.register, safe_macro)
 		if #safe_macro > 0 then
 			reg_content = vim.fn.keytrans(safe_macro)
-			util.info("MACRO RECORDED: %s (%s)", state.register, reg_content)
+			log.info("MACRO RECORDED: %s (%s)", state.register, reg_content)
 		else
-			util.info("MACRO RECORDED: %s (empty)", state.register)
+			log.info("MACRO RECORDED: %s (empty)", state.register)
 		end
 	end
 end
@@ -61,21 +62,21 @@ end
 -- select a new macro_reg
 function M.select_register()
 	if state.is_recording then
-		util.error("cannot change macro register while recording")
-		util.error("recording aborted")
+		log.error("cannot change macro register while recording")
+		log.error("recording aborted")
 		vim.cmd("silent! normal! q")
 		vim.fn.setreg(state.register, "")
 		return
 	end
-	util.info("MACRO REGISTER SELECT> ")
+	log.info("MACRO REGISTER SELECT> ")
 	local ch_int = vim.fn.getchar()
 	local ch_str = string.char(ch_int)
 	if is_valid_macro_register(ch_int) then
 		state.register = ch_str
-		util.info("MACRO REGISTER: %s", state.register)
+		log.info("MACRO REGISTER: %s", state.register)
 		return
 	end
-	util.error("invalid register: %s, try [0-9][a-z] (Macro Register Still: %s)", vim.fn.keytrans(ch_str), state.register)
+	log.error("invalid register: %s, try [0-9][a-z] (Macro Register Still: %s)", vim.fn.keytrans(ch_str), state.register)
 end
 
 -- pritty print the macro_reg
@@ -84,22 +85,22 @@ function M.peek_register()
 
 	if #reg_content > 0 then
 		reg_content = vim.fn.keytrans(reg_content)
-		util.info("REGISTER PEEK %s (%s)", state.register, reg_content)
+		log.info("REGISTER PEEK %s (%s)", state.register, reg_content)
 	else
-		util.info("REGISTER PEEK %s (empty)", state.register)
+		log.info("REGISTER PEEK %s (empty)", state.register)
 	end
 end
 
 -- lock all macro recoding
 function M.lock()
 	state.is_locked = true
-	util.info("MACRO RECORDING LOCKED")
+	log.info("MACRO RECORDING LOCKED")
 end
 
 -- unlock all macro recoding
 function M.unlock()
 	state.is_locked = false
-	util.info("MACRO RECORDING UNLOCKED")
+	log.info("MACRO RECORDING UNLOCKED")
 end
 
 -- toggle the macro recording lock
@@ -113,14 +114,14 @@ end
 -- set the macro_reg to a char
 function M.set_register_silent(register)
 	if string.len(register) ~= 1 then
-		util.error("invalid register: register must be a single character [a-z][A-X]")
+		log.error("invalid register: register must be a single character [a-z][A-X]")
 	end
 	if is_valid_macro_register(string.byte(register)) then
 		state.register = register
 		return
 	end
 
-	util.error("invalid register (%s): must be [a-z][A-Z]", register)
+	log.error("invalid register (%s): must be [a-z][A-Z]", register)
 end
 
 return M

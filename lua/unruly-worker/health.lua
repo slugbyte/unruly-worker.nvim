@@ -1,9 +1,5 @@
 local M = {}
 
-local function check_setup()
-	return false
-end
-
 M.check = function()
 	local unruly = require("unruly-worker")
 	local state = unruly._get_state()

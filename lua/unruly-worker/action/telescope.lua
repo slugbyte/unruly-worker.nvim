@@ -1,4 +1,4 @@
-local util = require("unruly-worker.util")
+local log = require("unruly-worker.log")
 local telescope_status, telescope_builtin = pcall(require, "telescope.builtin")
 local _, telescope_themes = pcall(require, "telescope.themes")
 
@@ -10,7 +10,7 @@ local function create_telescope_action(builtin_fn)
 			telescope_builtin[builtin_fn]()
 			return
 		end
-		util.error("telescope not found")
+		log.error("telescope not found")
 	end
 end
 
@@ -21,7 +21,7 @@ function M.buffer_fuzzy_search()
 		}))
 		return
 	end
-	util.error("telescope not found")
+	log.error("telescope not found")
 end
 
 function M.find_files()
@@ -31,7 +31,7 @@ function M.find_files()
 		})
 		return
 	end
-	util.error("telescope not found")
+	log.error("telescope not found")
 end
 
 function M.live_grep()
@@ -41,7 +41,7 @@ function M.live_grep()
 		})
 		return
 	end
-	util.error("telescope not found")
+	log.error("telescope not found")
 end
 
 function M.lsp_definiton_safe()

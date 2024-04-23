@@ -1,4 +1,4 @@
-local util = require("unruly-worker.util")
+local log = require("unruly-worker.log")
 local textobject_staus, textobject = pcall(require, "nvim-treesitter.textobjects.repeatable_move")
 
 local M = {}
@@ -13,7 +13,7 @@ function M.goto_next()
 		print(value)
 		return
 	end
-	util.error("treesitter textobject not found")
+	log.error("treesitter textobject not found")
 end
 
 function M.goto_prev()
@@ -26,7 +26,7 @@ function M.goto_prev()
 		print(result)
 		return
 	end
-	util.error("treesitter textobject not found")
+	log.error("treesitter textobject not found")
 end
 
 return M

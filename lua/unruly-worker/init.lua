@@ -14,9 +14,9 @@ local state = {
 	config = nil,
 }
 
-local util = require("unruly-worker.util")
 local action = require("unruly-worker.action")
 local map = require("unruly-worker.map")
+local log = require("unruly-worker.log")
 
 local mapping = {
 	general = {
@@ -182,6 +182,7 @@ local mapping = {
 	},
 	unruly_kopy = {
 		m = {
+			['"'] = map.basic(action.kopy.register_select, "select kopy_register"),
 			-- delete
 			c = map.basic(action.kopy.create_delete_cmd("c"), "change content, store old in reg 0"),
 			cc = map.basic(action.kopy.create_delete_cmd("cc"), "changle lines, store old in reg 0"),
@@ -195,8 +196,8 @@ local mapping = {
 			k = map.basic_expr(action.kopy.expr_yank, "kopy"),
 			K = map.basic_expr(action.kopy.expr_yank_line, "kopy line"),
 			-- paste
-			p = map.basic_expr(action.kopy.expr_paste_below, "paste after"),
-			P = map.basic_expr(action.kopy.expr_paste_above, "paste before"),
+			-- p = map.basic_expr(action.kopy.expr_paste_below, "paste after")
+			-- P = map.basic_expr(action.kopy.expr_paste_above, "paste before"),
 			-- paste
 			p = map.basic_expr(action.kopy.expr_paste_below, "paste after"),
 			P = map.basic_expr(action.kopy.expr_paste_above, "paste before"),
@@ -217,7 +218,7 @@ local mapping = {
 			["%"] = map.custom(function()
 				local current_file = vim.fn.expandcmd("%")
 				if current_file == "%" then
-					util.error("cannot source noname buffer, try to save file beforce sourcing")
+					log.error("cannot source noname buffer, try to save file beforce sourcing")
 					return
 				end
 				local keys = vim.api.nvim_replace_termcodes(":source %<cr>", true, false, true)
@@ -417,7 +418,7 @@ local mapping = {
 
 local map_config = function(config, skip_list, booster_name)
 	if config == nil then
-		util.error("UNRULY SETUP ERROR: unknown booster (" .. booster_name .. ")")
+		log.error("UNRULY SETUP ERROR: unknown booster (" .. booster_name .. ")")
 		return
 	end
 	for mode, mode_map in pairs(config) do
@@ -426,7 +427,7 @@ local map_config = function(config, skip_list, booster_name)
 		end
 		-- print("mode", mode, "config", config_name)
 		for key, key_map in pairs(mode_map) do
-			if util.should_map(key, skip_list) then
+			if map.should_map(key, skip_list) then
 				vim.keymap.set(mode, key, key_map.value, {
 					desc = key_map.desc,
 					silent = key_map.is_silent,
@@ -513,7 +514,7 @@ local setup_force = function(config)
 	state.is_config_legacy = is_config_legacy(config)
 
 	if state.is_config_legacy then
-		util.error("UNRULY_WARNING: unruly-worker had and update and your config is incompatable!")
+		log.error("UNRULY_WARNING: unruly-worker had and update and your config is incompatable!")
 	end
 
 	-- TODO: figure out if i really want this
@@ -553,7 +554,7 @@ local setup_force = function(config)
 
 	map_config(mapping.general, context.skip_list)
 
-	-- TODO force booster load order
+	-- TODO: force booster load order
 	for booster, is_enabled in pairs(context.booster) do
 		if is_enabled then
 			map_config(mapping[booster], context.skip_list, booster)
@@ -561,7 +562,7 @@ local setup_force = function(config)
 	end
 
 	if config.unruly_greeting then
-		util.info(util.emoticon() .. " " .. util.greeting())
+		log.info(log.emoticon() .. " " .. log.greeting())
 	end
 
 	state.is_setup = true

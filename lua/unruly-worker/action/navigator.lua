@@ -1,4 +1,4 @@
-local util = require("unruly-worker.util")
+local log = require("unruly-worker.log")
 local navigator_status, navigator = pcall(require, "Navigator")
 local M = {}
 
@@ -9,7 +9,7 @@ function M.focus_left_safe()
 		return
 	end
 	vim.cmd("wincmd h")
-	util.error("Navigator.nvim not found")
+	log.error("Navigator.nvim not found")
 end
 
 -- focus down with navigator.nvim, has vim only fallback
@@ -19,7 +19,7 @@ function M.focus_down_safe()
 		return
 	end
 	vim.cmd("wincmd j")
-	util.error("Navigator.nvim not found")
+	log.error("Navigator.nvim not found")
 end
 
 -- focus up with navigator.nvim, has vim only fallback
@@ -29,7 +29,7 @@ function M.focus_up_safe()
 		return
 	end
 	vim.cmd("wincmd k")
-	util.error("Navigator.nvim not found")
+	log.error("Navigator.nvim not found")
 end
 
 -- focus right with navigator.nvim, has vim only fallback
@@ -39,7 +39,7 @@ function M.focus_right_safe()
 		return
 	end
 	vim.cmd("wincmd l")
-	util.error("Navigator.nvim not found")
+	log.error("Navigator.nvim not found")
 end
 
 return M
