@@ -18,6 +18,9 @@ function M.get_hud_state()
 end
 
 local function log_error_invald_kopy_reg(kopy_reg)
+	if kopy_reg == "" then
+		kopy_reg = "(empty)"
+	end
 	log.error("INVALID KOPY_REG: %s, valid registers are [a-z] [A-Z] 0 + (KOPY_REG STILL: %s)",
 		vim.fn.keytrans(kopy_reg), state.register)
 end
@@ -76,8 +79,11 @@ end
 function M.prompt_kopy_reg_select()
 	log.info("SELECT KOPY_REG: ")
 	local ch_int = vim.fn.getchar()
-	print("int", ch_int)
 	local ch_str = string.char(ch_int)
+	if ch_int == 27 then
+		log.info("ABORTED KOPY_REG SELECT: (KOPY_REG still %s)", state.register)
+		return
+	end
 	if is_valid_kopy_reg(ch_int) then
 		state.register = ch_str
 		log.info("KOPY_REG: %s", state.register)
@@ -89,15 +95,11 @@ function M.prompt_kopy_reg_select()
 		log.info("KOPY_REG: %s", state.register)
 		return
 	end
-	if ch_int == 27 then
-		log.info("ABORTED KOPY_REG SELECT")
-		return
-	end
 	log_error_invald_kopy_reg(ch_str)
 end
 
---- set a new kopy reg
---- valid kopy_regs are limited to [a-z] [A-Z] 0 +
+---set the kopy_reg
+---@param kopy_reg string valid kopy_regs are limited to [a-z] [A-Z] 0 +
 function M.set_kopy_reg(kopy_reg)
 	if (string.len(kopy_reg) ~= 1) or (not is_valid_kopy_reg(string.byte(kopy_reg))) then
 		return log_error_invald_kopy_reg(kopy_reg)

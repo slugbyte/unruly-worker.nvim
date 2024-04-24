@@ -150,7 +150,7 @@ return {
 		m = {
 			z = spec.map(boost.macro.record, "macro record"),
 			Z = spec.map(boost.macro.play, "macro play"),
-			["<c-z>"] = spec.map(boost.macro.select_register, "select macro register"),
+			["<c-z>"] = spec.map(boost.macro.prompt_macro_reg_select, "select macro register"),
 			["<leader>zl"] = spec.map(boost.macro.lock_toggle, "Macro [L]ock Toggle"),
 			['<leader>zv'] = spec.map(boost.macro.peek_register, "Macro [V]iew"),
 			['<leader>zi'] = spec.map(boost.macro.load_macro, "Macro [I]mport"),
@@ -161,7 +161,7 @@ return {
 		m = {
 			q = spec.map(boost.macro.record, "macro record"),
 			Q = spec.map(boost.macro.play, "macro play"),
-			["<c-q>"] = spec.map(boost.macro.select_register, "select macro register"),
+			["<c-q>"] = spec.map(boost.macro.prompt_macro_reg_select, "select macro register"),
 			["<leader>ql"] = spec.map(boost.macro.lock_toggle, "Macro [L]ock Toggle"),
 			['<leader>qv'] = spec.map(boost.macro.peek_register, "Macro [V]iew"),
 			['<leader>qi'] = spec.map(boost.macro.load_macro, "Macro [I]mport"),

@@ -141,7 +141,7 @@ function M.apply_default_options(config)
 	end
 
 	if config.unruly_macro_register ~= nil then
-		boost.macro.set_register_silent(config.unruly_macro_register)
+		boost.macro.set_macro_reg(config.unruly_macro_register)
 	end
 
 	if config.unruly_kopy_register ~= nil then

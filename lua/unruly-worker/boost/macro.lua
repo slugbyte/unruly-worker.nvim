@@ -21,6 +21,14 @@ function M.get_hud_state()
 	return state
 end
 
+local function log_error_invalid_macro_reg(macro_reg)
+	if macro_reg == "" then
+		macro_reg = "(empty)"
+	end
+	log.error("INVALID MACRO_REG: %s, valid registers are [a-z] [A-Z] (MACRO_REG STILL: %s)",
+		vim.fn.keytrans(macro_reg), state.register)
+end
+
 -- record a macro into the macro_reg, then pretty print the result
 function M.record()
 	if state.is_locked then
@@ -54,23 +62,26 @@ function M.play()
 end
 
 -- select a new macro_reg
-function M.select_register()
+function M.prompt_macro_reg_select()
 	if state.is_recording then
-		log.error("cannot change macro register while recording")
-		log.error("recording aborted")
+		log.error("MACRO RECORDING ABORTED: cannot change MACRO_REG while recording.")
 		vim.cmd("silent! normal! q")
 		vim.fn.setreg(state.register, "")
 		return
 	end
-	log.info("MACRO REGISTER SELECT> ")
+	log.info("SELECT MACRO_REG: ")
 	local ch_int = vim.fn.getchar()
 	local ch_str = string.char(ch_int)
-	if is_valid_macro_register(ch_int) then
-		state.register = ch_str
-		log.info("MACRO REGISTER: %s", state.register)
+	if ch_int == 27 then
+		log.info("ABORTED MACRO_REG SELECT: (MACRO_REG still %s)", state.register)
 		return
 	end
-	log.error("invalid register: %s, try [0-9][a-z] (Macro Register Still: %s)", vim.fn.keytrans(ch_str), state.register)
+	if is_valid_macro_register(ch_int) then
+		state.register = ch_str
+		log.info("MACRO_REG: %s", state.register)
+		return
+	end
+	log_error_invalid_macro_reg(ch_str)
 end
 
 -- pritty print the macro_reg
@@ -79,9 +90,9 @@ function M.peek_register()
 
 	if #reg_content > 0 then
 		reg_content = vim.fn.keytrans(reg_content)
-		log.info("REGISTER PEEK %s (%s)", state.register, reg_content)
+		log.info("MACRO_REG %s (%s)", state.register, reg_content)
 	else
-		log.info("REGISTER PEEK %s (empty)", state.register)
+		log.info("MACRO_REG %s (empty)", state.register)
 	end
 end
 
@@ -105,24 +116,24 @@ function M.lock_toggle()
 	M.lock()
 end
 
--- set the macro_reg to a char
-function M.set_register_silent(register)
-	if string.len(register) ~= 1 then
-		log.error("invalid register: register must be a single character [a-z][A-X]")
+---set the macro_reg
+---@param macro_reg string an alpha char [a-z][A-Z]
+function M.set_macro_reg(macro_reg)
+	if (string.len(macro_reg) ~= 1) or (not is_valid_macro_register(string.byte(macro_reg))) then
+		return log_error_invalid_macro_reg(macro_reg)
 	end
-	if is_valid_macro_register(string.byte(register)) then
-		state.register = register
-		return
-	end
-
-	log.error("invalid register (%s): must be [a-z][A-Z]", register)
+	state.register = macro_reg
 end
 
+---pretty paste the current macro into the file
+---special keys will look like (<c-u> <leader>)
 function M.expr_paste_macro()
 	vim.fn.setreg("u", vim.fn.keytrans(vim.fn.getreg(state.register)))
 	return '"up'
 end
 
+---load(yank) visualy selected text as a macro from the buffer
+---special keys should be written like (<c-u> <leader>)
 function M.load_macro()
 	vim.cmd('silent! normal! "uy')
 	local macro_content = vim.fn.keytrans(vim.fn.getreg("u"))
