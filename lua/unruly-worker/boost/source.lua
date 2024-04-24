@@ -1,6 +1,7 @@
 local log = require "unruly-worker.log"
 local M = {}
 
+--- source the current lua or vim file
 function M.source_file()
 	local current_file = vim.fn.expandcmd("%")
 	if current_file == "%" then

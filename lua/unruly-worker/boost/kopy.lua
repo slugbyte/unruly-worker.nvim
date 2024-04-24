@@ -1,5 +1,7 @@
 local ascii = require("unruly-worker.ascii")
 local log = require("unruly-worker.log")
+local health = require("unruly-worker.health")
+
 local M = {}
 
 -- NOTE: register 0 is reseverd for delete
@@ -27,13 +29,14 @@ end
 
 -- valid kopy registers: [a-z] [A-Z] 0 +
 local function is_valid_kopy_reg(ch_int)
-	if ch_int == 48 or ch_int == 43 then
+	if ch_int == ascii.zero or ch_int == ascii.plus then
 		-- return true for 0 or +
 		return true
 	end
 	return ascii.is_int_alpha(ch_int)
 end
 
+-- shift registers 2-9
 local function shift_history()
 	local i = 9
 	while i > 2 do
@@ -42,6 +45,7 @@ local function shift_history()
 	end
 end
 
+--- kopy into kopy_reg and ensure kopy history stored
 function M.expr_kopy()
 	shift_history()
 	vim.defer_fn(function()
@@ -50,6 +54,7 @@ function M.expr_kopy()
 	return string.format('"%sy', state.register)
 end
 
+--- kopy line into kopy_reg and ensure kopy history stored
 function M.expr_kopy_line()
 	shift_history()
 	vim.defer_fn(function()
@@ -58,20 +63,22 @@ function M.expr_kopy_line()
 	return string.format('"%sY', state.register)
 end
 
-function M.create_delete_ex_cmd(key)
-	return string.format('"0%s', key)
+---create a ex_cmd string that has register 0 selected
+--- 'dd' -> '"0dd'
+---@param ex_del_cmd string
+function M.create_delete_ex_cmd(ex_del_cmd)
+	return string.format('"0%s', ex_del_cmd)
 end
 
+--- paste kopy_reg below
 function M.expr_paste_below()
 	return string.format('"%sp', state.register)
 end
 
+--- paste kopy_reg above
 function M.expr_paste_above()
 	return string.format('"%sP', state.register)
 end
-
---- TODO: reset default reg in prompt_kopy_reg_select should default to
---- config.unruly_kopy_register
 
 --- prompt the user to select a new kopy_reg
 --- valid kopy_regs are limited to [a-z] [A-Z] 0 +
@@ -80,18 +87,21 @@ function M.prompt_kopy_reg_select()
 	log.info("SELECT KOPY_REG: ")
 	local ch_int = vim.fn.getchar()
 	local ch_str = string.char(ch_int)
-	if ch_int == 27 then
+	if ch_int == ascii.escape then
 		log.info("ABORTED KOPY_REG SELECT: (KOPY_REG still %s)", state.register)
 		return
 	end
 	if is_valid_kopy_reg(ch_int) then
 		state.register = ch_str
 		log.info("KOPY_REG: %s", state.register)
-
 		return
 	end
-	if ch_int == 13 or ch_int == 32 then
-		state.register = "+"
+	if ch_int == ascii.enter or ascii.space then
+		local default_reg = health.get_health_state().kopy_reg
+		if default_reg == nil then
+			default_reg = "+"
+		end
+		state.register = default_reg
 		log.info("KOPY_REG: %s", state.register)
 		return
 	end

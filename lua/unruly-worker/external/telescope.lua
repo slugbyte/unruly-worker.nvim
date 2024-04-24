@@ -1,5 +1,8 @@
 local M = {}
 
+-- TODO: impl a skip_list for telescope
+
+--- create mapings for telescope.nvim
 function M.create_mappings()
 	local actions = require("telescope.actions")
 	local default_noop = require("telescope.mappings").default_mappings

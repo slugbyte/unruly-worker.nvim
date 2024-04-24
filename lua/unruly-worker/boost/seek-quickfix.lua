@@ -1,5 +1,10 @@
 local M = {}
 
+---@class UnrulyHudStateSeekQuickfix
+---@field len number count of items in quickfix list
+---@field index number current item in quickfix list
+
+---@return UnrulyHudStateSeekLoclist
 function M.get_hud_state()
 	local current_state = vim.fn.getqflist({ idx = 0, size = 0 })
 	return {
@@ -8,18 +13,22 @@ function M.get_hud_state()
 	}
 end
 
+--- goto next item in quickfix
 function M.seek_forward()
 	vim.cmd("cnext")
 end
 
+--- goto next item in quickfix
 function M.seek_reverse()
 	vim.cmd("cprev")
 end
 
+--- goto first item in quickfix
 function M.seek_first()
 	vim.cmd("cfirst")
 end
 
+--- goto last item in quickfix
 function M.seek_last()
 	vim.cmd("clast")
 end

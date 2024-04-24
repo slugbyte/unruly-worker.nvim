@@ -3,6 +3,7 @@ local textobject_staus, textobject = pcall(require, "nvim-treesitter.textobjects
 
 local M = {}
 
+--- goto the next treesitter textobject
 function M.goto_next()
 	if textobject_staus and (textobject ~= nil) then
 		if textobject.last_move == nil then
@@ -16,6 +17,7 @@ function M.goto_next()
 	log.error("treesitter textobject not found")
 end
 
+--- goto the prev treesitter textobject
 function M.goto_prev()
 	if textobject_staus and (textobject ~= nil) then
 		if textobject.last_move == nil then

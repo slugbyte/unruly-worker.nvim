@@ -1,8 +1,10 @@
 local rand = require("unruly-worker.rand")
 local log = require("unruly-worker.log")
+local ascii = require("unruly-worker.ascii")
 
 local M = {}
 
+--- write file for the buffer in focus
 function M.write_file()
 	local status, filename = pcall(vim.fn.expand, "%")
 	if status and (#filename > 0) then
@@ -22,16 +24,13 @@ end
 --- quit all prompt "y" for yes "f" for force
 function M.expr_prompt_quit_all()
 	log.error("QUIT? y for yes, f for force ")
+	local byte = vim.fn.getchar()
 
-	local ch_int = vim.fn.getchar()
-
-	-- y for quit all
-	if ch_int == 121 then
+	if byte == ascii.letter_y then
 		return ":silent qall<cr>"
 	end
 
-	-- f for force quit all
-	if ch_int == 102 then
+	if byte == ascii.letter_f then
 		return ":silent qall!<cr>"
 	end
 

@@ -4,6 +4,7 @@
 local log = require("unruly-worker.log")
 
 local M = {}
+
 local state = {
 	is_local_mode = true,
 	is_gutter_setup = false,
@@ -64,26 +65,7 @@ function M.get_hud_state()
 	return result
 end
 
-function M.get_status_text()
-	local a = "x"
-	local b = "x"
-	local mark_status = M.get_hud_state()
-
-	if mark_status.is_a_set then
-		a = "a"
-	end
-	if mark_status.is_b_set then
-		b = "b"
-	end
-
-	if not state.is_local_mode then
-		a = string.upper(a)
-		b = string.upper(b)
-	end
-
-	return string.format("[%s%s]", a, b)
-end
-
+--- toggle between local and global mode
 function M.toggle_mode()
 	state.is_local_mode = not state.is_local_mode
 	if state.is_local_mode then
@@ -93,10 +75,13 @@ function M.toggle_mode()
 	end
 end
 
-function M.set_is_local_mode_silent(is_local_mode)
+--- set is_local_mode
+---@param is_local_mode boolean
+function M.set_is_local_mode(is_local_mode)
 	state.is_local_mode = is_local_mode
 end
 
+--- delete the a mark for the currently selected mode
 function M.delete_a()
 	if state.is_local_mode then
 		log.info("MARK CLEAR: a")
@@ -107,6 +92,7 @@ function M.delete_a()
 	vim.cmd("silent! delmarks A")
 end
 
+--- delete the b mark for the currently selected mode
 function M.delete_b()
 	if state.is_local_mode then
 		log.info("MARK CLEAR: b")
@@ -117,6 +103,7 @@ function M.delete_b()
 	vim.cmd("silent! delmarks B")
 end
 
+--- delete a and b marks for the currently selected mode
 function M.delete_mode()
 	if state.is_local_mode then
 		log.info("MARK CLEAR: local")
@@ -127,11 +114,13 @@ function M.delete_mode()
 	vim.cmd("silent! delmarks AB")
 end
 
+--- delete marks a and b for for both local and global modes
 function M.delete_all()
 	log.info("MARK CLEAR ALL")
 	vim.cmd("silent! delmarks abAB")
 end
 
+--- jump to mark a for the current mode
 function M.expr_goto_a()
 	if state.is_local_mode then
 		return "'azz"
@@ -140,6 +129,7 @@ function M.expr_goto_a()
 	end
 end
 
+--- jump to mark b for the current mode
 function M.expr_goto_b()
 	if state.is_local_mode then
 		return "'bzz"
@@ -148,6 +138,7 @@ function M.expr_goto_b()
 	end
 end
 
+--- set mark a for the current mode
 function M.expr_set_a()
 	if state.is_local_mode then
 		log.info("MARK SET: a")
@@ -158,6 +149,7 @@ function M.expr_set_a()
 	end
 end
 
+--- set mark b for the current mode
 function M.expr_set_b()
 	if state.is_local_mode then
 		log.info("MARK SET: b")

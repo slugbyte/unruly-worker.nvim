@@ -1,5 +1,8 @@
 local M = {}
 
+-- TODO: impl a skip_list for nvim-cmp
+
+--- create a config for nvim-cmp cmdline mapping
 function M.create_cmdline_mapping()
 	local cmp = require("cmp")
 	local action_confirm_continue = cmp.mapping.confirm({ select = false })
@@ -21,7 +24,6 @@ function M.create_cmdline_mapping()
 
 	local default_cmdline_mapping = {
 		["<C-g>"] = { c = action_confirm_continue },
-
 		["<Right>"] = { c = action_confirm_continue },
 		["<Tab>"] = { c = action_cmdline_next },
 		["<S-Tab>"] = { c = action_cmdline_prev },
@@ -31,6 +33,7 @@ function M.create_cmdline_mapping()
 	return default_cmdline_mapping
 end
 
+--- create a config for nvim-cmp insert mode mapping
 function M.create_insert_mapping()
 	local cmp = require("cmp")
 	local action_abort = cmp.mapping.abort()

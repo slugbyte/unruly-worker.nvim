@@ -1,7 +1,9 @@
 local boost = require("unruly-worker.boost")
 local M = {}
+
 --
 ---@class UnrulyConfigBooster
+---@field default boolean
 ---@field easy_swap boolean
 ---@field easy_find boolean
 ---@field easy_line boolean
@@ -43,13 +45,14 @@ local M = {}
 ---@field skip_list string[]?
 
 local default_config = {
-	unruly_greeting = false,
 	unruly_seek_mode = nil,
 	unruly_kopy_register = nil,
 	unruly_macro_register = nil,
 	unruly_mark_global_mode = false,
 	unruly_swap_q_and_z = false,
+	unruly_greeting = false,
 	booster = {
+		default                     = true,
 		easy_swap                   = false,
 		easy_find                   = false,
 		easy_line                   = false,
@@ -137,7 +140,7 @@ end
 --- @param config UnrulyConfig
 function M.apply_default_options(config)
 	if config.unruly_mark_global_mode then
-		boost.mark.set_is_local_mode_silent(false)
+		boost.mark.set_is_local_mode(false)
 	end
 
 	if config.unruly_macro_register ~= nil then
@@ -149,7 +152,7 @@ function M.apply_default_options(config)
 	end
 
 	if config.unruly_seek_mode ~= nil then
-		boost.seek.set_seek_mode_silent(config.unruly_seek_mode)
+		boost.seek.set_seek_mode(config.unruly_seek_mode)
 	end
 
 	if config.booster.easy_source then

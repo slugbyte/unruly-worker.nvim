@@ -1,11 +1,17 @@
+--TODO: move UnrulyHealthState to a state.lua or somethin
+
 ---@class UnrulyHealthState
 ---@field is_setup boolean
 ---@field is_config_legacy boolean
+---@field kopy_reg string?
+---@field macro_reg string?
 ---@field config UnrulyConfig?
 local health_state = {
 	is_setup = false,
 	is_config_legacy = false,
 	config = nil,
+	kopy_reg = nil,
+	macro_reg = nil,
 }
 
 local M = {}
@@ -21,6 +27,9 @@ function M.setup_complete(is_config_legacy, config)
 	health_state.is_setup = true
 	health_state.is_config_legacy = is_config_legacy
 	health_state.config = config
+
+	health_state.macro_reg = config.unruly_macro_register
+	health_state.kopy_reg = config.unruly_kopy_register
 end
 
 M.check = function()
@@ -34,6 +43,7 @@ M.check = function()
 		vim.health.report_info(
 			"checkout the github to see how to setup your config: https://github.com/slubyte/unruly-worker")
 	end
+	--- TODO: is kopy_reg ok? is macro_reg ok? is seek_mode ok?
 
 	if health_state.config == nil then
 		return
@@ -52,7 +62,6 @@ M.check = function()
 	local should_have_telescope = health_state.config.booster.plugin_telescope_leader
 			or health_state.config.booster.plugin_telescope_easy_jump
 			or health_state.config.booster.plugin_telescope_lsp_leader
-			or health_state.config.booster.plugin_telescope_easy_paste
 
 	if should_have_telescope then
 		local status, _ = pcall(require, "telescope")

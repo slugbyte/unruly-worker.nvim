@@ -2,6 +2,16 @@ local log = require("unruly-worker.log")
 
 local M = {}
 
+---normalize termcodes
+---@param key string
+local function normalize_termcodes(key)
+	return vim.fn.keytrans(vim.api.nvim_replace_termcodes(key, true, false, true))
+end
+
+---check if two keys are the same
+---@param a string
+---@param b string
+---@return boolean
 local function is_key_equal(a, b)
 	local len_a = #a
 	local len_b = #b
@@ -13,14 +23,15 @@ local function is_key_equal(a, b)
 		return a == b
 	end
 
-	if (string.find(a, "leader") ~= nil) then
-		-- BUG: need to remove leader then compare
-		return a == b
-	end
-
-	return string.lower(a) == string.lower(b)
+	a = normalize_termcodes(a)
+	b = normalize_termcodes(b)
+	return a == b
 end
 
+---return false if key is in the skip_list
+---@param key string
+---@param skip_list string[]
+---@return boolean
 local function should_map(key, skip_list)
 	local skip = false
 	for _, skip_key in ipairs(skip_list) do
@@ -57,7 +68,7 @@ end
 ---@param spec_keymap UnrulySpecKeymap
 ---@param config UnrulyConfig
 function M.create_keymaps(spec_keymap, config)
-	create_keymaps_for_spec_booster(spec_keymap.default, config.skip_list)
+	--- TODO: force booster order
 	for booster, is_enabled in pairs(config.booster) do
 		local is_boster_valid = spec_keymap[booster] ~= nil
 		if is_boster_valid then

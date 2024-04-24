@@ -1,11 +1,17 @@
 local M = {}
 
-function M.error(...)
-	vim.notify(string.format(...), vim.log.levels.ERROR)
+--- log error, input works like string.format
+---@param fmt string|number
+---@param ... any
+function M.error(fmt, ...)
+	vim.notify(string.format(fmt, ...), vim.log.levels.ERROR)
 end
 
-function M.info(...)
-	vim.notify(string.format(...), vim.log.levels.INFO)
+--- log info, input works like string.format
+---@param fmt string|number
+---@param ... any
+function M.info(fmt, ...)
+	vim.notify(string.format(fmt, ...), vim.log.levels.INFO)
 end
 
 return M

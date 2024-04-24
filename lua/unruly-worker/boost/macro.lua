@@ -1,5 +1,6 @@
 local ascii = require("unruly-worker.ascii")
 local log = require("unruly-worker.log")
+local health = require("unruly-worker.health")
 
 ---@class UnrulyHudStateMacro
 ---@field register string
@@ -13,14 +14,20 @@ local state = {
 
 local M = {}
 
-local function is_valid_macro_register(ch_int)
+---check if int is a valid macro_reg
+---@param ch_int number a number representing a ascii char
+---@return boolean
+local function is_valid_macro_reg(ch_int)
 	return ascii.is_int_lowercase(ch_int) or ascii.is_int_uppercase(ch_int)
 end
 
+---@return UnrulyHudStateMacro
 function M.get_hud_state()
 	return state
 end
 
+--- log invalid register error message
+---@param macro_reg string
 local function log_error_invalid_macro_reg(macro_reg)
 	if macro_reg == "" then
 		macro_reg = "(empty)"
@@ -29,7 +36,7 @@ local function log_error_invalid_macro_reg(macro_reg)
 		vim.fn.keytrans(macro_reg), state.register)
 end
 
--- record a macro into the macro_reg, then pretty print the result
+---record a macro into the macro_reg, then pretty print the result
 function M.record()
 	if state.is_locked then
 		log.error("MACRO RECORDING LOCKED")
@@ -56,12 +63,12 @@ function M.record()
 	end
 end
 
--- play the macro_reg
+---play the macro_reg
 function M.play()
 	vim.cmd("silent! noautocmd normal! @" .. state.register)
 end
 
--- select a new macro_reg
+---select a new macro_reg
 function M.prompt_macro_reg_select()
 	if state.is_recording then
 		log.error("MACRO RECORDING ABORTED: cannot change MACRO_REG while recording.")
@@ -72,19 +79,29 @@ function M.prompt_macro_reg_select()
 	log.info("SELECT MACRO_REG: ")
 	local ch_int = vim.fn.getchar()
 	local ch_str = string.char(ch_int)
-	if ch_int == 27 then
+	if ch_int == ascii.escape then
 		log.info("ABORTED MACRO_REG SELECT: (MACRO_REG still %s)", state.register)
 		return
 	end
-	if is_valid_macro_register(ch_int) then
+	if is_valid_macro_reg(ch_int) then
 		state.register = ch_str
+		log.info("MACRO_REG: %s", state.register)
+		return
+	end
+
+	if ch_int == ascii.enter or ch_int == ascii.space then
+		local default_reg = health.get_health_state().macro_reg
+		if default_reg == nil then
+			default_reg = "z"
+		end
+		state.register = default_reg
 		log.info("MACRO_REG: %s", state.register)
 		return
 	end
 	log_error_invalid_macro_reg(ch_str)
 end
 
--- pritty print the macro_reg
+---pritty print the macro_reg
 function M.peek_register()
 	local reg_content = vim.fn.getreg(state.register)
 
@@ -96,19 +113,19 @@ function M.peek_register()
 	end
 end
 
--- lock all macro recoding
+---lock all macro recoding
 function M.lock()
 	state.is_locked = true
 	log.info("MACRO RECORDING LOCKED")
 end
 
--- unlock all macro recoding
+---unlock all macro recoding
 function M.unlock()
 	state.is_locked = false
 	log.info("MACRO RECORDING UNLOCKED")
 end
 
--- toggle the macro recording lock
+---toggle the macro recording lock
 function M.lock_toggle()
 	if state.is_locked then
 		return M.unlock()
@@ -119,7 +136,7 @@ end
 ---set the macro_reg
 ---@param macro_reg string an alpha char [a-z][A-Z]
 function M.set_macro_reg(macro_reg)
-	if (string.len(macro_reg) ~= 1) or (not is_valid_macro_register(string.byte(macro_reg))) then
+	if (string.len(macro_reg) ~= 1) or (not is_valid_macro_reg(string.byte(macro_reg))) then
 		return log_error_invalid_macro_reg(macro_reg)
 	end
 	state.register = macro_reg

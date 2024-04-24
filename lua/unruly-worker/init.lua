@@ -48,6 +48,7 @@ local config_util = require("unruly-worker.config-util")
 ---	  	easy_jumplist               = true,
 ---	  	easy_scroll                 = true,
 ---	  	easy_source                 = true,
+---	  	easy_kopy                  = true,
 ---	  	easy_lsp                    = true,
 ---	  	easy_lsp_leader             = true,
 ---	  	easy_diagnostic             = true,
@@ -66,6 +67,7 @@ local config_util = require("unruly-worker.config-util")
 ---	  	plugin_telescope_leader     = true,
 ---	  	plugin_telescope_lsp_leader = true,
 ---	  	plugin_telescope_easy_jump  = true,
+---	  	plugin_telescope_easy_kopy = true,
 ---	  },
 --- })
 --- ```
