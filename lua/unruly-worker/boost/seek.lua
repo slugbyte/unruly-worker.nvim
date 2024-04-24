@@ -6,7 +6,7 @@ local seek_loclist = require("unruly-worker.boost.seek-loclist")
 -- module
 local M = {}
 
----@enum SeekMode
+---@enum UnrulySeekMode
 M.seek_mode = {
 	quickfix = "Q",
 	loclist = "L",
@@ -30,7 +30,7 @@ M.mode_set_buffer = create_mode_set_fn(M.seek_mode.buffer)
 M.mode_set_loclist = create_mode_set_fn(M.seek_mode.loclist)
 
 ---@class UnrulyHudStateSeek
----@field mode SeekMode
+---@field mode UnrulySeekMode
 ---@field len number
 ---@field index number
 
@@ -124,7 +124,7 @@ function M.seek_last()
 	log.error("no seek forward impl for %s", M.mode_get())
 end
 
---- @param seek_mode SeekMode
+--- @param seek_mode UnrulySeekMode
 function M.set_seek_mode_silent(seek_mode)
 	state.seek_mode = seek_mode
 end

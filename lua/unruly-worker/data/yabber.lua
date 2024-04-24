@@ -1,4 +1,19 @@
 return {
+	feedback = {
+		"Siik work!",
+		"Fingers Crossed!",
+		"Good Luck!",
+		"Ur Killin It!",
+		"Well that should fix it!",
+		"Noice!",
+		"Shredding!",
+		"Good Work!",
+		"Fook Yee!",
+		"Keep it up!",
+		"Booyeah!",
+		"Dope!",
+		"Killin it!",
+	},
 	hello = {
 		"Welcome!",
 		"Hey there!",

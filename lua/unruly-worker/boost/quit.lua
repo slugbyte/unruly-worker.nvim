@@ -15,12 +15,12 @@ end
 
 --- save all buffers and print a random emoticon
 function M.write_all()
-	log.info(rand.emoticon())
+	log.info(rand.emoticon() .. rand.feedback())
 	vim.cmd("wall")
 end
 
---- qui_all prompt "y" for yes "f" for force
-function M.quit_all_prompt_expr()
+--- quit all prompt "y" for yes "f" for force
+function M.expr_prompt_quit_all()
 	log.error("QUIT? y for yes, f for force ")
 
 	local ch_int = vim.fn.getchar()

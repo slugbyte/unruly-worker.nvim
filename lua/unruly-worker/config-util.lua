@@ -37,7 +37,7 @@ local M = {}
 ---@field unruly_swap_q_and_z boolean?
 ---@field unruly_macro_register string?
 ---@field unruly_kopy_register string?
----@field unruly_seek_mode SeekMode?
+---@field unruly_seek_mode UnrulySeekMode?
 ---@field unruly_greeting boolean?
 ---@field booster UnrulyConfigBooster?
 ---@field skip_list string[]?
@@ -145,7 +145,7 @@ function M.apply_default_options(config)
 	end
 
 	if config.unruly_kopy_register ~= nil then
-		boost.kopy.set_register_silent(config.unruly_kopy_register)
+		boost.kopy.set_kopy_reg(config.unruly_kopy_register)
 	end
 
 	if config.unruly_seek_mode ~= nil then

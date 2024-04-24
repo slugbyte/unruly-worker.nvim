@@ -40,7 +40,6 @@ return {
 			O = spec.map("$", "right to EOL"),
 			p = spec.map("p", "paste after"),
 			P = spec.map("P", "paste before"),
-			["<C-p>"] = spec.expr(boost.kopy.expr_prompt_paste, "paste before"),
 			q = spec.map("q", "z{reg} record macro"),
 			Q = spec.map("@", "Z{reg} play macro"),
 			r = spec.map("r", "replace"),
@@ -153,7 +152,9 @@ return {
 			Z = spec.map(boost.macro.play, "macro play"),
 			["<c-z>"] = spec.map(boost.macro.select_register, "select macro register"),
 			["<leader>zl"] = spec.map(boost.macro.lock_toggle, "Macro [L]ock Toggle"),
-			['<leader>zp'] = spec.map(boost.macro.peek_register, "Macro [P]eek"),
+			['<leader>zv'] = spec.map(boost.macro.peek_register, "Macro [V]iew"),
+			['<leader>zi'] = spec.map(boost.macro.load_macro, "Macro [I]mport"),
+			['<leader>zp'] = spec.expr(boost.macro.expr_paste_macro, "Macro [P]aste"),
 		},
 	},
 	unruly_macro_q = {
@@ -162,32 +163,38 @@ return {
 			Q = spec.map(boost.macro.play, "macro play"),
 			["<c-q>"] = spec.map(boost.macro.select_register, "select macro register"),
 			["<leader>ql"] = spec.map(boost.macro.lock_toggle, "Macro [L]ock Toggle"),
-			['<leader>qp'] = spec.map(boost.macro.peek_register, "Macro [P]eek"),
+			['<leader>qv'] = spec.map(boost.macro.peek_register, "Macro [V]iew"),
+			['<leader>qi'] = spec.map(boost.macro.load_macro, "Macro [I]mport"),
+			['<leader>qp'] = spec.expr(boost.macro.expr_paste_macro, "Macro [P]aste"),
 		},
 	},
 	unruly_kopy = {
 		m = {
-			['"'] = spec.map(boost.kopy.register_select, "select kopy_register"),
+			['"'] = spec.map(boost.kopy.prompt_kopy_reg_select, "select kopy_register"),
 			-- delete
-			c = spec.map(boost.kopy.create_delete_cmd("c"), "change content, store old in reg 0"),
-			cc = spec.map(boost.kopy.create_delete_cmd("cc"), "changle lines, store old in reg 0"),
-			C = spec.map(boost.kopy.create_delete_cmd("C"), "change to EOL, store old in reg 0"),
-			d = spec.map(boost.kopy.create_delete_cmd("d"), "delete motion into reg 0"),
-			dd = spec.map(boost.kopy.create_delete_cmd("dd"), "delete motion into reg 0"),
-			D = spec.map(boost.kopy.create_delete_cmd("D"), "delete motion into reg 0"),
-			x = spec.map(boost.kopy.create_delete_cmd("x"), "delete char into reg 0"),
-			X = spec.map(boost.kopy.create_delete_cmd("X"), "delete previous char into reg 0"),
+			c = spec.map(boost.kopy.create_delete_ex_cmd("c"), "change content, store old in reg 0"),
+			cc = spec.map(boost.kopy.create_delete_ex_cmd("cc"), "changle lines, store old in reg 0"),
+			C = spec.map(boost.kopy.create_delete_ex_cmd("C"), "change to EOL, store old in reg 0"),
+			d = spec.map(boost.kopy.create_delete_ex_cmd("d"), "delete motion into reg 0"),
+			dd = spec.map(boost.kopy.create_delete_ex_cmd("dd"), "delete motion into reg 0"),
+			D = spec.map(boost.kopy.create_delete_ex_cmd("D"), "delete motion into reg 0"),
+			x = spec.map(boost.kopy.create_delete_ex_cmd("x"), "delete char into reg 0"),
+			X = spec.map(boost.kopy.create_delete_ex_cmd("X"), "delete previous char into reg 0"),
 			-- kopy
-			k = spec.expr(boost.kopy.expr_yank, "kopy"),
-			K = spec.expr(boost.kopy.expr_yank_line, "kopy line"),
+			k = spec.expr(boost.kopy.expr_kopy, "kopy"),
+			K = spec.expr(boost.kopy.expr_kopy_line, "kopy line"),
 			-- paste
 			-- p = map.basic_expr(action.kopy.expr_paste_below, "paste after")
 			-- P = map.basic_expr(action.kopy.expr_paste_above, "paste before"),
 			-- paste
 			p = spec.expr(boost.kopy.expr_paste_below, "paste after"),
 			P = spec.expr(boost.kopy.expr_paste_above, "paste before"),
+			["<C-p>"] = spec.expr(boost.kopy.expr_prompt_paste, "paste prompt"),
 			[","] = spec.map('"0P', "paste delete_reg above"),
 			["."] = spec.map('"0p', "paste delete_reg below"),
+		},
+		v = {
+			["<C-k>"] = spec.expr(boost.kopy.expr_prompt_kopy, "kopy prompt"),
 		},
 	},
 	easy_window = {
@@ -205,16 +212,16 @@ return {
 	},
 	unruly_quit_q = {
 		m = {
-			q = spec.map(boost.quit.write_all, "write all", spec.silent),
-			Q = spec.map(boost.quit.write_file, "write file", spec.silent),
-			["<c-q>"] = spec.expr(boost.quit.quit_all_prompt_expr, "quit prompt", spec.silent),
+			q = spec.map(boost.quit.write_all, "write all", spec.silent_mode.silent),
+			Q = spec.map(boost.quit.write_file, "write file", spec.silent_mode.silent),
+			["<c-q>"] = spec.expr(boost.quit.expr_prompt_quit_all, "quit prompt", spec.silent_mode.silent),
 		},
 	},
 	unruly_quit_z = {
 		m = {
-			z = spec.map(boost.quit.write_all, "write all", spec.silent),
-			Z = spec.map(boost.quit.write_file, "write file", spec.silent),
-			["<c-z>"] = spec.expr(boost.quit.quit_all_prompt_expr, "quit prompt", spec.silent),
+			z = spec.map(boost.quit.write_all, "write all", spec.silent_mode.silent),
+			Z = spec.map(boost.quit.write_file, "write file", spec.silent_mode.silent),
+			["<c-z>"] = spec.expr(boost.quit.expr_prompt_quit_all, "quit prompt", spec.silent_mode.silent),
 		},
 	},
 	easy_scroll = {

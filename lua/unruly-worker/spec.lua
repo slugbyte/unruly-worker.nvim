@@ -9,12 +9,13 @@ local M = {}
 -- `map gcc` will execute whatever gcc has been remaped to, for example
 --	`gcc` is used to toggle comment by several comment plugins like Comment.nvim
 
----@alias silent boolean
+---@enum UnrulySilentMode
+M.silent_mode = {
+	silent = true,
+	no_silent = false,
+}
 
----@type silent
-M.silent = true
----@type silent
-M.no_silent = false
+---@alias silent boolean
 
 ---@class UnrulySpecKey
 ---@field value string|function
@@ -37,10 +38,10 @@ M.no_silent = false
 ---create a noremap keymap
 ---@param value string|function
 ---@param desc string
----@param is_silent silent? defaults to spec.no_silent
+---@param is_silent UnrulySilentMode? defaults to spec.silent__mode.no_silent
 ---@return UnrulySpecKey
 function M.map(value, desc, is_silent)
-	is_silent = is_silent or M.no_silent
+	is_silent = is_silent or M.silent_mode.no_silent
 	return {
 		desc = desc,
 		value = value,
@@ -53,10 +54,10 @@ end
 ---create a remap keymap
 ---@param value string|function
 ---@param desc string
----@param is_silent silent? defaults to spec.no_silent
+---@param is_silent UnrulySilentMode? defaults to spec.silent_mode.no_silent
 ---@return UnrulySpecKey
 function M.remap(value, desc, is_silent)
-	is_silent = is_silent or M.no_silent
+	is_silent = is_silent or M.silent_mode.no_silent
 	return {
 		desc = desc,
 		value = value,
@@ -69,10 +70,10 @@ end
 ---create an noremap expr keymap
 ---@param value function function should return string with EX command
 ---@param desc string
----@param is_silent silent? defaults to spec.no_silent
+---@param is_silent UnrulySilentMode? defaults to spec.silent_mode.no_silent
 ---@return UnrulySpecKey
 function M.expr(value, desc, is_silent)
-	is_silent = is_silent or M.no_silent
+	is_silent = is_silent or M.silent_mode.no_silent
 	return {
 		desc = desc,
 		value = value,

@@ -118,4 +118,16 @@ function M.set_register_silent(register)
 	log.error("invalid register (%s): must be [a-z][A-Z]", register)
 end
 
+function M.expr_paste_macro()
+	vim.fn.setreg("u", vim.fn.keytrans(vim.fn.getreg(state.register)))
+	return '"up'
+end
+
+function M.load_macro()
+	vim.cmd('silent! normal! "uy')
+	local macro_content = vim.fn.keytrans(vim.fn.getreg("u"))
+	vim.fn.setreg(state.register, vim.api.nvim_replace_termcodes(macro_content, true, false, true))
+	log.info("MACRO LOADED: (%s)", macro_content)
+end
+
 return M
