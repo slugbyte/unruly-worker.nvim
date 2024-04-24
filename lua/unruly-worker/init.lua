@@ -17,16 +17,8 @@ local hud = require("unruly-worker.hud")
 local health = require("unruly-worker.health")
 local config_util = require("unruly-worker.config-util")
 
----@class SpecBooster
----@field m table
----@field n table
----@field i table
----@field v table
----@field s table
----@field x table
----@field o table
-
-local map_spec = {
+---@type UnrulySpecKeymap
+local keymap = {
 	default = {
 		m = {
 			-- alphabet
@@ -64,7 +56,7 @@ local map_spec = {
 			O = map.spec_basic("$", "right to EOL"),
 			p = map.spec_basic("p", "paste after"),
 			P = map.spec_basic("P", "paste before"),
-			["<C-p>"] = map.basic_expr(boost.kopy.expr_prompt_paste, "paste before"),
+			["<C-p>"] = map.spec_basic_expr(boost.kopy.expr_prompt_paste, "paste before"),
 			q = map.spec_basic("q", "z{reg} record macro"),
 			Q = map.spec_basic("@", "Z{reg} play macro"),
 			r = map.spec_basic("r", "replace"),
@@ -165,10 +157,10 @@ local map_spec = {
 		m = {
 			m = map.spec_basic(boost.mark.toggle_mode, "mark mode toggle"),
 			M = map.spec_basic(boost.mark.delete_mode, "mark delete mode"),
-			["<c-a>"] = map.basic_expr(boost.mark.expr_goto_a, "GOTO MARK: a"),
-			["<leader>a"] = map.basic_expr(boost.mark.expr_set_a, "MARK SET: a"),
-			["<c-b>"] = map.basic_expr(boost.mark.expr_goto_b, "GOTO MARK: b"),
-			["<leader>b"] = map.basic_expr(boost.mark.expr_set_b, "MARK SET: b"),
+			["<c-a>"] = map.spec_basic_expr(boost.mark.expr_goto_a, "GOTO MARK: a"),
+			["<leader>a"] = map.spec_basic_expr(boost.mark.expr_set_a, "MARK SET: a"),
+			["<c-b>"] = map.spec_basic_expr(boost.mark.expr_goto_b, "GOTO MARK: b"),
+			["<leader>b"] = map.spec_basic_expr(boost.mark.expr_set_b, "MARK SET: b"),
 		},
 	},
 	unruly_macro_z = {
@@ -202,14 +194,14 @@ local map_spec = {
 			x = map.spec_basic(boost.kopy.create_delete_cmd("x"), "delete char into reg 0"),
 			X = map.spec_basic(boost.kopy.create_delete_cmd("X"), "delete previous char into reg 0"),
 			-- kopy
-			k = map.basic_expr(boost.kopy.expr_yank, "kopy"),
-			K = map.basic_expr(boost.kopy.expr_yank_line, "kopy line"),
+			k = map.spec_basic_expr(boost.kopy.expr_yank, "kopy"),
+			K = map.spec_basic_expr(boost.kopy.expr_yank_line, "kopy line"),
 			-- paste
 			-- p = map.basic_expr(action.kopy.expr_paste_below, "paste after")
 			-- P = map.basic_expr(action.kopy.expr_paste_above, "paste before"),
 			-- paste
-			p = map.basic_expr(boost.kopy.expr_paste_below, "paste after"),
-			P = map.basic_expr(boost.kopy.expr_paste_above, "paste before"),
+			p = map.spec_basic_expr(boost.kopy.expr_paste_below, "paste after"),
+			P = map.spec_basic_expr(boost.kopy.expr_paste_above, "paste before"),
 			[","] = map.spec_basic('"0P', "paste delete_reg above"),
 			["."] = map.spec_basic('"0p', "paste delete_reg below"),
 		},
@@ -488,7 +480,7 @@ local function setup(user_config)
 	end
 
 	config_util.apply_default_options(config)
-	map.create_keymaps(map_spec, config)
+	map.create_keymaps(keymap, config)
 
 	-- NOTE: unruly_greeting is an easter egg, you wont find this in the docs
 	if config.unruly_greeting then

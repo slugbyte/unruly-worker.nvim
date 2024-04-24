@@ -11,18 +11,45 @@ M.remap = true
 M.silent = true
 M.no_silent = false
 
----@class SpecKey
+---@class UnrulySpecKey
 ---@field value string|function
 ---@field is_remap boolean
 ---@field is_silent boolean
 ---@field is_expr boolean
 ---@field desc string
 
+---@class UnrulySpecBooster
+---@field m {[string]:UnrulySpecKey}
+---@field n {[string]:UnrulySpecKey}
+---@field i {[string]:UnrulySpecKey}
+---@field v {[string]:UnrulySpecKey}
+---@field s {[string]:UnrulySpecKey}
+---@field x {[string]:UnrulySpecKey}
+---@field o {[string]:UnrulySpecKey}
+
+---@alias UnrulySpecKeymap {[string]:UnrulySpecBooster}
+
+---@param value string|function
+---@param desc string
+---@param is_remap boolean?
+---@param is_silent boolean?
+function M.spec_key(value, desc, is_remap, is_silent)
+	is_remap = is_remap or M.no_remap
+	is_silent = is_silent or M.no_silent
+	return {
+		desc = desc,
+		value = value,
+		is_silent = is_silent,
+		is_remap = is_remap,
+		is_expr = false,
+	}
+end
+
 ---@param value string|function
 ---@param is_remap boolean
 ---@param is_silent boolean
 ---@param desc string
----@return SpecKey
+---@return UnrulySpecKey
 function M.spec_custom(value, is_remap, is_silent, desc)
 	return {
 		value = value,
@@ -37,7 +64,7 @@ end
 ---@param is_remap boolean
 ---@param is_silent boolean
 ---@param desc string
----@return SpecKey
+---@return UnrulySpecKey
 function M.spec_custom_expr(value, is_remap, is_silent, desc)
 	return {
 		value = value,
@@ -50,19 +77,19 @@ end
 
 ---@param cmd string|function
 ---@param desc string
----@return SpecKey
+---@return UnrulySpecKey
 function M.spec_basic(cmd, desc)
 	return M.spec_custom(cmd, M.no_remap, M.no_silent, desc)
 end
 
 ---@param cmd function
 ---@param desc string
----@return SpecKey
-function M.basic_expr(cmd, desc)
+---@return UnrulySpecKey
+function M.spec_basic_expr(cmd, desc)
 	return M.spec_custom_expr(cmd, M.no_remap, M.no_silent, desc)
 end
 
----@return SpecKey
+---@return UnrulySpecKey
 function M.spec_noop()
 	return M.spec_basic("\\", "")
 end
@@ -95,11 +122,13 @@ local function should_map(key, skip_list)
 	return not skip
 end
 
-local create_keymaps_for_map_spec_section = function(map_spec_section, skip_list)
-	if map_spec_section == nil then
+---@param spec_booster UnrulySpecBooster
+---@param skip_list string[]
+local create_keymaps_for_spec_booster = function(spec_booster, skip_list)
+	if spec_booster == nil then
 		return
 	end
-	for mode, mode_map in pairs(map_spec_section) do
+	for mode, mode_map in pairs(spec_booster) do
 		if mode == "m" then
 			mode = ""
 		end
@@ -117,13 +146,15 @@ local create_keymaps_for_map_spec_section = function(map_spec_section, skip_list
 	end
 end
 
-function M.create_keymaps(map_spec, config)
-	create_keymaps_for_map_spec_section(map_spec.default, config.skip_list)
+---@param spec_keymap UnrulySpecKeymap
+---@param config UnrulyConfig
+function M.create_keymaps(spec_keymap, config)
+	create_keymaps_for_spec_booster(spec_keymap.default, config.skip_list)
 	for booster, is_enabled in pairs(config.booster) do
-		local is_boster_valid = map_spec[booster] ~= nil
+		local is_boster_valid = spec_keymap[booster] ~= nil
 		if is_boster_valid then
 			if is_enabled then
-				create_keymaps_for_map_spec_section(map_spec[booster], config.skip_list)
+				create_keymaps_for_spec_booster(spec_keymap[booster], config.skip_list)
 			end
 		else
 			log.error("UNRULY SETUP ERROR: unknown booster (%s)", booster)
