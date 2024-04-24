@@ -9,10 +9,11 @@ local M = {}
 -- `map gcc` will execute whatever gcc has been remaped to, for example
 --	`gcc` is used to toggle comment by several comment plugins like Comment.nvim
 
-M.remap = true
-M.no_remap = false
+---@alias silent boolean
 
+---@type silent
 M.silent = true
+---@type silent
 M.no_silent = false
 
 ---@class UnrulySpecKey
@@ -36,7 +37,7 @@ M.no_silent = false
 ---create a noremap keymap
 ---@param value string|function
 ---@param desc string
----@param is_silent boolean? defaults to false
+---@param is_silent silent? defaults to spec.no_silent
 ---@return UnrulySpecKey
 function M.map(value, desc, is_silent)
 	is_silent = is_silent or M.no_silent
@@ -52,7 +53,7 @@ end
 ---create a remap keymap
 ---@param value string|function
 ---@param desc string
----@param is_silent boolean? defaults to false
+---@param is_silent silent? defaults to spec.no_silent
 ---@return UnrulySpecKey
 function M.remap(value, desc, is_silent)
 	is_silent = is_silent or M.no_silent
@@ -68,7 +69,7 @@ end
 ---create an noremap expr keymap
 ---@param value function function should return string with EX command
 ---@param desc string
----@param is_silent boolean? defaults to false
+---@param is_silent silent? defaults to spec.no_silent
 ---@return UnrulySpecKey
 function M.expr(value, desc, is_silent)
 	is_silent = is_silent or M.no_silent
