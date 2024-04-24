@@ -43,7 +43,8 @@ M.check = function()
 		vim.health.report_info(
 			"checkout the github to see how to setup your config: https://github.com/slubyte/unruly-worker")
 	end
-	--- TODO: is kopy_reg ok? is macro_reg ok? is seek_mode ok?
+
+	--- TODO: is config ok? -> is kopy_reg ok? is macro_reg ok? is seek_mode ok?
 
 	if health_state.config == nil then
 		return
