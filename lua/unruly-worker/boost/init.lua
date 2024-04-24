@@ -1,4 +1,5 @@
 return {
+	source = require("unruly-worker.boost.source"),
 	kopy = require("unruly-worker.boost.kopy"),
 	macro = require("unruly-worker.boost.macro"),
 	mark = require("unruly-worker.boost.mark"),

@@ -8,7 +8,6 @@
 --  Maintainer: Duncan Marsh (slugbyte@slugbyte.com)
 --  Repository: https://github.com/slugbyte/unruly-worker
 
-
 local rand = require("unruly-worker.rand")
 local boost = require("unruly-worker.boost")
 local map = require("unruly-worker.map")
@@ -16,398 +15,391 @@ local log = require("unruly-worker.log")
 local hud = require("unruly-worker.hud")
 local health = require("unruly-worker.health")
 local config_util = require("unruly-worker.config-util")
+local spec = require("unruly-worker.spec")
 
 ---@type UnrulySpecKeymap
 local keymap = {
 	default = {
 		m = {
 			-- alphabet
-			a = map.spec_custom("a", map.remap, map.no_silent, "append cursor"),
-			A = map.spec_basic("A", "append line"),
-			b = map.spec_basic("%", "brace match"),
-			B = map.spec_basic("g;", "back to last change"),
-			c = map.spec_basic("c", "change"),
-			C = map.spec_basic("C", "change to end of line"),
-			cc = map.spec_basic("C", "change lines"),
-			d = map.spec_basic("d", "delete"),
-			D = map.spec_basic("D", "delete to end of line"),
-			dd = map.spec_basic("dd", "delete lines"),
-			e = map.spec_basic("k", "up"),
-			E = map.spec_basic("vip", "envelope paraghaph"),
-			f = map.spec_basic("n", "find next"),
-			F = map.spec_basic("N", "find prev"),
-			g = map.spec_basic("g", "g command"),
-			G = map.spec_basic("G", "goto line"),
-			h = map.spec_basic(";", "hop t/T{char} repeat"),
-			H = map.spec_basic(",", "hop t/T{char} reverse"),
-			i = map.spec_basic("i", "insert"),
-			I = map.spec_basic("I", "insert BOL"),
-			j = map.spec_noop(),
-			J = map.spec_noop(),
-			k = map.spec_basic("y", "kopy"),
-			K = map.spec_basic("Y", "kopy line"),
-			l = map.spec_basic("o", "line insert below"),
-			L = map.spec_basic("O", "line insert above"),
-			m = map.spec_basic("'", "m{char} goto mark"),
-			M = map.spec_basic("m", "m{char} set mark"),
-			n = map.spec_basic("j", "down"),
-			N = map.spec_basic("J", "join lines"),
-			o = map.spec_basic("l", "right"),
-			O = map.spec_basic("$", "right to EOL"),
-			p = map.spec_basic("p", "paste after"),
-			P = map.spec_basic("P", "paste before"),
-			["<C-p>"] = map.spec_basic_expr(boost.kopy.expr_prompt_paste, "paste before"),
-			q = map.spec_basic("q", "z{reg} record macro"),
-			Q = map.spec_basic("@", "Z{reg} play macro"),
-			r = map.spec_basic("r", "replace"),
-			R = map.spec_basic("R", "replace mode"),
-			s = map.spec_basic("s", "subsitute"),
-			S = map.spec_basic("S", "subsitute lines"),
-			t = map.spec_basic("f", "f{char} go to char"),
-			T = map.spec_basic("F", "T{char} go to char reverse"),
-			u = map.spec_basic("u", "undo"),
-			U = map.spec_basic("<C-r>", "redo"),
-			v = map.spec_basic("v", "visual mode"),
-			V = map.spec_basic("V", "visual line mode"),
-			w = map.spec_basic("w", "word forward"),
-			W = map.spec_basic("b", "word backward"),
-			x = map.spec_basic("x", "delete under cursor"),
-			X = map.spec_basic("X", "delete before cursor"),
-			y = map.spec_basic("h", "left"),
-			Y = map.spec_basic("^", "left to BOL"),
-			z = map.spec_basic("z", "z command"),
-			Z = map.spec_basic("Z", "Z command"),
+			a = spec.remap("a", "append cursor"),
+			A = spec.map("A", "append line"),
+			b = spec.map("%", "brace match"),
+			B = spec.map("g;", "back to last change"),
+			c = spec.map("c", "change"),
+			C = spec.map("C", "change to end of line"),
+			cc = spec.map("C", "change lines"),
+			d = spec.map("d", "delete"),
+			D = spec.map("D", "delete to end of line"),
+			dd = spec.map("dd", "delete lines"),
+			e = spec.map("k", "up"),
+			E = spec.map("vip", "envelope paraghaph"),
+			f = spec.map("n", "find next"),
+			F = spec.map("N", "find prev"),
+			g = spec.map("g", "g command"),
+			G = spec.map("G", "goto line"),
+			h = spec.map(";", "hop t/T{char} repeat"),
+			H = spec.map(",", "hop t/T{char} reverse"),
+			i = spec.map("i", "insert"),
+			I = spec.map("I", "insert BOL"),
+			j = spec.noop(),
+			J = spec.noop(),
+			k = spec.map("y", "kopy"),
+			K = spec.map("Y", "kopy line"),
+			l = spec.map("o", "line insert below"),
+			L = spec.map("O", "line insert above"),
+			m = spec.map("'", "m{char} goto mark"),
+			M = spec.map("m", "m{char} set mark"),
+			n = spec.map("j", "down"),
+			N = spec.map("J", "join lines"),
+			o = spec.map("l", "right"),
+			O = spec.map("$", "right to EOL"),
+			p = spec.map("p", "paste after"),
+			P = spec.map("P", "paste before"),
+			["<C-p>"] = spec.expr(boost.kopy.expr_prompt_paste, "paste before"),
+			q = spec.map("q", "z{reg} record macro"),
+			Q = spec.map("@", "Z{reg} play macro"),
+			r = spec.map("r", "replace"),
+			R = spec.map("R", "replace mode"),
+			s = spec.map("s", "subsitute"),
+			S = spec.map("S", "subsitute lines"),
+			t = spec.map("f", "f{char} go to char"),
+			T = spec.map("F", "T{char} go to char reverse"),
+			u = spec.map("u", "undo"),
+			U = spec.map("<C-r>", "redo"),
+			v = spec.map("v", "visual mode"),
+			V = spec.map("V", "visual line mode"),
+			w = spec.map("w", "word forward"),
+			W = spec.map("b", "word backward"),
+			x = spec.map("x", "delete under cursor"),
+			X = spec.map("X", "delete before cursor"),
+			y = spec.map("h", "left"),
+			Y = spec.map("^", "left to BOL"),
+			z = spec.map("z", "z command"),
+			Z = spec.map("Z", "Z command"),
 
 			-- parens
-			[")"] = map.spec_basic(")", "next sentence"),
-			["("] = map.spec_basic("(", "prev sentence"),
+			[")"] = spec.map(")", "next sentence"),
+			["("] = spec.map("(", "prev sentence"),
 
-			["}"] = map.spec_basic("}", "next paragraph"),
-			["{"] = map.spec_basic("{", "prev paragraph"),
+			["}"] = spec.map("}", "next paragraph"),
+			["{"] = spec.map("{", "prev paragraph"),
 
-			["["] = map.spec_basic("<C-o>", "jumplist back"),
-			["]"] = map.spec_basic("<C-i>", "jumplist forward"),
+			["["] = spec.map("<C-o>", "jumplist back"),
+			["]"] = spec.map("<C-i>", "jumplist forward"),
 
-			["<"] = map.spec_basic("<", "nudge left"),
-			[">"] = map.spec_basic(">", "nudge right"),
+			["<"] = spec.map("<", "nudge left"),
+			[">"] = spec.map(">", "nudge right"),
 
 			-- case swap
-			["~"] = map.spec_basic("~", "case swap"),
+			["~"] = spec.map("~", "case swap"),
 
 			-- command
-			[":"] = map.spec_basic(":", "command mode"),
-			["'"] = map.spec_basic(":", "command mode"),
-			["/"] = map.spec_basic("/", "search down"),
-			["?"] = map.spec_basic("?", "search up"),
+			[":"] = spec.map(":", "command mode"),
+			["'"] = spec.map(":", "command mode"),
+			["/"] = spec.map("/", "search down"),
+			["?"] = spec.map("?", "search up"),
 
 			-- register
-			['"'] = map.spec_basic('"', "register select"),
+			['"'] = spec.map('"', "register select"),
 
 			-- repeat
-			["&"] = map.spec_basic("&", "repeat subsitute"),
-			["!"] = map.spec_basic(".", "repeat change"),
+			["&"] = spec.map("&", "repeat subsitute"),
+			["!"] = spec.map(".", "repeat change"),
 
 			-- cursor align
-			["@"] = map.spec_basic("zt", "align top"),
-			["$"] = map.spec_basic("zz", "align middle"),
-			["#"] = map.spec_basic("zb", "align bottom"),
+			["@"] = spec.map("zt", "align top"),
+			["$"] = spec.map("zz", "align middle"),
+			["#"] = spec.map("zb", "align bottom"),
 
 			-- window nav
-			["<C-w>k"] = map.spec_noop(),
-			["<C-w>l"] = map.spec_noop(),
-			["<C-w>y"] = map.spec_basic("<C-w>h", "focus left"),
-			["<C-w>n"] = map.spec_basic("<C-w>j", "focus down"),
-			["<C-w>e"] = map.spec_basic("<C-w>k", "focus up"),
-			["<C-w>o"] = map.spec_basic("<C-w>l", "focus right"),
-			["<C-w>x"] = map.spec_basic(":close<CR>", "close pane"),
-			["<C-w>f"] = map.spec_basic(":on<CR>", "full screen"),
-			["<C-w>h"] = map.spec_basic(":sp<CR>", "split horizontal"),
-			["<C-w>s"] = map.spec_basic(":vs<CR>", "split verticle"),
+			["<C-w>k"] = spec.noop(),
+			["<C-w>l"] = spec.noop(),
+			["<C-w>y"] = spec.map("<C-w>h", "focus left"),
+			["<C-w>n"] = spec.map("<C-w>j", "focus down"),
+			["<C-w>e"] = spec.map("<C-w>k", "focus up"),
+			["<C-w>o"] = spec.map("<C-w>l", "focus right"),
+			["<C-w>x"] = spec.map(":close<CR>", "close pane"),
+			["<C-w>f"] = spec.map(":on<CR>", "full screen"),
+			["<C-w>h"] = spec.map(":sp<CR>", "split horizontal"),
+			["<C-w>s"] = spec.map(":vs<CR>", "split verticle"),
 
 			-- noop
-			["%"] = map.spec_noop(),
-			["^"] = map.spec_noop(),
-			["="] = map.spec_noop(),
-			["*"] = map.spec_noop(),
-			["-"] = map.spec_noop(),
-			["_"] = map.spec_noop(),
-			["+"] = map.spec_noop(),
-			["|"] = map.spec_noop(),
-			[";"] = map.spec_noop(),
-			[","] = map.spec_noop(),
-			["."] = map.spec_noop(),
+			["%"] = spec.noop(),
+			["^"] = spec.noop(),
+			["="] = spec.noop(),
+			["*"] = spec.noop(),
+			["-"] = spec.noop(),
+			["_"] = spec.noop(),
+			["+"] = spec.noop(),
+			["|"] = spec.noop(),
+			[";"] = spec.noop(),
+			[","] = spec.noop(),
+			["."] = spec.noop(),
 		},
 		c = {
-			["<C-a>"] = map.spec_basic("<home>", "goto BOL"),
-			["<C-e>"] = map.spec_basic("<end>", "goto EOL"),
+			["<C-a>"] = spec.map("<home>", "goto BOL"),
+			["<C-e>"] = spec.map("<end>", "goto EOL"),
 		},
 	},
 	unruly_seek = {
 		m = {
-			["<leader>sn"] = map.spec_basic(boost.seek.seek_forward, "[N]ext Seek"),
-			["<leader>sp"] = map.spec_basic(boost.seek.seek_reverse, "[P]rev Seek"),
-			["<leader>sf"] = map.spec_basic(boost.seek.seek_first, "[S]eek [F]irst"),
-			["<leader>sl"] = map.spec_basic(boost.seek.seek_last, "[S]eek [L]ast"),
-			["<leader>sQ"] = map.spec_basic(boost.seek.mode_set_quickfix, "[S]eek mode [Q]uickfix"),
-			["<leader>sL"] = map.spec_basic(boost.seek.mode_set_loclist, "[S]eek mode [L]oclist"),
-			["<leader>sB"] = map.spec_basic(boost.seek.mode_set_buffer, "[S]eek mode [B]uffer"),
+			["<leader>sn"] = spec.map(boost.seek.seek_forward, "[N]ext Seek"),
+			["<leader>sp"] = spec.map(boost.seek.seek_reverse, "[P]rev Seek"),
+			["<leader>sf"] = spec.map(boost.seek.seek_first, "[S]eek [F]irst"),
+			["<leader>sl"] = spec.map(boost.seek.seek_last, "[S]eek [L]ast"),
+			["<leader>sQ"] = spec.map(boost.seek.mode_set_quickfix, "[S]eek mode [Q]uickfix"),
+			["<leader>sL"] = spec.map(boost.seek.mode_set_loclist, "[S]eek mode [L]oclist"),
+			["<leader>sB"] = spec.map(boost.seek.mode_set_buffer, "[S]eek mode [B]uffer"),
 		},
 	},
 	unruly_mark = {
 		m = {
-			m = map.spec_basic(boost.mark.toggle_mode, "mark mode toggle"),
-			M = map.spec_basic(boost.mark.delete_mode, "mark delete mode"),
-			["<c-a>"] = map.spec_basic_expr(boost.mark.expr_goto_a, "GOTO MARK: a"),
-			["<leader>a"] = map.spec_basic_expr(boost.mark.expr_set_a, "MARK SET: a"),
-			["<c-b>"] = map.spec_basic_expr(boost.mark.expr_goto_b, "GOTO MARK: b"),
-			["<leader>b"] = map.spec_basic_expr(boost.mark.expr_set_b, "MARK SET: b"),
+			m = spec.map(boost.mark.toggle_mode, "mark mode toggle"),
+			M = spec.map(boost.mark.delete_mode, "mark delete mode"),
+			["<c-a>"] = spec.expr(boost.mark.expr_goto_a, "GOTO MARK: a"),
+			["<leader>a"] = spec.expr(boost.mark.expr_set_a, "MARK SET: a"),
+			["<c-b>"] = spec.expr(boost.mark.expr_goto_b, "GOTO MARK: b"),
+			["<leader>b"] = spec.expr(boost.mark.expr_set_b, "MARK SET: b"),
 		},
 	},
 	unruly_macro_z = {
 		m = {
-			z = map.spec_basic(boost.macro.record, "macro record"),
-			Z = map.spec_basic(boost.macro.play, "macro play"),
-			["<c-z>"] = map.spec_basic(boost.macro.select_register, "select macro register"),
-			["<leader>zl"] = map.spec_basic(boost.macro.lock_toggle, "Macro [L]ock Toggle"),
-			['<leader>zp'] = map.spec_basic(boost.macro.peek_register, "Macro [P]eek"),
+			z = spec.map(boost.macro.record, "macro record"),
+			Z = spec.map(boost.macro.play, "macro play"),
+			["<c-z>"] = spec.map(boost.macro.select_register, "select macro register"),
+			["<leader>zl"] = spec.map(boost.macro.lock_toggle, "Macro [L]ock Toggle"),
+			['<leader>zp'] = spec.map(boost.macro.peek_register, "Macro [P]eek"),
 		},
 	},
 	unruly_macro_q = {
 		m = {
-			q = map.spec_basic(boost.macro.record, "macro record"),
-			Q = map.spec_basic(boost.macro.play, "macro play"),
-			["<c-q>"] = map.spec_basic(boost.macro.select_register, "select macro register"),
-			["<leader>ql"] = map.spec_basic(boost.macro.lock_toggle, "Macro [L]ock Toggle"),
-			['<leader>qp'] = map.spec_basic(boost.macro.peek_register, "Macro [P]eek"),
+			q = spec.map(boost.macro.record, "macro record"),
+			Q = spec.map(boost.macro.play, "macro play"),
+			["<c-q>"] = spec.map(boost.macro.select_register, "select macro register"),
+			["<leader>ql"] = spec.map(boost.macro.lock_toggle, "Macro [L]ock Toggle"),
+			['<leader>qp'] = spec.map(boost.macro.peek_register, "Macro [P]eek"),
 		},
 	},
 	unruly_kopy = {
 		m = {
-			['"'] = map.spec_basic(boost.kopy.register_select, "select kopy_register"),
+			['"'] = spec.map(boost.kopy.register_select, "select kopy_register"),
 			-- delete
-			c = map.spec_basic(boost.kopy.create_delete_cmd("c"), "change content, store old in reg 0"),
-			cc = map.spec_basic(boost.kopy.create_delete_cmd("cc"), "changle lines, store old in reg 0"),
-			C = map.spec_basic(boost.kopy.create_delete_cmd("C"), "change to EOL, store old in reg 0"),
-			d = map.spec_basic(boost.kopy.create_delete_cmd("d"), "delete motion into reg 0"),
-			dd = map.spec_basic(boost.kopy.create_delete_cmd("dd"), "delete motion into reg 0"),
-			D = map.spec_basic(boost.kopy.create_delete_cmd("D"), "delete motion into reg 0"),
-			x = map.spec_basic(boost.kopy.create_delete_cmd("x"), "delete char into reg 0"),
-			X = map.spec_basic(boost.kopy.create_delete_cmd("X"), "delete previous char into reg 0"),
+			c = spec.map(boost.kopy.create_delete_cmd("c"), "change content, store old in reg 0"),
+			cc = spec.map(boost.kopy.create_delete_cmd("cc"), "changle lines, store old in reg 0"),
+			C = spec.map(boost.kopy.create_delete_cmd("C"), "change to EOL, store old in reg 0"),
+			d = spec.map(boost.kopy.create_delete_cmd("d"), "delete motion into reg 0"),
+			dd = spec.map(boost.kopy.create_delete_cmd("dd"), "delete motion into reg 0"),
+			D = spec.map(boost.kopy.create_delete_cmd("D"), "delete motion into reg 0"),
+			x = spec.map(boost.kopy.create_delete_cmd("x"), "delete char into reg 0"),
+			X = spec.map(boost.kopy.create_delete_cmd("X"), "delete previous char into reg 0"),
 			-- kopy
-			k = map.spec_basic_expr(boost.kopy.expr_yank, "kopy"),
-			K = map.spec_basic_expr(boost.kopy.expr_yank_line, "kopy line"),
+			k = spec.expr(boost.kopy.expr_yank, "kopy"),
+			K = spec.expr(boost.kopy.expr_yank_line, "kopy line"),
 			-- paste
 			-- p = map.basic_expr(action.kopy.expr_paste_below, "paste after")
 			-- P = map.basic_expr(action.kopy.expr_paste_above, "paste before"),
 			-- paste
-			p = map.spec_basic_expr(boost.kopy.expr_paste_below, "paste after"),
-			P = map.spec_basic_expr(boost.kopy.expr_paste_above, "paste before"),
-			[","] = map.spec_basic('"0P', "paste delete_reg above"),
-			["."] = map.spec_basic('"0p', "paste delete_reg below"),
+			p = spec.expr(boost.kopy.expr_paste_below, "paste after"),
+			P = spec.expr(boost.kopy.expr_paste_above, "paste before"),
+			[","] = spec.map('"0P', "paste delete_reg above"),
+			["."] = spec.map('"0p', "paste delete_reg below"),
 		},
 	},
 	easy_window = {
 		m = {
-			["<C-x>"] = map.spec_basic(":close<CR>", "close pane"),
-			["<C-f>"] = map.spec_basic(":on<CR>", "full screen"),
-			["<C-h>"] = map.spec_basic(":sp<CR>", "split horizontal"),
-			["<C-s>"] = map.spec_basic(":vs<CR>", "split verticle"),
+			["<C-x>"] = spec.map(":close<CR>", "close pane"),
+			["<C-f>"] = spec.map(":on<CR>", "full screen"),
+			["<C-h>"] = spec.map(":sp<CR>", "split horizontal"),
+			["<C-s>"] = spec.map(":vs<CR>", "split verticle"),
 		},
 	},
 	easy_source = {
 		n = {
-			["%"] = map.spec_custom(function()
-				local current_file = vim.fn.expandcmd("%")
-				if current_file == "%" then
-					log.error("cannot source noname buffer, try to save file beforce sourcing")
-					return
-				end
-				local keys = vim.api.nvim_replace_termcodes(":source %<cr>", true, false, true)
-				vim.api.nvim_feedkeys(keys, "n", false)
-			end, map.no_remap, map.no_silent, "source current buffer"),
+			["%"] = spec.map(boost.source.source_file, "source current buffer"),
 		},
 	},
 	unruly_quit_q = {
 		m = {
-			q = map.spec_custom(boost.quit.write_all, map.no_remap, map.silent, "write all"),
-			Q = map.spec_custom(boost.quit.write_file, map.no_remap, map.silent, "write file"),
-			["<c-q>"] = map.spec_custom_expr(boost.quit.quit_all_prompt_expr, map.no_remap, map.silent, "quit prompt"),
+			q = spec.map(boost.quit.write_all, "write all", map.silent),
+			Q = spec.map(boost.quit.write_file, "write file", map.silent),
+			["<c-q>"] = spec.expr(boost.quit.quit_all_prompt_expr, "quit prompt", map.silent),
 		},
 	},
 	unruly_quit_z = {
 		m = {
-			z = map.spec_custom(boost.quit.write_all, map.no_remap, map.silent, "write all"),
-			Z = map.spec_custom(boost.quit.write_file, map.no_remap, map.silent, "write file"),
-			["<c-z>"] = map.spec_custom_expr(boost.quit.quit_all_prompt_expr, map.no_remap, map.silent, "quit prompt"),
+			z = spec.map(boost.quit.write_all, "write all", map.silent),
+			Z = spec.map(boost.quit.write_file, "write file", map.silent),
+			["<c-z>"] = spec.expr(boost.quit.quit_all_prompt_expr, "quit prompt", map.silent),
 		},
 	},
 	easy_scroll = {
 		m = {
-			["<End>"] = map.spec_basic("9<C-E>", "scroll down fast"),
-			["<PageDown>"] = map.spec_basic("3<C-E>", "scroll down"),
-			["<PageUp>"] = map.spec_basic("3<C-Y>", "scroll up"),
-			["<Home>"] = map.spec_basic("9<C-Y>", "scroll down fast"),
+			["<End>"] = spec.map("9<C-E>", "scroll down fast"),
+			["<PageDown>"] = spec.map("3<C-E>", "scroll down"),
+			["<PageUp>"] = spec.map("3<C-Y>", "scroll up"),
+			["<Home>"] = spec.map("9<C-Y>", "scroll down fast"),
 		},
 	},
 	easy_focus = {
 		m = {
-			["<C-y>"] = map.spec_basic("<C-w>h", "focus left"),
-			["<C-n>"] = map.spec_basic("<C-w>j", "focus down"),
-			["<C-e>"] = map.spec_basic("<C-w>k", "focus up"),
-			["<C-o>"] = map.spec_basic("<C-w>l", "focus right"),
+			["<C-y>"] = spec.map("<C-w>h", "focus left"),
+			["<C-n>"] = spec.map("<C-w>j", "focus down"),
+			["<C-e>"] = spec.map("<C-w>k", "focus up"),
+			["<C-o>"] = spec.map("<C-w>l", "focus right"),
 		},
 	},
 	easy_spellcheck = {
 		m = {
-			["<leader>c"] = map.spec_basic(boost.telescope.spell_suggest_safe, "[S]pell [C]heck"),
+			["<leader>c"] = spec.map(boost.telescope.spell_suggest_safe, "[S]pell [C]heck"),
 		}
 	},
 	easy_line = {
 		m = {
-			["<leader>ll"] = map.spec_basic("o<esc>^d$<Up>", "[L]ine Below"),
-			["<leader>lL"] = map.spec_basic("O<esc>^d$<Down>", "[L]ine Above"),
+			["<leader>ll"] = spec.map("o<esc>^d$<Up>", "[L]ine Below"),
+			["<leader>lL"] = spec.map("O<esc>^d$<Down>", "[L]ine Above"),
 		},
 	},
 	easy_find = {
 		m = {
-			["<leader>f"] = map.spec_basic("g*", "[F]ind Word Under Cursor"),
-			["<leader>F"] = map.spec_basic("g#", "[F]ind Word Under Cursor Reverse"),
+			["<leader>f"] = spec.map("g*", "[F]ind Word Under Cursor"),
+			["<leader>F"] = spec.map("g#", "[F]ind Word Under Cursor Reverse"),
 		},
 	},
 	easy_swap = {
 		n = {
-			["<C-Down>"] = map.spec_basic(":m .+1<CR>==", "swap down"),
-			["<C-Up>"] = map.spec_basic(":m .-2<CR>==", "swap up"),
+			["<C-Down>"] = spec.map(":m .+1<CR>==", "swap down"),
+			["<C-Up>"] = spec.map(":m .-2<CR>==", "swap up"),
 		},
 		v = {
-			["<C-Down>"] = map.spec_basic(":m '>+1<CR>gv=gv", "swap down"),
-			["<C-Up>"] = map.spec_basic(":m '<-2<CR>gv=gv", "swap up"),
+			["<C-Down>"] = spec.map(":m '>+1<CR>gv=gv", "swap down"),
+			["<C-Up>"] = spec.map(":m '<-2<CR>gv=gv", "swap up"),
 		},
 	},
 	easy_jumplist = {
 		m = {
-			["<c-j>"] = map.spec_basic(boost.telescope.jump_list_safe, "jumplist"),
+			["<c-j>"] = spec.map(boost.telescope.jump_list_safe, "jumplist"),
 		},
 	},
 	easy_incrament = {
 		v = {
-			["<leader>i"] = map.spec_basic("g<C-a>", "[I]ncrament Number Column"),
+			["<leader>i"] = spec.map("g<C-a>", "[I]ncrament Number Column"),
 		},
 	},
 	easy_hlsearch = {
 		n = {
-			["<esc>"] = map.spec_basic("<cmd>nohlsearch<CR>", "disable hl search"),
+			["<esc>"] = spec.map("<cmd>nohlsearch<CR>", "disable hl search"),
 		},
 	},
 	easy_lsp = {
 		m = {
-			[";"] = map.spec_basic(vim.lsp.buf.hover, "lsp hover"),
-			["="] = map.spec_basic(vim.lsp.buf.code_action, "lsp code action"),
-			["<C-r>"] = map.spec_basic(vim.lsp.buf.rename, "lsp rename"),
-			["<C-d>"] = map.spec_basic(boost.telescope.lsp_definiton_safe, "lsp definition"),
+			[";"] = spec.map(vim.lsp.buf.hover, "lsp hover"),
+			["="] = spec.map(vim.lsp.buf.code_action, "lsp code action"),
+			["<C-r>"] = spec.map(vim.lsp.buf.rename, "lsp rename"),
+			["<C-d>"] = spec.map(boost.telescope.lsp_definiton_safe, "lsp definition"),
 		},
 	},
 	easy_lsp_leader = {
 		m = {
-			["<leader>la"] = map.spec_basic(vim.lsp.buf.code_action, "[L]sp Code [A]ction"),
-			["<leader>lh"] = map.spec_basic(vim.lsp.buf.hover, "[L]sp [H]over"),
-			["<leader>ld"] = map.spec_basic(boost.telescope.lsp_definiton_safe, "[L]sp goto [D]efinition"),
-			["<leader>lD"] = map.spec_basic(vim.lsp.buf.declaration, "[L]sp goto [D]eclaration"),
-			["<leader>lf"] = map.spec_basic(vim.lsp.buf.format, "[L]sp [F]ormat"),
-			["<leader>lR"] = map.spec_basic(vim.lsp.buf.rename, "[L]sp [R]ename"),
+			["<leader>la"] = spec.map(vim.lsp.buf.code_action, "[L]sp Code [A]ction"),
+			["<leader>lh"] = spec.map(vim.lsp.buf.hover, "[L]sp [H]over"),
+			["<leader>ld"] = spec.map(boost.telescope.lsp_definiton_safe, "[L]sp goto [D]efinition"),
+			["<leader>lD"] = spec.map(vim.lsp.buf.declaration, "[L]sp goto [D]eclaration"),
+			["<leader>lf"] = spec.map(vim.lsp.buf.format, "[L]sp [F]ormat"),
+			["<leader>lR"] = spec.map(vim.lsp.buf.rename, "[L]sp [R]ename"),
 		},
 	},
 	easy_diagnostic = {
 		m = {
-			["_"] = map.spec_basic(vim.diagnostic.goto_next, "diagnostic next"),
-			["-"] = map.spec_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
+			["_"] = spec.map(vim.diagnostic.goto_next, "diagnostic next"),
+			["-"] = spec.map(vim.diagnostic.goto_prev, "diagnostic prev"),
 		},
 	},
 	easy_diagnostic_leader = {
 		m = {
-			["<leader>dn"] = map.spec_basic(vim.diagnostic.goto_next, "diagnostic next"),
-			["<leader>dp"] = map.spec_basic(vim.diagnostic.goto_prev, "diagnostic prev"),
-			["<leader>d?"] = map.spec_basic(boost.telescope.diagnostics, "[L]sp Diagnostics"),
+			["<leader>dn"] = spec.map(vim.diagnostic.goto_next, "diagnostic next"),
+			["<leader>dp"] = spec.map(vim.diagnostic.goto_prev, "diagnostic prev"),
+			["<leader>d?"] = spec.map(boost.telescope.diagnostics, "[L]sp Diagnostics"),
 		},
 	},
 	plugin_comment = {
 		n = {
-			["<C-c>"] = map.spec_custom("gcc", map.remap, map.no_silent, "comment"),
+			["<C-c>"] = spec.remap("gcc", "comment"),
 		},
 		v = {
-			["<C-c>"] = map.spec_custom("gc", map.remap, map.no_silent, "comment"),
+			["<C-c>"] = spec.remap("gc", "comment"),
 		},
 	},
 	plugin_navigator = {
 		m = {
-			["<C-y>"] = map.spec_custom(boost.navigator.focus_left_safe, map.no_remap, map.silent, "focus left (vim/tmux)"),
-			["<C-n>"] = map.spec_custom(boost.navigator.focus_down_safe, map.no_remap, map.silent, "focus down (vim/tmux)"),
-			["<C-e>"] = map.spec_custom(boost.navigator.focus_up_safe, map.no_remap, map.silent, "focus up (vim/tmux)"),
-			["<C-o>"] = map.spec_custom(boost.navigator.focus_right_safe, map.no_remap, map.silent, "focus right (vim/tmux)"),
+			["<C-y>"] = spec.map(boost.navigator.focus_left_safe, "focus left (vim/tmux)"),
+			["<C-n>"] = spec.map(boost.navigator.focus_down_safe, "focus down (vim/tmux)"),
+			["<C-e>"] = spec.map(boost.navigator.focus_up_safe, "focus up (vim/tmux)"),
+			["<C-o>"] = spec.map(boost.navigator.focus_right_safe, "focus right (vim/tmux)"),
 		},
 	},
 	plugin_textobject = {
 		n = {
-			s = map.spec_basic(boost.textobjects.goto_next, "skip textobject forward"),
-			S = map.spec_basic(boost.textobjects.goto_prev, "skip textobject reverse")
+			s = spec.map(boost.textobjects.goto_next, "skip textobject forward"),
+			S = spec.map(boost.textobjects.goto_prev, "skip textobject reverse")
 		},
 		x = {
-			s = map.spec_basic(boost.textobjects.goto_next, "skip textobject forward"),
-			S = map.spec_basic(boost.textobjects.goto_prev, "skip textobject reverse")
+			s = spec.map(boost.textobjects.goto_next, "skip textobject forward"),
+			S = spec.map(boost.textobjects.goto_prev, "skip textobject reverse")
 		},
 		o = {
-			s = map.spec_basic(boost.textobjects.goto_next, "skip textobject forward"),
-			S = map.spec_basic(boost.textobjects.goto_prev, "skip textobject reverse")
+			s = spec.map(boost.textobjects.goto_next, "skip textobject forward"),
+			S = spec.map(boost.textobjects.goto_prev, "skip textobject reverse")
 		},
 	},
 	plugin_luasnip = {
 		i = {
-			["<C-Right>"] = map.spec_basic(boost.luasnip.jump_forward, "luasnip jump next"),
-			["<C-Left>"] = map.spec_basic(boost.luasnip.jump_reverse, "luasnip jump prev"),
-			["<C-l>"] = map.spec_basic(boost.luasnip.jump_forward, "luasnip jump next"),
-			["<C-k>"] = map.spec_basic(boost.luasnip.jump_reverse, "luasnip jump prev"),
+			["<C-Right>"] = spec.map(boost.luasnip.jump_forward, "luasnip jump next"),
+			["<C-Left>"] = spec.map(boost.luasnip.jump_reverse, "luasnip jump prev"),
+			["<C-l>"] = spec.map(boost.luasnip.jump_forward, "luasnip jump next"),
+			["<C-k>"] = spec.map(boost.luasnip.jump_reverse, "luasnip jump prev"),
 		},
 		s = {
-			["<C-Right>"] = map.spec_basic(boost.luasnip.jump_forward, "luasnip jump next"),
-			["<C-Left>"] = map.spec_basic(boost.luasnip.jump_reverse, "luasnip jump prev"),
-			["<C-l>"] = map.spec_basic(boost.luasnip.jump_forward, "luasnip jump next"),
-			["<C-k>"] = map.spec_basic(boost.luasnip.jump_reverse, "luasnip jump prev"),
+			["<C-Right>"] = spec.map(boost.luasnip.jump_forward, "luasnip jump next"),
+			["<C-Left>"] = spec.map(boost.luasnip.jump_reverse, "luasnip jump prev"),
+			["<C-l>"] = spec.map(boost.luasnip.jump_forward, "luasnip jump next"),
+			["<C-k>"] = spec.map(boost.luasnip.jump_reverse, "luasnip jump prev"),
 		},
 	},
 	plugin_telescope_lsp_leader = {
 		m = {
 			-- telescope lsp
-			["<leader>lc"] = map.spec_basic(boost.telescope.lsp_incoming_calls, "[L]sp Incoming [C]alls"),
-			["<leader>lC"] = map.spec_basic(boost.telescope.lsp_outgoing_calls, "[L]sp Outgoing [C]alls"),
-			["<leader>li"] = map.spec_basic(boost.telescope.lsp_implementations, "[L]sp Goto [I]mplementation"),
-			["<leader>lr"] = map.spec_basic(boost.telescope.lsp_references, "[L]sp [R]eferences"),
-			["<leader>ls"] = map.spec_basic(boost.telescope.lsp_document_symbols, "[L]sp Document [S]ymbols"),
-			["<leader>lS"] = map.spec_basic(boost.telescope.lsp_workspace_symbols, "[L]sp Workspace [S]ymbols"),
-			["<leader>l$"] = map.spec_basic(boost.telescope.lsp_dynamic_workspace_symbols, "[L]sp Dynamic Workspace [S]ymbols"),
-			["<leader>lt"] = map.spec_basic(boost.telescope.lsp_type_definitions, "[L]sp [T]ypes"),
+			["<leader>lc"] = spec.map(boost.telescope.lsp_incoming_calls, "[L]sp Incoming [C]alls"),
+			["<leader>lC"] = spec.map(boost.telescope.lsp_outgoing_calls, "[L]sp Outgoing [C]alls"),
+			["<leader>li"] = spec.map(boost.telescope.lsp_implementations, "[L]sp Goto [I]mplementation"),
+			["<leader>lr"] = spec.map(boost.telescope.lsp_references, "[L]sp [R]eferences"),
+			["<leader>ls"] = spec.map(boost.telescope.lsp_document_symbols, "[L]sp Document [S]ymbols"),
+			["<leader>lS"] = spec.map(boost.telescope.lsp_workspace_symbols, "[L]sp Workspace [S]ymbols"),
+			["<leader>l$"] = spec.map(boost.telescope.lsp_dynamic_workspace_symbols, "[L]sp Dynamic Workspace [S]ymbols"),
+			["<leader>lt"] = spec.map(boost.telescope.lsp_type_definitions, "[L]sp [T]ypes"),
 		}
 	},
 	plugin_telescope_easy_jump = {
 		m = {
-			j = map.spec_basic(boost.telescope.find_files, "jump files"),
-			J = map.spec_basic(boost.telescope.live_grep, "jump files"),
+			j = spec.map(boost.telescope.find_files, "jump files"),
+			J = spec.map(boost.telescope.live_grep, "jump files"),
 		}
 	},
 	plugin_telescope_leader = {
 		m = {
-			["<leader>/"] = map.spec_basic(boost.telescope.buffer_fuzzy_search, "buffer fuzzy find"),
-			["<leader>tb"] = map.spec_basic(boost.telescope.buffers, "[T]elescope [B]uffers"),
-			["<leader>to"] = map.spec_basic(boost.telescope.oldfiles, "[T]elescope [O]ldfiles"),
-			["<leader>tq"] = map.spec_basic(boost.telescope.quickfix, "[T]elescope [Q]uickfix"),
-			["<leader>tl"] = map.spec_basic(boost.telescope.loclist, "[T]elescope [L]oclist"),
-			["<leader>tj"] = map.spec_basic(boost.telescope.jump_list_safe, "[T]elescope [J]umplist"),
-			["<leader>tm"] = map.spec_basic(boost.telescope.man_pages, "[T]elescope [M]an pages"),
-			["<leader>th"] = map.spec_basic(boost.telescope.help_tags, "[T]elescope [H]elp Tags"),
-			["<leader>tt"] = map.spec_basic(boost.telescope.man_pages, "[T]elescope [T]ags"),
-			["<leader>tc"] = map.spec_basic(boost.telescope.commands, "[T]elescope [C]ommands"),
-			["<leader>tk"] = map.spec_basic(boost.telescope.keymaps, "[T]elescope [K]eymaps"),
-			["<leader>tp"] = map.spec_basic(boost.telescope.registers, "[T]elescope [P]aste"),
-			["<leader>tr"] = map.spec_basic(boost.telescope.resume, "[T]elescope [R]epeat"),
+			["<leader>/"] = spec.map(boost.telescope.buffer_fuzzy_search, "buffer fuzzy find"),
+			["<leader>tb"] = spec.map(boost.telescope.buffers, "[T]elescope [B]uffers"),
+			["<leader>to"] = spec.map(boost.telescope.oldfiles, "[T]elescope [O]ldfiles"),
+			["<leader>tq"] = spec.map(boost.telescope.quickfix, "[T]elescope [Q]uickfix"),
+			["<leader>tl"] = spec.map(boost.telescope.loclist, "[T]elescope [L]oclist"),
+			["<leader>tj"] = spec.map(boost.telescope.jump_list_safe, "[T]elescope [J]umplist"),
+			["<leader>tm"] = spec.map(boost.telescope.man_pages, "[T]elescope [M]an pages"),
+			["<leader>th"] = spec.map(boost.telescope.help_tags, "[T]elescope [H]elp Tags"),
+			["<leader>tt"] = spec.map(boost.telescope.man_pages, "[T]elescope [T]ags"),
+			["<leader>tc"] = spec.map(boost.telescope.commands, "[T]elescope [C]ommands"),
+			["<leader>tk"] = spec.map(boost.telescope.keymaps, "[T]elescope [K]eymaps"),
+			["<leader>tp"] = spec.map(boost.telescope.registers, "[T]elescope [P]aste"),
+			["<leader>tr"] = spec.map(boost.telescope.resume, "[T]elescope [R]epeat"),
 		}
 	},
 }
@@ -472,6 +464,7 @@ local function setup(user_config)
 		return
 	end
 	vim.g.unruly_worker = true
+
 	local is_config_legacy = config_util.is_config_legacy(user_config)
 	local config = config_util.normalize_user_config(user_config)
 
@@ -489,7 +482,6 @@ local function setup(user_config)
 
 	health.setup_complete(is_config_legacy, config)
 end
-
 
 return {
 	setup = setup,
