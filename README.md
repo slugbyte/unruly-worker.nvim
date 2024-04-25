@@ -79,7 +79,7 @@ unruly_worker.setup({
     -- set default unruly seek mode, must be unruly_worker.seek_mode.(buffer|loclist|quickfix)
     seek_mode = unruly_worker.seek_mode.buffer,
     -- set unruly mark mode to global or local
-    mark_mod_is_global = false
+    mark_mode_is_global = false
   },
   -- boosters allow you to op-in to extra keymaps
   -- or opt-out of the default keymaps if you want that for some reason
