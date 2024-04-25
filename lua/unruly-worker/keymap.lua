@@ -272,7 +272,6 @@ return {
 			m = {
 				["<leader>dn"] = spec.map(vim.diagnostic.goto_next, "diagnostic next"),
 				["<leader>dp"] = spec.map(vim.diagnostic.goto_prev, "diagnostic prev"),
-				["<leader>d?"] = spec.map(boost.telescope.diagnostics, "[L]sp Diagnostics"),
 			},
 		},
 	},
@@ -458,11 +457,20 @@ return {
 		},
 	},
 	{
+		name = "plugin_telescope_diagnostic_leader",
+		keymap = {
+			m = {
+				["<leader>d?"] = spec.map(boost.telescope.diagnostics, "[L]sp Diagnostics"),
+			}
+		},
+	},
+	{
 		name = "plugin_telescope_easy_jump",
 		keymap = {
 			m = {
 				j = spec.map(boost.telescope.find_files, "jump files"),
 				J = spec.map(boost.telescope.live_grep, "jump files"),
+				["<c-j>"] = spec.map(boost.telescope.jump_list_safe, "jumplist"),
 			}
 		},
 	},

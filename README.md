@@ -116,6 +116,7 @@ unruly_worker.setup({
     plugin_telescope_lsp_leader = false,
     plugin_telescope_easy_jump  = false,
     plugin_telescope_easy_paste = false,
+    plugin_telescope_diagnostic_leader = false,
   },
 })
 ```
@@ -531,7 +532,7 @@ fi
 > not most vim users cup of tea
 
 ### unruly_kopy
-* kopy and paste using the preselected `kopy_reg` (default: `+`)
+* kopy and paste use the preselected register `kopy_reg` (default: `+`)
 * delete, change, substitute, and paste always use register `0`
 * kopy, delete, change, and substitute share registers 1-9 to track history
 
@@ -563,21 +564,6 @@ fi
 * `.` ______________ paste register 0 below
 * `,` ______________ paste register 0 above
 
-### unruly_macro
-when enabled macros use a preselected `macro_register` (default: `z`)
-
-* `q` ______________ record macro
-* `Q` ______________ play macro
-* `<C-q>` __________ select the macro register
-  * valid registers: [a-z][A-Z]
-* `<leader>qv` _____ pretty print the current macro content (view)
-* `<leader>qp` _____ pretty paste the current macro content into the current buffer
-* `<leader>qi` _____ import select text as a macro
-  * this will convert special keys in the selected text like `<cr>` `<esc>` into the register correctly
-* `<leader>ql` _____ toggle macro recording/import lock
-  * this is useful if you want to make sure you don't accidentally overwrite
-  the current macro register
-
 ### unruly_mark
 The unruly idea behind marks is that you only need two marks, for everything
 else just use [telescope](https://github.com/nvim-telescope/telescope.nvim). Unruly marks can be in local buffer mode or global
@@ -589,49 +575,48 @@ mode, by default it will be in local mode.
 * `m` _____________ toggle between local and global mark mode
 * `M` _____________ clear current mark mode marks
 
-### unruly_quit
-> this is a bad idea, but I love it
-* `z` _____________ write all buffers, and print a random emoticon (`:wall`)
-  * the random emoticon is useful as visual feedback that the write occurred `(づ ◕‿◕ )づ`
-* `Z` _____________ quit all (`:qall`)
-* `<C-z>` _________ force quit all (`:qall!`)
-
 ### unruly_seek
 unruly seek allows you to quickly navigate through quickfix list,
 loclist, and currently open buffers. Seek keymaps only target one
 type of seekable list at a time, by default the seek type will be buffers.
 
-* `<leader>n` _____ goto next seek item
-* `<leader>p`  ____ goto prev seek item
+* `<leader>sn` _____ goto next seek item
+* `<leader>sp`  ____ goto prev seek item
+* `<leader>sf` ____ goto first item in seek list
+* `<leader>sl` ____ goto last item in seek list
 * `<leader>sQ` ____ seek the quickfix list
 * `<leader>sL` ____ seek the loclist
 * `<leader>sB` ____ seek open buffers
-* `<leader>sl` ____ goto first item in seek list
-* `<leader>sf` ____ goto last item in seek list
+
+### unruly_macro
+unruly macros use the preselected register `macro_reg` (default: `z`)
+
+* `q` ______________ record macro
+* `Q` ______________ play macro
+* `<C-q>` __________ select the macro register
+  * valid registers: `[a-z][A-Z]`
+* `<leader>qv` _____ pretty print the current macro content (view)
+* `<leader>qp` _____ pretty paste the current macro content into the current buffer
+* `<leader>qi` _____ import select text as a macro
+  * this will convert special keys in the selected text like `<cr>` `<esc>` into the register correctly
+* `<leader>ql` _____ toggle macro recording/import lock
+  * this is useful if you want to make sure you don't accidentally overwrite the current macro register
+
+### unruly_quit
+> this is maby a bad idea, but I love it
+* `z` _____________ write all buffers, and print a random emoticon (`:wall`)
+  * the random emoticon is useful as visual feedback that the write occurred `(づ ◕‿◕ )づ`
+* `Z` _____________ write the current buffer
+* `<C-z>` _________ prompt to quit (`y` for yes, `f` for force quit)
 
 ## PLUGIN BOOSTERS (disabled by default)
 > plugin boosters have other plugin dependencies
-
-#### plugin_telescope_lsp_leader
-> depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
-* `<leader>l?` telescope lsp diagnostics
-* `<leader>lc` telescope lsp incoming calls
-* `<leader>lC` telescope lsp outgoing calls
-* `<leader>li` telescope lsp goto implementaion
-* `<leader>lR` telescope lsp references
-* `<leader>ls` telescope lsp domument symbols
-* `<leader>lS` telescope lsp workspace symbols
-* `<leader>l$` telescope lsp dynamic workspacen symbols
-* `<leader>lt` telescope lsp types
 
 #### plugin_telescope_jump_easy
 > depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
 * `j` telescope find files (jump)
 * `J` telescope live grep (grep jump)
 * `<C-j>` telescope jumplist (jumplist jump)
-
-#### plugin_telescope_paste_easy
-* `<c-p>` telescope paste from any register
 
 #### plugin_telescope_leader
 > depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
@@ -648,6 +633,21 @@ type of seekable list at a time, by default the seek type will be buffers.
 * `<leader>tp` telescope paste from any register
 * `<leader>tr` telescope repeat last search
 
+#### plugin_telescope_lsp_leader
+> depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
+* `<leader>lc` telescope lsp incoming calls
+* `<leader>lC` telescope lsp outgoing calls
+* `<leader>li` telescope lsp goto implementation
+* `<leader>lr` telescope lsp references
+* `<leader>ls` telescope lsp document symbols
+* `<leader>lS` telescope lsp workspace symbols
+* `<leader>l$` telescope lsp dynamic workspace symbols
+* `<leader>lt` telescope lsp types
+
+#### plugin_telescope_diagnostic_leader
+> depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
+* `<leader>d?` telescope lsp diagnostics
+
 #### plugin_comment
 > depends on any plugin that uses `gc` and `gcc` mappings to comment toggle, like
 > [Comment.nvim](https://github.com/numToStr/Comment.nvim)
@@ -663,8 +663,11 @@ type of seekable list at a time, by default the seek type will be buffers.
 #### plugin_textobject
 > depends on [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) and
     [nvim-treesitter-textobject](https://github.com/nvim-treesitter/nvim-treesitter-textobjects)
-  * `s` skip to next textobject
-  * `S` skip to prev textobject
+
+`plugin_textobject` will whatever `s` and `S` where previously (for example
+unruly_kopy's `s`)
+* `s` skip to next textobject
+* `S` skip to prev textobject
 
 #### plugin_luasnip
 > depends on [LuaSnip](https://github.com/L3MON4D3/LuaSnip) powerful snipits
