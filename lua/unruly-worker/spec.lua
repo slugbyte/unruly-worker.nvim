@@ -17,29 +17,33 @@ M.silent_mode = {
 
 ---@alias silent boolean
 
----@class UnrulySpecKey
+---@class UnrulySpecKeyAction
 ---@field value string|function
 ---@field is_remap boolean
 ---@field is_silent boolean
 ---@field is_expr boolean
 ---@field desc string
 
----@class UnrulySpecBooster
----@field m {[string]:UnrulySpecKey}
----@field n {[string]:UnrulySpecKey}
----@field i {[string]:UnrulySpecKey}
----@field v {[string]:UnrulySpecKey}
----@field s {[string]:UnrulySpecKey}
----@field x {[string]:UnrulySpecKey}
----@field o {[string]:UnrulySpecKey}
+---@class UnrulySpecBoosterKeymap
+---@field m {[string]:UnrulySpecKeyAction}
+---@field n {[string]:UnrulySpecKeyAction}
+---@field i {[string]:UnrulySpecKeyAction}
+---@field v {[string]:UnrulySpecKeyAction}
+---@field s {[string]:UnrulySpecKeyAction}
+---@field x {[string]:UnrulySpecKeyAction}
+---@field o {[string]:UnrulySpecKeyAction}
 
----@alias UnrulySpecKeymap {[string]:UnrulySpecBooster}
+---@class UnrulySpecBooster
+---@field name string
+---@field keymap UnrulySpecBoosterKeymap
+
+---@alias UnrulySpecKeymap UnrulySpecBooster[]
 
 ---create a noremap keymap
 ---@param value string|function
 ---@param desc string
 ---@param is_silent UnrulySilentMode? defaults to spec.silent__mode.no_silent
----@return UnrulySpecKey
+---@return UnrulySpecKeyAction
 function M.map(value, desc, is_silent)
 	is_silent = is_silent or M.silent_mode.no_silent
 	return {
@@ -55,7 +59,7 @@ end
 ---@param value string|function
 ---@param desc string
 ---@param is_silent UnrulySilentMode? defaults to spec.silent_mode.no_silent
----@return UnrulySpecKey
+---@return UnrulySpecKeyAction
 function M.remap(value, desc, is_silent)
 	is_silent = is_silent or M.silent_mode.no_silent
 	return {
@@ -71,7 +75,7 @@ end
 ---@param value function function should return string with EX command
 ---@param desc string
 ---@param is_silent UnrulySilentMode? defaults to spec.silent_mode.no_silent
----@return UnrulySpecKey
+---@return UnrulySpecKeyAction
 function M.expr(value, desc, is_silent)
 	is_silent = is_silent or M.silent_mode.no_silent
 	return {
@@ -84,7 +88,7 @@ function M.expr(value, desc, is_silent)
 end
 
 ---create a keymap with no behavior
----@return UnrulySpecKey
+---@return UnrulySpecKeyAction
 function M.noop()
 	return M.map("\\", "")
 end

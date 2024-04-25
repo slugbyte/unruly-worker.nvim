@@ -41,13 +41,13 @@ local function should_map(key, skip_list)
 	return not skip
 end
 
----@param spec_booster UnrulySpecBooster
+---@param booster_keymap UnrulySpecBoosterKeymap
 ---@param skip_list string[]
-local create_keymaps_for_spec_booster = function(spec_booster, skip_list)
-	if spec_booster == nil then
+local create_keymaps_for_booster_keymap = function(booster_keymap, skip_list)
+	if booster_keymap == nil then
 		return
 	end
-	for mode, mode_map in pairs(spec_booster) do
+	for mode, mode_map in pairs(booster_keymap) do
 		if mode == "m" then
 			mode = ""
 		end
@@ -68,16 +68,9 @@ end
 ---@param spec_keymap UnrulySpecKeymap
 ---@param config UnrulyConfig
 function M.create_keymaps(spec_keymap, config)
-	--- TODO: force booster order, possibly through restructing keymap.lua into a list of boosters
-	create_keymaps_for_spec_booster(spec_keymap.default, config.skip_list)
-	for booster, is_enabled in pairs(config.booster) do
-		local is_boster_valid = spec_keymap[booster] ~= nil
-		if is_boster_valid then
-			if is_enabled then
-				create_keymaps_for_spec_booster(spec_keymap[booster], config.skip_list)
-			end
-		else
-			log.error("UNRULY SETUP ERROR: unknown booster (%s)", booster)
+	for _, booster in ipairs(spec_keymap) do
+		if config.booster[booster.name] then
+			create_keymaps_for_booster_keymap(booster.keymap, config.skip_list)
 		end
 	end
 end
