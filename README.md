@@ -1,12 +1,12 @@
 # unruly worker
-> a ridiculously fun alternative neovim keymap and tmux setup for the workman keyboard layout
+> a ridiculously fun alternative neovim keymap for the workman keyboard layout
 
 ## default setup
-![unruly worker default layout cheatsheet](./asset/img/cheatsheet-default.png)
+![unruly worker default layout cheatsheet](./asset/cheatsheet-default.png)
 
 ## everything enabled
-![unruly worker everything layout cheatsheet](./asset/img/cheatsheet-everything.png)
-![unruly worker plugin cheatsheet](./asset/img/cheatsheet-plugin.png)
+![unruly worker everything layout cheatsheet](./asset/cheatsheet-everything.png)
+![unruly worker plugin cheatsheet](./asset/cheatsheet-plugin.png)
 
 ## LAYOUT PHILOSOPHY
 1. When possible, commands are positioned according to the workman layout heatmap. So frequent use will not strain your hands.
