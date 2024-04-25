@@ -1,8 +1,10 @@
-local log    = require("unruly-worker.log")
-local keymap = require("unruly-worker.keymap")
-local map    = require("unruly-worker.map")
-local rand   = require("unruly-worker.rand")
-local boost  = require("unruly-worker.boost")
+local log          = require("unruly-worker.log")
+local keymap       = require("unruly-worker.keymap")
+local map          = require("unruly-worker.map")
+local rand         = require("unruly-worker.rand")
+local boost        = require("unruly-worker.boost")
+
+local M            = {}
 
 ---@class UnrulyConfigBooster
 ---@field default boolean
@@ -49,10 +51,7 @@ local boost  = require("unruly-worker.boost")
 ---@field booster UnrulyConfigBooster?
 ---@field skip_list string[]?
 
-local M      = {}
-
-
----@class UnrulyConfigApplyState
+---@class UnrulySetupReport
 ---@field is_setup boolean
 ---@field user_config UnrulyConfig?
 ---@field is_kopy_reg_ok boolean
@@ -61,9 +60,9 @@ local M      = {}
 ---@field is_greeting_enable boolean
 ---@field is_user_config_legacy boolean
 
----NOTE: sta5 is used by the health.lua checkhealth impl
----@type UnrulyConfigApplyState
-local state = {
+---NOTE: used to impl checkhealth behavior in health.lua
+---@type UnrulySetupReport
+local setup_report = {
 	user_config = nil,
 	is_setup = false,
 	is_kopy_reg_ok = true,
@@ -74,9 +73,9 @@ local state = {
 }
 
 --- get the state setup
----@return UnrulyConfigApplyState
-function M.get_state()
-	return state
+---@return UnrulySetupReport
+function M.get_setup_report()
+	return setup_report
 end
 
 --- @param config table?
@@ -93,7 +92,7 @@ local function check_is_config_legacy(config)
 			or (config.enable_visual_navigate ~= nil)
 
 	if is_config_legacy then
-		state.is_user_config_legacy = true
+		setup_report.is_user_config_legacy = true
 		log.error("UNRULY SETUP ERROR: unruly-worker had and update and your setup() config is incompatable!")
 		log.error("see https://github.com/slugbyte/unruly-worker for help.")
 	end
@@ -177,7 +176,7 @@ local function create_normalized_config(user_config)
 		result.booster.unruly_macro_q = true
 	end
 
-	state.user_config = result
+	setup_report.user_config = result
 
 	return result
 end
@@ -192,19 +191,19 @@ local function apply_settings(config)
 
 	if config.unruly_options.macro_reg ~= nil then
 		if not boost.macro.set_default_macro_reg(config.unruly_options.macro_reg) then
-			state.is_macro_reg_ok = false
+			setup_report.is_macro_reg_ok = false
 		end
 	end
 
 	if config.unruly_options.kopy_reg ~= nil then
 		if not boost.kopy.set_default_kopy_reg(config.unruly_options.kopy_reg) then
-			state.is_kopy_reg_ok = false
+			setup_report.is_kopy_reg_ok = false
 		end
 	end
 
 	if config.unruly_options.seek_mode ~= nil then
 		if not boost.seek.set_seek_mode(config.unruly_options.seek_mode) then
-			state.is_seek_mode_valid = false
+			setup_report.is_seek_mode_valid = false
 		end
 	end
 
@@ -236,7 +235,7 @@ function M.apply_config(user_config)
 	if user_config.unruly_options.enable_greeting then
 		log.info(rand.emoticon() .. " " .. rand.greeting())
 	end
-	state.is_setup = true
+	setup_report.is_setup = true
 end
 
 return M

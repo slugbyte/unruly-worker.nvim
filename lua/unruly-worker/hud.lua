@@ -72,7 +72,7 @@ local function generate_hud_seek(hud_state_seek)
 end
 
 function M.generate()
-	local health_state = config.get_state()
+	local health_state = config.get_setup_report()
 	local hud_state = M.get_state()
 
 	if not health_state.is_setup or health_state.user_config == nil then
