@@ -1,7 +1,6 @@
 local log = require "unruly-worker.log"
 local M = {}
 
---TODO: auto save before source
 --- source the current lua or vim file
 function M.source_file()
 	local current_file = vim.fn.expandcmd("%")
@@ -9,7 +8,7 @@ function M.source_file()
 		log.error("cannot source noname buffer, try to save file beforce sourcing")
 		return
 	end
-	local keys = vim.api.nvim_replace_termcodes(":source %<cr>", true, false, true)
+	local keys = vim.api.nvim_replace_termcodes(":w<cr>:source %<cr>", true, false, true)
 	vim.api.nvim_feedkeys(keys, "n", false)
 end
 

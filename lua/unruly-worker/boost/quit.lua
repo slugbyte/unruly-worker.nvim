@@ -23,7 +23,7 @@ end
 
 --- quit all prompt "y" for yes "f" for force
 function M.expr_prompt_quit_all()
-	log.error("QUIT? y for yes, f for force ")
+	log.info("QUIT? y for yes, f for force ")
 	local byte = vim.fn.getchar()
 
 	if byte == ascii.letter_y then
