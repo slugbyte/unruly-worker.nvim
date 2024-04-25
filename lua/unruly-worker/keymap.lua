@@ -174,7 +174,7 @@ return {
 		name = "easy_spellcheck",
 		keymap = {
 			m = {
-				["<leader>c"] = spec.map(boost.telescope.spell_suggest_safe, "[S]pell [C]heck"),
+				["<leader><leader>s"] = spec.map(boost.telescope.spell_suggest_safe, "[S]pell [C]heck"),
 			}
 		},
 	},
@@ -182,8 +182,8 @@ return {
 		name = "easy_line",
 		keymap = {
 			m = {
-				["<leader>ll"] = spec.map("o<esc>^d$<Up>", "[L]ine Below"),
-				["<leader>lL"] = spec.map("O<esc>^d$<Down>", "[L]ine Above"),
+				["<leader><leader>l"] = spec.map("o<esc>^d$<Up>", "[L]ine Below"),
+				["<leader><leader>L"] = spec.map("O<esc>^d$<Down>", "[L]ine Above"),
 			},
 		},
 	},
@@ -191,8 +191,8 @@ return {
 		name = "easy_find",
 		keymap = {
 			m = {
-				["<leader>f"] = spec.map("g*", "[F]ind Word Under Cursor"),
-				["<leader>F"] = spec.map("g#", "[F]ind Word Under Cursor Reverse"),
+				["<leader><leader>f"] = spec.map("g*", "[F]ind Word Under Cursor"),
+				["<leader><leader>F"] = spec.map("g#", "[F]ind Word Under Cursor Reverse"),
 			},
 		},
 	},
@@ -221,7 +221,7 @@ return {
 		name = "easy_incrament",
 		keymap = {
 			v = {
-				["<leader>i"] = spec.map("g<C-a>", "[I]ncrament Number Column"),
+				["<leader><leader>i"] = spec.map("g<C-a>", "[I]ncrament Number Column"),
 			},
 		},
 	},

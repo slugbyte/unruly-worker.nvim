@@ -360,8 +360,6 @@ fi
 * `R` __________ replace mode
 * `l` __________ insert Line below
 * `L` __________ insert Line above
-* `<leader>ll` _ add an empty line below (remain in normal mode)
-* `<leader>lL` _ add an empty line above (remain normal mode)
 
 #### kopy
 * `k` __________ kopy (yank)
@@ -409,6 +407,10 @@ fi
 
 ### utility
 * `:` or `'` ___ command mode
+* `~` __________ toggle case
+* `"` __________ select register
+* `!` __________ repeat change `(repeat a vim motion)`
+* `&` __________ repeat substitute `(repeat a :s/thing/new)`
 * `u` __________ undo
 * `U` __________ redo
 * `<<` _________ shift indent left
@@ -422,6 +424,11 @@ fi
   * `<c-e>` ____ goto end of line
   * `<c-u>` ____ delete to beginning of line
 
+### current line alignment
+* `@` __________ align top
+* `$` __________ align middle
+* `#` __________ align bottom
+
 ### window navigation
 * `<ctrl>wy` ___ focus left
 * `<ctrl>wn` ___ focus down
@@ -433,6 +440,9 @@ fi
 * `<ctrl>ws` ___ vertical split
 * `<ctrl>ws` ___ vertical split
 
+### keys with no behavior
+`j` `J` `%` `^` `=` `*` `-` `_` `+` `,` `.` `|` `;`
+
 ## EASY BOOSTERS (disabled by default)
 > easy boosters don't dramatically alter anything, they are just additional
 > keymaps that I didn't include in the basic setup, in order to keep it as
@@ -442,13 +452,25 @@ fi
 * `<C-Up>` ___________ swap line/lines up
 * `<C-Down>` _________ swap line/lines down
 
+#### easy_focus
+* `<c-y>` ____________ focus left (vim)
+* `<c-n>` ____________ focus down (vim)
+* `<c-e>` ____________ focus up (vim)
+* `<c-o>` ____________ focus right (vim)
+
+#### easy_window
+* `<c-x>` ____________ close vim split
+* `<c-f>` ____________ fullscreen current split
+* `<c-s>` ____________ split verticle
+* `<c-h>` ____________ split horizontal
+
 #### easy_hlsearch
 > NOTE: this will auto enable the vim `hlsearch` option
 * `<Esc>` ____________ will disable the current hlsearch highlighting
 
-#### easy_source 
+#### easy_source
 > NOTE: this will disable the builtin `matchit` plugin
-* `%` source the current lua or vimscript file
+* `%` save and source the current lua or vimscript file
 
 #### easy_scroll
 * `<PageUp>` _________ scroll up
@@ -456,14 +478,8 @@ fi
 * `<PageDown>` _______ scroll down
 * `<End>` ____________ scroll down fast
 
-#### easy_focus
-* `<ctrl>` + `yneo` __ are mapped to focus pane left, down, up, right
-
-#### easy_window
-* `<c-x>` ____________ close vim split
-* `<c-f>` ____________ fullscreen current split
-* `<c-s>` ____________ split verticle
-* `<c-h>` ____________ split horizontal
+#### easy_jumplist
+* `<c-j>` show the jumplist
 
 #### easy_diagnostic
 * `-` _______________ prev diagnostic
@@ -486,6 +502,29 @@ fi
 * `<leader>lD` ______ lsp goto Declaration
 * `<leader>lf` ______ lsp format
 * `<leader>lr` ______ lsp rename
+
+#### easy_spellcheck
+* `<leader><leader>s` ________ suggest spelling for word
+
+#### easy_line
+* `<leader><leader>l` ________ add blank line blow (stay in normal mode)
+* `<leader><leader>L` ________ add blank line above (stay in normal mode)
+
+#### easy_find
+* `<leader><leader>f` ________ find word under cursor
+* `<leader><leader>F` ________ find word under cursor reverse
+
+#### easy_incrament
+* `<leader><leader>i` ________ create a column of incrementing numbers
+
+```
+# select the colomn of 0s and then <leader><leader>i
+0 -(will become)-> 1
+0 -(will become)-> 2
+0 -(will become)-> 3
+0 -(will become)-> 4
+0 -(will become)-> 5
+```
 
 ## UNRULY BOOSTERS (disabled by default)
 > unruly boosters change the way that neovim typically works, they are probably
