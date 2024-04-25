@@ -79,7 +79,7 @@ function M.get_hud_state()
 end
 
 --- goto the next buffer, loop back to first if at end of list
-function M.seek_forward()
+function M.seek_next()
 	-- HACK: seems a bit sketch
 	count_buffers()
 	if #S.buf_list <= 1 then
@@ -103,7 +103,7 @@ function M.seek_forward()
 end
 
 --- goto the prev buffer, loop back to last if at start of list
-function M.seek_reverse()
+function M.seek_prev()
 	count_buffers()
 	if #S.buf_list <= 1 then
 		S.index = 1
@@ -126,14 +126,14 @@ function M.seek_reverse()
 end
 
 --- goto the first buffer in list
-function M.seek_first()
+function M.seek_start()
 	count_buffers()
 	S.index = 1
 	vim.cmd(string.format("buf %s", S.buf_list[S.index]))
 end
 
 --- goto the last buffer in list
-function M.seek_last()
+function M.seek_end()
 	vim.cmd("blast")
 	count_buffers()
 	S.index = #S.buf_list

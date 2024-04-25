@@ -515,11 +515,11 @@ type of seekable list at a time, by default the seek type will be buffers.
 
 * `<leader>sn` _____ goto next seek item
 * `<leader>sp`  ____ goto prev seek item
-* `<leader>sf` ____ goto first item in seek list
-* `<leader>sl` ____ goto last item in seek list
-* `<leader>sQ` ____ seek the quickfix list
-* `<leader>sL` ____ seek the loclist
-* `<leader>sB` ____ seek open buffers
+* `<leader>ss` ____ goto first item in seek list (start)
+* `<leader>se` ____ goto last item in seek list (end)
+* `<leader>sq` ____ seek the quickfix list
+* `<leader>sl` ____ seek the loclist
+* `<leader>sb` ____ seek open buffers
 
 ### unruly_macro
 unruly macros use the preselected register `macro_reg` (default: `z`)

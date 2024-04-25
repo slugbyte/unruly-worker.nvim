@@ -17,10 +17,11 @@ local state = {
 	seek_mode = M.seek_mode.buffer,
 }
 
-local function create_mode_set_fn(mode_option)
+local function create_mode_set_fn(mode_option, mode_name)
 	return function()
+		log.info("SEEK MODE %s", mode_name)
 		state.seek_mode = mode_option
-		M.seek_first()
+		M.seek_start()
 	end
 end
 
@@ -34,13 +35,13 @@ function M.is_seek_mode_valid(seek_mode)
 end
 
 --- set seek mode to quickfix and goto first item
-M.mode_set_quickfix = create_mode_set_fn(M.seek_mode.quickfix)
+M.mode_set_quickfix = create_mode_set_fn(M.seek_mode.quickfix, "QUICKFIX")
 
 --- set seek mode to loclist and goto first item
-M.mode_set_loclist = create_mode_set_fn(M.seek_mode.loclist)
+M.mode_set_loclist = create_mode_set_fn(M.seek_mode.loclist, "LOCLIST")
 
 --- set seek mode to buffer and goto first item
-M.mode_set_buffer = create_mode_set_fn(M.seek_mode.buffer)
+M.mode_set_buffer = create_mode_set_fn(M.seek_mode.buffer, "BUFFER")
 
 ---@class UnrulyHudStateSeek
 ---@field mode UnrulySeekMode
@@ -77,47 +78,47 @@ function M.get_hud_state()
 end
 
 --- goto next item in list
-function M.seek_forward()
+function M.seek_next()
 	if state.seek_mode == M.seek_mode.buffer then
-		return seek_buffer.seek_forward()
+		return seek_buffer.seek_next()
 	end
 	if state.seek_mode == M.seek_mode.quickfix then
-		return seek_quickfix.seek_forward()
+		return seek_quickfix.seek_next()
 	end
-	return seek_loclist.seek_forward()
+	return seek_loclist.seek_next()
 end
 
 --- goto prev item in list
-function M.seek_reverse()
+function M.seek_prev()
 	if state.seek_mode == M.seek_mode.buffer then
-		return seek_buffer.seek_reverse()
+		return seek_buffer.seek_prev()
 	end
 	if state.seek_mode == M.seek_mode.quickfix then
-		return seek_quickfix.seek_reverse()
+		return seek_quickfix.seek_prev()
 	end
-	return seek_loclist.seek_reverse()
+	return seek_loclist.seek_prev()
 end
 
 --- goto first item in list
-function M.seek_first()
+function M.seek_start()
 	if state.seek_mode == M.seek_mode.buffer then
-		return seek_buffer.seek_first()
+		return seek_buffer.seek_start()
 	end
 	if state.seek_mode == M.seek_mode.quickfix then
-		return seek_quickfix.seek_first()
+		return seek_quickfix.seek_start()
 	end
-	return seek_loclist.seek_first()
+	return seek_loclist.seek_start()
 end
 
 --- goto last item in list
-function M.seek_last()
+function M.seek_end()
 	if state.seek_mode == M.seek_mode.buffer then
-		return seek_buffer.seek_last()
+		return seek_buffer.seek_end()
 	end
 	if state.seek_mode == M.seek_mode.quickfix then
-		return seek_quickfix.seek_last()
+		return seek_quickfix.seek_end()
 	end
-	return seek_loclist.seek_last()
+	return seek_loclist.seek_end()
 end
 
 --- set the current seek mode

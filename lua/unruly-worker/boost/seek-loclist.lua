@@ -1,3 +1,4 @@
+local log = require "unruly-worker.log"
 local M = {}
 
 ---@class UnrulyHudStateSeekLoclist
@@ -13,23 +14,43 @@ function M.get_hud_state()
 	}
 end
 
+local function is_empty()
+	local hud_state = M.get_hud_state()
+	if hud_state.len < 1 then
+		return true
+	end
+	return false
+end
+
 --- goto next item in loclist
-function M.seek_forward()
+function M.seek_next()
+	if is_empty() then
+		return log.error("LOCLIST EMPTY")
+	end
 	vim.cmd("lnext")
 end
 
 --- goto prev item in loclist
-function M.seek_reverse()
+function M.seek_prev()
+	if is_empty() then
+		return log.error("LOCLIST EMPTY")
+	end
 	vim.cmd("lprev")
 end
 
 --- goto first item in loclist
-function M.seek_first()
+function M.seek_start()
+	if is_empty() then
+		return log.error("LOCLIST EMPTY")
+	end
 	vim.cmd("lfirst")
 end
 
 --- goto last item in loclist
-function M.seek_last()
+function M.seek_end()
+	if is_empty() then
+		return log.error("LOCLIST EMPTY")
+	end
 	vim.cmd("llast")
 end
 
