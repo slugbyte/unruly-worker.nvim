@@ -343,6 +343,8 @@ return {
 				d = spec.map(boost.kopy.create_delete_ex_cmd("d"), "delete motion into reg 0"),
 				dd = spec.map(boost.kopy.create_delete_ex_cmd("dd"), "delete motion into reg 0"),
 				D = spec.map(boost.kopy.create_delete_ex_cmd("D"), "delete motion into reg 0"),
+				s = spec.map(boost.kopy.create_delete_ex_cmd("s"), "subsitute into reg 0"),
+				S = spec.map(boost.kopy.create_delete_ex_cmd("S"), "subsitute line into reg 0"),
 				x = spec.map(boost.kopy.create_delete_ex_cmd("x"), "delete char into reg 0"),
 				X = spec.map(boost.kopy.create_delete_ex_cmd("X"), "delete previous char into reg 0"),
 				-- kopy

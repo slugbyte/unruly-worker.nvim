@@ -531,9 +531,11 @@ fi
 > not most vim users cup of tea
 
 ### unruly_kopy
-> kopy and paste using the preselected `kopy_register` (default: `+`)
+* kopy and paste using the preselected `kopy_reg` (default: `+`)
+* delete, change, substitute, and paste always use register `0`
+* kopy, delete, change, and substitute share registers 1-9 to track history
 
-> when enabled kopy and delete share registers 1-9 to track history
+#### kopy and paste with the kopy_reg
 * `k` ______________ kopy (yank)
 * `K` ______________ kopy line (yank line)
 * `p` ______________ paste kopy below
@@ -541,26 +543,38 @@ fi
 * `"` ______________ will prompt you to select a new `kopy_register`
   * valid registers are: `[a-z][A-X] and 0 +`
   * you can press `<enter>` or `<space>` reset to the default `+` register
-> delete and paste using register 0
+
+#### kopy prompt
+> the kopy prompt does not limit register selection or track history
+* `<C-k>` __________ prompt to kopy selected text into any register
+* `<C-p>` __________ prompt to paste from any register
+
+#### delete, change, substitute, and paste from register 0
 * `d` ______________ delete
 * `dd` _____________ delete line
 * `D` ______________ delete to end of line
+* `s` ______________ substitute 
+* `S` ______________ substitute line
 * `x` ______________ delete under cursor
 * `X` ______________ delete before cursor
 * `c` ______________ delete then enter insert mode
 * `cc` _____________ delete line then enter insert mode
 * `C` ______________ delete to end of line then enter insert mode
-* `.` ______________ paste_delete below
-* `,` ______________ paste_delete above
+* `.` ______________ paste register 0 below
+* `,` ______________ paste register 0 above
 
 ### unruly_macro
-> when enabled macros use a preselected `macro_register` (default: `z`)
+when enabled macros use a preselected `macro_register` (default: `z`)
+
 * `q` ______________ record macro
 * `Q` ______________ play macro
 * `<C-q>` __________ select the macro register
   * valid registers: [a-z][A-Z]
-* `<leader>qp` _____ pretty print the contents of the macro register
-* `<leader>ql` _____ toggle macro recording lock
+* `<leader>qv` _____ pretty print the current macro content (view)
+* `<leader>qp` _____ pretty paste the current macro content into the current buffer
+* `<leader>qi` _____ import select text as a macro
+  * this will convert special keys in the selected text like `<cr>` `<esc>` into the register correctly
+* `<leader>ql` _____ toggle macro recording/import lock
   * this is useful if you want to make sure you don't accidentally overwrite
   the current macro register
 

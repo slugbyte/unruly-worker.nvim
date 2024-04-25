@@ -13,6 +13,8 @@ local state = {
 	is_locked = false,
 }
 
+-- TODO: create a unro record, to reload the last recoding
+
 local M = {}
 
 ---check if int is a valid macro_reg
