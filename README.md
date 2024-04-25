@@ -17,24 +17,28 @@
 * default features
   * Easily Opt-Out of specific unruly mappings
   * Navigate vim like normal using `yneo`
-  * Vim motions are similar to original
-  * Close to vanilla experience
+  * Close to vanilla vim motion experience 
+  * A nice way to navigate the jumplist
   * A healthcheck to ensure your setup is correct
 * basic opt-in features
-  * A nice way to work with LSPs
+  * A nice way to trigger LSPs behavior
   * A nice way to navigate diagnostics
-  * A nice way to spellcheck
-  * A nice way to swap lines
   * A nice way to focus and manipulate splits
+  * A nice way to work with hlsearch
+  * A nice way to swap lines
+  * A nice way to spellcheck
   * A nice way to create an incrementing column of numbers
-  * A workman keyboard tmux config
+  * A nice way to source lua/vim files
+  * A companion unruly workman keyboard layout tmux config
 * unruly opt-in features
   * Yank, Delete, and Macros use register preselection
   * Yank and Delete have history
   * Keys to lock macro recording and pretty print the macro register
+  * Easily paste edit and load macros
   * A nice way to step through the quickfix list, loclist, and buffers
+  * A blazingly fast way to save and quit
+  * A blazingly fast way to work with marks
   * A status bar text generator that creates a [HUD](https://en.wikipedia.org/wiki/Head-up_display) for unruly-worker's state
-  * A nice way to work with marks and navigate the jumplist
 * plugin support opt-in features
   * Workman keyboard layout for [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) auto completion
   * Workman keyboard layout for [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) fuzzy search with preview
@@ -59,25 +63,28 @@ actions will use the selected register until you select a new register.
 -- Use this setup config if you want to follow the keymap above
 local unruly_worker = require('unruly-worker')
 
--- example setup with default settings
+-- to setup with the defaults you can simply put
+-- unruly_worker.setup()
+
+-- example setup with the default settings
 unruly_worker.setup({
-  -- kopy_register must be [a-z] [A-Z] 0 +
-  unruly_kopy_register = "+",
-  -- macro_register must be [a-z] [A-Z]
-  unruly_macro_register = "z",
-  -- to start up unruly_mark in global mode set to true
-  unruly_mark_global_mode = false,
-  -- seek mode options are .buffer, .loclist, and .quickfix
-  unruly_seek_mode = unruly_worker.seek_mode.buffer,
-  -- unruly_swap_q_and_z only applies to unruly_macro and unruly_quit
-  -- unruly_macro commands will use z instead of q
-  -- unruly_quit commands will use q instead of z
-  unruly_swap_q_and_z = false,
   -- you can use the skip_list = {} to stop unruly from creating certain mappings
   -- skip_list = { "z", "Z", "<C-z>"},  skip z related mappings
   skip_list = {},
-  -- all boosters are documented in the README (https://github.com/slugbyte/unruly-worker)
+  unruly_options = {
+    -- set default unruly kopy register must be [a-z] [A-Z] 0 +
+    kopy_reg = "+",
+    -- set default unruly macro register must be [a-z] [A-Z]
+    macro_reg = "q",
+    -- set default unruly seek mode, must be unruly_worker.seek_mode.(buffer|loclist|quickfix)
+    seek_mode = unruly_worker.seek_mode.buffer,
+    -- set unruly mark mode to global or local
+    mark_mod_is_global = false
+  },
+  -- boosters allow you to op-in to extra keymaps
+  -- or opt-out of the default keymaps if you want that for some reason
   booster = {
+    default                     = true,
     -- easy stuff are just additional opt in keymaps
     easy_swap                   = false,
     easy_find                   = false,
@@ -111,9 +118,6 @@ unruly_worker.setup({
     plugin_telescope_easy_paste = false,
   },
 })
-
--- to setup with the defaults you can simply put (all boosters will be false)
--- unruly_worker.setup()
 ```
 
 ## [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) MAPPING SETUP (optional)
@@ -123,10 +127,20 @@ local cmp = require("cmp")
 local unruly_cmp = require('unruly-worker.external.nvim-cmp')
 cmp.setup({
     mapping = unruly_cmp.create_insert_mapping(),
+    -- optionally you can pass a config with a skip_list and mappings
+    -- mapping = unruly_cmp.create_insert_mapping({
+      -- skip_list = { "<Right>" }, -- opt out of the <Right> keymap
+      -- you can add your own mappings here
+      -- your mappings will allways overwrite the unruly_cmp default mappings
+      -- mapping = {
+      --   ["<C-u>"] = cmp.mapping.complete() -- use <c-u> to complete
+      -- },
+    -- }),
     -- rest of config...
 })
 
 cmp.setup.cmdline({ "/", "?" }, {
+    -- you can also pass the optional config into create_cmdline_mapping
     mapping = unruly_cmp.create_cmdline_mapping(),
     -- rest of config...
 })
@@ -157,10 +171,23 @@ cmp.setup.cmdline(":", {
 ``` lua
 -- NOTE: its recommended that you require telescope before unruly_worker.external.telescope
 local telescope = require("telescope")
+local telescope_action = require("telescope.action")
 local unruly_telescope = require("unruly-worker.external.telescope")
 telescope.setup({
     defaults = {
         mappings = unruly_telescope.create_mappings(),
+        -- -- optionally you can pass a config with skip_list, insert_mapping, and normal_mapping
+        -- mappings = unruly_telescope.create_mappings({
+        --   skip_list = {"<Tab>"}, -- disable <tab> map
+        --   -- insert_mapping will overwrite any default unruly_telescope insert mappings
+        --   insert_mapping = {
+        --     "<c-u>" = telescope_action.select_default(), -- <c-u> select default
+        --   },
+        --   -- normal_mapping will overwrite any default unruly_telescope normal mappings
+        --   normal_mapping = {
+        --     "<c-u>" = telescope_action.select_default(), -- <c-u> select default
+        --   },
+        -- }),
     },
     -- rest of config...
 })
