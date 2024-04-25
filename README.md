@@ -87,7 +87,7 @@ unruly_worker.setup({
     default                     = true,
     -- easy stuff are just additional opt in keymaps
     easy_swap                   = false,
-    easy_find                   = false,
+    easy_search = false,
     easy_line                   = false,
     easy_spellcheck             = false,
     easy_incrament              = false,
@@ -444,9 +444,9 @@ This project includes a tmux config file with tmux unruly-worker style keybindin
 * `<leader><leader>l` ________ add blank line blow (stay in normal mode)
 * `<leader><leader>L` ________ add blank line above (stay in normal mode)
 
-#### easy_find
-* `<leader><leader>f` ________ find word under cursor
-* `<leader><leader>F` ________ find word under cursor reverse
+#### easy_search
+* `<leader><leader>/` ________ find word under cursor
+* `<leader><leader>?` ________ find word under cursor reverse
 
 #### easy_incrament
 * `<leader><leader>i` ________ create a column of incrementing numbers

@@ -188,11 +188,11 @@ return {
 		},
 	},
 	{
-		name = "easy_find",
+		name = "easy_search",
 		keymap = {
 			m = {
-				["<leader><leader>f"] = spec.map("g*", "[F]ind Word Under Cursor"),
-				["<leader><leader>F"] = spec.map("g#", "[F]ind Word Under Cursor Reverse"),
+				["<leader><leader>/"] = spec.map("g*", "[F]ind Word Under Cursor"),
+				["<leader><leader>?"] = spec.map("g#", "[F]ind Word Under Cursor Reverse"),
 			},
 		},
 	},

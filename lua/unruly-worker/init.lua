@@ -62,7 +62,8 @@ local config = require("unruly-worker.config")
 ---	  	plugin_telescope_leader     = true,
 ---	  	plugin_telescope_lsp_leader = true,
 ---	  	plugin_telescope_easy_jump  = true,
----	  	plugin_telescope_easy_kopy = true,
+---	  	plugin_telescope_easy_kopy  = true,
+---	  	plugin_telescope_diagnostic_leader_kopy = true,
 ---	  },
 --- })
 --- ```

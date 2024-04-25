@@ -9,7 +9,7 @@ local M            = {}
 ---@class UnrulyConfigBooster
 ---@field default boolean
 ---@field easy_swap boolean
----@field easy_find boolean
+---@field easy_search boolean
 ---@field easy_line boolean
 ---@field easy_spellcheck boolean
 ---@field easy_incrament boolean
@@ -112,7 +112,7 @@ local default_config = {
 	booster = {
 		default                            = true,
 		easy_swap                          = false,
-		easy_find                          = false,
+		easy_search                        = false,
 		easy_line                          = false,
 		easy_spellcheck                    = false,
 		easy_incrament                     = false,
