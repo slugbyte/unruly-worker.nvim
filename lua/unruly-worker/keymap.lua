@@ -174,7 +174,7 @@ return {
 		name = "easy_spellcheck",
 		keymap = {
 			m = {
-				["<leader><leader>s"] = spec.map(boost.telescope.spell_suggest_safe, "[S]pell [C]heck"),
+				["<leader><leader>c"] = spec.map(boost.telescope.spell_suggest_safe, "[C]heck Spelling"),
 			}
 		},
 	},
@@ -491,6 +491,8 @@ return {
 				["<leader>tk"] = spec.map(boost.telescope.keymaps, "[T]elescope [K]eymaps"),
 				["<leader>tp"] = spec.map(boost.telescope.registers, "[T]elescope [P]aste"),
 				["<leader>tr"] = spec.map(boost.telescope.resume, "[T]elescope [R]epeat"),
+				["<leader>tf"] = spec.map(boost.telescope.find_files, "[T]elescope [F]iles"),
+				["<leader>tg"] = spec.map(boost.telescope.live_grep, "[T]elescope [G]rep"),
 			}
 		},
 	},

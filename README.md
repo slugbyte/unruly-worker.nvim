@@ -505,7 +505,7 @@ fi
 * `<leader>lr` ______ lsp rename
 
 #### easy_spellcheck
-* `<leader><leader>s` ________ suggest spelling for word
+* `<leader><leader>c` ________ check spelling suggestions for word
 
 #### easy_line
 * `<leader><leader>l` ________ add blank line blow (stay in normal mode)
@@ -621,6 +621,8 @@ unruly macros use the preselected register `macro_reg` (default: `z`)
 #### plugin_telescope_leader
 > depends on [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim/tree/master)
 * `<leader>/` telescope fuzzy find in current buffer
+* `<leader>tf` telescope files
+* `<leader>tg` telescope grep
 * `<leader>tb` telescope buffers
 * `<leader>to` telescope old files (recent files)
 * `<leader>tq` telescope quickfix
