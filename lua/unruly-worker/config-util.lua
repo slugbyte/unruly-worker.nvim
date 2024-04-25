@@ -34,25 +34,31 @@ local M = {}
 ---@field plugin_telescope_lsp_leader boolean
 ---@field plugin_telescope_easy_jump boolean
 
+---@class UnrulyConfigUnrulyOptions
+---@field seek_mode UnrulySeekMode?
+---@field kopy_reg string?
+---@field macro_reg string?
+---@field swap_q_and_z  boolean?
+---@field enable_greeting boolean?
+---@field mark_mode_is_global boolean?
+
 ---@class UnrulyConfig
----@field unruly_mark_global_mode boolean?
----@field unruly_swap_q_and_z boolean?
----@field unruly_macro_register string?
----@field unruly_kopy_register string?
----@field unruly_seek_mode UnrulySeekMode?
----@field unruly_greeting boolean?
+---@field unruly_options UnrulyConfigUnrulyOptions?
 ---@field booster UnrulyConfigBooster?
 ---@field skip_list string[]?
 
+---@type UnrulyConfig
 local default_config = {
-	unruly_seek_mode = nil,
-	unruly_kopy_register = nil,
-	unruly_macro_register = nil,
-	unruly_mark_global_mode = false,
-	unruly_swap_q_and_z = false,
-	unruly_greeting = false,
+	unruly_options = {
+		seek_mode = nil,
+		kopy_reg = nil,
+		macro_reg = nil,
+		swap_q_and_z = false,
+		enable_greeting = false,
+		mark_mode_is_global = false,
+	},
 	booster = {
-		-- default                     = true,
+		default                     = true,
 		easy_swap                   = false,
 		easy_find                   = false,
 		easy_line                   = false,
@@ -84,7 +90,6 @@ local default_config = {
 	skip_list = {},
 }
 
-
 --- @param user_config UnrulyConfig?
 --- @return UnrulyConfig
 function M.normalize_user_config(user_config)
@@ -94,19 +99,8 @@ function M.normalize_user_config(user_config)
 
 	local result = vim.tbl_deep_extend("force", {}, default_config)
 
-	local option_list = {
-		"unruly_greeting",
-		"unruly_seek_mode",
-		"unruly_swap_q_and_z",
-		"unruly_mark_global_mode",
-		"unruly_macro_register",
-		"unruly_kopy_register",
-	}
-
-	for _, value in ipairs(option_list) do
-		if user_config[value] ~= nil then
-			result[value] = user_config[value]
-		end
+	if user_config.unruly_options ~= nil then
+		result.unruly_options = vim.tbl_extend("force", result.unruly_options, user_config.unruly_options)
 	end
 
 	if user_config.booster ~= nil then
@@ -117,11 +111,7 @@ function M.normalize_user_config(user_config)
 		result.skip_list = user_config.skip_list
 	end
 
-	if result.booster.easy_focus and result.booster.plugin_navigator then
-		result.booster.easy_focus = false
-	end
-
-	if user_config.unruly_swap_q_and_z then
+	if result.unruly_options.swap_q_and_z then
 		result.booster.unruly_quit = nil
 		result.booster.unruly_macro = nil
 		result.booster.unruly_quit_q = true
@@ -133,26 +123,26 @@ function M.normalize_user_config(user_config)
 		result.booster.unruly_macro_q = true
 	end
 
-
 	return result
 end
 
+--- set default unruly modes/registers, and vim settings
 --- @param config UnrulyConfig
-function M.apply_default_options(config)
-	if config.unruly_mark_global_mode then
+function M.apply_defaults(config)
+	if config.unruly_options.mark_mode_is_global then
 		boost.mark.set_is_local_mode(false)
 	end
 
-	if config.unruly_macro_register ~= nil then
-		boost.macro.set_macro_reg(config.unruly_macro_register)
+	if config.unruly_options.macro_reg ~= nil then
+		boost.macro.set_macro_reg(config.unruly_options.macro_reg)
 	end
 
-	if config.unruly_kopy_register ~= nil then
-		boost.kopy.set_kopy_reg(config.unruly_kopy_register)
+	if config.unruly_options.kopy_reg ~= nil then
+		boost.kopy.set_kopy_reg(config.unruly_options.kopy_reg)
 	end
 
-	if config.unruly_seek_mode ~= nil then
-		boost.seek.set_seek_mode(config.unruly_seek_mode)
+	if config.unruly_options.seek_mode ~= nil then
+		boost.seek.set_seek_mode(config.unruly_options.seek_mode)
 	end
 
 	if config.booster.easy_source then

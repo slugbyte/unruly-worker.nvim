@@ -86,11 +86,11 @@ local function setup(user_config)
 	end
 
 	local config = config_util.normalize_user_config(user_config)
-	config_util.apply_default_options(config)
+	config_util.apply_defaults(config)
 	map.create_keymaps(keymap, config)
 
 	-- NOTE: unruly_greeting is an easter egg, you wont find this in the docs
-	if config.unruly_greeting then
+	if config.unruly_options.enable_greeting then
 		log.info(rand.emoticon() .. " " .. rand.greeting())
 	end
 
