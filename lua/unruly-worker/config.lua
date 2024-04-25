@@ -1,7 +1,9 @@
-local boost = require("unruly-worker.boost")
-local M = {}
+local log    = require("unruly-worker.log")
+local keymap = require("unruly-worker.keymap")
+local map    = require("unruly-worker.map")
+local rand   = require("unruly-worker.rand")
+local boost  = require("unruly-worker.boost")
 
---
 ---@class UnrulyConfigBooster
 ---@field default boolean
 ---@field easy_swap boolean
@@ -47,6 +49,56 @@ local M = {}
 ---@field booster UnrulyConfigBooster?
 ---@field skip_list string[]?
 
+local M      = {}
+
+
+---@class UnrulyConfigApplyState
+---@field is_setup boolean
+---@field user_config UnrulyConfig?
+---@field is_kopy_reg_ok boolean
+---@field is_macro_reg_ok boolean
+---@field is_seek_mode_valid boolean
+---@field is_greeting_enable boolean
+---@field is_user_config_legacy boolean
+
+---NOTE: sta5 is used by the health.lua checkhealth impl
+---@type UnrulyConfigApplyState
+local state = {
+	user_config = nil,
+	is_setup = false,
+	is_kopy_reg_ok = true,
+	is_macro_reg_ok = true,
+	is_seek_mode_valid = true,
+	is_greeting_enable = false,
+	is_user_config_legacy = false,
+}
+
+--- get the state setup
+---@return UnrulyConfigApplyState
+function M.get_state()
+	return state
+end
+
+--- @param config table?
+local function check_is_config_legacy(config)
+	if config == nil then
+		return
+	end
+	local is_config_legacy = (config.enable_lsp_map ~= nil)
+			or (config.enable_select_map ~= nil)
+			or (config.enable_quote_command ~= nil)
+			or (config.enable_easy_window_navigate ~= nil)
+			or (config.enable_comment_map ~= nil)
+			or (config.enable_wrap_navigate ~= nil)
+			or (config.enable_visual_navigate ~= nil)
+
+	if is_config_legacy then
+		state.is_user_config_legacy = true
+		log.error("UNRULY SETUP ERROR: unruly-worker had and update and your setup() config is incompatable!")
+		log.error("see https://github.com/slugbyte/unruly-worker for help.")
+	end
+end
+
 ---@type UnrulyConfig
 local default_config = {
 	unruly_options = {
@@ -90,9 +142,11 @@ local default_config = {
 	skip_list = {},
 }
 
---- @param user_config UnrulyConfig?
---- @return UnrulyConfig
-function M.normalize_user_config(user_config)
+---create a normalized config from the user_config
+---update state to store the normalized config
+---@param user_config UnrulyConfig?
+---@return UnrulyConfig
+local function create_normalized_config(user_config)
 	if user_config == nil then
 		return default_config
 	end
@@ -123,26 +177,35 @@ function M.normalize_user_config(user_config)
 		result.booster.unruly_macro_q = true
 	end
 
+	state.user_config = result
+
 	return result
 end
 
---- set default unruly modes/registers, and vim settings
---- @param config UnrulyConfig
-function M.apply_defaults(config)
+---set default unruly modes/registers, and vim settings
+---update state to refect any problems that occur
+---@param config UnrulyConfig
+local function apply_settings(config)
 	if config.unruly_options.mark_mode_is_global then
 		boost.mark.set_is_local_mode(false)
 	end
 
 	if config.unruly_options.macro_reg ~= nil then
-		boost.macro.set_macro_reg(config.unruly_options.macro_reg)
+		if not boost.macro.set_default_macro_reg(config.unruly_options.macro_reg) then
+			state.is_macro_reg_ok = false
+		end
 	end
 
 	if config.unruly_options.kopy_reg ~= nil then
-		boost.kopy.set_kopy_reg(config.unruly_options.kopy_reg)
+		if not boost.kopy.set_default_kopy_reg(config.unruly_options.kopy_reg) then
+			state.is_kopy_reg_ok = false
+		end
 	end
 
 	if config.unruly_options.seek_mode ~= nil then
-		boost.seek.set_seek_mode(config.unruly_options.seek_mode)
+		if not boost.seek.set_seek_mode(config.unruly_options.seek_mode) then
+			state.is_seek_mode_valid = false
+		end
 	end
 
 	if config.booster.easy_source then
@@ -156,18 +219,24 @@ function M.apply_defaults(config)
 	end
 end
 
---- @param config table?
-function M.is_config_legacy(config)
-	if config == nil then
-		return false
+--- apply keymaps
+--- @param config UnrulyConfig
+local function apply_keymaps(config)
+	map.create_keymaps(keymap, config)
+end
+
+---apply settings and set kemaps
+---@param user_config UnrulyConfig?
+function M.apply_config(user_config)
+	check_is_config_legacy(user_config)
+	user_config = create_normalized_config(user_config)
+	apply_settings(user_config)
+	apply_keymaps(user_config)
+	-- NOTE: unruly_greeting is an easter egg, you wont find this in the docs
+	if user_config.unruly_options.enable_greeting then
+		log.info(rand.emoticon() .. " " .. rand.greeting())
 	end
-	return (config.enable_lsp_map ~= nil)
-			or (config.enable_select_map ~= nil)
-			or (config.enable_quote_command ~= nil)
-			or (config.enable_easy_window_navigate ~= nil)
-			or (config.enable_comment_map ~= nil)
-			or (config.enable_wrap_navigate ~= nil)
-			or (config.enable_visual_navigate ~= nil)
+	state.is_setup = true
 end
 
 return M

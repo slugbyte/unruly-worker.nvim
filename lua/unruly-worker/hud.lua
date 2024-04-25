@@ -1,5 +1,5 @@
 local boost = require("unruly-worker.boost")
-local health = require("unruly-worker.health")
+local config = require("unruly-worker.config")
 
 local M = {}
 
@@ -72,29 +72,28 @@ local function generate_hud_seek(hud_state_seek)
 end
 
 function M.generate()
-	local health_state = health.get_health_state()
+	local health_state = config.get_state()
 	local hud_state = M.get_state()
 
-	if not health_state.is_setup or health_state.config == nil then
+	if not health_state.is_setup or health_state.user_config == nil then
 		return nil
 	end
 
 	local hud_text = ""
 
-	if health_state.config.booster.unruly_mark then
+	if health_state.user_config.booster.unruly_mark then
 		hud_text = hud_text .. generate_hud_mark(hud_state.mark)
 	end
 
-	if health_state.config.booster.unruly_kopy then
+	if health_state.user_config.booster.unruly_kopy then
 		hud_text = hud_text .. generate_hud_kopy(hud_state.kopy)
 	end
-	-- vim.print(health_state.config)
 
-	if health_state.config.booster.unruly_macro_z or health_state.config.booster.unruly_macro_q then
+	if health_state.user_config.booster.unruly_macro_z or health_state.config.booster.unruly_macro_q then
 		hud_text = hud_text .. generate_hud_macro(hud_state.macro)
 	end
 
-	if health_state.config.booster.unruly_seek then
+	if health_state.user_config.booster.unruly_seek then
 		hud_text = hud_text .. generate_hud_seek(hud_state.seek)
 	end
 

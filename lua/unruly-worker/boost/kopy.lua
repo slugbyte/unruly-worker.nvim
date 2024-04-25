@@ -1,6 +1,5 @@
 local ascii = require("unruly-worker.ascii")
 local log = require("unruly-worker.log")
-local health = require("unruly-worker.health")
 
 local M = {}
 
@@ -10,8 +9,10 @@ local M = {}
 
 ---@class UnrulyHudStateKopy
 ---@field register string
+---@field default_register string
 local state = {
 	register = "+",
+	default_register = "+",
 }
 
 --- @return UnrulyHudStateKopy
@@ -97,24 +98,11 @@ function M.prompt_kopy_reg_select()
 		return
 	end
 	if ch_int == ascii.enter or ascii.space then
-		local default_reg = health.get_health_state().kopy_reg
-		if default_reg == nil then
-			default_reg = "+"
-		end
-		state.register = default_reg
+		state.register = state.default_register
 		log.info("KOPY_REG: %s", state.register)
 		return
 	end
 	log_error_invald_kopy_reg(ch_str)
-end
-
----set the kopy_reg
----@param kopy_reg string valid kopy_regs are limited to [a-z] [A-Z] 0 +
-function M.set_kopy_reg(kopy_reg)
-	if (string.len(kopy_reg) ~= 1) or (not is_valid_kopy_reg(string.byte(kopy_reg))) then
-		return log_error_invald_kopy_reg(kopy_reg)
-	end
-	state.register = kopy_reg
 end
 
 -- prompt to paste from any register
@@ -134,6 +122,19 @@ function M.expr_prompt_kopy()
 	local ch_int = vim.fn.getchar()
 	local ch = string.char(ch_int)
 	return string.format('"%sy', ch)
+end
+
+---set the kopy_reg
+---@param kopy_reg string valid kopy_regs are limited to [a-z] [A-Z] 0 +
+---@return boolean true if success
+function M.set_default_kopy_reg(kopy_reg)
+	if (string.len(kopy_reg) ~= 1) or (not is_valid_kopy_reg(string.byte(kopy_reg))) then
+		log_error_invald_kopy_reg(kopy_reg)
+		return false
+	end
+	state.register = kopy_reg
+	state.default_register = kopy_reg
+	return true
 end
 
 return M

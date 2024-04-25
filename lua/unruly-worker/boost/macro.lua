@@ -1,13 +1,14 @@
 local ascii = require("unruly-worker.ascii")
 local log = require("unruly-worker.log")
-local health = require("unruly-worker.health")
 
 ---@class UnrulyHudStateMacro
 ---@field register string
+---@field default_register string
 ---@field is_recording boolean
 ---@field is_locked boolean
 local state = {
 	register = "z",
+	default_register = "z",
 	is_recording = false,
 	is_locked = false,
 }
@@ -90,11 +91,7 @@ function M.prompt_macro_reg_select()
 	end
 
 	if ch_int == ascii.enter or ch_int == ascii.space then
-		local default_reg = health.get_health_state().macro_reg
-		if default_reg == nil then
-			default_reg = "z"
-		end
-		state.register = default_reg
+		state.register = state.default_register
 		log.info("MACRO_REG: %s", state.register)
 		return
 	end
@@ -135,11 +132,15 @@ end
 
 ---set the macro_reg
 ---@param macro_reg string an alpha char [a-z][A-Z]
-function M.set_macro_reg(macro_reg)
+---@return boolean true if success
+function M.set_default_macro_reg(macro_reg)
 	if (string.len(macro_reg) ~= 1) or (not is_valid_macro_reg(string.byte(macro_reg))) then
-		return log_error_invalid_macro_reg(macro_reg)
+		log_error_invalid_macro_reg(macro_reg)
+		return false
 	end
+	state.default_register = macro_reg
 	state.register = macro_reg
+	return true
 end
 
 ---pretty paste the current macro into the file

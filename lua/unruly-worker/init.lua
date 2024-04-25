@@ -9,13 +9,8 @@
 --  Repository: https://github.com/slugbyte/unruly-worker
 
 local hud = require("unruly-worker.hud")
-local log = require("unruly-worker.log")
-local map = require("unruly-worker.map")
-local rand = require("unruly-worker.rand")
 local boost = require("unruly-worker.boost")
-local health = require("unruly-worker.health")
-local keymap = require("unruly-worker.keymap")
-local config_util = require("unruly-worker.config-util")
+local config = require("unruly-worker.config")
 
 --- Setup unruly-worker
 ---
@@ -78,23 +73,7 @@ local function setup(user_config)
 		return
 	end
 	vim.g.unruly_worker = true
-
-	local is_config_legacy = config_util.is_config_legacy(user_config)
-	if is_config_legacy then
-		log.error("UNRULY SETUP ERROR: unruly-worker had and update and your setup() config is incompatable!")
-		log.error("see https://github.com/slugbyte/unruly-worker for help.")
-	end
-
-	local config = config_util.normalize_user_config(user_config)
-	config_util.apply_defaults(config)
-	map.create_keymaps(keymap, config)
-
-	-- NOTE: unruly_greeting is an easter egg, you wont find this in the docs
-	if config.unruly_options.enable_greeting then
-		log.info(rand.emoticon() .. " " .. rand.greeting())
-	end
-
-	health.setup_complete(is_config_legacy, config)
+	config.apply_config(user_config)
 end
 
 return {

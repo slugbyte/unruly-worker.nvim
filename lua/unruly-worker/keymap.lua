@@ -1,6 +1,5 @@
-local keymap = require "unruly-worker.spec"
-local boost  = require "unruly-worker.boost"
-local spec   = require "unruly-worker.spec"
+local boost = require "unruly-worker.boost"
+local spec  = require "unruly-worker.spec"
 
 ---WARN: booster order is the precidence order of the keymaps being applied!
 

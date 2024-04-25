@@ -122,6 +122,7 @@ end
 
 --- set the current seek mode
 --- @param seek_mode UnrulySeekMode
+--- @return boolean true if success
 function M.set_seek_mode(seek_mode)
 	if not M.is_seek_mode_valid(seek_mode) then
 		if seek_mode == "" then
@@ -129,9 +130,10 @@ function M.set_seek_mode(seek_mode)
 			seek_mode = "(empty)"
 		end
 		log.error("SEEK_MODE INVALID: (%s)", seek_mode)
-		return
+		return false
 	end
 	state.seek_mode = seek_mode
+	return true
 end
 
 return M
