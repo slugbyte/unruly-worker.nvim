@@ -1,8 +1,7 @@
 local boost = require "unruly-worker.boost"
 local spec  = require "unruly-worker.spec"
 
----WARN: booster order is the precidence order of the keymaps being applied!
-
+---NOTE: booster order is the precidence order of the keymaps being applied!
 ---@type UnrulySpecKeymap
 return {
 	{

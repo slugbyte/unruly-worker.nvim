@@ -12,7 +12,7 @@ end
 ---@param a string
 ---@param b string
 ---@return boolean
-local function is_key_equal(a, b)
+function M.is_key_equal(a, b)
 	local len_a = #a
 	local len_b = #b
 	if len_a ~= len_b then
@@ -35,7 +35,7 @@ end
 local function should_map(key, skip_list)
 	local skip = false
 	for _, skip_key in ipairs(skip_list) do
-		skip = skip or is_key_equal(key, skip_key)
+		skip = skip or M.is_key_equal(key, skip_key)
 	end
 
 	return not skip
