@@ -4,7 +4,7 @@
 --                      /___/
 --
 --  Name: unruly-worker
---  License: Unlicense
+--  License: MIT
 --  Maintainer: Duncan Marsh (slugbyte@slugbyte.com)
 --  Repository: https://github.com/slugbyte/unruly-worker
 
