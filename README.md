@@ -641,6 +641,19 @@ unruly-worker layout, is a classic example of the type of outcomes that my
 somewhat accidental process produces. A tool that may not be useful for anyone
 else, but makes a tool that is useful to many other people accessible to me.
 
+## ACKNOWLEDGMENTS
+> I referenced the source code in these projcects when trying to figure out how
+> to use the nvim apis
+* [marks.nvim](https://github.com/chentoast/marks.nvim) - A better user experience for interacting with and manipulating Vim marks.
+* [nvim-macros](https://github.com/kr40/nvim-macros) - Easy way to save and load Macros!
+* [karen-yank](https://github.com/tenxsoydev/karen-yank.nvim/tree/main) - Make use of registers more intentional while remaining intuitive for experienced and novice VIM users.
+* [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) - A launch point for your personal nvim configuration
+* [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) - A completion plugin for neovim coded in Lua.
+* [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) - Nvim Treesitter configurations and abstraction layer
+* [telescope](https://github.com/nvim-telescope/telescope.nvim) - Find, Filter, Preview, Pick. All lua, all the time.
+* [luasnip](https://github.com/L3MON4D3/LuaSnip) - Snippet Engine for Neovim written in Lua.
+* [Navigator.nvim](https://github.com/numToStr/Navigator.nvim) - Smoothly navigate between neovim and terminal multiplexer(s) 
+
 ## HELP WANTED
 Suggestions and Spellcheck are always appreciated :)
 
