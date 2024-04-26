@@ -274,10 +274,10 @@ This project includes a tmux config file with tmux unruly-worker style keybindin
 * `W` __________ prev word
 * `b` __________ jump to matching brace
 * `B` __________ jump cursor to the last place a change was made (back change)
-* `gg` _________ toto top of file
+* `gg` _________ goto top of file
 * `GG` _________ goto end of file
-* `t{char}` ____ go to the [count]'th occurance of char to the right
-* `T{char}` ____ go to the [count]'th occurance of char to the left
+* `t{char}` ____ go to the [count]'th occurrence of char to the right
+* `T{char}` ____ go to the [count]'th occurrence of char to the left
 * `h` __________ repeat the last t/T (hop)
 * `H` __________ repeat the last t/T reverse (hop reverse)
 * `(` __________ prev sentence
@@ -612,34 +612,45 @@ unruly_kopy's `s`)
 ## ABOUT
 Being dyslexic has taught me its often easier for me to build a system for
 myself than it is to learn a system that works well for everyone else. This
-usually isn't my first approach when trying to learn something new, but when
-the struggle is real, I inevitably decide its time to reinvent the wheel. I
-think the creation of this keymap is a good example of how my learning style tends to unfold in my life.
+reinventing the wheel usually ends up being a bit of an accident. I usually start
+off trying to learn something the way it is, but when I struggle to grasp whats 
+going on I inevitably decide to dig in and see how things work under the hood. 
+My process for exploring the "under the hood of a thing" is kind of caveman style,
+I just poke and prod and modify and delete things until I have a feeling for
+what does what. By the time I'm done with all that I usually have my own opinions about what
+things should be like, and I decide its time to reinvent the wheel or at least swap
+out the tires. I think the creation of this keymap is a good example of how my 
+learning style tends to unfold.
 
-After using vim as my only editor for more than 7 years I continued to have
-trouble remembering commands. I was proficient enough for my needs, but my
-skills plateaued far short of where I wanted them to be. I tried to improve using numerous different tips I found online, but I never quite felt happy with my progress.
-
-Unrelated to vim, I decided to learn the [workman layout](https://workmanlayout.org/).
-This decision forced me to consider how to remap a few keys, but one thing lead
+Unrelated to vim, I decided to learn the [workman layout](https://workmanlayout.org/) 
+in an attempt to address issues I was having with typing causing pain.
+This decision forced me to consider how to remap a few vim keybinds, but one thing lead
 to another and eventually I had created an entirely new layout, the
-unruly-worker layout. The process of creating this keymap lead to me spending about
+unruly-worker layout. The original process of creating this keymap lead to me spending about
 a year reading `:help` and scouring the internet for vim config gems. Which
 probably seems ridiculous for many people, but for me its just how I've had to
-do most things in life. The time feels well used, because I spent the last decade
-writing code and I don't plan to stop for many decades to come. Now I've been using
-this layout for more than A year at the time of writing this plugin. Unlike
-my first 7 years with vim, I can now remember the keymap well enough to experience the
-sensation of manipulating the text without noticing that my hands, or
-keyboard keys, or even that vim itself has anything to do with it. For me vim
-was always the right tool for the job, unruly-worker is just a
-[jig](https://en.wikipedia.org/wiki/Jig_%28tool%29) that makes the tool fit perfectly into my workflow.
+do most things in life. The time felt well used because I had already spent a decade
+writing code and I don't plan to stop for many decades to come. Unlike
+my first 7 years struggling with vim, I can now remember the entire keymap well enough to 
+experience the sensation of manipulating text without noticing that my hands, or
+keyboard keys, or even that vim itself has anything to do with it. I always felt vim
+was the right tool for job, unruly-worker is just a [jig](https://en.wikipedia.org/wiki/Jig_%28tool%29)
+that makes the tool fit perfectly into my workflow.
 
 Dyslexia may or may not have been what made it so hard for me to learn vim, but
-it has normalized the process of reinventing wheels to learn for me. The
+it has normalized the process of reinventing wheels as a way to learn for me. The
 unruly-worker layout, is a classic example of the type of outcomes that my
-somewhat accidental process produces. A tool that may not be useful for anyone
-else, but makes a tool that is useful to many other people accessible to me.
+somewhat accidental process of learning produces. unruly-worker is a tool that 
+may not be useful for anyone else, but it makes a tool that is useful to many other 
+people accessible to me.
+
+## HELP WANTED
+Suggestions and Spellcheck are always appreciated :)
+
+See the [Contributing Guide](./CONTRIBUTING.md)
+
+## SELF-PROMO
+If you like this project star the GitHub repository :)
 
 ## ACKNOWLEDGMENTS
 > I referenced the source code in these projcects when trying to figure out how
@@ -653,14 +664,6 @@ else, but makes a tool that is useful to many other people accessible to me.
 * [telescope](https://github.com/nvim-telescope/telescope.nvim) - Find, Filter, Preview, Pick. All lua, all the time.
 * [luasnip](https://github.com/L3MON4D3/LuaSnip) - Snippet Engine for Neovim written in Lua.
 * [Navigator.nvim](https://github.com/numToStr/Navigator.nvim) - Smoothly navigate between neovim and terminal multiplexer(s) 
-
-## HELP WANTED
-Suggestions and Spellcheck are always appreciated :)
-
-See the [Contributing Guite](./CONTRIBUTING.md)
-
-## SELF-PROMO
-If you like this project star the GitHub repository :)
 
 ## LICENSE
 [Unlicense](https://unlicense.org/)
