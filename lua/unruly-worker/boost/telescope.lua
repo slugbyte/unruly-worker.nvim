@@ -37,7 +37,7 @@ end
 function M.live_grep()
 	if telescope_status and (telescope_builtin ~= nil) then
 		telescope_builtin.live_grep({
-			hidden = true,
+			additional_args = { "--hidden" },
 		})
 		return
 	end
