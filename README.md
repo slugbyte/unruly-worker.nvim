@@ -664,6 +664,3 @@ If you like this project star the GitHub repository :)
 * [telescope](https://github.com/nvim-telescope/telescope.nvim) - Find, Filter, Preview, Pick. All lua, all the time.
 * [luasnip](https://github.com/L3MON4D3/LuaSnip) - Snippet Engine for Neovim written in Lua.
 * [Navigator.nvim](https://github.com/numToStr/Navigator.nvim) - Smoothly navigate between neovim and terminal multiplexer(s) 
-
-## LICENSE
-[Unlicense](https://unlicense.org/)
