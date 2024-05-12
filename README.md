@@ -268,6 +268,8 @@ This project includes a tmux config file with tmux unruly-worker style keybindin
 ## UNRULY KEYMAP OVERVIEW (default booster)
 ### cursor movement
 * `yneo` _______ are mapped to left, down, up, right
+* `gn` _________ visual down
+* `ge` _________ visual up
 * `Y` __________ goes to beginning of line
 * `O` __________ goes to end of line
 * `w` __________ next word
