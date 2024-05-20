@@ -567,6 +567,8 @@ unruly macros use the preselected register `macro_reg` (default: `z`)
 * `<leader>th` telescope help tags
 * `<leader>tt` telescope tags
 * `<leader>tc` telescope keymaps
+* `<leader>tC` telescope colorschemes
+* `<leader>tH` telescope highlights
 * `<leader>tp` telescope paste from any register
 * `<leader>tr` telescope repeat last search
 
