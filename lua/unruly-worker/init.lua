@@ -69,17 +69,17 @@ local config = require("unruly-worker.config")
 --- ```
 ---@param user_config UnrulyConfig?
 local function setup(user_config)
-	-- dont reload if  loaded
-	if vim.g.unruly_worker then
-		return
-	end
-	vim.g.unruly_worker = true
-	config.apply_config(user_config)
+    -- dont reload if  loaded
+    if vim.g.unruly_worker then
+        return
+    end
+    vim.g.unruly_worker = true
+    config.apply_config(user_config)
 end
 
 return {
-	setup = setup,
-	boost = boost,
-	hud = hud,
-	seek_mode = boost.seek.seek_mode,
+    setup = setup,
+    boost = boost,
+    hud = hud,
+    seek_mode = boost.seek.seek_mode,
 }

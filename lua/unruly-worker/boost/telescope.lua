@@ -5,70 +5,70 @@ local _, telescope_themes = pcall(require, "telescope.themes")
 local M = {}
 
 local function create_telescope_action(builtin_fn)
-	return function()
-		if telescope_status and (telescope_builtin ~= nil) then
-			telescope_builtin[builtin_fn]()
-			return
-		end
-		log.error("telescope not found")
-	end
+    return function()
+        if telescope_status and (telescope_builtin ~= nil) then
+            telescope_builtin[builtin_fn]()
+            return
+        end
+        log.error("telescope not found")
+    end
 end
 
 function M.buffer_fuzzy_search()
-	if telescope_status and (telescope_builtin ~= nil) then
-		telescope_builtin.current_buffer_fuzzy_find(telescope_themes.get_dropdown({
-			previewer = false,
-		}))
-		return
-	end
-	log.error("telescope not found")
+    if telescope_status and (telescope_builtin ~= nil) then
+        telescope_builtin.current_buffer_fuzzy_find(telescope_themes.get_dropdown({
+            previewer = false,
+        }))
+        return
+    end
+    log.error("telescope not found")
 end
 
 function M.find_files()
-	if telescope_status and (telescope_builtin ~= nil) then
-		telescope_builtin.find_files({
-			hidden = true,
-		})
-		return
-	end
-	log.error("telescope not found")
+    if telescope_status and (telescope_builtin ~= nil) then
+        telescope_builtin.find_files({
+            hidden = true,
+        })
+        return
+    end
+    log.error("telescope not found")
 end
 
 function M.live_grep()
-	if telescope_status and (telescope_builtin ~= nil) then
-		telescope_builtin.live_grep({
-			additional_args = { "--hidden" },
-		})
-		return
-	end
-	log.error("telescope not found")
+    if telescope_status and (telescope_builtin ~= nil) then
+        telescope_builtin.live_grep({
+            additional_args = { "--hidden" },
+        })
+        return
+    end
+    log.error("telescope not found")
 end
 
 function M.lsp_definiton_safe()
-	if telescope_status and (telescope_builtin ~= nil) then
-		telescope_builtin.lsp_definitions()
-		return
-	else
-		vim.lsp.buf.definition()
-	end
+    if telescope_status and (telescope_builtin ~= nil) then
+        telescope_builtin.lsp_definitions()
+        return
+    else
+        vim.lsp.buf.definition()
+    end
 end
 
 function M.jump_list_safe()
-	if telescope_status and (telescope_builtin ~= nil) then
-		telescope_builtin.jumplist()
-		return
-	else
-		vim.cmd("jumps")
-	end
+    if telescope_status and (telescope_builtin ~= nil) then
+        telescope_builtin.jumplist()
+        return
+    else
+        vim.cmd("jumps")
+    end
 end
 
 function M.spell_suggest_safe()
-	if telescope_status and (telescope_builtin ~= nil) then
-		telescope_builtin.spell_suggest()
-		return
-	else
-		vim.cmd("z=")
-	end
+    if telescope_status and (telescope_builtin ~= nil) then
+        telescope_builtin.spell_suggest()
+        return
+    else
+        vim.cmd("z=")
+    end
 end
 
 M.help_tags = create_telescope_action("help_tags")
@@ -83,6 +83,8 @@ M.man_pages = create_telescope_action("man_pages")
 M.loclist = create_telescope_action("loclist")
 M.commands = create_telescope_action("commands")
 M.registers = create_telescope_action("registers")
+M.highlights = create_telescope_action("highlights")
+M.colorscheme = create_telescope_action("colorscheme")
 
 M.diagnostics = create_telescope_action("diagnostics")
 M.lsp_incoming_calls = create_telescope_action("lsp_incoming_calls")
