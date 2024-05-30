@@ -71,6 +71,16 @@ function M.spell_suggest_safe()
     end
 end
 
+function M.colorscheme()
+    if telescope_status and (telescope_builtin ~= nil) then
+        telescope_builtin.colorscheme({
+            enable_preview = true
+        })
+        return
+    end
+    log.error("telescope not found")
+end
+
 M.help_tags = create_telescope_action("help_tags")
 M.buffers = create_telescope_action("buffers")
 M.keymaps = create_telescope_action("keymaps")
@@ -84,7 +94,6 @@ M.loclist = create_telescope_action("loclist")
 M.commands = create_telescope_action("commands")
 M.registers = create_telescope_action("registers")
 M.highlights = create_telescope_action("highlights")
-M.colorscheme = create_telescope_action("colorscheme")
 
 M.diagnostics = create_telescope_action("diagnostics")
 M.lsp_incoming_calls = create_telescope_action("lsp_incoming_calls")
