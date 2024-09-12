@@ -1,4 +1,4 @@
-local config = require "unruly-worker.config"
+local config = require("unruly-worker.config")
 local keymap = require("unruly-worker.keymap")
 
 local M = {}
@@ -20,25 +20,32 @@ M.check = function()
 
 	if setup_report.is_user_config_legacy then
 		vim.health.report_error(
-			"CONFIG_ERROR: unruly-worker had a big update, and you now have an incompatable setup() config.")
+			"CONFIG_ERROR: unruly-worker had a big update, and you now have an incompatable setup() config."
+		)
 		vim.health.report_error(
-			"checkout the github to see how to setup your config: https://github.com/slubyte/unruly-worker")
+			"checkout the github to see how to setup your config: https://github.com/slubyte/unruly-worker"
+		)
 		is_config_ok = false
 	end
 
 	if not setup_report.is_kopy_reg_ok then
-		vim.health.report_error("CONFIG_ERROR: config.unruly_options.kopy_reg is not valid. valid reg are ([a-z] [A-Z] + 0)")
+		vim.health.report_error(
+			"CONFIG_ERROR: config.unruly_options.kopy_reg is not valid. valid reg are ([a-z] [A-Z] + 0)"
+		)
 		is_config_ok = false
 	end
 
 	if not setup_report.is_macro_reg_ok then
-		vim.health.report_error("CONFIG_ERROR: config.unruly_options.macro_reg is not valid. valid reg are ([a-z] [A-Z])")
+		vim.health.report_error(
+			"CONFIG_ERROR: config.unruly_options.macro_reg is not valid. valid reg are ([a-z] [A-Z])"
+		)
 		is_config_ok = false
 	end
 
 	if not setup_report.is_seek_mode_valid then
 		vim.health.report_error(
-			"CONFIG_ERROR: config.unruly_options.seek_mode is not valid. must be unruly.seek_mode.(buffer/quickfix/loclist)")
+			"CONFIG_ERROR: config.unruly_options.seek_mode is not valid. must be unruly.seek_mode.(buffer/quickfix/loclist)"
+		)
 		is_config_ok = false
 	end
 
@@ -70,8 +77,8 @@ M.check = function()
 	local is_deps_ok = true
 
 	local should_have_telescope = setup_report.user_config.booster.plugin_telescope_leader
-			or setup_report.user_config.booster.plugin_telescope_easy_jump
-			or setup_report.user_config.booster.plugin_telescope_lsp_leader
+		or setup_report.user_config.booster.plugin_telescope_easy_jump
+		or setup_report.user_config.booster.plugin_telescope_lsp_leader
 	if should_have_telescope then
 		local status, _ = pcall(require, "telescope")
 		if not status then
@@ -103,7 +110,7 @@ M.check = function()
 	end
 
 	if setup_report.user_config.booster.plugin_textobject then
-		local treesitter_status, _ = pcall(require, 'nvim-treesitter.configs')
+		local treesitter_status, _ = pcall(require, "nvim-treesitter.configs")
 		if not treesitter_status then
 			vim.health.report_error("DEPENDENCIE_MISSING: nvim-treesitter")
 			is_deps_ok = false

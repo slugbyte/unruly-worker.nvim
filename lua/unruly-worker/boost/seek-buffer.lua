@@ -15,7 +15,7 @@ local S = {
 local function get_buf_info(buf_num)
 	---@diagnostic disable-next-line: param-type-mismatch
 	local buf_info = vim.fn.getbufinfo(buf_num)
-	if (buf_info ~= nil) then
+	if buf_info ~= nil then
 		buf_info = buf_info[1]
 	end
 	return buf_info

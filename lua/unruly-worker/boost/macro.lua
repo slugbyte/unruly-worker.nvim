@@ -35,8 +35,11 @@ local function log_error_invalid_macro_reg(macro_reg)
 	if macro_reg == "" then
 		macro_reg = "(empty)"
 	end
-	log.error("INVALID MACRO_REG: %s, valid registers are [a-z] [A-Z] (MACRO_REG STILL: %s)",
-		vim.fn.keytrans(macro_reg), state.register)
+	log.error(
+		"INVALID MACRO_REG: %s, valid registers are [a-z] [A-Z] (MACRO_REG STILL: %s)",
+		vim.fn.keytrans(macro_reg),
+		state.register
+	)
 end
 
 ---record a macro into the macro_reg, then pretty print the result

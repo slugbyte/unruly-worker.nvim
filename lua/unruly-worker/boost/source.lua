@@ -1,4 +1,4 @@
-local log = require "unruly-worker.log"
+local log = require("unruly-worker.log")
 local M = {}
 
 --- source the current lua or vim file

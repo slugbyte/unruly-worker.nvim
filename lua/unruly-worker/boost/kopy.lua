@@ -24,8 +24,11 @@ local function log_error_invald_kopy_reg(kopy_reg)
 	if kopy_reg == "" then
 		kopy_reg = "(empty)"
 	end
-	log.error("INVALID KOPY_REG: %s, valid registers are [a-z] [A-Z] 0 + (KOPY_REG STILL: %s)",
-		vim.fn.keytrans(kopy_reg), state.register)
+	log.error(
+		"INVALID KOPY_REG: %s, valid registers are [a-z] [A-Z] 0 + (KOPY_REG STILL: %s)",
+		vim.fn.keytrans(kopy_reg),
+		state.register
+	)
 end
 
 -- valid kopy registers: [a-z] [A-Z] 0 +

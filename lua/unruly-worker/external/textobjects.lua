@@ -96,7 +96,6 @@ M.move_goto_previous_end = {
 	["Ger"] = { query = "@return.outer", desc = "prev end return" },
 	["Ged"] = { query = "@comment.outer", desc = "prev end comment" },
 	["Geb"] = { query = "@block.outer", desc = "prev end block" },
-
 }
 
 return M

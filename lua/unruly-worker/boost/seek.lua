@@ -29,9 +29,7 @@ end
 ---@param seek_mode UnrulySeekMode
 ---@return boolean
 function M.is_seek_mode_valid(seek_mode)
-	return seek_mode == M.seek_mode.buffer
-			or seek_mode == M.seek_mode.quickfix
-			or seek_mode == M.seek_mode.loclist
+	return seek_mode == M.seek_mode.buffer or seek_mode == M.seek_mode.quickfix or seek_mode == M.seek_mode.loclist
 end
 
 --- set seek mode to quickfix and goto first item
