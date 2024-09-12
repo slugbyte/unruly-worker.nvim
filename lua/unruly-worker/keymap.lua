@@ -168,7 +168,7 @@ return {
 				["<End>"] = spec.map("9<C-E>", "scroll down fast"),
 				["<PageDown>"] = spec.map("3<C-E>", "scroll down"),
 				["<PageUp>"] = spec.map("3<C-Y>", "scroll up"),
-				["<Home>"] = spec.map("9<C-Y>", "scroll down fast"),
+				["<Home>"] = spec.map("9<C-Y>", "scroll up fast"),
 			},
 		},
 	},
