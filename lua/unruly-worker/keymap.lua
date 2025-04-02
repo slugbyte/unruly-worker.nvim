@@ -15,7 +15,7 @@ return {
 				B = spec.map("g;", "back to last change"),
 				c = spec.map("c", "change"),
 				C = spec.map("C", "change to end of line"),
-				cc = spec.map("C", "change lines"),
+				cc = spec.map("cc", "change lines"),
 				d = spec.map("d", "delete"),
 				D = spec.map("D", "delete to end of line"),
 				dd = spec.map("dd", "delete lines"),
