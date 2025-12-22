@@ -16,9 +16,7 @@ end
 
 function M.buffer_fuzzy_search()
 	if telescope_status and (telescope_builtin ~= nil) then
-		telescope_builtin.current_buffer_fuzzy_find(telescope_themes.get_dropdown({
-			previewer = false,
-		}))
+		telescope_builtin.current_buffer_fuzzy_find(telescope_themes.get_ivy({}))
 		return
 	end
 	log.error("telescope not found")

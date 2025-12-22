@@ -39,8 +39,13 @@ function M.create_cmdline_mapping(user_config)
 	local action_confirm_continue = cmp.mapping.confirm({ select = false })
 
 	local function action_cmdline_next()
+		print("booooom")
 		if cmp.visible() then
-			cmp.select_next_item()
+			if cmp.get_selected_index() == 1 and cmp.get_active_entry() == nil then
+				cmp.select_next_item({ count = 0 })
+			else
+				cmp.select_next_item()
+			end
 		else
 			cmp.complete()
 		end
